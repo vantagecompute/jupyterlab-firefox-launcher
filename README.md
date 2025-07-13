@@ -1,7 +1,7 @@
 # JupyterLab Firefox Launcher
 
 [![PyPI version](https://img.shields.io/pypi/v/jupyterlab-firefox-launcher.svg)](https://pypi.org/project/jupyterlab-firefox-launcher/)
-[![License](https://img.shields.io/pypi/l/jupyterlab-firefox-launcher.svg)](https://github.com/vantagecompute/jupyterhub-firefox-launcher-extension/blob/main/LICENSE)
+[![License](https://img.shields.io/pypi/l/jupyterlab-firefox-launcher.svg)](https://github.com/vantagecompute/jupyterlab-firefox-launcher/blob/main/LICENSE)
 [![Python Version](https://img.shields.io/pypi/pyversions/jupyterlab-firefox-launcher.svg)](https://pypi.org/project/jupyterlab-firefox-launcher/)
 [![JupyterLab Version](https://img.shields.io/badge/JupyterLab-4.0%2B-orange.svg)](https://jupyterlab.readthedocs.io/)
 
@@ -43,8 +43,8 @@ pip install jupyterlab-firefox-launcher
 ### From Source
 
 ```bash
-git clone https://github.com/vantagecompute/jupyterhub-firefox-launcher-extension.git
-cd jupyterhub-firefox-launcher-extension
+git clone https://github.com/vantagecompute/jupyterlab-firefox-launcher.git
+cd jupyterlab-firefox-launcher
 pip install -e .
 ```
 
@@ -83,8 +83,8 @@ You should see `jupyterlab_firefox_launcher` listed as enabled in both outputs.
 
 1. **Clone and navigate to the repository:**
    ```bash
-   git clone https://github.com/vantagecompute/jupyterhub-firefox-launcher-extension.git
-   cd jupyterhub-firefox-launcher-extension
+   git clone https://github.com/vantagecompute/jupyterlab-firefox-launcher.git
+   cd jupyterlab-firefox-launcher
    ```
 
 2. **Create and activate a virtual environment:**
@@ -148,7 +148,7 @@ jlpm test
 ### Project Structure
 
 ```
-jupyterhub-firefox-launcher-extension/
+jupyterlab-firefox-launcher/
 ├── README.md                          # This file
 ├── LICENSE                           # BSD-3-Clause license
 ├── pyproject.toml                    # Python project configuration
@@ -195,7 +195,7 @@ We welcome contributions! Please see our [contributing guidelines](CONTRIBUTING.
 5. **Submit a pull request** with a clear description
 
 ### Reporting Issues
-- Use the [GitHub issue tracker](https://github.com/vantagecompute/jupyterhub-firefox-launcher-extension/issues)
+- Use the [GitHub issue tracker](https://github.com/vantagecompute/jupyterlab-firefox-launcher/issues)
 - Include JupyterLab version, Python version, and browser details
 - Provide steps to reproduce the issue
 
