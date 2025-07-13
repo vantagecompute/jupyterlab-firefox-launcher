@@ -1,9 +1,5 @@
-
-
-try:
-    from importlib.metadata import version, PackageNotFoundError
-except ImportError:
-    from importlib_metadata import version, PackageNotFoundError  # type: ignore
+# jupyterlab_firefox_launcher/__init__.py
+from importlib.metadata import version, PackageNotFoundError
 
 try:
     __version__ = version("jupyterlab-firefox-launcher")
