@@ -56,25 +56,4 @@ class FirefoxLauncherExtension(ExtensionApp):
         setup_handlers(self.serverapp.web_app)
 
 
-def _jupyter_labextension_paths():
-    """Return metadata for the labextension"""
-    return [{
-        "src": "labextension",
-        "dest": "jupyterlab-firefox-launcher"
-    }]
-
-
-def _jupyter_server_extension_points():
-    """Return the server extension points"""
-    return [{
-        "module": "jupyterlab_firefox_launcher.server",
-        "app": FirefoxLauncherExtension
-    }]
-
-
-def _load_jupyter_server_extension(server_app):
-    """Load the server extension"""
-    extension = FirefoxLauncherExtension()
-    extension.initialize(server_app)
-    extension.initialize_handlers()
 
