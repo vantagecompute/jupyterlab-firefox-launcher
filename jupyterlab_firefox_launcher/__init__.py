@@ -1,5 +1,14 @@
 
-__version__ = "0.1.4"
+
+try:
+    from importlib.metadata import version, PackageNotFoundError
+except ImportError:
+    from importlib_metadata import version, PackageNotFoundError  # type: ignore
+
+try:
+    __version__ = version("jupyterlab-firefox-launcher")
+except PackageNotFoundError:
+    __version__ = "unknown"
 
 def _jupyter_labextension_paths():
     """Return metadata for the labextension"""
