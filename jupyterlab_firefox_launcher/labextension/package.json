@@ -29,14 +29,14 @@
   "packageManager": "yarn@1.22.22",
   "repository": {
     "type": "git",
-    "url": "https://github.com/vantagecompute/jupyterhub-firefox-launcher-extension.git"
+    "url": "https://github.com/vantagecompute/jupyterlab-firefox-launcher.git"
   },
   "scripts": {
-    "build": "jlpm build:lib && jlpm build:labextension:dev",
+    "build": "jlpm build:lib && jlpm build:labextension:dev && node copy-package-json-to-labextension.cjs",
     "build:labextension": "jupyter labextension build .",
     "build:labextension:dev": "jupyter labextension build --development True .",
     "build:lib": "tsc",
-    "build:prod": "jlpm clean && jlpm build:lib && jlpm build:labextension",
+    "build:prod": "jlpm clean && jlpm build:lib && jlpm build:labextension && node copy-package-json-to-labextension.cjs",
     "clean": "jlpm clean:lib",
     "clean:all": "jlpm clean:lib && jlpm clean:labextension",
     "clean:labextension": "rimraf jupyterlab_firefox_launcher/labextension",
@@ -54,16 +54,13 @@
   },
   "devDependencies": {
     "@jupyterlab/builder": "^4.0.0",
+    "copy-webpack-plugin": "^13.0.0",
     "npm-run-all": "^4.1.5",
     "rimraf": "^5.0.5",
     "typescript": "~5.0.2"
   },
   "jupyterlab": {
     "extension": true,
-    "outputDir": "jupyterlab_firefox_launcher/labextension",
-    "_build": {
-      "load": "static/remoteEntry.d9c11471d95de1de85ac.js",
-      "extension": "./extension"
-    }
+    "outputDir": "jupyterlab_firefox_launcher/labextension"
   }
 }
