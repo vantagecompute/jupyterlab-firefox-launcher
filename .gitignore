@@ -7,3 +7,4 @@ jupyterlab_firefox_launcher/labextension/static/*
 jupyterlab_firefox_launcher/__pycache__/
 __pycache__/
 *.py[cod]
+lib

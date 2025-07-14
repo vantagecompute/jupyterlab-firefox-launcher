@@ -1,7 +1,6 @@
 {
   "name": "jupyterlab-firefox-launcher",
-  "version": "0.1.4",
-  "type": "module",
+  "version": "0.1.0",
   "description": "JupyterLab extension to launch Firefox in a tab",
   "keywords": [
     "jupyter",
@@ -19,48 +18,17 @@
   },
   "files": [
     "lib/**/*.{d.ts,eot,gif,html,jpg,js,js.map,json,png,svg,woff2,ttf}",
-    "jupyterlab_firefox_launcher/labextension/**/*",
-    "src/**/*.{ts,tsx}",
-    "tsconfig.json",
-    "install.json"
+    "style/**/*.{css,js,eot,gif,html,jpg,json,png,svg,woff2,ttf}"
   ],
-  "main": "lib/index.js",
-  "types": "lib/index.d.ts",
+  "main": "index.js",
+  "types": "index.d.ts",
   "packageManager": "yarn@1.22.22",
   "repository": {
     "type": "git",
-    "url": "https://github.com/vantagecompute/jupyterlab-firefox-launcher.git"
-  },
-  "scripts": {
-    "build": "jlpm build:lib && jlpm build:labextension:dev && node copy-package-json-to-labextension.cjs",
-    "build:labextension": "jupyter labextension build .",
-    "build:labextension:dev": "jupyter labextension build --development True .",
-    "build:lib": "tsc",
-    "build:prod": "jlpm clean && jlpm build:lib && jlpm build:labextension && node copy-package-json-to-labextension.cjs",
-    "clean": "jlpm clean:lib",
-    "clean:all": "jlpm clean:lib && jlpm clean:labextension",
-    "clean:labextension": "rimraf jupyterlab_firefox_launcher/labextension",
-    "clean:lib": "rimraf lib tsconfig.tsbuildinfo",
-    "install:extension": "jlpm build",
-    "watch": "run-p watch:src watch:labextension",
-    "watch:labextension": "jupyter labextension watch .",
-    "watch:src": "tsc -w"
-  },
-  "dependencies": {
-    "@jupyterlab/application": "^4.0.0",
-    "@jupyterlab/apputils": "^4.0.0",
-    "@jupyterlab/launcher": "^4.0.0",
-    "@lumino/widgets": "^2.0.0"
-  },
-  "devDependencies": {
-    "@jupyterlab/builder": "^4.0.0",
-    "copy-webpack-plugin": "^13.0.0",
-    "npm-run-all": "^4.1.5",
-    "rimraf": "^5.0.5",
-    "typescript": "~5.0.2"
+    "url": "https://github.com/vantagecompute/jupyterhub-firefox-launcher-extension.git"
   },
   "jupyterlab": {
     "extension": true,
-    "outputDir": "jupyterlab_firefox_launcher/labextension"
+    "schemaVersion": 3
   }
 }

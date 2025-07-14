@@ -1,59 +1,44 @@
 import os
-import subprocess
-from tornado import web
-from jupyter_server.base.handlers import APIHandler
-from jupyter_server.utils import url_path_join
-from jupyter_server.extension.application import ExtensionApp
 
 
-class FirefoxLauncherHandler(APIHandler):
-    @web.authenticated
-    def post(self):
-        # Only spawn if not already running
-        if not self._is_firefox_running():
-            try:
-                # This can be replaced with your preferred X11 setup (e.g., xvfb-run)
-                subprocess.Popen(
-                    [
-                        "xvfb-run",
-                        "--auto-servernum",
-                        "--server-args=-screen 0 1024x768x24",
-                        "firefox"
-                    ],
-                    stdout=subprocess.DEVNULL,
-                    stderr=subprocess.DEVNULL
-                )
-                self.finish({"status": "started"})
-            except Exception as e:
-                self.set_status(500)
-                self.finish({"error": str(e)})
-        else:
-            self.finish({"status": "already running"})
-
-    def _is_firefox_running(self):
+def get_firefox_config():
+    """Get configuration for Firefox server proxy"""
+    script_dir = os.path.dirname(os.path.abspath(__file__))
+    script_path = os.path.join(script_dir, '..', 'launch-firefox-xpra.sh')
+    script_path = os.path.abspath(script_path)
+    
+    def get_port():
         try:
-            out = subprocess.check_output(["pgrep", "-f", "firefox"])
-            return bool(out.strip())
-        except subprocess.CalledProcessError:
-            return False
-
-
-def setup_handlers(web_app):
-    host_pattern = ".*$"
-    base_url = web_app.settings["base_url"]
-    route_pattern = url_path_join(base_url, "jupyterhub-firefox-launcher", "launch")
-    handlers = [(route_pattern, FirefoxLauncherHandler)]
-    web_app.add_handlers(host_pattern, handlers)
-
-
-class FirefoxLauncherExtension(ExtensionApp):
-    """JupyterLab Firefox Launcher Extension"""
+            with open('/tmp/xpra-port', 'r') as f:
+                return int(f.read().strip())
+        except:
+            return 15000  # Default fallback port
     
-    name = "jupyterlab_firefox_launcher"
-    
-    def initialize_handlers(self):
-        """Initialize the extension handlers"""
-        setup_handlers(self.serverapp.web_app)
+    return {
+        "command": [script_path],
+        "timeout": 30,
+        "port": get_port,
+        "mappath": {"/": "/"},
+        "launcher_entry": {
+            "title": "Firefox Browser",
+            "icon_path": "/usr/share/icons/hicolor/48x48/apps/firefox.png",
+        },
+    }
 
 
+def load_jupyter_server_extension(app):
+    """Called when the extension is loaded."""
+    # Register with jupyter-server-proxy if available
+    try:
+        from jupyter_server_proxy import get_server_info
+        # This will be handled by the config
+        pass
+    except ImportError:
+        app.log.warning("jupyter-server-proxy not available")
+
+
+def _jupyter_server_extension_paths():
+    return [{
+        "module": "jupyterlab_firefox_launcher"
+    }]
 

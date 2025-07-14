@@ -13,7 +13,7 @@ export async function requestAPI<T>(
   endpoint = '',
   init: RequestInit = {}
 ): Promise<T> {
-  const url = `/jupyterhub-firefox-launcher/${endpoint}`;
+  const url = `/jupyterlab-firefox-launcher/${endpoint}`;
 
   const response = await fetch(url, {
     method: 'GET',

@@ -2,7 +2,7 @@
 import type { JupyterFrontEnd, JupyterFrontEndPlugin } from '@jupyterlab/application';
 import { ILauncher } from '@jupyterlab/launcher';
 import { ICommandPalette, MainAreaWidget } from '@jupyterlab/apputils';
-import { requestAPI } from './handler.js';
+import { requestAPI } from './handler';
 import { Widget } from '@lumino/widgets';
 
 const buildFirefoxHTML = (iframeId: string, url: string): string => {
@@ -49,18 +49,17 @@ const extension: JupyterFrontEndPlugin<void> = {
   activate: async (app: JupyterFrontEnd, launcher: ILauncher, palette: ICommandPalette) => {
     const command = 'firefox:open';
     const label = 'Firefox Browser';
-    const url = 'http://localhost:6080';
+    
+    // Use jupyter-server-proxy URL format
+    const baseUrl = app.serviceManager.serverSettings.baseUrl;
+    const url = `${baseUrl}proxy/firefox/`;
 
     app.commands.addCommand(command, {
       label,
       execute: async () => {
-        // Request the backend to launch Firefox
-        try {
-          await requestAPI<any>('launch');
-        } catch (e) {
-          console.error('Failed to launch Firefox:', e);
-        }
-
+        // With jupyter-server-proxy, no need to make API calls
+        // The proxy will handle starting the service automatically
+        
         const content = new Widget();
         content.node.style.height = '100%';
         content.node.style.width = '100%';
