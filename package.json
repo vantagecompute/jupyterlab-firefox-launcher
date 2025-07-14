@@ -1,31 +1,65 @@
 {
   "name": "jupyterlab-firefox-launcher",
-  "version": "0.1.1",
+  "version": "0.2.83",
   "description": "JupyterLab extension to launch Firefox in a tab",
-  "author": "Your Name",
-  "license": "BSD-3-Clause",
-  "main": "jupyterlab_firefox_launcher/labextension/index.js",
-  "packageManager": "yarn@1.22.22",
-  "scripts": {
-    "build": "cd frontend && tsc && cp ../install.json ../jupyterlab_firefox_launcher/labextension/ && cp package.json ../jupyterlab_firefox_launcher/labextension/ || echo '{\"name\": \"jupyterlab-firefox-launcher\", \"version\": \"0.1.0\"}' > ../jupyterlab_firefox_launcher/labextension/package.json",
-    "prepare": "yarn build"
+  "keywords": [
+    "jupyter",
+    "jupyterlab",
+    "jupyterlab-extension"
+  ],
+  "homepage": "https://github.com/vantagecompute/jupyterlab-firefox-launcher",
+  "bugs": {
+    "url": "https://github.com/vantagecompute/jupyterlab-firefox-launcher/issues"
   },
-  "devDependencies": {
+  "license": "BSD-3-Clause",
+  "author": {
+    "name": "Your Name",
+    "email": "your.email@example.com"
+  },
+  "files": [
+    "lib/**/*.{d.ts,eot,gif,html,jpg,js,js.map,json,png,svg,woff2,ttf}",
+    "jupyterlab_firefox_launcher/labextension/**/*",
+    "frontend/src/**/*.{ts,tsx}",
+    "tsconfig.json",
+    "install.json"
+  ],
+  "main": "lib/index.js",
+  "types": "lib/index.d.ts",
+  "packageManager": "yarn@1.22.22",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/vantagecompute/jupyterlab-firefox-launcher.git"
+  },
+  "scripts": {
+    "build": "node copy-package-json-to-labextension.cjs && tsc && jupyter labextension build --development True . && node copy-package-json-to-labextension.cjs",
+    "build:labextension": "node copy-package-json-to-labextension.cjs && jupyter labextension build . && node copy-package-json-to-labextension.cjs",
+    "build:labextension:dev": "node copy-package-json-to-labextension.cjs && jupyter labextension build --development True . && node copy-package-json-to-labextension.cjs",
+    "build:lib": "node copy-package-json-to-labextension.cjs && tsc",
+    "build:prod": "rimraf lib jupyterlab_firefox_launcher/labextension && node copy-package-json-to-labextension.cjs && tsc && jupyter labextension build . && node copy-package-json-to-labextension.cjs",
+    "clean": "rimraf lib tsconfig.tsbuildinfo",
+    "clean:all": "rimraf lib tsconfig.tsbuildinfo && rimraf jupyterlab_firefox_launcher/labextension",
+    "clean:labextension": "rimraf jupyterlab_firefox_launcher/labextension",
+    "clean:lib": "rimraf lib tsconfig.tsbuildinfo",
+    "install:extension": "yarn build",
+    "watch": "run-p watch:src watch:labextension",
+    "watch:labextension": "jupyter labextension watch .",
+    "watch:src": "tsc -w"
+  },
+  "dependencies": {
     "@jupyterlab/application": "^4.0.0",
     "@jupyterlab/apputils": "^4.0.0",
-    "@jupyterlab/builder": "^4.0.0",
     "@jupyterlab/launcher": "^4.0.0",
-    "@lumino/widgets": "^2.0.0",
-    "typescript": "~4.9.0"
+    "@lumino/widgets": "^2.0.0"
+  },
+  "devDependencies": {
+    "@jupyterlab/builder": "^4.0.0",
+    "copy-webpack-plugin": "^13.0.0",
+    "npm-run-all": "^4.1.5",
+    "rimraf": "^5.0.5",
+    "typescript": "~5.0.2"
   },
   "jupyterlab": {
     "extension": true,
     "outputDir": "jupyterlab_firefox_launcher/labextension"
-  },
-  "files": [
-    "jupyterlab_firefox_launcher/labextension/*.js",
-    "jupyterlab_firefox_launcher/labextension/*.d.ts",
-    "jupyterlab_firefox_launcher/labextension/install.json",
-    "jupyterlab_firefox_launcher/labextension/package.json"
-  ]
+  }
 }

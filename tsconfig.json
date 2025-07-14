@@ -10,7 +10,7 @@
     "declaration": true,
     "declarationMap": true,
     "sourceMap": true,
-    "outDir": "./jupyterlab_firefox_launcher/labextension",
+    "outDir": "./lib",
     "rootDir": "./frontend/src",
     "strict": true,
     "noUnusedLocals": false,

@@ -1,8 +1,5 @@
 {
-  "name": "jupyterlab-firefox-launcher",
-  "version": "0.1.0",
-  "description": "JupyterLab extension to launch Firefox in a tab",
-  "jupyterlab": {
-    "extension": true
-  }
+  "packageManager": "python",
+  "packageName": "jupyterlab-firefox-launcher", 
+  "uninstallInstructions": "Use your Python package manager (pip, conda, etc.) to uninstall the package jupyterlab-firefox-launcher"
 }
