@@ -1,6 +1,6 @@
 {
   "name": "jupyterlab-firefox-launcher",
-  "version": "0.7.4",
+  "version": "0.7.6",
   "description": "JupyterLab extension to launch Firefox in a tab",
   "keywords": [
     "jupyter",
@@ -31,16 +31,12 @@
     "url": "https://github.com/vantagecompute/jupyterlab-firefox-launcher.git"
   },
   "scripts": {
-    "build": "node copy-package-json-to-labextension.cjs && tsc && jupyter labextension build --development True . && node copy-package-json-to-labextension.cjs",
-    "build:labextension": "node copy-package-json-to-labextension.cjs && jupyter labextension build . && node copy-package-json-to-labextension.cjs",
-    "build:labextension:dev": "node copy-package-json-to-labextension.cjs && jupyter labextension build --development True . && node copy-package-json-to-labextension.cjs",
-    "build:lib": "node copy-package-json-to-labextension.cjs && tsc",
-    "build:prod": "rimraf lib jupyterlab_firefox_launcher/labextension && node copy-package-json-to-labextension.cjs && tsc && jupyter labextension build . && node copy-package-json-to-labextension.cjs",
+    "build": "tsc && jupyter labextension build .",
+    "build:lib": "tsc",
     "clean": "rimraf lib tsconfig.tsbuildinfo",
     "clean:all": "rimraf lib tsconfig.tsbuildinfo && rimraf jupyterlab_firefox_launcher/labextension",
     "clean:labextension": "rimraf jupyterlab_firefox_launcher/labextension",
     "clean:lib": "rimraf lib tsconfig.tsbuildinfo",
-    "install:extension": "yarn build",
     "watch": "run-p watch:src watch:labextension",
     "watch:labextension": "jupyter labextension watch .",
     "watch:src": "tsc -w"

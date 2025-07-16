@@ -77,7 +77,7 @@ def setup_firefox_desktop():
     
     # Alternative advanced wrapper with more options
     firefox_wrapper_advanced = str(HERE / 'share' / 'firefox-wrapper-advanced')
-    
+    #os.environ["FIREFOX_LAUNCHER_WRAPPER"] = "1"
     # Use advanced wrapper if requested via environment variable
     if os.getenv("FIREFOX_LAUNCHER_ADVANCED", "").lower() in ("1", "true", "yes"):
         firefox_wrapper = firefox_wrapper_advanced
@@ -134,35 +134,57 @@ exec {firefox} --new-instance --no-first-run --profile ~/.firefox-launcher-profi
     # IMPORTANT: Use only TCP binding with HTML5 client - NO WebSockets for SlurmSpawner compatibility
     xpra_command = [
         'xpra', 'start',
-        '--bind-tcp=0.0.0.0:{port}',  # {port} expanded by jupyter-server-proxy
+        '--bind-tcp=0.0.0.0:{port},http=true',  # {port} expanded by jupyter-server-proxy
         '--html=on',  # Enable HTML5 client
-        # NOTE: NOT using --bind-ws or --bind-wss to avoid WebSocket connections
         '--ssl=off',  # Disable SSL entirely  
         '--daemon=no',  # Run in foreground for proper process management
         '--exit-with-children=yes',  # Exit when Firefox closes
         '--start-child=' + firefox_wrapper,  # Use our custom wrapper script
         f'--socket-dirs={socket_dir}',  # User-space socket directory
+        f'--socket-dir={socket_dir}',  # Explicit socket directory (different from --socket-dirs)
         '--system-proxy-socket=no',  # Disable system proxy socket
         '--mdns=no',  # Disable mDNS
         '--pulseaudio=no',  # Disable audio for simplicity
         '--notifications=no',  # Disable notifications
         '--clipboard=yes',  # Enable clipboard sharing
+        '--clipboard-direction=both',  # Allow bidirectional clipboard
         '--sharing=no',  # Disable screen sharing
-        '--speaker=no',  # Disable speaker
-        '--microphone=no',  # Disable microphone
+        '--speaker=off',  # Disable speaker
+        '--microphone=off',  # Disable microphone
         '--webcam=no',  # Disable webcam
         '--desktop-scaling=auto',  # Auto-scale to browser window
+        '--resize-display=yes',  # Allow display resizing
+        '--cursors=yes',  # Forward custom cursors
+        '--bell=no',  # Disable bell forwarding
+        '--system-tray=no',  # Disable system tray forwarding
+        '--global-menus=no',  # Disable global menu forwarding
+        '--xsettings=yes',  # Enable xsettings sync
+        '--readonly=no',  # Allow input (default but explicit)
+        '--session-name=Firefox',  # Descriptive session name
+        '--window-close=auto',  # Handle window close events properly
         f'--dpi={xpra_dpi}',  # Configurable DPI
         f'--compress={xpra_compress}',  # Configurable compression
         f'--quality={xpra_quality}',  # Configurable quality
-        '--window-close=auto',  # Handle window close events properly
-        # X session fixes for "true" command issue
-        '--xvfb=/usr/bin/Xvfb +extension Composite -screen 0 1920x1080x24+32 -nolisten tcp -noreset',
+        '--encoding=auto',  # Auto-select best encoding
+        '--min-quality=30',  # Minimum quality threshold
+        '--min-speed=30',  # Minimum speed threshold
+        '--auto-refresh-delay=0.15',  # Default refresh delay
+        # X session configuration
+        '--xvfb=/usr/bin/Xvfb +extension GLX +extension Composite -screen 0 1920x1080x24+32 -dpi 96 -nolisten tcp -noreset',
+        '--fake-xinerama=auto',  # Enable fake xinerama support
+        '--use-display=no',  # Don't use existing display
         '--start-new-commands=yes',  # Allow starting new commands
+        # Environment variables
         '--env=PATH=/usr/local/bin:/usr/bin:/bin',  # Ensure PATH includes standard directories
-        # Reduce warning messages and fix XDG runtime directory issues
+        '--env=DISPLAY=:0',  # Explicit display setting
+        f'--env=XDG_RUNTIME_DIR={socket_dir.parent}',  # Set XDG_RUNTIME_DIR to our directory
+        f'--env=TMPDIR={socket_dir.parent}',  # Set temp directory
+        # Security and cleanup
         '--dbus-launch=',  # Disable D-Bus launch to avoid warnings
-        f'--socket-dir={socket_dir}',  # Explicit socket directory (different from --socket-dirs)
+        '--dbus-proxy=no',  # Disable D-Bus proxy
+        '--remote-logging=no',  # Disable remote logging for security
+        '--bandwidth-detection=no',  # Disable auto bandwidth detection
+        '--pings=yes',  # Enable keepalive pings (default 5s)
     ]
 
     return {

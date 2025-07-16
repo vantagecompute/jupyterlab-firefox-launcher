@@ -54,7 +54,10 @@ const extension: JupyterFrontEndPlugin<void> = {
       execute: () => {
         // Use JupyterLab's proper URL construction for server proxy
         const baseUrl = app.serviceManager.serverSettings.baseUrl;
-        const firefoxUrl = URLExt.join(baseUrl, 'firefox-desktop');
+        // Connect to Xpra HTML5 client with explicit parameters
+        // Note: Xpra HTML5 doesn't have a direct "no websocket" parameter
+        // but by default it should use the server's configured transport
+        const firefoxUrl = URLExt.join(baseUrl, 'firefox-desktop', 'index.html');
         
         console.log('Opening Firefox desktop at:', firefoxUrl);
         

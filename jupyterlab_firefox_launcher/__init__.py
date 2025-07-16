@@ -8,9 +8,11 @@ with SlurmSpawner environments.
 """
 
 import os
+from importlib.metadata import version
 
-# Version - single source of truth
-__version__ = "0.7.4"
+# Ensure we have the correct version of jupyter-server-proxy
+__version__ = version("jupyterlab-firefox-launcher")
+
 
 HERE = os.path.dirname(os.path.abspath(__file__))
 

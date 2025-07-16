@@ -1,6 +1,6 @@
 #!/usr/bin/env python3
 """
-Version Sync Script - Keep package.json and pyproject.toml versions in sync
+Version Sync Script - Keep package.json in sync with pyproject.toml version
 """
 
 import json
@@ -8,11 +8,30 @@ import os
 import sys
 from pathlib import Path
 
-def get_python_version():
-    """Get version from Python package __init__.py"""
-    sys.path.insert(0, 'jupyterlab_firefox_launcher')
-    from jupyterlab_firefox_launcher import __version__
-    return __version__
+try:
+    import tomllib  # Python 3.11+
+except ImportError:
+    try:
+        import tomli as tomllib  # Python < 3.11
+    except ImportError:
+        print("❌ Error: tomli package required for Python < 3.11")
+        print("Install with: pip install tomli")
+        sys.exit(1)
+
+def get_pyproject_version():
+    """Get version from pyproject.toml"""
+    pyproject_path = Path("pyproject.toml")
+    if not pyproject_path.exists():
+        raise FileNotFoundError("pyproject.toml not found")
+    
+    with open(pyproject_path, 'rb') as f:
+        data = tomllib.load(f)
+    
+    version = data.get('project', {}).get('version')
+    if not version:
+        raise ValueError("Version not found in pyproject.toml [project] section")
+    
+    return version
 
 def update_package_json_version(version):
     """Update frontend package.json version"""
@@ -42,12 +61,12 @@ def main():
     print("=" * 30)
     
     try:
-        # Get version from Python package
-        python_version = get_python_version()
-        print(f"📦 Python package version: {python_version}")
+        # Get version from pyproject.toml
+        pyproject_version = get_pyproject_version()
+        print(f"📦 pyproject.toml version: {pyproject_version}")
         
         # Update package.json files
-        updated_files = update_package_json_version(python_version)
+        updated_files = update_package_json_version(pyproject_version)
         
         if updated_files:
             print("\n✅ Updated versions:")
@@ -56,7 +75,7 @@ def main():
         else:
             print("\n⚠️  No package.json files found to update")
         
-        print(f"\n🎯 All versions now synchronized to: {python_version}")
+        print(f"\n🎯 All versions now synchronized to: {pyproject_version}")
         
     except Exception as e:
         print(f"❌ Error syncing versions: {e}")
