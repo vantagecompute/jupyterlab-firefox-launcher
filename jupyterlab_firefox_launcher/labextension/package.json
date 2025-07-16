@@ -1,6 +1,6 @@
 {
   "name": "jupyterlab-firefox-launcher",
-  "version": "0.2.83",
+  "version": "0.7.4",
   "description": "JupyterLab extension to launch Firefox in a tab",
   "keywords": [
     "jupyter",
@@ -13,8 +13,8 @@
   },
   "license": "BSD-3-Clause",
   "author": {
-    "name": "Your Name",
-    "email": "your.email@example.com"
+    "name": "James Beedy",
+    "email": "james@vantagecompute.ai"
   },
   "files": [
     "lib/**/*.{d.ts,eot,gif,html,jpg,js,js.map,json,png,svg,woff2,ttf}",
@@ -48,6 +48,7 @@
   "dependencies": {
     "@jupyterlab/application": "^4.0.0",
     "@jupyterlab/apputils": "^4.0.0",
+    "@jupyterlab/coreutils": "^4.0.0",
     "@jupyterlab/launcher": "^4.0.0",
     "@lumino/widgets": "^2.0.0"
   },
@@ -62,7 +63,7 @@
     "extension": true,
     "outputDir": "jupyterlab_firefox_launcher/labextension",
     "_build": {
-      "load": "static/remoteEntry.881894ecaf28ffa6448f.js",
+      "load": "static/remoteEntry.4268ee0e97e9d0f153ec.js",
       "extension": "./extension"
     }
   }

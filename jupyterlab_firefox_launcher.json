@@ -1,7 +1,6 @@
 {
+  "_comment": "No server extension needed - using jupyter-server-proxy only",
   "ServerApp": {
-    "jpserver_extensions": {
-      "jupyterlab_firefox_launcher": true
-    }
+    "jpserver_extensions": {}
   }
 }

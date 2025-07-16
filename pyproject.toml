@@ -1,16 +1,16 @@
 [build-system]
-requires = ["hatchling>=1.5.0", "jupyterlab>=4.0.0,<5"]
+requires = ["hatchling>=1.5.0", "jupyterlab>=4.0.0,<5", "hatch-jupyter-builder>=0.5"]
 build-backend = "hatchling.build"
 
 [project]
 name = "jupyterlab-firefox-launcher"
-version = "0.2.83"
+version = "0.7.5"
 description = "JupyterLab extension to launch Firefox in a tab"
 readme = "README.md"
 license = {file = "LICENSE"}
 requires-python = ">=3.8"
 authors = [
-    {name = "Your Name", email = "your.email@example.com"},
+    {name = "James Beedy", email = "james@vantagecompute.ai"},
 ]
 keywords = [
     "Jupyter",
@@ -38,16 +38,27 @@ classifiers = [
 ]
 dependencies = [
     "jupyter-server>=2.0.1,<3",
+    "jupyter-server-proxy>=4.0.0",
     "jupyterlab>=4.0.0,<5",
     "tornado>=6.1.0",
-    "jupyter-server-proxy>=4.0.0",
+    "psutil",
 ]
 
-[project.entry-points."jupyter_serverproxy_servers"]
-firefox = "jupyterlab_firefox_launcher:firefox"
+# Note: System dependencies required but not installable via pip:
+# - xpra (with HTML5 support)
+# - firefox
+# 
+# Install with:
+#   apt-get install xpra xpra-html5 firefox
+# or
+#   yum install xpra python3-xpra-html5 firefox
+# or  
+#   conda install -c conda-forge xpra firefox
 
-[project.scripts]
-launch-firefox-xpra = "jupyterlab_firefox_launcher.scripts:main"
+# Only jupyter-server-proxy entry point needed - no custom server extension
+
+[project.entry-points."jupyter_serverproxy_servers"]
+firefox-desktop = "jupyterlab_firefox_launcher.server_proxy:setup_firefox_desktop"
 
 [project.optional-dependencies]
 dev = [
@@ -64,10 +75,10 @@ test = [
 ]
 
 [project.urls]
-Homepage = "https://github.com/your-username/jupyterlab-firefox-launcher"
-Documentation = "https://github.com/your-username/jupyterlab-firefox-launcher"
-Repository = "https://github.com/your-username/jupyterlab-firefox-launcher.git"
-Changelog = "https://github.com/your-username/jupyterlab-firefox-launcher/blob/main/CHANGELOG.md"
+Homepage = "https://github.com/vantagecompute/jupyterlab-firefox-launcher"
+Documentation = "https://github.com/vantagecompute/jupyterlab-firefox-launcher"
+Repository = "https://github.com/vantagecompute/jupyterlab-firefox-launcher.git"
+Changelog = "https://github.com/vantagecompute/jupyterlab-firefox-launcher/blob/main/CHANGELOG.md"
 
 [tool.hatch.version]
 path = "jupyterlab_firefox_launcher/__init__.py"
@@ -105,12 +116,10 @@ version_cmd = "hatch version"
 
 [tool.jupyter-releaser.hooks]
 before-build-npm = [
-    "python -m pip install 'jupyterlab>=4.0.0,<5'",
-    "yarn",
-    "yarn build"
+    "python -m pip install 'jupyterlab>=4.0.0,<5'"
 ]
 before-build-python = [
-    "yarn clean || true",
+    "python3 sync_version.py",
     "node copy-package-json-to-labextension.cjs || true"
 ]
 

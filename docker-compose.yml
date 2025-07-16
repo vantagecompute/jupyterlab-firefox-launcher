@@ -1,8 +1,0 @@
-version: '3.7'
-services:
-  firefox:
-    image: dorowu/ubuntu-desktop-lxde-vnc
-    ports:
-      - "6080:6080"
-    shm_size: 1g
-    restart: unless-stopped

@@ -703,7 +703,7 @@
               "singleton": true
             },
             "jupyterlab-firefox-launcher": {
-              "version": "0.2.83",
+              "version": "0.7.4",
               "singleton": true,
               "import": "/Users/james/Downloads/jupyterhub-firefox-launcher-extension/lib/index.js"
             }
