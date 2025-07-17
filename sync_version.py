@@ -36,11 +36,10 @@ def get_pyproject_version():
 def update_package_json_version(version):
     """Update frontend package.json version"""
     package_json_path = Path("package.json")
-    labextension_package_json_path = Path("jupyterlab_firefox_launcher/labextension/package.json")
     
     files_updated = []
     
-    for path in [package_json_path, labextension_package_json_path]:
+    for path in [package_json_path]:
         if path.exists():
             with open(path, 'r') as f:
                 package_data = json.load(f)

@@ -31,7 +31,7 @@ def check_xpra_ready(port, max_attempts=30):
     return False
 
 
-def setup_firefox_desktop():
+def launch_firefox():
     """
     Setup function for jupyter-server-proxy to launch Firefox with Xpra HTML5.
     
@@ -73,12 +73,12 @@ def setup_firefox_desktop():
     socket_dir.mkdir(parents=True, exist_ok=True)
 
     # Firefox wrapper script path - only two possibilities:
-    # 1) Build path to firefox-wrapper-advanced based on install location
+    # 1) Build path to firefox-xstartup based on install location (in bin/)
     # 2) Optional dev path via DEV_FIREFOX_LAUNCHER_PATH environment variable
     
     # Build path based on where this module is installed
     install_base = Path(__file__).parent.parent  # Go up from jupyterlab_firefox_launcher/
-    firefox_wrapper = str(install_base / 'share' / 'jupyterlab-firefox-launcher' / 'firefox-xstartup')
+    firefox_wrapper = str(install_base / 'bin' / 'firefox-xstartup')
     
     # Allow development override via environment variable
     dev_launcher_path = os.getenv("DEV_FIREFOX_LAUNCHER_PATH")
