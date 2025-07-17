@@ -99,7 +99,6 @@ packages = ["jupyterlab_firefox_launcher"]
 "install.json" = "share/jupyter/labextensions/jupyterlab-firefox-launcher/install.json"
 "jupyterlab_firefox_launcher.json" = "etc/jupyter/jupyter_server_config.d/jupyterlab_firefox_launcher.json"
 "jupyterlab_firefox_launcher/share/firefox-xstartup" = "share/jupyterlab-firefox-launcher/firefox-xstartup"
-"jupyterlab_firefox_launcher/share/firefox-wrapper-advanced" = "share/jupyterlab-firefox-launcher/firefox-wrapper-advanced"
 
 [tool.hatch.build.hooks.jupyter-builder]
 dependencies = ["hatch-jupyter-builder>=0.5"]
