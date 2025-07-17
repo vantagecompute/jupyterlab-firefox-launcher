@@ -32,19 +32,20 @@
   },
   "scripts": {
     "build": "tsc",
-    "clean": "rimraf lib tsconfig.tsbuildinfo",
-    "clean:all": "rimraf lib tsconfig.tsbuildinfo && rimraf jupyterlab_firefox_launcher/labextension",
+    "clean": "rimraf jupyterlab_firefox_launcher/static tsconfig.tsbuildinfo",
+    "clean:all": "rimraf jupyterlab_firefox_launcher/static tsconfig.tsbuildinfo && rimraf jupyterlab_firefox_launcher/labextension",
     "clean:labextension": "rimraf jupyterlab_firefox_launcher/labextension",
-    "clean:lib": "rimraf lib tsconfig.tsbuildinfo",
+    "clean:lib": "rimraf jupyterlab_firefox_launcher/static tsconfig.tsbuildinfo",
     "watch": "run-p watch:src watch:labextension",
     "watch:labextension": "jupyter labextension watch .",
     "watch:src": "tsc -w"
   },
   "dependencies": {
-    "@jupyterlab/application": "^4.0.0",
-    "@jupyterlab/apputils": "^4.0.0",
-    "@jupyterlab/coreutils": "^4.0.0",
-    "@jupyterlab/launcher": "^4.0.0",
+    "@jupyterlab/application": "^4.4.0",
+    "@jupyterlab/apputils": "^4.4.0",
+    "@jupyterlab/coreutils": "^6.4.0",
+    "@jupyterlab/launcher": "^4.4.0",
+    "@jupyterlab/translation": "^4.4.0",
     "@lumino/widgets": "^2.0.0"
   },
   "devDependencies": {

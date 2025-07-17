@@ -1,0 +1,12 @@
+{
+  "ServerApp": {
+    "jpserver_extensions": {
+      "jupyterlab_firefox_launcher": true
+    }
+  },
+  "LabApp": {
+    "jpserver_extensions": {
+      "jupyterlab_firefox_launcher": true
+    }
+  }
+}

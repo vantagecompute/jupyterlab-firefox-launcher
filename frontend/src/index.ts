@@ -3,8 +3,8 @@ import {
   JupyterFrontEndPlugin
 } from '@jupyterlab/application';
 
-import { ILauncher } from '@jupyterlab/launcher';
 import { URLExt } from '@jupyterlab/coreutils';
+import { ITranslator, nullTranslator } from '@jupyterlab/translation';
 import { Widget } from '@lumino/widgets';
 
 /**
@@ -32,52 +32,45 @@ function injectCSS(css: string): void {
 const extension: JupyterFrontEndPlugin<void> = {
   id: 'jupyterlab-firefox-launcher:plugin',
   autoStart: true,
-  requires: [ILauncher],
-  activate: (app: JupyterFrontEnd, launcher: ILauncher) => {
-    console.log('Firefox launcher frontend component loaded');
+  requires: [],
+  optional: [ITranslator],
+  activate: (app: JupyterFrontEnd, translator?: ITranslator) => {
+    console.log('Firefox launcher extension loaded');
     
-    // Inject Firefox icon CSS
+    const trans = (translator ?? nullTranslator).load('jupyterlab');
+    
+    // Inject Firefox icon CSS for the launcher
     injectCSS(firefoxIconCSS);
     
-    // Add Firefox launcher to the JupyterLab launcher
-    launcher.add({
-      command: 'firefox-launcher:open',
-      category: 'Other',
-      rank: 1
-    });
-
-    // Register the command to open Firefox
-    app.commands.addCommand('firefox-launcher:open', {
-      label: 'Firefox Desktop',
-      caption: 'Launch Firefox in a desktop environment via Xpra',
+    // NO LONGER CREATING LAUNCHER HERE - the server proxy handles launcher placement
+    // This matches the jupyter-remote-desktop-proxy pattern more closely
+    
+    // Register command to open Firefox Desktop in JupyterLab tab (for potential future use)
+    app.commands.addCommand('firefox-desktop:open', {
+      label: 'Firefox Browser',
+      caption: 'Launch Firefox Desktop Browser in JupyterLab',
       iconClass: 'jp-FirefoxIcon',
       execute: () => {
-        // Use JupyterLab's proper URL construction for server proxy
-        const baseUrl = app.serviceManager.serverSettings.baseUrl;
-        // Connect to Xpra HTML5 client with explicit parameters
-        // Note: Xpra HTML5 doesn't have a direct "no websocket" parameter
-        // but by default it should use the server's configured transport
-        const firefoxUrl = URLExt.join(baseUrl, 'firefox-desktop', 'index.html');
-        
-        console.log('Opening Firefox desktop at:', firefoxUrl);
-        
-        // Create iframe widget to embed Firefox desktop within JupyterLab
-        const iframe = document.createElement('iframe');
-        iframe.src = firefoxUrl;
-        iframe.style.width = '100%';
-        iframe.style.height = '100%';
-        iframe.style.border = 'none';
-        iframe.setAttribute('allowfullscreen', 'true');
-        
-        const widget = new Widget({ node: iframe });
-        widget.id = 'firefox-desktop-' + Date.now();
+        // Open Firefox Desktop via server proxy in a JupyterLab tab
+        const url = URLExt.join(app.serviceManager.serverSettings.baseUrl, 'firefox-desktop');
+        const widget = new Widget();
         widget.title.label = 'Firefox Desktop';
         widget.title.iconClass = 'jp-FirefoxIcon';
         widget.title.closable = true;
-        widget.addClass('jp-FirefoxDesktopWidget');
         
-        // IMPORTANT: Open in a new JupyterLab tab, NOT a browser tab
-        app.shell.add(widget, 'main');
+        // Create iframe to load the server proxy
+        const iframe = document.createElement('iframe');
+        iframe.src = url;
+        iframe.style.width = '100%';
+        iframe.style.height = '100%';
+        iframe.style.border = 'none';
+        
+        widget.node.appendChild(iframe);
+        
+        // Add to main area
+        if (!widget.isAttached) {
+          app.shell.add(widget, 'main');
+        }
         app.shell.activateById(widget.id);
       }
     });

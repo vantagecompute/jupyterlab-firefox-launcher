@@ -20,6 +20,14 @@ export MOZ_DISABLE_CONTENT_SANDBOX=1
 # Create a custom Firefox profile for this session if it doesn't exist
 if [ ! -d "$FIREFOX_PROFILE_DIR" ]; then
     mkdir -p "$FIREFOX_PROFILE_DIR"
+    
+    # Initialize the profile properly
+    firefox -CreateProfile "default $FIREFOX_PROFILE_DIR" -headless > /dev/null 2>&1 &
+    FIREFOX_PID=$!
+    sleep 3
+    kill $FIREFOX_PID > /dev/null 2>&1 || true
+    wait $FIREFOX_PID > /dev/null 2>&1 || true
+    
     # Create a minimal user.js with our preferences
     cat > "$FIREFOX_PROFILE_DIR/user.js" << EOF
 // Firefox preferences for Xpra integration

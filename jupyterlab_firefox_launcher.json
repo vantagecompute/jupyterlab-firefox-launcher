@@ -1,6 +1,0 @@
-{
-  "_comment": "No server extension needed - using jupyter-server-proxy only",
-  "ServerApp": {
-    "jpserver_extensions": {}
-  }
-}

@@ -91,11 +91,30 @@ def launch_firefox():
     if not wrapper_available:
         # Create a minimal inline wrapper
         firefox_wrapper = os.path.expanduser("~/.firefox-launcher-wrapper.sh")
+        profile_dir = os.path.expanduser("~/.firefox-launcher-profile")
         wrapper_content = f'''#!/bin/bash
 # Auto-generated Firefox wrapper for JupyterLab extension
+
+# Create profile directory if it doesn't exist
+mkdir -p "{profile_dir}"
+
+# Initialize profile if it doesn't have the required files
+if [ ! -f "{profile_dir}/prefs.js" ]; then
+    {firefox} -CreateProfile "default {profile_dir}" -headless > /dev/null 2>&1 &
+    FIREFOX_PID=$!
+    sleep 3
+    kill $FIREFOX_PID > /dev/null 2>&1 || true
+    wait $FIREFOX_PID > /dev/null 2>&1 || true
+fi
+
+# Set Firefox environment variables
 export MOZ_DISABLE_CONTENT_SANDBOX=1
 export MOZ_DISABLE_GMP_SANDBOX=1
-exec {firefox} --new-instance --no-first-run --profile ~/.firefox-launcher-profile "$@"
+export MOZ_DISABLE_RDD_SANDBOX=1
+export MOZ_DISABLE_SOCKET_PROCESS_SANDBOX=1
+
+# Launch Firefox with proper profile handling
+exec {firefox} --new-instance --no-first-run --no-remote --profile "{profile_dir}" "$@"
 '''
         with open(firefox_wrapper, 'w') as f:
             f.write(wrapper_content)
@@ -132,9 +151,9 @@ exec {firefox} --new-instance --no-first-run --profile ~/.firefox-launcher-profi
     # IMPORTANT: Use only TCP binding with HTML5 client - NO WebSockets for SlurmSpawner compatibility
     xpra_command = [
         'xpra', 'start',
-        '--bind-tcp=0.0.0.0:{port},html=on,http=1,https=0,ws=0,wss=0,ssh=0',
+        '--bind-tcp=0.0.0.0:{port}',
         '--html=on',  # Enable HTML5 client
-        '--ssl=off',  # Disable SSL entirely  
+        '--ssl=off',  # Disable SSL entirely
         '--daemon=no',  # Run in foreground for proper process management
         '--exit-with-children=yes',  # Exit when Firefox closes
         '--start-child=' + firefox_wrapper,  # Use our custom wrapper script
@@ -188,9 +207,13 @@ exec {firefox} --new-instance --no-first-run --profile ~/.firefox-launcher-profi
     return {
         'command': xpra_command,
         'timeout': 60,  # Increased timeout for slower systems
-        'new_browser_window': False,  # Open in JupyterLab tab, not new browser window
-        # Note: launcher_entry removed - let frontend extension handle launcher icon
-        # This prevents conflicts between server proxy and frontend launcher
+        'new_browser_window': True,  # TEMPORARILY: Test if this affects category placement
+        # Add launcher_entry similar to jupyter-remote-desktop-proxy
+        "launcher_entry": {
+            "title": "Firefox Browser",
+            "path_info": "firefox-desktop",
+            "category": "Other"
+        },
         "port": 0,  # Let jupyter-server-proxy assign a random port
         "mappath": {"/": "/index.html"},  # Map root to Xpra HTML5 client
         "request_headers_override": {
