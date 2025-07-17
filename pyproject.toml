@@ -86,11 +86,20 @@ path = "jupyterlab_firefox_launcher/__init__.py"
 [tool.hatch.build.targets.sdist]
 artifacts = ["jupyterlab_firefox_launcher/labextension", "lib"]
 exclude = [".github", "binder"]
+include = [
+    "jupyterlab_firefox_launcher/share/firefox-xstartup",
+    "jupyterlab_firefox_launcher/share/firefox-wrapper-advanced"
+]
+
+[tool.hatch.build.targets.wheel]
+packages = ["jupyterlab_firefox_launcher"]
 
 [tool.hatch.build.targets.wheel.shared-data]
 "jupyterlab_firefox_launcher/labextension" = "share/jupyter/labextensions/jupyterlab-firefox-launcher"
 "install.json" = "share/jupyter/labextensions/jupyterlab-firefox-launcher/install.json"
 "jupyterlab_firefox_launcher.json" = "etc/jupyter/jupyter_server_config.d/jupyterlab_firefox_launcher.json"
+"jupyterlab_firefox_launcher/share/firefox-xstartup" = "share/jupyterlab-firefox-launcher/firefox-xstartup"
+"jupyterlab_firefox_launcher/share/firefox-wrapper-advanced" = "share/jupyterlab-firefox-launcher/firefox-wrapper-advanced"
 
 [tool.hatch.build.hooks.jupyter-builder]
 dependencies = ["hatch-jupyter-builder>=0.5"]
@@ -119,10 +128,9 @@ version_cmd = "hatch version"
 
 [tool.jupyter-releaser.hooks]
 before-build-npm = [
-    #"rm -rf jupyterlab_firefox_launcher/labextension && rm -rf lib/",
+    "echo 'Running pre-build cleanup and setup...'",
+    "rm -rf jupyterlab_firefox_launcher/labextension && rm -rf lib/",
     "python3 sync_version.py",
-    "mkdir jupyterlab_firefox_launcher/labextension || true",
-    "mkdir lib || true",
     "node copy-package-json-to-labextension.cjs || true",
     "python3 -m pip install 'jupyterlab>=4.0.0,<5'"
 ]
@@ -135,7 +143,7 @@ ignore = ["W002"]
 [tool.pytest.ini_options]
 minversion = "6.0"
 xfail_strict = true
-log_cli_level = "info"
+log_cli_level = "INFO"
 addopts = [
     "-raXs", "--strict-markers", "--strict-config",
     "--cov=jupyterlab_firefox_launcher", "--cov-branch",

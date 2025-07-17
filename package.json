@@ -31,8 +31,7 @@
     "url": "https://github.com/vantagecompute/jupyterlab-firefox-launcher.git"
   },
   "scripts": {
-    "build": "tsc && jupyter labextension build .",
-    "build:lib": "tsc",
+    "build": "tsc",
     "clean": "rimraf lib tsconfig.tsbuildinfo",
     "clean:all": "rimraf lib tsconfig.tsbuildinfo && rimraf jupyterlab_firefox_launcher/labextension",
     "clean:labextension": "rimraf jupyterlab_firefox_launcher/labextension",

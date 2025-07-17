@@ -72,23 +72,21 @@ def setup_firefox_desktop():
     socket_dir = Path.home() / '.firefox-launcher' / 'sockets'
     socket_dir.mkdir(parents=True, exist_ok=True)
 
-    # Path to our Firefox wrapper script
-    firefox_wrapper = os.getenv("FIREFOX_LAUNCHER_WRAPPER", str(HERE / 'share' / 'firefox-xstartup'))
+    # Firefox wrapper script path - only two possibilities:
+    # 1) Build path to firefox-wrapper-advanced based on install location
+    # 2) Optional dev path via DEV_FIREFOX_LAUNCHER_PATH environment variable
     
-    # Alternative advanced wrapper with more options
-    firefox_wrapper_advanced = str(HERE / 'share' / 'firefox-wrapper-advanced')
-    #os.environ["FIREFOX_LAUNCHER_WRAPPER"] = "1"
-    # Use advanced wrapper if requested via environment variable
-    if os.getenv("FIREFOX_LAUNCHER_ADVANCED", "").lower() in ("1", "true", "yes"):
-        firefox_wrapper = firefox_wrapper_advanced
+    # Build path based on where this module is installed
+    install_base = Path(__file__).parent.parent  # Go up from jupyterlab_firefox_launcher/
+    firefox_wrapper = str(install_base / 'share' / 'jupyterlab-firefox-launcher' / 'firefox-xstartup')
     
-    # Fallback: if wrapper scripts don't exist or aren't accessible, use direct firefox command
-    wrapper_available = False
-    if os.path.exists(firefox_wrapper):
-        wrapper_available = True
-    elif os.path.exists(firefox_wrapper_advanced):
-        firefox_wrapper = firefox_wrapper_advanced
-        wrapper_available = True
+    # Allow development override via environment variable
+    dev_launcher_path = os.getenv("DEV_FIREFOX_LAUNCHER_PATH")
+    if dev_launcher_path:
+        firefox_wrapper = dev_launcher_path
+    
+    # Fallback: if wrapper script doesn't exist or isn't accessible, use direct firefox command
+    wrapper_available = os.path.exists(firefox_wrapper)
     
     if not wrapper_available:
         # Create a minimal inline wrapper
@@ -134,7 +132,7 @@ exec {firefox} --new-instance --no-first-run --profile ~/.firefox-launcher-profi
     # IMPORTANT: Use only TCP binding with HTML5 client - NO WebSockets for SlurmSpawner compatibility
     xpra_command = [
         'xpra', 'start',
-        '--bind-tcp=0.0.0.0:{port},http=true',  # {port} expanded by jupyter-server-proxy
+        '--bind-tcp=0.0.0.0:{port},html=on,http=1,https=0,ws=0,wss=0,ssh=0',
         '--html=on',  # Enable HTML5 client
         '--ssl=off',  # Disable SSL entirely  
         '--daemon=no',  # Run in foreground for proper process management
