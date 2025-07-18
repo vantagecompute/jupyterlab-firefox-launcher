@@ -2,11 +2,16 @@
 # build.sh
 
 set -e
+
 echo "🔄 Pre-build cleanup and version sync"
-rm -rf jupyterlab_firefox_launcher/labextension lib dist
+# Remove build artifacts and nested duplicate directories
+rm -rf dist
+rm -rf build
+
 uv run sync_version.py
-node copy-package-json-to-labextension.cjs || true
 
 echo "🏗️  Building with uv"
 uv build
+
+echo "🎉 Build complete"
 

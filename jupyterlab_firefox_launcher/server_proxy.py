@@ -207,12 +207,10 @@ exec {firefox} --new-instance --no-first-run --no-remote --profile "{profile_dir
     return {
         'command': xpra_command,
         'timeout': 60,  # Increased timeout for slower systems
-        'new_browser_window': True,  # TEMPORARILY: Test if this affects category placement
-        # Add launcher_entry similar to jupyter-remote-desktop-proxy
+        'new_browser_window': True,
+        # DISABLED: launcher_entry - we handle launching via frontend extension
         "launcher_entry": {
-            "title": "Firefox Browser",
-            "path_info": "firefox-desktop",
-            "category": "Other"
+            "enabled": False  # Disable automatic launcher - we control this via frontend
         },
         "port": 0,  # Let jupyter-server-proxy assign a random port
         "mappath": {"/": "/index.html"},  # Map root to Xpra HTML5 client

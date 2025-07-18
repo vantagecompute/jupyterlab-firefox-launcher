@@ -8,14 +8,9 @@ with SlurmSpawner environments.
 """
 
 import os
-from importlib.metadata import version
 
-# Import server extension functionality
+from ._version import __version__
 from .server_extension import load_jupyter_server_extension
-
-# Ensure we have the correct version of jupyter-server-proxy
-__version__ = version("jupyterlab-firefox-launcher")
-
 
 HERE = os.path.dirname(os.path.abspath(__file__))
 

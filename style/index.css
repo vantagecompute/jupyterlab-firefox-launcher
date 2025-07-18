@@ -8,20 +8,29 @@
 
 /* Ensure the launcher card shows the icon properly */
 .jp-LauncherCard[data-category="Other"] .jp-FirefoxIcon {
-  display: inline-block;
   width: 16px;
   height: 16px;
+  display: inline-block;
+}
+
+/* Icon styling for launcher buttons */
+.jp-LauncherCard[data-category="Other"] .jp-ToolbarButtonComponent[title="Firefox"] .jp-FirefoxIcon,
+.jp-LauncherCard[data-category="Other"] .jp-ToolbarButtonComponent[aria-label="Firefox"] .jp-FirefoxIcon {
   margin-right: 8px;
 }
 
-/* Firefox Desktop widget tab styling */
-.jp-FirefoxDesktopWidget {
-  background: #f8f9fa;
+/* Basic Firefox launcher card styles */
+.jp-LauncherCard[data-category="Firefox Launcher"] {
+  background: linear-gradient(135deg, #ff7139 0%, #ff4500 100%);
+  color: white;
 }
 
-.jp-FirefoxDesktopWidget iframe {
-  border: none;
-  width: 100%;
-  height: 100%;
-  display: block;
+.jp-LauncherCard[data-category="Firefox Launcher"]:hover {
+  background: linear-gradient(135deg, #ff8c52 0%, #ff5722 100%);
+}
+
+/* General Firefox launcher styling */
+.jp-LauncherCard[data-category="Other"] [title="Firefox"],
+.jp-LauncherCard[data-category="Other"] [aria-label="Firefox"] {
+  color: #ff5722;
 }

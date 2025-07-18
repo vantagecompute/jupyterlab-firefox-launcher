@@ -34,21 +34,28 @@ pip install python-uinput jupyterlab-firefox-launcher
 
 ### Prerequisites
 
-- Python 3.8+
+- Python 3.10+
 - Node.js
-- Yarn
+- uv (Python package manager)
+
+### Build Process Flow
+
+The extension uses a streamlined build chain with **uv** as the main driver:
+
+1. **`uv build`** (main driver - Python packaging)
+2. → calls **hatch** (build backend from pyproject.toml)  
+3. → calls **jlpm build:prod** (via hatch-jupyter-builder)
+4. → calls **jupyter labextension build** (simplified package.json scripts)
+5. → handles TypeScript compilation and webpack bundling internally
+
+This eliminates duplicate TypeScript compilation steps and ensures consistent builds.
 
 ### Setup
 
 1. Clone the repository
-2. Install Python dependencies:
+2. Install with uv:
    ```bash
-   pip install -e .
-   ```
-3. Install and build the frontend:
-   ```bash
-   yarn install
-   yarn build
+   uv pip install -e .
    ```
 
 ### Building
@@ -56,9 +63,23 @@ pip install python-uinput jupyterlab-firefox-launcher
 To build the extension:
 
 ```bash
-yarn build
-python -m build
+./build.sh
+# OR manually:
+uv build
 ```
+
+### Installing for Development
+
+```bash
+uv pip install ./dist/jupyterlab_firefox_launcher-*.whl --force-reinstall
+```
+
+### Key Features
+
+- **On-Demand xpra Launching**: Firefox only starts when the user clicks the launcher icon
+- **No Automatic Startup**: Server-proxy is configured with `enabled: False` 
+- **Custom API Endpoint**: `/firefox-launcher/launch` provides on-demand proxy URL
+- **JupyterLab Integration**: Custom launcher icon in the "Other" section
 
 TODO
 * Get firefox advanced launcher working
