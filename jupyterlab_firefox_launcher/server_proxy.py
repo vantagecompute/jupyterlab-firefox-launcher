@@ -31,15 +31,12 @@ def check_xpra_ready(port, max_attempts=30):
     return False
 
 
-def launch_firefox():
+def get_firefox_command():
     """
-    Setup function for jupyter-server-proxy to launch Firefox with Xpra HTML5.
-    
-    Returns configuration dict for jupyter-server-proxy to manage an Xpra
-    session with Firefox, providing excellent performance and direct HTML5 support.
+    Get Firefox command, checking for availability on demand.
+    This function is called only when Firefox is actually launched.
     """
-    
-    # Check for Xpra
+    # Check for Xpra (only when actually launching)
     xpra = which('xpra')
     if not xpra:
         raise RuntimeError(
@@ -51,7 +48,7 @@ def launch_firefox():
             "  conda install -c conda-forge xpra"
         )
 
-    # Check for Firefox
+    # Check for Firefox (only when actually launching)
     firefox = which('firefox')
     if not firefox:
         # Check macOS Firefox location
@@ -68,6 +65,18 @@ def launch_firefox():
                 "  Download from https://www.mozilla.org/firefox/"
             )
 
+    return xpra, firefox
+
+
+
+def create_xpra_command():
+    """
+    Create the Xpra command dynamically when needed.
+    This function checks for dependencies only when Firefox is actually launched.
+    """
+    # Check dependencies only when actually needed
+    xpra, firefox = get_firefox_command()
+    
     # Create user-space socket directory for security
     socket_dir = Path.home() / '.firefox-launcher' / 'sockets'
     socket_dir.mkdir(parents=True, exist_ok=True)
@@ -149,7 +158,7 @@ exec {firefox} --new-instance --no-first-run --no-remote --profile "{profile_dir
     # Build Xpra command using --start-child with our wrapper script
     # This gives us full control over Firefox options while using Xpra's process management
     # IMPORTANT: Use only TCP binding with HTML5 client - NO WebSockets for SlurmSpawner compatibility
-    xpra_command = [
+    return [
         'xpra', 'start',
         '--bind-tcp=0.0.0.0:{port}',
         '--html=on',  # Enable HTML5 client
@@ -204,14 +213,31 @@ exec {firefox} --new-instance --no-first-run --no-remote --profile "{profile_dir
         '--pings=yes',  # Enable keepalive pings (default 5s)
     ]
 
+
+def launch_firefox():
+    """
+    Setup function for jupyter-server-proxy to launch Firefox with Xpra HTML5.
+    
+    This is the entry point function that follows the jupyter-server-proxy pattern.
+    It returns configuration dict for jupyter-server-proxy to manage an Xpra
+    session with Firefox, providing excellent performance and direct HTML5 support.
+    
+    NOTE: This function no longer checks for xpra/firefox at load time.
+    Dependencies are checked only when the command is actually executed.
+    """
+    
     return {
-        'command': xpra_command,
+        'command': create_xpra_command,  # Use callable that checks dependencies on demand
         'timeout': 60,  # Increased timeout for slower systems
-        'new_browser_window': True,
-        # DISABLED: launcher_entry - we handle launching via frontend extension
+        'new_browser_tab': False,  # Open in JupyterLab tab, not browser tab
+        # DISABLED: launcher_entry - we handle launcher through frontend extension
         "launcher_entry": {
-            "enabled": False  # Disable automatic launcher - we control this via frontend
+            "enabled": False,  # Enable launcher entry via jupyter-server-proxy
         },
+        #     "title": "Firefox",  # Title shown in launcher
+        #     "icon_path": str(HERE / "icons" / "firefox.svg"),  # Path to our Firefox icon
+        #     "category": "Other"  # Category in JupyterLab launcher
+        # },
         "port": 0,  # Let jupyter-server-proxy assign a random port
         "mappath": {"/": "/index.html"},  # Map root to Xpra HTML5 client
         "request_headers_override": {

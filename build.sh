@@ -7,6 +7,8 @@ echo "🔄 Pre-build cleanup and version sync"
 # Remove build artifacts and nested duplicate directories
 rm -rf dist
 rm -rf build
+rm -rf lib
+rm -rf jupyterlab_firefox_launcher/labextension/{lib,static}
 
 uv run sync_version.py
 

@@ -9,7 +9,7 @@ with SlurmSpawner environments.
 
 import os
 
-from ._version import __version__
+from ._version import VERSION
 from .server_extension import load_jupyter_server_extension
 
 HERE = os.path.dirname(os.path.abspath(__file__))

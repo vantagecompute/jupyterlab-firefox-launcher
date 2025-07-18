@@ -12,18 +12,15 @@ import {
 } from '@jupyterlab/ui-components';
 
 import {
-  ServerConnection
-} from '@jupyterlab/services';
-
-import {
-  URLExt
-} from '@jupyterlab/coreutils';
+  ITranslator,
+  nullTranslator
+} from '@jupyterlab/translation';
 
 // Import styles  
-import './index.css';
+import '../src/index.css';
 
 // Import Firefox SVG icon
-import firefoxIconSvg from './style/icons/firefox.svg';
+import firefoxIconSvg from '../src/style/icons/firefox.svg';
 
 // Create the Firefox icon
 export const firefoxIcon = new LabIcon({
@@ -31,75 +28,8 @@ export const firefoxIcon = new LabIcon({
   svgstr: firefoxIconSvg
 });
 
-/**
- * Make API request to the server
- */
-async function requestAPI<T>(endPoint = '', init: RequestInit = {}): Promise<T> {
-  const settings = ServerConnection.makeSettings();
-  const requestUrl = URLExt.join(
-    settings.baseUrl,
-    'firefox-launcher',
-    endPoint
-  );
-
-  let response: Response;
-  try {
-    response = await ServerConnection.makeRequest(requestUrl, init, settings);
-  } catch (error) {
-    throw new ServerConnection.NetworkError(error as any);
-  }
-
-  let data: any = await response.text();
-  if (data.length > 0) {
-    try {
-      data = JSON.parse(data);
-    } catch (error) {
-      console.log('Not a JSON response body.', response);
-    }
-  }
-
-  if (!response.ok) {
-    throw new ServerConnection.ResponseError(response, data.message || data);
-  }
-
-  return data;
-}
-
-/**
- * Launch Firefox by making API call to start xpra
- */
-async function launchFirefox(app: JupyterFrontEnd): Promise<void> {
-  try {
-    console.log('Launching Firefox...');
-    
-    // Make API call to start Firefox
-    const result = await requestAPI<any>('launch', {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/json',
-      },
-    });
-    
-    console.log('Firefox launch result:', result);
-    
-    if (result.status === 'success') {
-      // Open Firefox in a new browser tab/window
-      // The server will provide the proxy URL
-      const baseUrl = ServerConnection.makeSettings().baseUrl;
-      const firefoxUrl = URLExt.join(baseUrl, 'proxy', 'firefox-desktop');
-      
-      console.log('Opening Firefox at:', firefoxUrl);
-      window.open(firefoxUrl, '_blank');
-    } else {
-      console.error('Failed to launch Firefox:', result.message);
-      alert(`Failed to launch Firefox: ${result.message}`);
-    }
-  } catch (error) {
-    console.error('Error launching Firefox:', error);
-    const errorMsg = error instanceof Error ? error.message : String(error);
-    alert(`Error launching Firefox: ${errorMsg}`);
-  }
-}
+console.log('🔥 Firefox icon created:', firefoxIcon);
+console.log('🔥 Firefox SVG content length:', firefoxIconSvg?.length || 'undefined');
 
 /**
  * Initialization data for the firefox-launcher extension.
@@ -109,26 +39,55 @@ const plugin: JupyterFrontEndPlugin<void> = {
   description: 'A JupyterLab extension to launch Firefox in a tab',
   autoStart: true,
   requires: [ILauncher],
-  activate: (app: JupyterFrontEnd, launcher: ILauncher) => {
-    console.log('JupyterLab extension jupyterlab-firefox-launcher is activated!');
+  optional: [ITranslator],
+  activate: (app: JupyterFrontEnd, launcher: ILauncher, translator?: ITranslator) => {
+    const trans = (translator ?? nullTranslator).load('jupyterlab');
     
-    // Add Firefox launcher to the "Other" category
-    launcher.add({
-      command: 'firefox-launcher:launch',
-      category: 'Other',
-      rank: 1
-    });
+    console.log('🔥 JupyterLab extension jupyterlab-firefox-launcher is activated!');
+    console.log('🔥 Launcher available:', !!launcher);
+    console.log('🔥 App commands:', app.commands);
     
-    // Register the launch command
+    // Register the launch command first
     app.commands.addCommand('firefox-launcher:launch', {
       label: 'Firefox',
       caption: 'Launch Firefox in a new tab',
       icon: firefoxIcon,
-      execute: () => {
-        return launchFirefox(app);
+      execute: async () => {
+        console.log('🔥 Firefox launcher command executed!');
+        try {
+          // Lazy load the launcher module and return the widget
+          const { launchFirefox } = await import('./launcher');
+          return launchFirefox(app);
+        } catch (error) {
+          console.error('🔥 Error launching Firefox:', error);
+          throw error;
+        }
       }
     });
+    
+    console.log('🔥 Firefox command registered');
+    
+    // Add Firefox launcher to the "Other" category
+    if (launcher) {
+      const translatedCategory = trans.__('Other');
+      const hardcodedCategory = 'Other';
+      console.log('🔥 Translated category:', JSON.stringify(translatedCategory));
+      console.log('🔥 Hardcoded category:', JSON.stringify(hardcodedCategory));
+      console.log('🔥 Are they equal?', translatedCategory === hardcodedCategory);
+      
+      // Use translated version to match Terminal and FileEditor patterns
+      launcher.add({
+        command: 'firefox-launcher:launch',
+        category: trans.__('Other'),
+        rank: 0
+      });
+      console.log('🔥 Firefox launcher added with translated category');
+    } else {
+      console.error('🔥 Launcher not available - cannot add Firefox launcher');
+    }
   }
 };
 
-export default plugin;
+// Export the plugin as the default export
+const extension = plugin;
+export default extension;

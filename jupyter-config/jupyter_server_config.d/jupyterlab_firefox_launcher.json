@@ -5,8 +5,8 @@
     }
   },
   "LabApp": {
-    "jpserver_extensions": {
-      "jupyterlab_firefox_launcher": true
+    "jplab_extensions": {
+      "jupyterlab-firefox-launcher": true
     }
   }
 }

@@ -1,33 +1,29 @@
 const path = require('path');
 
 module.exports = {
-  entry: './src/index.ts',
+  entry: './lib/index.js',
   output: {
     path: path.resolve(__dirname, 'static'),
-    filename: 'main.bundle.js',
-    libraryTarget: 'module'
+    filename: 'main.js',
+    library: {
+      type: 'module'
+    }
   },
   experiments: {
     outputModule: true
   },
   resolve: {
-    extensions: ['.ts', '.js']
+    extensions: ['.js']
   },
   module: {
     rules: [
-      {
-        test: /\.ts$/,
-        use: 'ts-loader',
-        exclude: /node_modules/
-      },
       {
         test: /\.svg$/,
         use: 'raw-loader'
       },
       {
         test: /\.css$/,
-        use: ['style-loader', 'css-loader'],
-        include: path.resolve(__dirname, 'src')
+        use: ['style-loader', 'css-loader']
       }
     ]
   },

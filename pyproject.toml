@@ -92,20 +92,25 @@ packages = ["jupyterlab_firefox_launcher"]
 "jupyter-config" = "etc/jupyter/jupyter_server_config.d"
 
 [tool.hatch.build.hooks.jupyter-builder]
-path = "jupyterlab_firefox_launcher/labextension"
 build-function = "hatch_jupyter_builder.npm_builder"
 ensured-targets = [
+  "jupyterlab_firefox_launcher/labextension/static/main.js",
   "jupyterlab_firefox_launcher/labextension/package.json",
-  "jupyterlab_firefox_launcher/labextension/static/main.bundle.js"
+  "jupyterlab_firefox_launcher/labextension/install.json"
 ]
+skip-if-exists = ["jupyterlab_firefox_launcher/labextension/static/main.js"]
+
 
 [tool.hatch.build.hooks.jupyter-builder.build-kwargs]
 build_cmd = "build"
 npm = ["jlpm"]
+path = "jupyterlab_firefox_launcher/labextension"
 
 [tool.hatch.build.hooks.jupyter-builder.editable-build-kwargs]
 build_cmd = "build"
 npm = ["jlpm"]
+path = "jupyterlab_firefox_launcher/labextension"
+
 [tool.check-wheel-contents]
 ignore = ["W002"]
 

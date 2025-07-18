@@ -1,0 +1,100 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>JupyterLab Launcher Debug</title>
+    <style>
+        body { font-family: monospace; padding: 20px; }
+        .debug-section { margin: 20px 0; padding: 10px; border: 1px solid #ccc; }
+        .code { background: #f5f5f5; padding: 10px; margin: 10px 0; }
+    </style>
+</head>
+<body>
+    <h1>JupyterLab Launcher Debug Helper</h1>
+    
+    <div class="debug-section">
+        <h2>CSS Debug Commands (Run in Browser Console)</h2>
+        <div class="code">
+// 1. Check if launcher body is scrolled
+document.querySelector('.jp-Launcher-body').scrollTop
+document.querySelector('.jp-Launcher-body').scrollLeft
+
+// 2. Reset launcher scroll position
+document.querySelector('.jp-Launcher-body').scrollTop = 0;
+document.querySelector('.jp-Launcher-body').scrollLeft = 0;
+
+// 3. Temporarily remove overflow hidden on main
+document.querySelector('#main').style.overflow = 'visible';
+
+// 4. Check Firefox launcher card position
+const firefoxCards = document.querySelectorAll('.jp-LauncherCard-icon[title*="Firefox"], .jp-LauncherCard[title*="Firefox"]');
+console.log('Firefox cards found:', firefoxCards.length);
+firefoxCards.forEach((card, i) => {
+    const rect = card.getBoundingClientRect();
+    console.log(`Firefox card ${i}:`, rect);
+    // Highlight the card
+    card.style.border = '3px solid red';
+    card.style.backgroundColor = 'yellow';
+});
+
+// 5. Force launcher cards to be visible
+document.querySelectorAll('.jp-LauncherCard-icon').forEach(card => {
+    card.style.position = 'relative';
+    card.style.zIndex = '9999';
+});
+
+// 6. Check all launcher cards in "Other" category
+const otherSection = Array.from(document.querySelectorAll('.jp-Launcher-section')).find(s => 
+    s.querySelector('.jp-Launcher-sectionHeader')?.textContent?.includes('Other')
+);
+if (otherSection) {
+    console.log('Other section found:', otherSection);
+    const cards = otherSection.querySelectorAll('.jp-LauncherCard');
+    console.log('Cards in Other section:', cards.length);
+    cards.forEach((card, i) => {
+        const rect = card.getBoundingClientRect();
+        console.log(`Other card ${i}:`, card.getAttribute('title'), rect);
+    });
+} else {
+    console.log('Other section NOT found');
+}
+        </div>
+    </div>
+    
+    <div class="debug-section">
+        <h2>Force Launcher Visibility CSS</h2>
+        <div class="code">
+/* Add this CSS in browser dev tools */
+.jp-Launcher-body {
+    overflow: visible !important;
+}
+
+#main {
+    overflow: visible !important;
+}
+
+.jp-LauncherCard-icon[title*="Firefox"] {
+    border: 3px solid red !important;
+    background: yellow !important;
+    position: relative !important;
+    z-index: 9999 !important;
+}
+
+/* Force all launcher content to be visible */
+.jp-Launcher-content {
+    min-height: auto !important;
+    position: relative !important;
+}
+        </div>
+    </div>
+    
+    <div class="debug-section">
+        <h2>Check Console for Debug Messages</h2>
+        <p>Look for these messages in the browser console:</p>
+        <ul>
+            <li>🔥 Firefox icon created:</li>
+            <li>🔥 JupyterLab extension jupyterlab-firefox-launcher is activated!</li>
+            <li>🔥 Firefox launcher added with translated category</li>
+        </ul>
+    </div>
+</body>
+</html>
