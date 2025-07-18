@@ -5,12 +5,7 @@ module.exports = {
   output: {
     path: path.resolve(__dirname, 'static'),
     filename: 'main.js',
-    library: {
-      type: 'module'
-    }
-  },
-  experiments: {
-    outputModule: true
+    libraryTarget: 'umd'
   },
   resolve: {
     extensions: ['.js']
