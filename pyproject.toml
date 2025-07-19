@@ -15,7 +15,6 @@ authors = [
 keywords = [
     "Jupyter",
     "JupyterLab",
-    "JupyterLab3",
     "JupyterLab4",
     "Extension",
     "Firefox",
@@ -82,14 +81,19 @@ Changelog = "https://github.com/vantagecompute/jupyterlab-firefox-launcher/blob/
 
 [tool.hatch.build.targets.sdist]
 artifacts = ["jupyterlab_firefox_launcher/labextension"]
-exclude = [".github", "binder"]
+exclude = [".github", "binder", "jupyterlab_firefox_launcher/labextension/src"]
 
 [tool.hatch.build.targets.wheel]
 packages = ["jupyterlab_firefox_launcher"]
+exclude = [".github", "binder", "jupyterlab_firefox_launcher/labextension/src"]
+
 
 [tool.hatch.build.targets.wheel.shared-data]
-"jupyterlab_firefox_launcher/labextension" = "share/jupyter/labextensions/jupyterlab-firefox-launcher"
-"jupyter-config" = "etc/jupyter/jupyter_server_config.d"
+"jupyterlab_firefox_launcher/labextension/static" = "share/jupyter/labextensions/jupyterlab-firefox-launcher/static"
+"jupyterlab_firefox_launcher/labextension/style" = "share/jupyter/labextensions/jupyterlab-firefox-launcher/style"
+"jupyterlab_firefox_launcher/labextension/package.json" = "share/jupyter/labextensions/jupyterlab-firefox-launcher/package.json"
+"jupyterlab_firefox_launcher/labextension/install.json" = "share/jupyter/labextensions/jupyterlab-firefox-launcher/install.json"
+"jupyter-config/jupyter_server_config.d" = "etc/jupyter/jupyter_server_config.d"
 
 [tool.hatch.build.hooks.jupyter-builder]
 build-function = "hatch_jupyter_builder.npm_builder"

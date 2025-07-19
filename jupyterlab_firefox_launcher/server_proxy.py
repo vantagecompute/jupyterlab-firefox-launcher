@@ -7,7 +7,6 @@ with Xpra HTML5 for superior performance and seamless application integration.
 """
 
 import os
-import stat
 import time
 import socket
 from shutil import which
@@ -16,7 +15,7 @@ from pathlib import Path
 HERE = Path(__file__).parent
 
 
-def check_xpra_ready(port, max_attempts=30):
+def check_xpra_ready(port, max_attempts=5):
     """
     Check if Xpra HTML5 server is ready to accept connections.
     """
@@ -76,87 +75,22 @@ def create_xpra_command():
     """
     # Check dependencies only when actually needed
     xpra, firefox = get_firefox_command()
-    
+
     # Create user-space socket directory for security
     socket_dir = Path.home() / '.firefox-launcher' / 'sockets'
     socket_dir.mkdir(parents=True, exist_ok=True)
 
-    # Firefox wrapper script path - only two possibilities:
-    # 1) Build path to firefox-xstartup based on install location (in bin/)
-    # 2) Optional dev path via DEV_FIREFOX_LAUNCHER_PATH environment variable
-    
-    # Build path based on where this module is installed
-    install_base = Path(__file__).parent.parent  # Go up from jupyterlab_firefox_launcher/
-    firefox_wrapper = str(install_base / 'bin' / 'firefox-xstartup')
-    
+    firefox_wrapper =  Path(__file__).parent.parent / 'bin' / 'firefox-xstartup'
+
     # Allow development override via environment variable
-    dev_launcher_path = os.getenv("DEV_FIREFOX_LAUNCHER_PATH")
-    if dev_launcher_path:
+    if dev_launcher_path := os.getenv("DEV_FIREFOX_LAUNCHER_PATH"):
         firefox_wrapper = dev_launcher_path
-    
-    # Fallback: if wrapper script doesn't exist or isn't accessible, use direct firefox command
-    wrapper_available = os.path.exists(firefox_wrapper)
-    
-    if not wrapper_available:
-        # Create a minimal inline wrapper
-        firefox_wrapper = os.path.expanduser("~/.firefox-launcher-wrapper.sh")
-        profile_dir = os.path.expanduser("~/.firefox-launcher-profile")
-        wrapper_content = f'''#!/bin/bash
-# Auto-generated Firefox wrapper for JupyterLab extension
-
-# Create profile directory if it doesn't exist
-mkdir -p "{profile_dir}"
-
-# Initialize profile if it doesn't have the required files
-if [ ! -f "{profile_dir}/prefs.js" ]; then
-    {firefox} -CreateProfile "default {profile_dir}" -headless > /dev/null 2>&1 &
-    FIREFOX_PID=$!
-    sleep 3
-    kill $FIREFOX_PID > /dev/null 2>&1 || true
-    wait $FIREFOX_PID > /dev/null 2>&1 || true
-fi
-
-# Set Firefox environment variables
-export MOZ_DISABLE_CONTENT_SANDBOX=1
-export MOZ_DISABLE_GMP_SANDBOX=1
-export MOZ_DISABLE_RDD_SANDBOX=1
-export MOZ_DISABLE_SOCKET_PROCESS_SANDBOX=1
-
-# Launch Firefox with proper profile handling
-exec {firefox} --new-instance --no-first-run --no-remote --profile "{profile_dir}" "$@"
-'''
-        with open(firefox_wrapper, 'w') as f:
-            f.write(wrapper_content)
-        os.chmod(firefox_wrapper, 0o755)
-    else:
-        # Make sure the wrapper script is executable
-        # Handle NFS/shared installation where we can't modify permissions
-        import stat
-        if os.path.exists(firefox_wrapper):
-            try:
-                st = os.stat(firefox_wrapper)
-                # Only try to set executable if we don't already have execute permission
-                if not (st.st_mode & stat.S_IEXEC):
-                    os.chmod(firefox_wrapper, st.st_mode | stat.S_IEXEC)
-            except PermissionError:
-                # In shared/NFS environments, the file should already be executable
-                # or we need to copy it to user space
-                st = os.stat(firefox_wrapper)
-                if not (st.st_mode & stat.S_IEXEC):
-                    # Copy to user space and make executable
-                    user_wrapper = os.path.expanduser(f"~/.firefox-launcher-{os.path.basename(firefox_wrapper)}")
-                    import shutil
-                    shutil.copy2(firefox_wrapper, user_wrapper)
-                    os.chmod(user_wrapper, st.st_mode | stat.S_IEXEC)
-                    firefox_wrapper = user_wrapper
 
     # Allow environment variable customization of Xpra options
     xpra_quality = os.getenv("FIREFOX_LAUNCHER_QUALITY", "100")
     xpra_compress = os.getenv("FIREFOX_LAUNCHER_COMPRESS", "0")
     xpra_dpi = os.getenv("FIREFOX_LAUNCHER_DPI", "96")
-    
-    # Build Xpra command using --start-child with our wrapper script
-    # This gives us full control over Firefox options while using Xpra's process management
+
     # IMPORTANT: Use only TCP binding with HTML5 client - NO WebSockets for SlurmSpawner compatibility
     return [
         'xpra', 'start',
@@ -221,9 +155,6 @@ def launch_firefox():
     This is the entry point function that follows the jupyter-server-proxy pattern.
     It returns configuration dict for jupyter-server-proxy to manage an Xpra
     session with Firefox, providing excellent performance and direct HTML5 support.
-    
-    NOTE: This function no longer checks for xpra/firefox at load time.
-    Dependencies are checked only when the command is actually executed.
     """
     
     return {
@@ -234,10 +165,6 @@ def launch_firefox():
         "launcher_entry": {
             "enabled": False,  # Enable launcher entry via jupyter-server-proxy
         },
-        #     "title": "Firefox",  # Title shown in launcher
-        #     "icon_path": str(HERE / "icons" / "firefox.svg"),  # Path to our Firefox icon
-        #     "category": "Other"  # Category in JupyterLab launcher
-        # },
         "port": 0,  # Let jupyter-server-proxy assign a random port
         "mappath": {"/": "/index.html"},  # Map root to Xpra HTML5 client
         "request_headers_override": {

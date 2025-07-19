@@ -20,8 +20,7 @@
     "static",
     "style"
   ],
-  "main": "static/main.js",
-  "types": "lib/index.d.ts",
+  "main": "static/index.js",
   "style": "style/index.css",
   "packageManager": "yarn@1.22.22",
   "repository": {
@@ -29,9 +28,9 @@
     "url": "https://github.com/vantagecompute/jupyterlab-firefox-launcher.git"
   },
   "scripts": {
-    "build": "tsc && webpack --mode=production",
-    "clean": "rimraf lib tsconfig.tsbuildinfo static",
-    "watch": "tsc --watch",
+    "build": "webpack --mode=production",
+    "clean": "rimraf tsconfig.tsbuildinfo static",
+    "watch": "webpack --watch --mode=development",
     "watch:webpack": "webpack --watch"
   },
   "dependencies": {
