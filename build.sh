@@ -9,10 +9,10 @@ rm -rf dist
 rm -rf jupyterlab_firefox_launcher/labextension/{built,lib}
 
 
-uv run sync_version.py
+python3 sync_version.py
 
 echo "🏗️  Building with uv"
-uv build
+uv build --wheel
 
 echo "🎉 Build complete"
 

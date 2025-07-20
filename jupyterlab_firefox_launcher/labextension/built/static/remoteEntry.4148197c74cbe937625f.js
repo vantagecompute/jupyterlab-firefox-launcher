@@ -400,12 +400,12 @@ __webpack_require__.d(exports, {
 /******/ 		});
 /******/ 		var installedModules = {};
 /******/ 		var moduleToHandlerMapping = {
-/******/ 			"webpack/sharing/consume/default/@jupyterlab/launcher": () => (loadSingletonVersion("default", "@jupyterlab/launcher", false, [1,4,4,4])),
-/******/ 			"webpack/sharing/consume/default/@jupyterlab/ui-components": () => (loadSingletonVersion("default", "@jupyterlab/ui-components", false, [1,4,4,4])),
-/******/ 			"webpack/sharing/consume/default/@jupyterlab/translation": () => (loadSingletonVersion("default", "@jupyterlab/translation", false, [1,4,4,4])),
-/******/ 			"webpack/sharing/consume/default/@jupyterlab/apputils": () => (loadSingletonVersion("default", "@jupyterlab/apputils", false, [1,4,5,4])),
-/******/ 			"webpack/sharing/consume/default/@jupyterlab/services": () => (loadSingletonVersion("default", "@jupyterlab/services", false, [1,7,4,4])),
-/******/ 			"webpack/sharing/consume/default/@jupyterlab/coreutils": () => (loadSingletonVersion("default", "@jupyterlab/coreutils", false, [1,6,4,4]))
+/******/ 			"webpack/sharing/consume/default/@jupyterlab/launcher": () => (loadSingletonVersion("default", "@jupyterlab/launcher", false, [1,4,4,5])),
+/******/ 			"webpack/sharing/consume/default/@jupyterlab/ui-components": () => (loadSingletonVersion("default", "@jupyterlab/ui-components", false, [1,4,4,5])),
+/******/ 			"webpack/sharing/consume/default/@jupyterlab/translation": () => (loadSingletonVersion("default", "@jupyterlab/translation", false, [1,4,4,5])),
+/******/ 			"webpack/sharing/consume/default/@jupyterlab/apputils": () => (loadSingletonVersion("default", "@jupyterlab/apputils", false, [1,4,5,5])),
+/******/ 			"webpack/sharing/consume/default/@jupyterlab/services": () => (loadSingletonVersion("default", "@jupyterlab/services", false, [1,7,4,5])),
+/******/ 			"webpack/sharing/consume/default/@jupyterlab/coreutils": () => (loadSingletonVersion("default", "@jupyterlab/coreutils", false, [1,6,4,5]))
 /******/ 		};
 /******/ 		// no consumes in initial chunks
 /******/ 		var chunkMapping = {
@@ -558,4 +558,4 @@ __webpack_require__.d(exports, {
 /******/ 	
 /******/ })()
 ;
-//# sourceMappingURL=remoteEntry.d57ceecffc7e6faf61c6.js.map
+//# sourceMappingURL=remoteEntry.4148197c74cbe937625f.js.map
