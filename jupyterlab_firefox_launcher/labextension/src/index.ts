@@ -17,10 +17,10 @@ import {
 } from '@jupyterlab/translation';
 
 // Import styles  
-import '../src/index.css';
+import '../style/index.css';
 
 // Import Firefox SVG icon
-import firefoxIconSvg from '../src/style/icons/firefox.svg';
+import firefoxIconSvg from '../style/icons/firefox-icon.svg';
 
 // Create the Firefox icon
 export const firefoxIcon = new LabIcon({

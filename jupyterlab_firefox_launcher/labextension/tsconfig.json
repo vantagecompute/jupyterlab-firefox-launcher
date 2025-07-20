@@ -12,7 +12,9 @@
     "noUnusedLocals": false,
     "noUnusedParameters": false,
     "skipLibCheck": true,
-    "noEmit": true
+    "outDir": "lib",
+    "declaration": true,
+    "sourceMap": true
   },
   "include": ["src/**/*"],
   "exclude": ["node_modules", "static"]
