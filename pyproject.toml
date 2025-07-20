@@ -89,7 +89,7 @@ exclude = [".github", "binder", "jupyterlab_firefox_launcher/labextension/src"]
 
 
 [tool.hatch.build.targets.wheel.shared-data]
-"jupyterlab_firefox_launcher/labextension/jupyterlab_firefox_launcher/labextension/static" = "share/jupyter/labextensions/jupyterlab-firefox-launcher/static"
+"jupyterlab_firefox_launcher/labextension/built/static" = "share/jupyter/labextensions/jupyterlab-firefox-launcher/static"
 "jupyterlab_firefox_launcher/labextension/lib/index.js" = "share/jupyter/labextensions/jupyterlab-firefox-launcher/lib/index.js"
 "jupyterlab_firefox_launcher/labextension/lib/launcher.js" = "share/jupyter/labextensions/jupyterlab-firefox-launcher/lib/launcher.js"
 "jupyterlab_firefox_launcher/labextension/lib/index.d.ts" = "share/jupyter/labextensions/jupyterlab-firefox-launcher/lib/index.d.ts"
@@ -97,7 +97,7 @@ exclude = [".github", "binder", "jupyterlab_firefox_launcher/labextension/src"]
 "jupyterlab_firefox_launcher/labextension/lib/index.js.map" = "share/jupyter/labextensions/jupyterlab-firefox-launcher/lib/index.js.map"
 "jupyterlab_firefox_launcher/labextension/lib/launcher.js.map" = "share/jupyter/labextensions/jupyterlab-firefox-launcher/lib/launcher.js.map"
 "jupyterlab_firefox_launcher/labextension/style" = "share/jupyter/labextensions/jupyterlab-firefox-launcher/style"
-"jupyterlab_firefox_launcher/labextension/jupyterlab_firefox_launcher/labextension/package.json" = "share/jupyter/labextensions/jupyterlab-firefox-launcher/package.json"
+"jupyterlab_firefox_launcher/labextension/built/package.json" = "share/jupyter/labextensions/jupyterlab-firefox-launcher/package.json"
 "jupyterlab_firefox_launcher/labextension/install.json" = "share/jupyter/labextensions/jupyterlab-firefox-launcher/install.json"
 "jupyter-config/jupyter_server_config.d" = "etc/jupyter/jupyter_server_config.d"
 
@@ -105,7 +105,7 @@ exclude = [".github", "binder", "jupyterlab_firefox_launcher/labextension/src"]
 dependencies = ["hatch-jupyter-builder>=0.8.3"]
 build-function = "hatch_jupyter_builder.npm_builder"
 ensured-targets = [
-  "jupyterlab_firefox_launcher/labextension/jupyterlab_firefox_launcher/labextension/package.json",
+  "jupyterlab_firefox_launcher/labextension/built/package.json",
   "jupyterlab_firefox_launcher/labextension/lib/index.js",
   "jupyterlab_firefox_launcher/labextension/lib/launcher.js"
 ]

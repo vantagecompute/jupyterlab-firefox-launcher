@@ -102,7 +102,7 @@
     "output": {
       "hashFunction": "sha256",
       "filename": "[name].[contenthash].js",
-      "path": "/Users/james/allcode/github/vantagecompute/jupyterhub-firefox-launcher-extension/jupyterlab_firefox_launcher/labextension/jupyterlab_firefox_launcher/labextension/static",
+      "path": "/Users/james/allcode/github/vantagecompute/jupyterhub-firefox-launcher-extension/jupyterlab_firefox_launcher/labextension/built/static",
       "publicPath": "auto"
     },
     "plugins": [

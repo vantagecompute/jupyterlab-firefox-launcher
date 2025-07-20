@@ -96,9 +96,9 @@
   },
   "jupyterlab": {
     "extension": true,
-    "outputDir": "jupyterlab_firefox_launcher/labextension",
+    "outputDir": "built",
     "_build": {
-      "load": "static/remoteEntry.2a5f0f0d956bd68d23b7.js",
+      "load": "static/remoteEntry.d57ceecffc7e6faf61c6.js",
       "extension": "./extension",
       "style": "./style"
     }

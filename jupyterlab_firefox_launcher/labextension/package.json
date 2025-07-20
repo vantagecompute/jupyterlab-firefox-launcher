@@ -96,6 +96,6 @@
   },
   "jupyterlab": {
     "extension": true,
-    "outputDir": "jupyterlab_firefox_launcher/labextension"
+    "outputDir": "built"
   }
 }

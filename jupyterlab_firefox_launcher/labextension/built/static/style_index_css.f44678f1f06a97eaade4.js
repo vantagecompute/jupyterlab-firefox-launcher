@@ -15,53 +15,40 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _node_modules_css_loader_dist_runtime_sourceMaps_js__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(_node_modules_css_loader_dist_runtime_sourceMaps_js__WEBPACK_IMPORTED_MODULE_0__);
 /* harmony import */ var _node_modules_css_loader_dist_runtime_api_js__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ../node_modules/css-loader/dist/runtime/api.js */ "./node_modules/css-loader/dist/runtime/api.js");
 /* harmony import */ var _node_modules_css_loader_dist_runtime_api_js__WEBPACK_IMPORTED_MODULE_1___default = /*#__PURE__*/__webpack_require__.n(_node_modules_css_loader_dist_runtime_api_js__WEBPACK_IMPORTED_MODULE_1__);
-/* harmony import */ var _node_modules_css_loader_dist_runtime_getUrl_js__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../node_modules/css-loader/dist/runtime/getUrl.js */ "./node_modules/css-loader/dist/runtime/getUrl.js");
-/* harmony import */ var _node_modules_css_loader_dist_runtime_getUrl_js__WEBPACK_IMPORTED_MODULE_2___default = /*#__PURE__*/__webpack_require__.n(_node_modules_css_loader_dist_runtime_getUrl_js__WEBPACK_IMPORTED_MODULE_2__);
 // Imports
 
 
-
-var ___CSS_LOADER_URL_IMPORT_0___ = new URL(/* asset import */ __webpack_require__(/*! data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iMjQiIGhlaWdodD0iMjQiIHZpZXdCb3g9IjAgMCAyNCAyNCIgZmlsbD0ibm9uZSIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIj4KPHBhdGggZD0iTTEyIDJDNi40OCAyIDIgNi40OCAyIDEyUzYuNDggMjIgMTIgMjJTMjIgMTcuNTIgMjIgMTJTMTcuNTIgMiAxMiAyWk0xMi43NSA2LjVDMTMuMzggNi41IDE0IDYuODggMTQgNy41VjkuNUMxNCA5Ljc4IDE0LjIyIDEwIDE0LjUgMTBIMTYuNUMxNy4xMiAxMCAxNy41IDEwLjYyIDE3LjUgMTEuMjVTMTcuMTIgMTIuNSAxNi41IDEyLjVIMTQuNUMxNC4yMiAxMi41IDE0IDEyLjcyIDE0IDEzVjE1QzE0IDE1LjYyIDEzLjM4IDE2IDEyLjc1IDE2UzExLjUgMTUuNjIgMTEuNSAxNVYxM0MxMS41IDEyLjcyIDExLjI4IDEyLjUgMTEgMTIuNUg5QzguMzggMTIuNSA4IDExLjg4IDggMTEuMjVTOC4zOCAxMCA5IDEwSDExQzExLjI4IDEwIDExLjUgOS43OCAxMS41IDkuNVY3LjVDMTEuNSA2Ljg4IDEyLjEyIDYuNSAxMi43NSA2LjVaIiBmaWxsPSIjRkY1NzIyIi8+Cjwvc3ZnPgo= */ "data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iMjQiIGhlaWdodD0iMjQiIHZpZXdCb3g9IjAgMCAyNCAyNCIgZmlsbD0ibm9uZSIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIj4KPHBhdGggZD0iTTEyIDJDNi40OCAyIDIgNi40OCAyIDEyUzYuNDggMjIgMTIgMjJTMjIgMTcuNTIgMjIgMTJTMTcuNTIgMiAxMiAyWk0xMi43NSA2LjVDMTMuMzggNi41IDE0IDYuODggMTQgNy41VjkuNUMxNCA5Ljc4IDE0LjIyIDEwIDE0LjUgMTBIMTYuNUMxNy4xMiAxMCAxNy41IDEwLjYyIDE3LjUgMTEuMjVTMTcuMTIgMTIuNSAxNi41IDEyLjVIMTQuNUMxNC4yMiAxMi41IDE0IDEyLjcyIDE0IDEzVjE1QzE0IDE1LjYyIDEzLjM4IDE2IDEyLjc1IDE2UzExLjUgMTUuNjIgMTEuNSAxNVYxM0MxMS41IDEyLjcyIDExLjI4IDEyLjUgMTEgMTIuNUg5QzguMzggMTIuNSA4IDExLjg4IDggMTEuMjVTOC4zOCAxMCA5IDEwSDExQzExLjI4IDEwIDExLjUgOS43OCAxMS41IDkuNVY3LjVDMTEuNSA2Ljg4IDEyLjEyIDYuNSAxMi43NSA2LjVaIiBmaWxsPSIjRkY1NzIyIi8+Cjwvc3ZnPgo="), __webpack_require__.b);
 var ___CSS_LOADER_EXPORT___ = _node_modules_css_loader_dist_runtime_api_js__WEBPACK_IMPORTED_MODULE_1___default()((_node_modules_css_loader_dist_runtime_sourceMaps_js__WEBPACK_IMPORTED_MODULE_0___default()));
-var ___CSS_LOADER_URL_REPLACEMENT_0___ = _node_modules_css_loader_dist_runtime_getUrl_js__WEBPACK_IMPORTED_MODULE_2___default()(___CSS_LOADER_URL_IMPORT_0___);
 // Module
-___CSS_LOADER_EXPORT___.push([module.id, `/* Firefox Launcher Icon Styles */
-.jp-FirefoxIcon {
-  background-image: url(${___CSS_LOADER_URL_REPLACEMENT_0___});
-  background-size: 16px 16px;
-  background-repeat: no-repeat;
-  background-position: center;
-}
+___CSS_LOADER_EXPORT___.push([module.id, `/* Firefox Launcher Extension Styles */
 
-/* Ensure the launcher card shows the icon properly */
-.jp-LauncherCard[data-category="Other"] .jp-FirefoxIcon {
-  width: 16px;
-  height: 16px;
-  display: inline-block;
-}
-
-/* Icon styling for launcher buttons */
-.jp-LauncherCard[data-category="Other"] .jp-ToolbarButtonComponent[title="Firefox"] .jp-FirefoxIcon,
-.jp-LauncherCard[data-category="Other"] .jp-ToolbarButtonComponent[aria-label="Firefox"] .jp-FirefoxIcon {
-  margin-right: 8px;
-}
-
-/* Basic Firefox launcher card styles */
+/* Firefox launcher category styling */
 .jp-LauncherCard[data-category="Firefox Launcher"] {
   background: linear-gradient(135deg, #ff7139 0%, #ff4500 100%);
   color: white;
+  border-radius: 8px;
 }
 
 .jp-LauncherCard[data-category="Firefox Launcher"]:hover {
   background: linear-gradient(135deg, #ff8c52 0%, #ff5722 100%);
+  transform: translateY(-2px);
+  box-shadow: 0 4px 12px rgba(255, 113, 57, 0.3);
 }
 
-/* General Firefox launcher styling */
-.jp-LauncherCard[data-category="Other"] [title="Firefox"],
-.jp-LauncherCard[data-category="Other"] [aria-label="Firefox"] {
+/* General Firefox launcher item styling */
+.jp-LauncherCard[data-category="Other"] [title*="Firefox"],
+.jp-LauncherCard[data-category="Other"] [aria-label*="Firefox"] {
   color: #ff5722;
+  border-radius: 4px;
+  transition: all 0.2s ease;
 }
-`, "",{"version":3,"sources":["webpack://./style/index.css"],"names":[],"mappings":"AAAA,iCAAiC;AACjC;EACE,yDAAmwB;EACnwB,0BAA0B;EAC1B,4BAA4B;EAC5B,2BAA2B;AAC7B;;AAEA,qDAAqD;AACrD;EACE,WAAW;EACX,YAAY;EACZ,qBAAqB;AACvB;;AAEA,sCAAsC;AACtC;;EAEE,iBAAiB;AACnB;;AAEA,uCAAuC;AACvC;EACE,6DAA6D;EAC7D,YAAY;AACd;;AAEA;EACE,6DAA6D;AAC/D;;AAEA,qCAAqC;AACrC;;EAEE,cAAc;AAChB","sourcesContent":["/* Firefox Launcher Icon Styles */\n.jp-FirefoxIcon {\n  background-image: url('data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iMjQiIGhlaWdodD0iMjQiIHZpZXdCb3g9IjAgMCAyNCAyNCIgZmlsbD0ibm9uZSIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIj4KPHBhdGggZD0iTTEyIDJDNi40OCAyIDIgNi40OCAyIDEyUzYuNDggMjIgMTIgMjJTMjIgMTcuNTIgMjIgMTJTMTcuNTIgMiAxMiAyWk0xMi43NSA2LjVDMTMuMzggNi41IDE0IDYuODggMTQgNy41VjkuNUMxNCA5Ljc4IDE0LjIyIDEwIDE0LjUgMTBIMTYuNUMxNy4xMiAxMCAxNy41IDEwLjYyIDE3LjUgMTEuMjVTMTcuMTIgMTIuNSAxNi41IDEyLjVIMTQuNUMxNC4yMiAxMi41IDE0IDEyLjcyIDE0IDEzVjE1QzE0IDE1LjYyIDEzLjM4IDE2IDEyLjc1IDE2UzExLjUgMTUuNjIgMTEuNSAxNVYxM0MxMS41IDEyLjcyIDExLjI4IDEyLjUgMTEgMTIuNUg5QzguMzggMTIuNSA4IDExLjg4IDggMTEuMjVTOC4zOCAxMCA5IDEwSDExQzExLjI4IDEwIDExLjUgOS43OCAxMS41IDkuNVY3LjVDMTEuNSA2Ljg4IDEyLjEyIDYuNSAxMi43NSA2LjVaIiBmaWxsPSIjRkY1NzIyIi8+Cjwvc3ZnPgo=');\n  background-size: 16px 16px;\n  background-repeat: no-repeat;\n  background-position: center;\n}\n\n/* Ensure the launcher card shows the icon properly */\n.jp-LauncherCard[data-category=\"Other\"] .jp-FirefoxIcon {\n  width: 16px;\n  height: 16px;\n  display: inline-block;\n}\n\n/* Icon styling for launcher buttons */\n.jp-LauncherCard[data-category=\"Other\"] .jp-ToolbarButtonComponent[title=\"Firefox\"] .jp-FirefoxIcon,\n.jp-LauncherCard[data-category=\"Other\"] .jp-ToolbarButtonComponent[aria-label=\"Firefox\"] .jp-FirefoxIcon {\n  margin-right: 8px;\n}\n\n/* Basic Firefox launcher card styles */\n.jp-LauncherCard[data-category=\"Firefox Launcher\"] {\n  background: linear-gradient(135deg, #ff7139 0%, #ff4500 100%);\n  color: white;\n}\n\n.jp-LauncherCard[data-category=\"Firefox Launcher\"]:hover {\n  background: linear-gradient(135deg, #ff8c52 0%, #ff5722 100%);\n}\n\n/* General Firefox launcher styling */\n.jp-LauncherCard[data-category=\"Other\"] [title=\"Firefox\"],\n.jp-LauncherCard[data-category=\"Other\"] [aria-label=\"Firefox\"] {\n  color: #ff5722;\n}\n"],"sourceRoot":""}]);
+
+.jp-LauncherCard[data-category="Other"] [title*="Firefox"]:hover,
+.jp-LauncherCard[data-category="Other"] [aria-label*="Firefox"]:hover {
+  background-color: rgba(255, 87, 34, 0.1);
+  transform: scale(1.02);
+}
+`, "",{"version":3,"sources":["webpack://./style/index.css"],"names":[],"mappings":"AAAA,sCAAsC;;AAEtC,sCAAsC;AACtC;EACE,6DAA6D;EAC7D,YAAY;EACZ,kBAAkB;AACpB;;AAEA;EACE,6DAA6D;EAC7D,2BAA2B;EAC3B,8CAA8C;AAChD;;AAEA,0CAA0C;AAC1C;;EAEE,cAAc;EACd,kBAAkB;EAClB,yBAAyB;AAC3B;;AAEA;;EAEE,wCAAwC;EACxC,sBAAsB;AACxB","sourcesContent":["/* Firefox Launcher Extension Styles */\n\n/* Firefox launcher category styling */\n.jp-LauncherCard[data-category=\"Firefox Launcher\"] {\n  background: linear-gradient(135deg, #ff7139 0%, #ff4500 100%);\n  color: white;\n  border-radius: 8px;\n}\n\n.jp-LauncherCard[data-category=\"Firefox Launcher\"]:hover {\n  background: linear-gradient(135deg, #ff8c52 0%, #ff5722 100%);\n  transform: translateY(-2px);\n  box-shadow: 0 4px 12px rgba(255, 113, 57, 0.3);\n}\n\n/* General Firefox launcher item styling */\n.jp-LauncherCard[data-category=\"Other\"] [title*=\"Firefox\"],\n.jp-LauncherCard[data-category=\"Other\"] [aria-label*=\"Firefox\"] {\n  color: #ff5722;\n  border-radius: 4px;\n  transition: all 0.2s ease;\n}\n\n.jp-LauncherCard[data-category=\"Other\"] [title*=\"Firefox\"]:hover,\n.jp-LauncherCard[data-category=\"Other\"] [aria-label*=\"Firefox\"]:hover {\n  background-color: rgba(255, 87, 34, 0.1);\n  transform: scale(1.02);\n}\n"],"sourceRoot":""}]);
 // Exports
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (___CSS_LOADER_EXPORT___);
 
@@ -158,41 +145,6 @@ module.exports = function (cssWithMappingToString) {
     }
   };
   return list;
-};
-
-/***/ }),
-
-/***/ "./node_modules/css-loader/dist/runtime/getUrl.js":
-/*!********************************************************!*\
-  !*** ./node_modules/css-loader/dist/runtime/getUrl.js ***!
-  \********************************************************/
-/***/ ((module) => {
-
-
-
-module.exports = function (url, options) {
-  if (!options) {
-    options = {};
-  }
-  if (!url) {
-    return url;
-  }
-  url = String(url.__esModule ? url.default : url);
-
-  // If url is already wrapped in quotes, remove them
-  if (/^['"].*['"]$/.test(url)) {
-    url = url.slice(1, -1);
-  }
-  if (options.hash) {
-    url += options.hash;
-  }
-
-  // Should url be wrapped?
-  // See https://drafts.csswg.org/css-values-3/#urls
-  if (/["'() \t\n]|(%20)/.test(url) || options.needQuotes) {
-    return "\"".concat(url.replace(/"/g, '\\"').replace(/\n/g, "\\n"), "\"");
-  }
-  return url;
 };
 
 /***/ }),
@@ -541,17 +493,7 @@ var update = _node_modules_style_loader_dist_runtime_injectStylesIntoStyleTag_js
        /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (_node_modules_css_loader_dist_cjs_js_index_css__WEBPACK_IMPORTED_MODULE_6__["default"] && _node_modules_css_loader_dist_cjs_js_index_css__WEBPACK_IMPORTED_MODULE_6__["default"].locals ? _node_modules_css_loader_dist_cjs_js_index_css__WEBPACK_IMPORTED_MODULE_6__["default"].locals : undefined);
 
 
-/***/ }),
-
-/***/ "data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iMjQiIGhlaWdodD0iMjQiIHZpZXdCb3g9IjAgMCAyNCAyNCIgZmlsbD0ibm9uZSIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIj4KPHBhdGggZD0iTTEyIDJDNi40OCAyIDIgNi40OCAyIDEyUzYuNDggMjIgMTIgMjJTMjIgMTcuNTIgMjIgMTJTMTcuNTIgMiAxMiAyWk0xMi43NSA2LjVDMTMuMzggNi41IDE0IDYuODggMTQgNy41VjkuNUMxNCA5Ljc4IDE0LjIyIDEwIDE0LjUgMTBIMTYuNUMxNy4xMiAxMCAxNy41IDEwLjYyIDE3LjUgMTEuMjVTMTcuMTIgMTIuNSAxNi41IDEyLjVIMTQuNUMxNC4yMiAxMi41IDE0IDEyLjcyIDE0IDEzVjE1QzE0IDE1LjYyIDEzLjM4IDE2IDEyLjc1IDE2UzExLjUgMTUuNjIgMTEuNSAxNVYxM0MxMS41IDEyLjcyIDExLjI4IDEyLjUgMTEgMTIuNUg5QzguMzggMTIuNSA4IDExLjg4IDggMTEuMjVTOC4zOCAxMCA5IDEwSDExQzExLjI4IDEwIDExLjUgOS43OCAxMS41IDkuNVY3LjVDMTEuNSA2Ljg4IDEyLjEyIDYuNSAxMi43NSA2LjVaIiBmaWxsPSIjRkY1NzIyIi8+Cjwvc3ZnPgo=":
-/*!**********************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************!*\
-  !*** data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iMjQiIGhlaWdodD0iMjQiIHZpZXdCb3g9IjAgMCAyNCAyNCIgZmlsbD0ibm9uZSIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIj4KPHBhdGggZD0iTTEyIDJDNi40OCAyIDIgNi40OCAyIDEyUzYuNDggMjIgMTIgMjJTMjIgMTcuNTIgMjIgMTJTMTcuNTIgMiAxMiAyWk0xMi43NSA2LjVDMTMuMzggNi41IDE0IDYuODggMTQgNy41VjkuNUMxNCA5Ljc4IDE0LjIyIDEwIDE0LjUgMTBIMTYuNUMxNy4xMiAxMCAxNy41IDEwLjYyIDE3LjUgMTEuMjVTMTcuMTIgMTIuNSAxNi41IDEyLjVIMTQuNUMxNC4yMiAxMi41IDE0IDEyLjcyIDE0IDEzVjE1QzE0IDE1LjYyIDEzLjM4IDE2IDEyLjc1IDE2UzExLjUgMTUuNjIgMTEuNSAxNVYxM0MxMS41IDEyLjcyIDExLjI4IDEyLjUgMTEgMTIuNUg5QzguMzggMTIuNSA4IDExLjg4IDggMTEuMjVTOC4zOCAxMCA5IDEwSDExQzExLjI4IDEwIDExLjUgOS43OCAxMS41IDkuNVY3LjVDMTEuNSA2Ljg4IDEyLjEyIDYuNSAxMi43NSA2LjVaIiBmaWxsPSIjRkY1NzIyIi8+Cjwvc3ZnPgo= ***!
-  \**********************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************/
-/***/ ((module) => {
-
-module.exports = "data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iMjQiIGhlaWdodD0iMjQiIHZpZXdCb3g9IjAgMCAyNCAyNCIgZmlsbD0ibm9uZSIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIj4KPHBhdGggZD0iTTEyIDJDNi40OCAyIDIgNi40OCAyIDEyUzYuNDggMjIgMTIgMjJTMjIgMTcuNTIgMjIgMTJTMTcuNTIgMiAxMiAyWk0xMi43NSA2LjVDMTMuMzggNi41IDE0IDYuODggMTQgNy41VjkuNUMxNCA5Ljc4IDE0LjIyIDEwIDE0LjUgMTBIMTYuNUMxNy4xMiAxMCAxNy41IDEwLjYyIDE3LjUgMTEuMjVTMTcuMTIgMTIuNSAxNi41IDEyLjVIMTQuNUMxNC4yMiAxMi41IDE0IDEyLjcyIDE0IDEzVjE1QzE0IDE1LjYyIDEzLjM4IDE2IDEyLjc1IDE2UzExLjUgMTUuNjIgMTEuNSAxNVYxM0MxMS41IDEyLjcyIDExLjI4IDEyLjUgMTEgMTIuNUg5QzguMzggMTIuNSA4IDExLjg4IDggMTEuMjVTOC4zOCAxMCA5IDEwSDExQzExLjI4IDEwIDExLjUgOS43OCAxMS41IDkuNVY3LjVDMTEuNSA2Ljg4IDEyLjEyIDYuNSAxMi43NSA2LjVaIiBmaWxsPSIjRkY1NzIyIi8+Cjwvc3ZnPgo=";
-
 /***/ })
 
 }]);
-//# sourceMappingURL=style_index_css.1a0e2278da447df30fd9.js.map
+//# sourceMappingURL=style_index_css.f44678f1f06a97eaade4.js.map
