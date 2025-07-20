@@ -81,11 +81,31 @@ Changelog = "https://github.com/vantagecompute/jupyterlab-firefox-launcher/blob/
 
 [tool.hatch.build.targets.sdist]
 artifacts = ["jupyterlab_firefox_launcher/labextension"]
-exclude = [".github", "binder", "jupyterlab_firefox_launcher/labextension/src"]
+exclude = [
+    ".github", 
+    "binder", 
+    "jupyterlab_firefox_launcher/labextension/src",
+    "jupyterlab_firefox_launcher/labextension/.yarn",
+    "jupyterlab_firefox_launcher/labextension/node_modules",
+    "jupyterlab_firefox_launcher/labextension/.yarnrc.yml",
+    "jupyterlab_firefox_launcher/labextension/yarn.lock",
+    "build.sh",
+    "sync_version.py",
+    "uv.lock",
+    ".python-version"
+]
 
 [tool.hatch.build.targets.wheel]
 packages = ["jupyterlab_firefox_launcher"]
-exclude = [".github", "binder", "jupyterlab_firefox_launcher/labextension/src"]
+exclude = [
+    ".github", 
+    "binder", 
+    "jupyterlab_firefox_launcher/labextension/src",
+    "jupyterlab_firefox_launcher/labextension/.yarn",
+    "jupyterlab_firefox_launcher/labextension/node_modules",
+    "jupyterlab_firefox_launcher/labextension/.yarnrc.yml",
+    "jupyterlab_firefox_launcher/labextension/yarn.lock",
+]
 
 
 [tool.hatch.build.targets.wheel.shared-data]
@@ -108,6 +128,14 @@ ensured-targets = [
   "jupyterlab_firefox_launcher/labextension/built/package.json",
   "jupyterlab_firefox_launcher/labextension/lib/index.js",
   "jupyterlab_firefox_launcher/labextension/lib/launcher.js"
+]
+skip-if-exists = [
+    "jupyterlab_firefox_launcher/labextension/built/static/remoteEntry.*.js",
+    "jupyterlab_firefox_launcher/labextension/built/static/remoteEntry.*.js.map",
+    "jupyterlab_firefox_launcher/labextension/built/static/lib_index_js.*.js",
+    "jupyterlab_firefox_launcher/labextension/built/static/lib_index_js.*.js.map",
+    "jupyterlab_firefox_launcher/labextension/built/static/lib_launcher_js.*.js",
+    "jupyterlab_firefox_launcher/labextension/built/static/lib_launcher_js.*.js.map",
 ]
 
 
