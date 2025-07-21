@@ -16,9 +16,6 @@ import {
   nullTranslator
 } from '@jupyterlab/translation';
 
-// Import styles  
-import '../style/index.css';
-
 // Import Firefox SVG icon
 import firefoxIconSvg from '../style/icons/firefox-icon.svg';
 
@@ -27,9 +24,6 @@ export const firefoxIcon = new LabIcon({
   name: 'firefox-launcher:firefox',
   svgstr: firefoxIconSvg
 });
-
-console.log('🔥 Firefox icon created:', firefoxIcon);
-console.log('🔥 Firefox SVG content length:', firefoxIconSvg?.length || 'undefined');
 
 /**
  * Initialization data for the firefox-launcher extension.
@@ -43,47 +37,36 @@ const plugin: JupyterFrontEndPlugin<void> = {
   activate: (app: JupyterFrontEnd, launcher: ILauncher, translator?: ITranslator) => {
     const trans = (translator ?? nullTranslator).load('jupyterlab');
     
-    console.log('🔥 JupyterLab extension jupyterlab-firefox-launcher is activated!');
-    console.log('🔥 Launcher available:', !!launcher);
-    console.log('🔥 App commands:', app.commands);
+    console.log('JupyterLab Firefox Launcher: Extension activated');
     
-    // Register the launch command first
+    // Register the launch command
     app.commands.addCommand('firefox-launcher:launch', {
-      label: 'Firefox',
-      caption: 'Launch Firefox in a new tab',
+      label: 'Firefox Browser',
+      caption: 'Launch Firefox browser in a new tab',
       icon: firefoxIcon,
       execute: async () => {
-        console.log('🔥 Firefox launcher command executed!');
+        console.log('Firefox launcher: Executing command');
         try {
-          // Lazy load the launcher module and return the widget
           const { launchFirefox } = await import('./launcher');
           return launchFirefox(app);
         } catch (error) {
-          console.error('🔥 Error launching Firefox:', error);
+          console.error('Firefox launcher: Error executing command', error);
           throw error;
         }
       }
     });
     
-    console.log('🔥 Firefox command registered');
-    
-    // Add Firefox launcher to the "Other" category
+    // Add Firefox launcher to the launcher panel
     if (launcher) {
-      const translatedCategory = trans.__('Other');
-      const hardcodedCategory = 'Other';
-      console.log('🔥 Translated category:', JSON.stringify(translatedCategory));
-      console.log('🔥 Hardcoded category:', JSON.stringify(hardcodedCategory));
-      console.log('🔥 Are they equal?', translatedCategory === hardcodedCategory);
-      
-      // Use translated version to match Terminal and FileEditor patterns
       launcher.add({
         command: 'firefox-launcher:launch',
         category: trans.__('Other'),
-        rank: 0
+        rank: 1,
+        kernelIconUrl: undefined, // Explicitly use our custom icon
       });
-      console.log('🔥 Firefox launcher added with translated category');
+      console.log('Firefox launcher: Added to launcher panel');
     } else {
-      console.error('🔥 Launcher not available - cannot add Firefox launcher');
+      console.error('Firefox launcher: Launcher service not available');
     }
   }
 };

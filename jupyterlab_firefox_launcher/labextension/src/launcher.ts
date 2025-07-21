@@ -52,13 +52,13 @@ function createFirefoxWidget(url: string): MainAreaWidget<IFrame> {
  */
 export async function launchFirefox(app: JupyterFrontEnd): Promise<Widget> {
   try {
-    console.log('🔥 Launching Firefox in JupyterLab tab...');
+    console.log('Firefox launcher: Starting Firefox session...');
     
-    // Get the Firefox proxy URL directly
+    // Get the Firefox proxy URL
     const settings = ServerConnection.makeSettings();
     const firefoxUrl = URLExt.join(settings.baseUrl, 'proxy', 'firefox-desktop');
     
-    console.log('🔥 Firefox URL:', firefoxUrl);
+    console.log('Firefox launcher: Target URL:', firefoxUrl);
     
     // Create the iframe widget
     const widget = createFirefoxWidget(firefoxUrl);
@@ -69,11 +69,11 @@ export async function launchFirefox(app: JupyterFrontEnd): Promise<Widget> {
     // Activate the new tab
     app.shell.activateById(widget.id);
     
-    console.log('🔥 Firefox widget created and added to shell');
+    console.log('Firefox launcher: Widget created and activated');
     
     return widget;
   } catch (error) {
-    console.error('🔥 Error launching Firefox:', error);
+    console.error('Firefox launcher: Failed to launch', error);
     const errorMsg = error instanceof Error ? error.message : String(error);
     throw new Error(`Failed to launch Firefox: ${errorMsg}`);
   }

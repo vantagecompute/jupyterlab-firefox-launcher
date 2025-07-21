@@ -8,6 +8,10 @@ echo "🔄 Pre-build cleanup and version sync"
 rm -rf dist
 rm -rf jupyterlab_firefox_launcher/labextension/{built,lib}
 
+# Clear installed extension cache to remove old CSS files
+echo "🧹 Clearing extension cache"
+rm -rf .venv/share/jupyter/labextensions/jupyterlab-firefox-launcher/
+
 
 python3 sync_version.py
 

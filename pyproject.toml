@@ -116,7 +116,7 @@ exclude = [
 "jupyterlab_firefox_launcher/labextension/lib/launcher.d.ts" = "share/jupyter/labextensions/jupyterlab-firefox-launcher/lib/launcher.d.ts"
 "jupyterlab_firefox_launcher/labextension/lib/index.js.map" = "share/jupyter/labextensions/jupyterlab-firefox-launcher/lib/index.js.map"
 "jupyterlab_firefox_launcher/labextension/lib/launcher.js.map" = "share/jupyter/labextensions/jupyterlab-firefox-launcher/lib/launcher.js.map"
-"jupyterlab_firefox_launcher/labextension/style" = "share/jupyter/labextensions/jupyterlab-firefox-launcher/style"
+"jupyterlab_firefox_launcher/labextension/style/icons" = "share/jupyter/labextensions/jupyterlab-firefox-launcher/style/icons"
 "jupyterlab_firefox_launcher/labextension/built/package.json" = "share/jupyter/labextensions/jupyterlab-firefox-launcher/package.json"
 "jupyterlab_firefox_launcher/labextension/install.json" = "share/jupyter/labextensions/jupyterlab-firefox-launcher/install.json"
 "jupyter-config/jupyter_server_config.d" = "etc/jupyter/jupyter_server_config.d"
@@ -128,14 +128,6 @@ ensured-targets = [
   "jupyterlab_firefox_launcher/labextension/built/package.json",
   "jupyterlab_firefox_launcher/labextension/lib/index.js",
   "jupyterlab_firefox_launcher/labextension/lib/launcher.js"
-]
-skip-if-exists = [
-    "jupyterlab_firefox_launcher/labextension/built/static/remoteEntry.*.js",
-    "jupyterlab_firefox_launcher/labextension/built/static/remoteEntry.*.js.map",
-    "jupyterlab_firefox_launcher/labextension/built/static/lib_index_js.*.js",
-    "jupyterlab_firefox_launcher/labextension/built/static/lib_index_js.*.js.map",
-    "jupyterlab_firefox_launcher/labextension/built/static/lib_launcher_js.*.js",
-    "jupyterlab_firefox_launcher/labextension/built/static/lib_launcher_js.*.js.map",
 ]
 
 
