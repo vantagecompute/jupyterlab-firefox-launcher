@@ -61,8 +61,7 @@ const plugin: JupyterFrontEndPlugin<void> = {
       launcher.add({
         command: 'firefox-launcher:launch',
         category: trans.__('Other'),
-        rank: 1,
-        kernelIconUrl: undefined, // Explicitly use our custom icon
+        rank: 100, // Use higher rank to avoid being first in category
       });
       console.log('Firefox launcher: Added to launcher panel');
     } else {

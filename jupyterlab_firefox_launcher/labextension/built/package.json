@@ -89,7 +89,7 @@
     "extension": true,
     "outputDir": "built",
     "_build": {
-      "load": "static/remoteEntry.610ec66beabc52bdde5f.js",
+      "load": "static/remoteEntry.e8c09f5596dcc5f6bf22.js",
       "extension": "./extension"
     }
   }
