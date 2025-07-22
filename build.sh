@@ -30,7 +30,7 @@ rm -rf tsconfig.tsbuildinfo
 
 # Nuke any JupyterLab staging/build directories
 rm -rf .venv/share/jupyter/lab/staging/
-rm -rf .venv/share/jupyter/lab/static/
+rm -rf .venv/share/jupyter/lab/static/components/jupyterlab_firefox_launcher/
 
 # Nuke Python bytecode caches
 find . -type d -name "__pycache__" -exec rm -rf {} + 2>/dev/null || true
@@ -42,7 +42,11 @@ echo "🧨 All caches nuked!"
 python3 sync_version.py
 
 echo "🏗️  Building with uv"
-uv build --wheel
+uv build --wheel --no-cache --verbose
+
+uv pip uninstall jupyterlab-firefox-launcher
+
+uv pip install dist/jupyterlab_firefox_launcher-*.whl
 
 echo "🎉 Build complete"
 

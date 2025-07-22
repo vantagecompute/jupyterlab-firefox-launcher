@@ -35,9 +35,10 @@ classifiers = [
 dependencies = [
     "jupyter-server>=2.0.1,<3",
     "jupyter-server-proxy>=4.0.0",
-    "jupyterlab>=4.0.0,<5",
+    "jupyterlab>=4.4.5",
     "tornado>=6.1.0",
     "psutil",
+    "python-uinput>=1.0.1",
 ]
 
 # Note: System dependencies required but not installable via pip:
@@ -51,13 +52,10 @@ dependencies = [
 # or  
 #   conda install -c conda-forge xpra firefox
 
-# Only jupyter-server-proxy entry point needed - no custom server extension
+# Entry point for jupyter-server-proxy
 
-[project.entry-points."jupyter_serverproxy_servers"]
+[project.entry-points."jupyter_server_proxy"]
 firefox-desktop = "jupyterlab_firefox_launcher.server_proxy:launch_firefox"
-
-[project.entry-points."jupyter_server_extensions"]
-jupyterlab_firefox_launcher = "jupyterlab_firefox_launcher"
 
 [project.optional-dependencies]
 dev = [
@@ -120,6 +118,8 @@ exclude = [
 "jupyterlab_firefox_launcher/labextension/built/package.json" = "share/jupyter/labextensions/jupyterlab-firefox-launcher/package.json"
 "jupyterlab_firefox_launcher/labextension/install.json" = "share/jupyter/labextensions/jupyterlab-firefox-launcher/install.json"
 "jupyter-config/jupyter_server_config.d" = "etc/jupyter/jupyter_server_config.d"
+"jupyter_server_config.py" = "etc/jupyter/jupyter_server_config.py"
+"scripts/firefox-xstartup" = "bin/firefox-xstartup"
 
 [tool.hatch.build.hooks.jupyter-builder]
 dependencies = ["hatch-jupyter-builder>=0.8.3"]

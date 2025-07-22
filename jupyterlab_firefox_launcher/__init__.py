@@ -7,29 +7,4 @@ for process management. This extension is designed to work seamlessly
 with SlurmSpawner environments.
 """
 
-import os
-
-from .server_extension import load_jupyter_server_extension
-
-HERE = os.path.dirname(os.path.abspath(__file__))
-
-
-def _jupyter_server_extension_points():
-    """
-    Entry points for server extensions - following jupyter-remote-desktop-proxy pattern
-    """
-    return [{"module": "jupyterlab_firefox_launcher"}]
-
-
-def load_jupyter_server_extension(server_app):
-    """
-    Main entry point for the server extension.
-    Delegates to the actual implementation in server_extension module.
-    """
-    from .server_extension import load_jupyter_server_extension as _load_ext
-    return _load_ext(server_app)
-
-
-# For backward compatibility
-_load_jupyter_server_extension = load_jupyter_server_extension
-_jupyter_server_extension_paths = _jupyter_server_extension_points
+from ._version import __version__

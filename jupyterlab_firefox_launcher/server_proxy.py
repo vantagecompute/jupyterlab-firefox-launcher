@@ -8,6 +8,7 @@ with Xpra HTML5 for superior performance and seamless application integration.
 
 import os
 import time
+import sys
 import socket
 from shutil import which
 from pathlib import Path
@@ -68,10 +69,13 @@ def get_firefox_command():
 
 
 
-def create_xpra_command():
+def create_xpra_command(port):
     """
     Create the Xpra command dynamically when needed.
     This function checks for dependencies only when Firefox is actually launched.
+    
+    Args:
+        port (int): The port number assigned by jupyter-server-proxy
     """
     # Check dependencies only when actually needed
     xpra, firefox = get_firefox_command()
@@ -80,11 +84,26 @@ def create_xpra_command():
     socket_dir = Path.home() / '.firefox-launcher' / 'sockets'
     socket_dir.mkdir(parents=True, exist_ok=True)
 
-    firefox_wrapper =  Path(__file__).parent.parent / 'bin' / 'firefox-xstartup'
+    # Reference the virtualenv root for the firefox-xstartup script
+    venv_root = Path(os.environ.get('VIRTUAL_ENV', sys.prefix))
+    firefox_wrapper = venv_root / 'bin' / 'firefox-xstartup'
+    
+    # Debug logging
+    print(f"DEBUG: VIRTUAL_ENV={os.environ.get('VIRTUAL_ENV')}")
+    print(f"DEBUG: sys.prefix={sys.prefix}")
+    print(f"DEBUG: venv_root={venv_root}")
+    print(f"DEBUG: firefox_wrapper={firefox_wrapper}")
+    print(f"DEBUG: firefox_wrapper.exists()={firefox_wrapper.exists()}")
 
     # Allow development override via environment variable
     if dev_launcher_path := os.getenv("DEV_FIREFOX_LAUNCHER_PATH"):
         firefox_wrapper = dev_launcher_path
+    
+    # Ensure the script is executable
+    if not firefox_wrapper.exists():
+        raise RuntimeError(f"Firefox wrapper script not found at {firefox_wrapper}")
+    if not os.access(firefox_wrapper, os.X_OK):
+        firefox_wrapper.chmod(0o755)
 
     # Allow environment variable customization of Xpra options
     xpra_quality = os.getenv("FIREFOX_LAUNCHER_QUALITY", "100")
@@ -94,15 +113,13 @@ def create_xpra_command():
     # IMPORTANT: Use only TCP binding with HTML5 client - NO WebSockets for SlurmSpawner compatibility
     return [
         'xpra', 'start',
-        '--bind-tcp=0.0.0.0:{port}',
+        f'--bind-tcp=0.0.0.0:{port}',  # Use the provided port
         '--html=on',  # Enable HTML5 client
-        '--ssl=off',  # Disable SSL entirely
         '--daemon=no',  # Run in foreground for proper process management
         '--exit-with-children=yes',  # Exit when Firefox closes
-        '--start-child=' + firefox_wrapper,  # Use our custom wrapper script
+        f'--start-child={firefox_wrapper}',  # Use our custom wrapper script
         f'--socket-dirs={socket_dir}',  # User-space socket directory
-        f'--socket-dir={socket_dir}',  # Explicit socket directory (different from --socket-dirs)
-        '--system-proxy-socket=no',  # Disable system proxy socket
+        f"--socket-dir={socket_dir}",  # Explicit socket directory (different from --socket-dirs)
         '--mdns=no',  # Disable mDNS
         '--pulseaudio=no',  # Disable audio for simplicity
         '--notifications=no',  # Disable notifications
@@ -122,9 +139,9 @@ def create_xpra_command():
         '--readonly=no',  # Allow input (default but explicit)
         '--session-name=Firefox',  # Descriptive session name
         '--window-close=auto',  # Handle window close events properly
-        f'--dpi={xpra_dpi}',  # Configurable DPI
-        f'--compress={xpra_compress}',  # Configurable compression
-        f'--quality={xpra_quality}',  # Configurable quality
+        f"--dpi={xpra_dpi}",  # Configurable DPI
+        f"-z{xpra_compress}",  # Configurable compression (fixed format)
+        f"--quality={xpra_quality}",  # Configurable quality
         '--encoding=auto',  # Auto-select best encoding
         '--min-quality=30',  # Minimum quality threshold
         '--min-speed=30',  # Minimum speed threshold
@@ -137,8 +154,8 @@ def create_xpra_command():
         # Environment variables
         '--env=PATH=/usr/local/bin:/usr/bin:/bin',  # Ensure PATH includes standard directories
         '--env=DISPLAY=:0',  # Explicit display setting
-        f'--env=XDG_RUNTIME_DIR={socket_dir.parent}',  # Set XDG_RUNTIME_DIR to our directory
-        f'--env=TMPDIR={socket_dir.parent}',  # Set temp directory
+        f"--env=XDG_RUNTIME_DIR={socket_dir.parent}",  # Set XDG_RUNTIME_DIR to our directory
+        f"--env=TMPDIR={socket_dir.parent}",  # Set temp directory
         # Security and cleanup
         '--dbus-launch=',  # Disable D-Bus launch to avoid warnings
         '--dbus-proxy=no',  # Disable D-Bus proxy
@@ -161,12 +178,14 @@ def launch_firefox():
         'command': create_xpra_command,  # Use callable that checks dependencies on demand
         'timeout': 60,  # Increased timeout for slower systems
         'new_browser_tab': False,  # Open in JupyterLab tab, not browser tab
-        # DISABLED: launcher_entry - we handle launcher through frontend extension
         "launcher_entry": {
-            "enabled": False,  # Enable launcher entry via jupyter-server-proxy
+            "enabled": True,  # Enable launcher entry
+            "title": "Firefox Desktop",  # Custom title for launcher
+            "category": "Other",  # Category in JupyterLab launcher (default: "Notebook")
+            "icon_path": str(HERE.parent / "jupyterlab_firefox_launcher" / "labextension" / "style" / "icons" / "firefox-icon.svg"),  # Path to SVG icon
+            "path_info": "firefox-desktop/",  # URL path (defaults to name + "/")
         },
         "port": 0,  # Let jupyter-server-proxy assign a random port
-        "mappath": {"/": "/index.html"},  # Map root to Xpra HTML5 client
         "request_headers_override": {
             "X-Forwarded-Proto": "http"  # Ensure proper protocol handling
         },

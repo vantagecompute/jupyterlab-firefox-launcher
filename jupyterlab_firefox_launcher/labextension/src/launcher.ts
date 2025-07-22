@@ -41,6 +41,15 @@ function createFirefoxWidget(url: string): MainAreaWidget<IFrame> {
   content.addClass('jp-Firefox-iframe');
   content.id = `firefox-desktop-${Date.now()}`;
   
+  // Add error handling for the iframe
+  content.node.addEventListener('load', () => {
+    console.log('Firefox launcher: IFrame loaded successfully');
+  });
+  
+  content.node.addEventListener('error', (event) => {
+    console.error('Firefox launcher: IFrame load error:', event);
+  });
+  
   const widget = new MainAreaWidget({ content });
   widget.addClass('jp-Firefox-widget');
   
@@ -54,13 +63,18 @@ export async function launchFirefox(app: JupyterFrontEnd): Promise<Widget> {
   try {
     console.log('Firefox launcher: Starting Firefox session...');
     
-    // Get the Firefox proxy URL
+    // Get the Firefox proxy URL with authentication
     const settings = ServerConnection.makeSettings();
-    const firefoxUrl = URLExt.join(settings.baseUrl, 'proxy', 'firefox-desktop');
+    let firefoxUrl = URLExt.join(settings.baseUrl, 'proxy', 'firefox-desktop/');
+    
+    // Add token authentication to the URL for the iframe
+    if (settings.token) {
+      firefoxUrl = `${firefoxUrl}?token=${settings.token}`;
+    }
     
     console.log('Firefox launcher: Target URL:', firefoxUrl);
     
-    // Create the iframe widget
+    // Create the iframe widget immediately - no pre-flight check needed
     const widget = createFirefoxWidget(firefoxUrl);
     
     // Add to the main area as a new tab
