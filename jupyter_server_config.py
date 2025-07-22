@@ -11,5 +11,5 @@ def firefox_desktop_config():
 
 # Configure jupyter-server-proxy to register our Firefox server
 c.ServerProxy.servers = {
-    'firefox-desktop': firefox_desktop_config()
+    'firefox-browser': firefox_desktop_config()
 }

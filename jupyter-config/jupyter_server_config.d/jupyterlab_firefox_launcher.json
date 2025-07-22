@@ -1,7 +1,0 @@
-{
-  "LabApp": {
-    "jplab_extensions": {
-      "jupyterlab-firefox-launcher": true
-    }
-  }
-}

@@ -1,5 +1,5 @@
 [build-system]
-requires = ["hatchling>=1.5.0", "jupyterlab>=4.0.0,<5", "hatch-nodejs-version>=0.3.2", "hatch-jupyter-builder>=0.8.3"]
+requires = ["hatchling>=1.5.0", "jupyterlab>=4.0.0,<5", "hatch-jupyter-builder>=0.8.3"]
 build-backend = "hatchling.build"
 
 [project]
@@ -55,7 +55,7 @@ dependencies = [
 # Entry point for jupyter-server-proxy
 
 [project.entry-points."jupyter_server_proxy"]
-firefox-desktop = "jupyterlab_firefox_launcher.server_proxy:launch_firefox"
+firefox-browser = "jupyterlab_firefox_launcher.server_proxy:launch_firefox"
 
 [project.optional-dependencies]
 dev = [
@@ -77,69 +77,22 @@ Documentation = "https://github.com/vantagecompute/jupyterlab-firefox-launcher"
 Repository = "https://github.com/vantagecompute/jupyterlab-firefox-launcher.git"
 Changelog = "https://github.com/vantagecompute/jupyterlab-firefox-launcher/blob/main/CHANGELOG.md"
 
-[tool.hatch.build.targets.sdist]
-artifacts = ["jupyterlab_firefox_launcher/labextension"]
-exclude = [
-    ".github", 
-    "binder", 
-    "jupyterlab_firefox_launcher/labextension/src",
-    "jupyterlab_firefox_launcher/labextension/.yarn",
-    "jupyterlab_firefox_launcher/labextension/node_modules",
-    "jupyterlab_firefox_launcher/labextension/.yarnrc.yml",
-    "jupyterlab_firefox_launcher/labextension/yarn.lock",
-    "build.sh",
-    "sync_version.py",
-    "uv.lock",
-    ".python-version"
-]
 
 [tool.hatch.build.targets.wheel]
 packages = ["jupyterlab_firefox_launcher"]
 exclude = [
     ".github", 
-    "binder", 
-    "jupyterlab_firefox_launcher/labextension/src",
-    "jupyterlab_firefox_launcher/labextension/.yarn",
-    "jupyterlab_firefox_launcher/labextension/node_modules",
-    "jupyterlab_firefox_launcher/labextension/.yarnrc.yml",
-    "jupyterlab_firefox_launcher/labextension/yarn.lock",
+    "binder",
+    "build.sh",
+    "uv.lock",
+    ".python-version"
 ]
 
 
 [tool.hatch.build.targets.wheel.shared-data]
-"jupyterlab_firefox_launcher/labextension/built/static" = "share/jupyter/labextensions/jupyterlab-firefox-launcher/static"
-"jupyterlab_firefox_launcher/labextension/lib/index.js" = "share/jupyter/labextensions/jupyterlab-firefox-launcher/lib/index.js"
-"jupyterlab_firefox_launcher/labextension/lib/launcher.js" = "share/jupyter/labextensions/jupyterlab-firefox-launcher/lib/launcher.js"
-"jupyterlab_firefox_launcher/labextension/lib/index.d.ts" = "share/jupyter/labextensions/jupyterlab-firefox-launcher/lib/index.d.ts"
-"jupyterlab_firefox_launcher/labextension/lib/launcher.d.ts" = "share/jupyter/labextensions/jupyterlab-firefox-launcher/lib/launcher.d.ts"
-"jupyterlab_firefox_launcher/labextension/lib/index.js.map" = "share/jupyter/labextensions/jupyterlab-firefox-launcher/lib/index.js.map"
-"jupyterlab_firefox_launcher/labextension/lib/launcher.js.map" = "share/jupyter/labextensions/jupyterlab-firefox-launcher/lib/launcher.js.map"
-"jupyterlab_firefox_launcher/labextension/style/icons" = "share/jupyter/labextensions/jupyterlab-firefox-launcher/style/icons"
-"jupyterlab_firefox_launcher/labextension/built/package.json" = "share/jupyter/labextensions/jupyterlab-firefox-launcher/package.json"
-"jupyterlab_firefox_launcher/labextension/install.json" = "share/jupyter/labextensions/jupyterlab-firefox-launcher/install.json"
-"jupyter-config/jupyter_server_config.d" = "etc/jupyter/jupyter_server_config.d"
 "jupyter_server_config.py" = "etc/jupyter/jupyter_server_config.py"
 "scripts/firefox-xstartup" = "bin/firefox-xstartup"
 
-[tool.hatch.build.hooks.jupyter-builder]
-dependencies = ["hatch-jupyter-builder>=0.8.3"]
-build-function = "hatch_jupyter_builder.npm_builder"
-ensured-targets = [
-  "jupyterlab_firefox_launcher/labextension/built/package.json",
-  "jupyterlab_firefox_launcher/labextension/lib/index.js",
-  "jupyterlab_firefox_launcher/labextension/lib/launcher.js"
-]
-
-
-[tool.hatch.build.hooks.jupyter-builder.build-kwargs]
-build_cmd = "build"
-npm = ["jlpm"]
-path = "jupyterlab_firefox_launcher/labextension"
-
-[tool.hatch.build.hooks.jupyter-builder.editable-build-kwargs]
-build_cmd = "build"
-npm = ["jlpm"]
-path = "jupyterlab_firefox_launcher/labextension"
 
 [tool.check-wheel-contents]
 ignore = ["W002"]

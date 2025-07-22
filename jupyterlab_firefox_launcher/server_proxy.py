@@ -146,9 +146,16 @@ def create_xpra_command(port):
         '--min-quality=30',  # Minimum quality threshold
         '--min-speed=30',  # Minimum speed threshold
         '--auto-refresh-delay=0.15',  # Default refresh delay
-        # X session configuration
-        '--xvfb=/usr/bin/Xvfb +extension GLX +extension Composite -screen 0 1920x1080x24+32 -dpi 96 -nolisten tcp -noreset',
+        # Video encoding configuration - enable all available codecs
+        '--video-encoders=h264,vp8,mpeg4,mpeg1,mpeg2',  # Enable all codecs we installed
+        '--csc-modules=swscale,cython,libyuv',  # Color space conversion modules
+        '--video-scaling=auto',  # Auto video scaling
+        '--min-size=1x1',  # Minimum encoding size
+        '--max-size=8192x4096',  # Maximum encoding size
+        # X session configuration - flexible resolution support
+        '--xvfb=/usr/bin/Xvfb +extension GLX +extension Composite +extension RANDR +extension RENDER -screen 0 1920x1080x24+32 -dpi 96 -nolisten tcp -noreset',
         '--fake-xinerama=auto',  # Enable fake xinerama support
+        '--resize-display=yes',  # Allow display resizing (already set above but ensures X server support)
         '--use-display=no',  # Don't use existing display
         '--start-new-commands=yes',  # Allow starting new commands
         # Environment variables
@@ -165,6 +172,35 @@ def create_xpra_command(port):
     ]
 
 
+def custom_rewrite_response(response):
+    """
+    Custom response rewriter to handle favicon requests and other customizations.
+    
+    Args:
+        response: The HTTP response object from jupyter-server-proxy
+        
+    Returns:
+        response: Modified response object
+    """
+    # Handle favicon requests - serve our favicon.ico for any favicon request
+    if hasattr(response, 'request') and response.request:
+        path = getattr(response.request, 'path', '')
+        # Handle both favicon.ico and favicon.png requests
+        if 'favicon' in path and (path.endswith('.ico') or path.endswith('.png')):
+            favicon_path = HERE / "static" / "favicon.ico"
+            if favicon_path.exists():
+                # Set appropriate content type based on request
+                if path.endswith('.png'):
+                    response.headers['Content-Type'] = 'image/png'
+                else:
+                    response.headers['Content-Type'] = 'image/x-icon'
+                response.headers['Content-Length'] = str(favicon_path.stat().st_size)
+                response.body = favicon_path.read_bytes()
+                response.code = 200
+                return response
+    return response
+
+
 def launch_firefox():
     """
     Setup function for jupyter-server-proxy to launch Firefox with Xpra HTML5.
@@ -178,12 +214,13 @@ def launch_firefox():
         'command': create_xpra_command,  # Use callable that checks dependencies on demand
         'timeout': 60,  # Increased timeout for slower systems
         'new_browser_tab': False,  # Open in JupyterLab tab, not browser tab
+        'rewrite_response': custom_rewrite_response,  # Handle favicon requests
         "launcher_entry": {
             "enabled": True,  # Enable launcher entry
-            "title": "Firefox Desktop",  # Custom title for launcher
+            "title": "Firefox Browser",  # Custom title for launcher
             "category": "Other",  # Category in JupyterLab launcher (default: "Notebook")
-            "icon_path": str(HERE.parent / "jupyterlab_firefox_launcher" / "labextension" / "style" / "icons" / "firefox-icon.svg"),  # Path to SVG icon
-            "path_info": "firefox-desktop/",  # URL path (defaults to name + "/")
+            "icon_path": str(HERE / "static" / "firefox-icon.svg"),  # Path to SVG icon
+            "path_info": "firefox-browser/",  # URL path (defaults to name + "/")
         },
         "port": 0,  # Let jupyter-server-proxy assign a random port
         "request_headers_override": {
