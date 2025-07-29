@@ -336,7 +336,7 @@ Mockups, examples, related features
 - Bug fixes
 - Security enhancements
 - Accessibility improvements
-- Cross-platform compatibility
+- Linux distribution compatibility
 
 **Medium Priority:**
 - New features
@@ -378,7 +378,7 @@ Help improve test coverage:
 
 - Write unit tests for untested code
 - Add integration tests
-- Test on different platforms
+- Test on different Linux distributions
 - Performance testing
 - Accessibility testing
 

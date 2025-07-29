@@ -236,8 +236,7 @@ uv pip install -e ".[dev]"
 ```bash
 # Create virtual environment
 python -m venv firefox-launcher-env
-source firefox-launcher-env/bin/activate  # Linux/Mac
-# firefox-launcher-env\Scripts\activate  # Windows
+source firefox-launcher-env/bin/activate
 
 # Install dependencies
 pip install -r requirements.txt

@@ -1,0 +1,85 @@
+# Copyright (c) 2025 Vantage Compute Corporation.
+
+name: Update Documentation Version
+
+on:
+  push:
+    branches: [ main ]
+    paths: 
+      - 'pyproject.toml'
+      - '.github/workflows/update-docs-version.yml'
+  workflow_dispatch:
+
+jobs:
+  update-version:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write
+    
+    steps:
+    - name: Checkout repository
+      uses: actions/checkout@v4
+      with:
+        token: ${{ secrets.GITHUB_TOKEN }}
+
+    - name: Set up Python
+      uses: actions/setup-python@v4
+      with:
+        python-version: '3.11'
+
+    - name: Install dependencies
+      run: |
+        python -m pip install --upgrade pip
+        pip install toml
+
+    - name: Extract version from pyproject.toml
+      id: get_version
+      run: |
+        python << EOF
+        import toml
+        import datetime
+        
+        # Read version from pyproject.toml
+        with open('pyproject.toml', 'r') as f:
+            data = toml.load(f)
+        
+        version = data['project']['version']
+        updated = datetime.datetime.now().strftime('%Y-%m-%d')
+        
+        print(f"VERSION={version}")
+        print(f"UPDATED={updated}")
+        
+        # Write to environment file for GitHub Actions
+        with open('$GITHUB_ENV', 'a') as f:
+            f.write(f"PROJECT_VERSION={version}\n")
+            f.write(f"PROJECT_UPDATED={updated}\n")
+        EOF
+
+    - name: Update Jekyll data file
+      run: |
+        cat > docs/_data/project.yml << EOF
+        # Copyright (c) 2025 Vantage Compute Corporation.
+        # Project metadata - auto-generated, do not edit manually
+        version: "${{ env.PROJECT_VERSION }}"
+        updated: "${{ env.PROJECT_UPDATED }}"
+        EOF
+
+    - name: Check for changes
+      id: check_changes
+      run: |
+        if git diff --quiet docs/_data/project.yml; then
+          echo "No changes detected"
+          echo "changes=false" >> $GITHUB_OUTPUT
+        else
+          echo "Changes detected"
+          echo "changes=true" >> $GITHUB_OUTPUT
+        fi
+
+    - name: Commit and push changes
+      if: steps.check_changes.outputs.changes == 'true'
+      run: |
+        git config --local user.email "action@github.com"
+        git config --local user.name "GitHub Action"
+        git add docs/_data/project.yml
+        git commit -m "chore: update documentation version to ${{ env.PROJECT_VERSION }}"
+        git push

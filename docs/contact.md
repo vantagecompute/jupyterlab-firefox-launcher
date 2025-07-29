@@ -64,7 +64,6 @@ Get help, report issues, and connect with the JupyterLab Firefox Launcher commun
 - 💼 Commercial support needs
 - 🏢 Enterprise deployment questions
 
-**Response time**: We aim to respond within 24-48 hours
 
 ## 🎓 Self-Help Resources
 
@@ -79,11 +78,6 @@ Get help, report issues, and connect with the JupyterLab Firefox Launcher commun
 - **Getting Started**: Basic installation and first session *(coming soon)*
 - **Advanced Configuration**: Customizing your setup *(coming soon)*
 - **Development Workflow**: Contributing to the project *(coming soon)*
-
-### Example Notebooks
-- **Basic Usage**: Simple Firefox session examples
-- **Advanced Features**: Configuration and customization
-- **Integration Examples**: Using with other JupyterLab extensions
 
 ## 🏢 Commercial Support
 
@@ -164,7 +158,7 @@ If you discover a security vulnerability, please report it responsibly:
 ## 📊 Status & Updates
 
 ### Project Status
-- **Current Version**: 0.1.0
+- **Current Version**: {{ site.data.project.version }}
 - **Release Schedule**: Monthly minor releases, quarterly major releases
 - **Maintenance**: Actively maintained and developed
 
@@ -222,10 +216,10 @@ A: Follow our [Development Guide]({{ site.baseurl }}/development) for complete s
 ## 📞 Contact Information
 
 ### Maintainer
-**James Fraser**
+**James Beedy**
 - **Email**: [james@vantagecompute.ai](mailto:james@vantagecompute.ai)
-- **GitHub**: [@jamesfraser](https://github.com/jamesfraser)
-- **Role**: Lead Maintainer & Creator
+- **GitHub**: [jamesbeedy](https://github.com/jamesbeedy)
+- **Role**: Core Maintainers & Creator
 
 ### Organization
 **Vantage Compute**
@@ -236,24 +230,7 @@ A: Follow our [Development Guide]({{ site.baseurl }}/development) for complete s
 ### Project Links
 - **GitHub Repository**: [github.com/vantagecompute/jupyterlab-firefox-launcher](https://github.com/vantagecompute/jupyterlab-firefox-launcher)
 - **PyPI Package**: [pypi.org/project/jupyterlab-firefox-launcher](https://pypi.org/project/jupyterlab-firefox-launcher)
-- **npm Package**: [npmjs.com/package/jupyterlab-firefox-launcher](https://npmjs.com/package/jupyterlab-firefox-launcher)
 - **Documentation**: [vantagecompute.github.io/jupyterlab-firefox-launcher](https://vantagecompute.github.io/jupyterlab-firefox-launcher)
-
-## 🗓️ Office Hours
-
-### Community Office Hours
-**When**: Every other Friday, 2:00 PM UTC
-**Where**: [GitHub Discussions](https://github.com/vantagecompute/jupyterlab-firefox-launcher/discussions)
-**What**: Open Q&A session, feature discussions, and community updates
-
-**Upcoming Sessions:**
-- *Check GitHub Discussions for latest schedule*
-
-### How to Prepare
-- Review the agenda in GitHub Discussions
-- Prepare specific questions or topics
-- Test any issues you want to discuss
-- Bring ideas for improvements or new features
 
 ## 🎉 Acknowledgments
 

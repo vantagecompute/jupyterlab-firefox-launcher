@@ -391,8 +391,7 @@ uv run jupyter lab --watch
 ```bash
 # Create virtual environment
 uv venv
-source .venv/bin/activate  # Linux/Mac
-# dev-env\Scripts\activate  # Windows
+source .venv/bin/activate
 
 # Install development dependencies
 uv pip install -e ".[dev]"
