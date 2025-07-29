@@ -1,0 +1,85 @@
+# Copyright (c) 2025 Vantage Compute Corporation.
+# GitHub Pages configuration for JupyterLab Firefox Launcher
+title: JupyterLab Firefox Launcher
+description: A powerful JupyterLab extension that enables running Firefox browser sessions directly within JupyterLab tabs using Xpra remote display technology.
+
+# Theme configuration
+theme: minima
+plugins:
+  - jekyll-feed
+  - jekyll-sitemap
+  - jekyll-seo-tag
+
+# Site settings
+url: "https://vantagecompute.github.io"
+baseurl: "/jupyterlab-firefox-launcher"
+repository: "vantagecompute/jupyterlab-firefox-launcher"
+
+# Author information
+author:
+  name: "James Beedy"
+  email: "james@vantagecompute.ai"
+
+# Social links
+github_username: vantagecompute
+twitter_username: vantagecompute
+
+# Navigation
+navigation:
+  - title: "Overview"
+    url: /overview/
+  - title: "Installation"
+    url: /installation/
+  - title: "Architecture"
+    url: /architecture/
+  - title: "Dependencies" 
+    url: /dependencies/
+  - title: "Development"
+    url: /development/
+  - title: "Contributing"
+    url: /contributing/
+  - title: "API Reference"
+    url: /api-reference/
+  - title: "Troubleshooting"
+    url: /troubleshooting/
+  - title: "Contact"
+    url: /contact/
+
+# Build settings
+markdown: kramdown
+highlighter: rouge
+kramdown:
+  syntax_highlighter: rouge
+  syntax_highlighter_opts:
+    block:
+      line_numbers: true
+
+# Collections
+collections:
+  docs:
+    output: true
+    permalink: /:collection/:name/
+
+# Defaults
+defaults:
+  - scope:
+      path: ""
+      type: "pages"
+    values:
+      layout: "page"
+  - scope:
+      path: ""
+      type: "docs"
+    values:
+      layout: "page"
+
+# Exclude from processing
+exclude:
+  - Gemfile
+  - Gemfile.lock
+  - node_modules
+  - vendor/bundle/
+  - vendor/cache/
+  - vendor/gems/
+  - vendor/ruby/
+  - README.md

@@ -1,0 +1,131 @@
+#!/bin/sh
+# Copyright (c) 2025 Vantage Compute Corporation.
+# Advanced Firefox wrapper script for Xpra session
+# Supports environment variable configuration for maximum flexibility
+cd "$HOME"
+
+# Debug environment
+echo "Firefox startup script starting..."
+echo "Working directory: $(pwd)"
+echo "PATH: $PATH"
+echo "DISPLAY: $DISPLAY"
+echo "SESSION_DIR: $SESSION_DIR"
+echo "XDG_RUNTIME_DIR: $XDG_RUNTIME_DIR"
+echo "FIREFOX_WINDOW_SIZE: $FIREFOX_WINDOW_SIZE"
+echo "FIREFOX_START_URL: $FIREFOX_START_URL"
+echo "FIREFOX_CLASS_NAME: $FIREFOX_CLASS_NAME"
+
+# Default Firefox options (can be overridden by environment variables)
+# Use SESSION_DIR if provided (from unified session structure), otherwise fall back to default
+if [ -n "$SESSION_DIR" ]; then
+    # Build all paths from the unified session directory structure
+    echo "Using unified session directory: $SESSION_DIR"
+    SESSION_DIR=${SESSION_DIR%/}  # Ensure no trailing slash
+    FIREFOX_PROFILE_DIR="$SESSION_DIR/profile"
+    FIREFOX_CACHE_DIR="$SESSION_DIR/cache"
+    FIREFOX_TEMP_DIR="$SESSION_DIR/temp"
+    echo "Profile directory: $FIREFOX_PROFILE_DIR"
+    echo "Cache directory: $FIREFOX_CACHE_DIR"
+    echo "Temp directory: $FIREFOX_TEMP_DIR"
+else
+    # Default session directory structure
+    FIREFOX_PROFILE_DIR="$HOME/.firefox-launcher/sessions/default/profile"
+    FIREFOX_CACHE_DIR="$HOME/.firefox-launcher/sessions/default/cache"
+    FIREFOX_TEMP_DIR="$HOME/.firefox-launcher/sessions/default/temp"
+    echo "Using default unified session directories"
+    echo "Profile directory: $FIREFOX_PROFILE_DIR"
+    echo "Cache directory: $FIREFOX_CACHE_DIR"
+    echo "Temp directory: $FIREFOX_TEMP_DIR"
+fi
+FIREFOX_WINDOW_SIZE="${FIREFOX_WINDOW_SIZE:-1280,800}"
+FIREFOX_START_URL="${FIREFOX_START_URL:-about:blank}"
+FIREFOX_CLASS_NAME="${FIREFOX_CLASS_NAME:-Firefox-Launcher}"
+
+# Set Firefox preferences for better Xpra integration
+export MOZ_USE_XINPUT2=1
+export MOZ_ENABLE_WAYLAND=0
+export MOZ_DISABLE_RDD_SANDBOX=1
+export MOZ_DISABLE_CONTENT_SANDBOX=1
+export MOZ_DBUS_REMOTE=0
+
+# Additional Firefox isolation - use session-specific directories
+# Set session-specific cache directories to avoid conflicts
+export MOZ_CRASHREPORTER_DATA_DIRECTORY="$FIREFOX_TEMP_DIR/crashreports"
+export MOZ_CRASHREPORTER_EVENTS_DIRECTORY="$FIREFOX_TEMP_DIR/events"
+mkdir -p "$MOZ_CRASHREPORTER_DATA_DIRECTORY" "$MOZ_CRASHREPORTER_EVENTS_DIRECTORY" "$FIREFOX_CACHE_DIR" 2>/dev/null
+
+# Create a custom Firefox profile for this session if it doesn't exist
+if [ ! -d "$FIREFOX_PROFILE_DIR" ]; then
+    mkdir -p "$FIREFOX_PROFILE_DIR"
+    
+    # Initialize the profile properly with a unique profile name
+    # Use the session directory name for unique identification
+    PROFILE_NAME="firefox-launcher-$(basename "$SESSION_DIR" 2>/dev/null || echo "default")"
+    
+    echo "Creating Firefox profile: $PROFILE_NAME at $FIREFOX_PROFILE_DIR"
+    firefox -CreateProfile "$PROFILE_NAME $FIREFOX_PROFILE_DIR" -headless > /dev/null 2>&1
+    
+    # Create a minimal user.js with our preferences
+    cat > "$FIREFOX_PROFILE_DIR/user.js" << EOF
+// Firefox preferences for Xpra integration
+user_pref("browser.startup.homepage", "$FIREFOX_START_URL");
+user_pref("browser.shell.checkDefaultBrowser", false);
+user_pref("browser.rights.3.shown", true);
+user_pref("browser.startup.homepage_override.mstone", "ignore");
+user_pref("toolkit.startup.max_resumed_crashes", -1);
+user_pref("browser.sessionstore.resume_from_crash", false);
+user_pref("browser.tabs.crashReporting.sendReport", false);
+user_pref("browser.tabs.warnOnClose", false);
+user_pref("browser.tabs.warnOnCloseOtherTabs", false);
+user_pref("dom.disable_open_during_load", false);
+user_pref("browser.newtabpage.enabled", false);
+user_pref("browser.newtab.preload", false);
+user_pref("browser.safebrowsing.malware.enabled", false);
+user_pref("browser.safebrowsing.phishing.enabled", false);
+user_pref("browser.safebrowsing.downloads.enabled", false);
+user_pref("network.dns.disablePrefetch", true);
+user_pref("network.prefetch-next", false);
+user_pref("browser.cache.disk.enable", true);
+user_pref("browser.cache.disk.parent_directory", "$FIREFOX_CACHE_DIR");
+user_pref("browser.cache.memory.enable", true);
+user_pref("browser.cache.memory.capacity", 262144);
+// Clipboard and input preferences for better Xpra integration
+user_pref("dom.event.clipboardevents.enabled", true);
+user_pref("dom.events.asyncClipboard", true);
+user_pref("permissions.default.clipboard-read", 1);
+user_pref("permissions.default.clipboard-write", 1);
+user_pref("dom.events.testing.asyncClipboard", true);
+EOF
+fi
+
+# Build Firefox command with configurable options
+echo "Starting Firefox with profile: $FIREFOX_PROFILE_DIR"
+echo "Firefox command line args: --profile $FIREFOX_PROFILE_DIR --new-instance"
+
+export DBUS_SESSION_BUS_ADDRESS=/dev/null
+
+exec firefox \
+    --profile "$FIREFOX_PROFILE_DIR" \
+    --new-instance \
+    --no-remote \
+    --class="$FIREFOX_CLASS_NAME" \
+    --name="$FIREFOX_CLASS_NAME" \
+    --no-first-run \
+    --no-default-browser-check \
+    --disable-dev-shm-usage \
+    --disable-gpu-sandbox \
+    --disable-background-timer-throttling \
+    --disable-renderer-backgrounding \
+    --disable-backgrounding-occluded-windows \
+    --disable-extensions \
+    --disable-plugins \
+    --disable-default-apps \
+    --disable-translate \
+    --disable-sync \
+    --disable-background-networking \
+    --disable-client-side-phishing-detection \
+    --disable-component-update \
+    --disable-features=TranslateUI \
+    --window-size="$FIREFOX_WINDOW_SIZE" \
+    $FIREFOX_EXTRA_ARGS \
+    "$FIREFOX_START_URL"

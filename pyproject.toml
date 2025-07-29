@@ -1,0 +1,210 @@
+
+[project.entry-points."jupyter_server.extension_points"]
+jupyterlab_firefox_launcher = "jupyterlab_firefox_launcher:_jupyter_server_extension_points"
+
+[project.entry-points."jupyter_serverproxy_servers"]
+firefox = "jupyterlab_firefox_launcher.server_proxy:setup_firefox_proxy"
+[build-system]
+requires = [
+    "hatchling>=1.5.0",
+    "jupyterlab>=4.0.0,<5",
+    "hatch-jupyter-builder>=0.8.3"
+]
+build-backend = "hatchling.build"
+
+[project]
+name = "jupyterlab-firefox-launcher"
+version = "0.1.0"
+description = "JupyterLab extension to launch Firefox in a tab"
+readme = "README.md"
+license = {file = "LICENSE"}
+requires-python = ">=3.10"
+authors = [
+    {name = "James Beedy", email = "james@vantagecompute.ai"},
+]
+
+keywords = [
+    "Jupyter",
+    "JupyterLab",
+    "JupyterLab4",
+    "Extension",
+    "Firefox",
+    "Browser",
+]
+classifiers = [
+    "Framework :: Jupyter",
+    "Framework :: Jupyter :: JupyterLab",
+    "Framework :: Jupyter :: JupyterLab :: 4",
+    "Framework :: Jupyter :: JupyterLab :: Extensions",
+    "License :: OSI Approved :: BSD License",
+    "Programming Language :: Python",
+    "Programming Language :: Python :: 3.10",
+    "Programming Language :: Python :: 3.11",
+    "Programming Language :: Python :: 3.12",
+]
+dependencies = [
+    "jupyter-server>=2.0.1,<3",
+    "jupyter-server-proxy>=3.0.0",
+    "jupyterlab>=4.4.5",
+    "tornado>=6.1.0",
+    "psutil",
+    "python-uinput>=1.0.1",
+]
+
+[project.urls]
+Homepage = "https://github.com/vantagecompute/jupyterlab-firefox-launcher"
+Documentation = "https://github.com/vantagecompute/jupyterlab-firefox-launcher"
+Repository = "https://github.com/vantagecompute/jupyterlab-firefox-launcher.git"
+Changelog = "https://github.com/vantagecompute/jupyterlab-firefox-launcher/blob/main/CHANGELOG.md"
+
+# Note: System dependencies required but not installable via pip:
+# - xpra (with HTML5 support)
+# - firefox
+# 
+# Install with:
+#   apt-get install xpra xpra-html5 firefox
+# or
+#   yum install xpra python3-xpra-html5 firefox
+# or  
+#   conda install -c conda-forge xpra firefox
+
+
+[project.optional-dependencies]
+dev = [
+    "build",
+    "hatch",
+    "jupyterlab>=4.0.0,<5",
+    "jupyter-packaging>=0.12,<1",
+]
+test = [
+    "coverage",
+    "pytest",
+    "pytest-asyncio",
+    "pytest-cov",
+    "pytest-jupyter[server]>=0.4",
+]
+
+# JupyterLab extension configuration
+[tool.hatch.build.targets.wheel.shared-data]
+"jupyterlab_firefox_launcher/labextension/static" = "share/jupyter/labextensions/jupyterlab-firefox-launcher/static"
+"jupyterlab_firefox_launcher/labextension/package.json" = "share/jupyter/labextensions/jupyterlab-firefox-launcher/package.json"
+"install.json" = "share/jupyter/labextensions/jupyterlab-firefox-launcher/install.json"
+"jupyter-config/jupyter_server_config.d/jupyterlab_firefox_launcher.json" = "etc/jupyter/jupyter_server_config.d/jupyterlab_firefox_launcher.json"
+"scripts/firefox-xstartup" = "bin/firefox-xstartup"
+
+[tool.hatch.build.targets.sdist]
+artifacts = ["jupyterlab_firefox_launcher/labextension"]
+exclude = [
+    ".github", 
+    "binder", 
+    "jupyterlab_firefox_launcher/labextension/src",
+    "jupyterlab_firefox_launcher/labextension/.yarn",
+    "jupyterlab_firefox_launcher/labextension/node_modules",
+    "jupyterlab_firefox_launcher/labextension/.yarnrc.yml",
+    "jupyterlab_firefox_launcher/labextension/yarn.lock",
+    "build.sh",
+    "sync_version.py",
+    "uv.lock",
+    ".python-version"
+]
+
+[tool.hatch.build.targets.wheel]
+packages = ["jupyterlab_firefox_launcher"]
+exclude = [
+    ".github", 
+    "binder",
+    "jupyterlab_firefox_launcher/labextension/src/**",
+    "jupyterlab_firefox_launcher/labextension/.yarn",
+    "jupyterlab_firefox_launcher/labextension/node_modules",
+    "jupyterlab_firefox_launcher/labextension/.yarnrc.yml",
+    "jupyterlab_firefox_launcher/labextension/yarn.lock",
+    "jupyterlab_firefox_launcher/labextension/webpack.config.js",
+    "jupyterlab_firefox_launcher/labextension/tsconfig.json",
+    "jupyterlab_firefox_launcher/labextension/tsconfig.tsbuildinfo",
+    "build.sh",
+    "uv.lock",
+    ".python-version"
+]
+
+[tool.hatch.build.hooks.jupyter-builder]
+dependencies = ["hatch-jupyter-builder>=0.8.3"]
+build-function = "hatch_jupyter_builder.npm_builder"
+ensured-targets = [
+    "jupyterlab_firefox_launcher/labextension/package.json",
+]
+skip-if-exists = ["jupyterlab_firefox_launcher/labextension/package.json"]
+
+[tool.hatch.build.hooks.jupyter-builder.build-kwargs]
+build_cmd = "build:prod"
+npm = ["jlpm"]
+
+[tool.hatch.build.hooks.jupyter-builder.editable-build-kwargs]
+build_cmd = "build"
+npm = ["jlpm"]
+
+[tool.check-wheel-contents]
+ignore = ["W002"]
+
+# pytest configuration
+[tool.pytest.ini_options]
+minversion = "6.0"
+xfail_strict = true
+log_cli_level = "INFO"
+addopts = [
+    "-raXs", "--strict-markers", "--strict-config",
+    "--cov=jupyterlab_firefox_launcher", "--cov-branch",
+    "--cov-report=term-missing:skip-covered",
+    "--cov-fail-under=75", "--cov-report=html", "--cov-report=xml"
+]
+testpaths = ["tests/"]
+filterwarnings = [
+    "error",
+    "ignore:There is no current event loop:DeprecationWarning",
+    "ignore:unclosed <socket.socket:ResourceWarning",
+    "ignore:unclosed event loop:ResourceWarning",
+]
+
+# coverage configuration
+[tool.coverage.report]
+exclude_lines = [
+    "pragma: no cover",
+    "def __repr__",
+    "if self.debug:",
+    "if settings.DEBUG",
+    "raise AssertionError",
+    "raise NotImplementedError",
+    "if 0:",
+    "if __name__ == .__main__.:",
+    "class .*\\bProtocol\\):",
+    "@(abc\\.)?abstractmethod",
+]
+
+[tool.coverage.run]
+relative_files = true
+source = ["jupyterlab_firefox_launcher"]
+omit = ["tests/*"]
+
+# black configuration
+[tool.black]
+line-length = 100
+target-version = ["py38"]
+include = '\.pyi?$'
+exclude = '''
+/(
+    \.eggs
+  | \.git
+  | \.hg
+  | \.mypy_cache
+  | \.tox
+  | \.venv
+  | _build
+  | buck-out
+  | build
+  | dist
+)/
+'''
+
+# isort configuration
+[tool.isort]
+profile = "black"
+line_length = 100

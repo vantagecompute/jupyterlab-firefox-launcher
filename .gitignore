@@ -1,0 +1,10 @@
+node_modules/
+venv/
+.yarn/
+dist/
+.tsbuildinfo
+jupyterlab_firefox_launcher/labextension/static/*
+jupyterlab_firefox_launcher/__pycache__/
+__pycache__/
+*.py[cod]
+lib

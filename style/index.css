@@ -1,0 +1,84 @@
+/* Copyright (c) 2025 Vantage Compute Corporation. */
+
+/* Firefox icon styling - only apply to launcher button, not category */
+.jp-LauncherCard .jp-LauncherIcon.jp-FirefoxIcon {
+  background-image: url('./icons/firefox.svg');
+  background-size: 40px;
+  background-repeat: no-repeat;
+  background-position: center;
+}
+
+/* Firefox widget styling */
+.jp-FirefoxWidget {
+  min-width: 800px;
+  min-height: 600px;
+}
+
+.jp-FirefoxWidget iframe {
+  width: 100%;
+  height: 100%;
+  border: none;
+}
+
+/* Loading state styling */
+.jp-firefox-loading {
+  width: 100%;
+  height: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background-color: #fafafa;
+  font-family: var(--jp-ui-font-family);
+}
+
+.jp-firefox-loading h3 {
+  margin: 10px 0;
+  font-size: 18px;
+  font-weight: 500;
+}
+
+.jp-firefox-loading p {
+  margin: 5px 0;
+  font-size: 14px;
+  max-width: 400px;
+  line-height: 1.4;
+}
+
+/* Error state styling */
+.jp-firefox-error {
+  width: 100%;
+  height: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background-color: #fafafa;
+  font-family: var(--jp-ui-font-family);
+}
+
+.jp-firefox-error h3 {
+  margin: 10px 0;
+  font-size: 18px;
+  font-weight: 500;
+}
+
+.jp-firefox-error p {
+  margin: 15px 0;
+  font-size: 14px;
+  max-width: 500px;
+  line-height: 1.4;
+}
+
+.jp-firefox-error button {
+  padding: 8px 16px;
+  background-color: #ff6611;
+  color: white;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+  font-size: 14px;
+  margin-top: 10px;
+}
+
+.jp-firefox-error button:hover {
+  background-color: #e55a0f;
+}
