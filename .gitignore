@@ -3,7 +3,8 @@ venv/
 .yarn/
 dist/
 .tsbuildinfo
-jupyterlab_firefox_launcher/labextension/static/*
+tsconfig.tsbuildinfo
+jupyterlab_firefox_launcher/labextension
 jupyterlab_firefox_launcher/__pycache__/
 __pycache__/
 *.py[cod]

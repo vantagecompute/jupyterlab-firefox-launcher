@@ -424,7 +424,7 @@ sudo iptables -A OUTPUT -j ACCEPT
 sudo ufw status verbose
 ```
 
-## Platform-Specific Issues
+## Linux Distribution-Specific Issues
 
 ### Ubuntu/Debian
 
@@ -471,47 +471,6 @@ ls -Z ~/.local/share/jupyterlab-firefox-launcher/
 
 # If needed, adjust SELinux policies
 sudo setsebool -P use_nfs_home_dirs 1
-```
-
-### macOS
-
-#### X11 Server
-```bash
-# Install XQuartz
-brew install --cask xquartz
-
-# Start X server
-open -a XQuartz
-export DISPLAY=:0
-```
-
-#### Firefox Installation
-```bash
-# Install Firefox via Homebrew
-brew install --cask firefox
-
-# Or download from Mozilla
-curl -L "https://download.mozilla.org/?product=firefox-latest&os=osx&lang=en-US" -o firefox.dmg
-```
-
-### Windows (WSL)
-
-#### WSL2 Configuration
-```bash
-# Install WSL2 with GUI support
-# Follow Microsoft's WSL GUI tutorial
-
-# Set display for WSL2
-export DISPLAY=$(cat /etc/resolv.conf | grep nameserver | awk '{print $2; exit;}'):0.0
-```
-
-#### VcXsrv Configuration
-```bash
-# Install VcXsrv on Windows
-# Configure with: -ac -terminate -lesspointer -multiwindow -clipboard -wgl
-
-# Test X server connection
-xclock
 ```
 
 ## Advanced Debugging

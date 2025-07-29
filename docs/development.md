@@ -391,8 +391,7 @@ uv run jupyter lab --watch
 ```bash
 # Create virtual environment
 uv venv
-source .venv/bin/activate  # Linux/Mac
-# dev-env\Scripts\activate  # Windows
+source .venv/bin/activate
 
 # Install development dependencies
 uv pip install -e ".[dev]"
@@ -910,38 +909,67 @@ echo "✅ Build complete!"
 
 ### Release Process
 
-#### Version Management
+The project uses a fully automated release workflow with GitHub Actions. The process includes:
+- **Automated changelog generation** using git-cliff from conventional commits
+- **PyPI trusted publishing** with no manual token management
+- **GitHub releases** with auto-generated release notes
+- **Version management** across multiple files
+
+#### Prerequisites
+
+For local development and releases, ensure you have:
 
 ```bash
-# Update version in multiple files
-VERSION="0.2.0"
-
-# Update package.json
-jq ".version = \"$VERSION\"" package.json > package.json.tmp && mv package.json.tmp package.json
-
-# Update pyproject.toml
-sed -i "s/version = \".*\"/version = \"$VERSION\"/" pyproject.toml
-
-# Commit version bump
-git add package.json pyproject.toml
-git commit -m "Bump version to $VERSION"
+# Install git-cliff for changelog generation
+curl -L https://github.com/orhun/git-cliff/releases/download/v2.10.0/git-cliff-2.10.0-x86_64-unknown-linux-gnu.tar.gz | tar -xz
+sudo cp git-cliff-*/git-cliff /usr/local/bin/
 ```
 
-#### Release Steps
+#### Automated Release (Recommended)
+
+Simply push a version tag to trigger the full release pipeline:
 
 ```bash
-# Create release
-git tag v$VERSION
-git push origin v$VERSION
+# The automated process will:
+# 1. Generate changelog from conventional commits
+# 2. Build wheel and source packages  
+# 3. Publish to PyPI via trusted publishing
+# 4. Create GitHub release with auto-generated notes
 
-# Build packages
-./build.sh
+git tag 0.2.0
+git push origin 0.2.0
+```
 
-# Upload to PyPI (requires authentication)
-twine upload dist/*
+#### Local Release Script
 
-# Create GitHub release
-gh release create v$VERSION dist/* --title "Release $VERSION" --notes "Release notes..."
+For manual releases, use the included script that automates version management:
+
+```bash
+# Updates versions, generates changelog, creates tag
+./scripts/create_release.sh 0.2.0
+git push origin main --tags
+```
+
+#### Manual Release Steps
+
+If you need to do a completely manual release:
+
+```bash
+# 1. Update version in multiple files
+VERSION="0.2.0"
+jq ".version = \"$VERSION\"" package.json > package.json.tmp && mv package.json.tmp package.json
+sed -i "s/version = \".*\"/version = \"$VERSION\"/" pyproject.toml
+
+# 2. Generate changelog
+git-cliff --tag 0.2.0 -o CHANGELOG.md
+
+# 3. Commit changes
+git add package.json pyproject.toml CHANGELOG.md
+git commit -m "chore: bump version to $VERSION"
+
+# 4. Create and push tag
+git tag 0.2.0
+git push origin main 0.2.0
 ```
 
 ### Advanced Development Topics

@@ -126,7 +126,7 @@ Ready to start using JupyterLab Firefox Launcher? Check out our comprehensive gu
 - **Network**: Stable internet connection for web browsing
 
 ### Browser Compatibility
-The extension creates Firefox sessions, so all web content compatibility depends on the installed Firefox version. The extension itself is compatible with:
+The extension creates Firefox sessions, so all web content compatibility depends on the installed Firefox version. The extension's web interface is compatible with:
 - **Chrome/Chromium**: 90+
 - **Firefox**: 90+
 - **Safari**: 14+

@@ -7,11 +7,11 @@ permalink: /installation/
 
 # Installation Guide
 
-This guide provides step-by-step instructions for installing the JupyterLab Firefox Launcher extension. Follow the instructions for your specific operating system and setup.
+This guide provides step-by-step instructions for installing the JupyterLab Firefox Launcher extension on Linux systems. This extension **only supports Linux** (Ubuntu, CentOS, RHEL, Fedora, and compatible distributions).
 
 ## Quick Install
 
-For most users, the quickest way to get started:
+The quickest way to get started:
 
 ```bash
 # Install system dependencies (Ubuntu/Debian)
@@ -36,28 +36,18 @@ Before installing the extension, ensure your system meets the requirements:
 - **Python**: 3.10 or higher
 - **JupyterLab**: 4.0 or higher
 - **Node.js**: 16+ (for development only)
+- **xpra**: +5.x
+- **xfvb**: --
+- **Firefox**: --
+
 
 ## System Dependencies
 
 The extension requires several system packages to function properly. Install these first before installing the Python package.
 
-### Ubuntu/Debian Systems
+> **⚠️ Important Note for Ubuntu Users**: By default, `apt install firefox` installs the snap-based version of Firefox on Ubuntu. **If you're using SlurmSpawner deployments with cgroups process management, snap-based Firefox will not work** due to sandboxing restrictions. In such environments, you must install Firefox from Mozilla's official repository (shown below) or compile from source.
 
-#### Method 1: Standard Repositories
-```bash
-# Update package list
-sudo apt update
-
-# Install core dependencies
-sudo apt install -y xvfb dbus-x11 xpra
-
-# Install Firefox
-sudo apt install -y firefox
-```
-
-#### Method 2: Latest Firefox from Mozilla Repository
-For the latest Firefox version:
-
+### Install Firefox, Xpra, dbus-x11, xvfb (Ubuntu Noble)
 ```bash
 # Add Mozilla repository
 sudo install -d -m 0755 /etc/apt/keyrings
@@ -71,6 +61,18 @@ echo 'Package: *
 Pin: origin packages.mozilla.org
 Pin-Priority: 1000' | \
   sudo tee /etc/apt/preferences.d/mozilla
+
+
+# Add Xpra Key and Repo
+sudo wget -O "/usr/share/keyrings/xpra.asc" https://xpra.org/xpra.asc
+
+echo 'Types: deb
+URIs: https://xpra.org/lts
+Suites: noble
+Components: main
+Signed-By: /usr/share/keyrings/xpra.asc
+Architectures: amd64 arm64' | sudo tee /etc/apt/sources.list.d/xpra.source
+
 
 # Update and install
 sudo apt update
@@ -110,19 +112,19 @@ sudo dnf install -y xorg-x11-server-Xvfb dbus-x11  # CentOS/RHEL/Fedora
 
 ## Python Installation
 
-### Method 1: pip (Recommended)
+### pip 
 
 Install the extension using pip:
 
 ```bash
 # Install from PyPI
-uv pip install jupyterlab-firefox-launcher
+pip install jupyterlab-firefox-launcher
 
 # Or install with development dependencies
-uv pip install "jupyterlab-firefox-launcher[dev]"
+pip install "jupyterlab-firefox-launcher[dev]"
 ```
 
-### Method 2: uv (Fast Python Package Manager)
+### uv
 
 If you have `uv` installed:
 
@@ -132,7 +134,7 @@ uv pip install jupyterlab-firefox-launcher
 
 # Or install in a virtual environment
 uv venv
-source .venv/bin/activate  # Linux/Mac
+source .venv/bin/activate
 uv pip install jupyterlab-firefox-launcher
 ```
 
@@ -332,6 +334,44 @@ jupyter lab build
 # Clear browser cache
 # Restart JupyterLab
 jupyter lab --port=8889  # Use different port to force refresh
+```
+
+#### 5. Snap Firefox Issues on SlurmSpawner/cgroups
+
+**Error**: Firefox fails to start in SlurmSpawner environments with cgroups
+
+**Problem**: Ubuntu's default `apt install firefox` installs the snap version, which conflicts with cgroups process management used by SlurmSpawner.
+
+**Solution**: Install Firefox from Mozilla's official repository:
+```bash
+# Remove snap Firefox if already installed
+sudo snap remove firefox
+
+# Add Mozilla repository (as shown in installation section above)
+sudo install -d -m 0755 /etc/apt/keyrings
+wget -q https://packages.mozilla.org/apt/repo-signing-key.gpg -O- | \
+  sudo tee /etc/apt/keyrings/packages.mozilla.org.asc > /dev/null
+
+echo "deb [signed-by=/etc/apt/keyrings/packages.mozilla.org.asc] https://packages.mozilla.org/apt mozilla main" | \
+  sudo tee -a /etc/apt/sources.list.d/mozilla.list > /dev/null
+
+echo 'Package: *
+Pin: origin packages.mozilla.org
+Pin-Priority: 1000' | \
+  sudo tee /etc/apt/preferences.d/mozilla
+
+# Update and install non-snap Firefox
+sudo apt update
+sudo apt install -y firefox
+```
+
+**Alternative**: Download and install Firefox manually:
+```bash
+# Download Firefox directly from Mozilla
+wget -O firefox.tar.bz2 "https://download.mozilla.org/?product=firefox-latest&os=linux64&lang=en-US"
+tar -xjf firefox.tar.bz2
+sudo mv firefox /opt/
+sudo ln -sf /opt/firefox/firefox /usr/local/bin/firefox
 ```
 
 ### Diagnostic Commands

@@ -4,8 +4,9 @@ title: JupyterLab Firefox Launcher
 description: A powerful JupyterLab extension that enables running Firefox browser sessions directly within JupyterLab tabs using Xpra remote display technology.
 
 # Theme configuration
-theme: minima
+remote_theme: pages-themes/architect@v0.2.0
 plugins:
+  - jekyll-remote-theme
   - jekyll-feed
   - jekyll-sitemap
   - jekyll-seo-tag
@@ -14,6 +15,10 @@ plugins:
 url: "https://vantagecompute.github.io"
 baseurl: "/jupyterlab-firefox-launcher"
 repository: "vantagecompute/jupyterlab-firefox-launcher"
+
+# Logo and branding
+logo: "https://vantage-compute-public-assets.s3.us-east-1.amazonaws.com/branding/vantage-logo-text-black-horz.png"
+show_downloads: true
 
 # Author information
 author:
@@ -24,35 +29,29 @@ author:
 github_username: vantagecompute
 twitter_username: vantagecompute
 
-# Navigation
-navigation:
-  - title: "Overview"
-    url: /overview/
-  - title: "Installation"
-    url: /installation/
-  - title: "Architecture"
-    url: /architecture/
-  - title: "Dependencies" 
-    url: /dependencies/
-  - title: "Development"
-    url: /development/
-  - title: "Contributing"
-    url: /contributing/
-  - title: "API Reference"
-    url: /api-reference/
-  - title: "Troubleshooting"
-    url: /troubleshooting/
-  - title: "Contact"
-    url: /contact/
-
 # Build settings
 markdown: kramdown
 highlighter: rouge
 kramdown:
   syntax_highlighter: rouge
   syntax_highlighter_opts:
+    line_numbers: false
     block:
-      line_numbers: true
+      line_numbers: false
+    span:
+      line_numbers: false
+  input: GFM
+
+# Exclude files from processing
+exclude:
+  - Gemfile
+  - Gemfile.lock
+  - node_modules
+  - vendor/bundle/
+  - vendor/cache/
+  - vendor/gems/
+  - vendor/ruby/
+  - README.md
 
 # Collections
 collections:
@@ -72,14 +71,3 @@ defaults:
       type: "docs"
     values:
       layout: "page"
-
-# Exclude from processing
-exclude:
-  - Gemfile
-  - Gemfile.lock
-  - node_modules
-  - vendor/bundle/
-  - vendor/cache/
-  - vendor/gems/
-  - vendor/ruby/
-  - README.md

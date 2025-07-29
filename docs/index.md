@@ -5,36 +5,48 @@ title: Home
 permalink: /
 ---
 
-# JupyterLab Firefox Launcher
-
-<div style="text-align: center; margin-bottom: 2rem;">
-  <img src="https://vantage-compute-public-assets.s3.us-east-1.amazonaws.com/branding/vantage-logo-text-black-horz.png" alt="Vantage Compute" style="height: 60px; width: auto; margin-bottom: 1rem;">
+<div style="display: flex; justify-content: center; align-items: center; gap: 0.5rem; margin-bottom: 1rem; flex-wrap: wrap;">
+  <img src="https://img.shields.io/badge/license-Apache--2.0-blue.svg" alt="License">
+  <img src="https://img.shields.io/badge/python-3.10+-blue.svg" alt="Python">
+  <img src="https://img.shields.io/badge/jupyterlab-4.0+-orange.svg" alt="JupyterLab">
+</div>
+<div style="display: flex; justify-content: center; align-items: center; gap: 0.5rem; margin-bottom: 2rem; flex-wrap: wrap;">
+  <img src="https://img.shields.io/github/contributors/vantagecompute/jupyterlab-firefox-launcher?logo=github&style=plastic" alt="Github Contributors">
+  <img src="https://img.shields.io/github/issues-pr/vantagecompute/jupyterlab-firefox-launcher?label=pull-requests&logo=github&style=plastic" alt="Github Pull Requests">
+  <img src="https://img.shields.io/github/issues/vantagecompute/jupyterlab-firefox-launcher?label=issues&logo=github&style=plastic" alt="Github Issues">
 </div>
 
-[![License](https://img.shields.io/badge/license-Apache--2.0-blue.svg)](https://github.com/vantagecompute/jupyterlab-firefox-launcher/blob/main/LICENSE)
-[![Python](https://img.shields.io/badge/python-3.10+-blue.svg)](https://python.org)
-[![JupyterLab](https://img.shields.io/badge/jupyterlab-4.0+-orange.svg)](https://jupyterlab.readthedocs.io)
-[![GitHub Stars](https://img.shields.io/github/stars/vantagecompute/jupyterlab-firefox-launcher?style=social)](https://github.com/vantagecompute/jupyterlab-firefox-launcher)
-
-<div class="hero-section" style="text-align: center; margin: 2rem 0; padding: 2rem; background: linear-gradient(135deg, #E8E3F3 0%, #F3F1F8 30%, #F8F9FA 70%, #FFFFFF 100%); border-radius: 12px;">
-  <div class="hero-logos" style="display: flex; justify-content: center; align-items: center; gap: 3rem; margin-bottom: 1.5rem; flex-wrap: wrap;">
-    <div class="logo-container" style="display: flex; flex-direction: column; align-items: center;">
-      <img src="https://upload.wikimedia.org/wikipedia/commons/7/76/Mozilla_Firefox_logo_2013.svg" alt="Firefox" style="width: 60px; height: 60px; margin-bottom: 0.5rem; border-radius: 8px; box-shadow: 0 2px 8px rgba(0,0,0,0.1);">
-      <span style="font-size: 0.9rem; color: #333; font-weight: 500;">Firefox</span>
+<div class="hero-section">
+  <div style="display: flex; justify-content: center; align-items: center; gap: 4rem; margin-bottom: 2rem; flex-wrap: wrap;">
+    <div style="display: flex; flex-direction: column; align-items: center; transform: scale(1.1);">
+      <div style="background: #FFFFFF; padding: 20px; border-radius: 16px; box-shadow: 0 8px 25px rgba(107, 70, 193, 0.3); margin-bottom: 1rem; border: 2px solid #E5E7EB;">
+        <img src="https://upload.wikimedia.org/wikipedia/commons/7/76/Mozilla_Firefox_logo_2013.svg" alt="Firefox" style="width: 60px; height: 60px;">
+      </div>
+      <span style="font-size: 1rem; color: #6B7280; font-weight: 600; text-transform: uppercase; letter-spacing: 0.05em;">Firefox</span>
     </div>
-    <div style="font-size: 2rem; color: #666; margin: 0 1rem;">+</div>
-    <div class="logo-container" style="display: flex; flex-direction: column; align-items: center;">
-      <img src="https://upload.wikimedia.org/wikipedia/commons/3/38/Jupyter_logo.svg" alt="Jupyter" style="width: 60px; height: 60px; margin-bottom: 0.5rem; border-radius: 8px; box-shadow: 0 2px 8px rgba(0,0,0,0.1); background: white; padding: 10px;">
-      <span style="font-size: 0.9rem; color: #333; font-weight: 500;">Jupyter</span>
+    <div style="display: flex; align-items: center; justify-content: center;">
+      <div style="width: 60px; height: 60px; background: linear-gradient(135deg, #6B46C1, #9333EA); border-radius: 50%; display: flex; align-items: center; justify-content: center; box-shadow: 0 4px 15px rgba(107, 70, 193, 0.3);">
+        <span style="color: white; font-size: 2rem; font-weight: 700; line-height: 1;">+</span>
+      </div>
+    </div>
+    <div style="display: flex; flex-direction: column; align-items: center; transform: scale(1.1);">
+      <div style="background: #FFFFFF; padding: 20px; border-radius: 16px; box-shadow: 0 8px 25px rgba(147, 51, 234, 0.3); margin-bottom: 1rem; border: 2px solid #E5E7EB;">
+        <img src="https://upload.wikimedia.org/wikipedia/commons/3/38/Jupyter_logo.svg" alt="Jupyter" style="width: 60px; height: 60px;">
+      </div>
+      <span style="font-size: 1rem; color: #6B7280; font-weight: 600; text-transform: uppercase; letter-spacing: 0.05em;">Jupyter</span>
     </div>
   </div>
-  <h2 style="margin: 0; color: #333; font-size: 1.5rem; font-weight: 600;">Seamless Firefox Integration for JupyterLab</h2>
-  <p style="margin: 0.5rem 0 0 0; color: #555; font-size: 1.1rem;">Powered by Xpra + Jupyter Server Proxy</p>
+  <h2 style="margin: 0; color: #111827; font-size: 2.5rem; font-weight: 800; margin-bottom: 1rem; background: linear-gradient(135deg, #6B46C1, #9333EA, #A855F7); -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text;">Jupyterlab Firefox Launcher Documentation</h2>
+  <p style="margin: 0; color: #6B7280; font-size: 1.25rem; font-weight: 500; max-width: 600px; margin: 0 auto;">Created and maintained by Vantage Compute</p>
+  <div style="margin-top: 2rem; display: flex; gap: 1rem; justify-content: center; flex-wrap: wrap;">
+    <a href="#quick-start" style="background: linear-gradient(135deg, #6B46C1, #9333EA); color: white; padding: 1rem 2rem; border-radius: 8px; text-decoration: none; font-weight: 600; font-size: 1.1rem; box-shadow: 0 4px 15px rgba(107, 70, 193, 0.3); transition: all 0.2s ease; display: inline-block;">Get Started</a>
+    <a href="https://github.com/vantagecompute/jupyterlab-firefox-launcher" style="background: white; color: #6B46C1; padding: 1rem 2rem; border-radius: 8px; text-decoration: none; font-weight: 600; font-size: 1.1rem; border: 2px solid #6B46C1; transition: all 0.2s ease; display: inline-block;">View on GitHub</a>
+  </div>
 </div>
 
 The JupyterLab Firefox Launcher provides seamless integration of a full Firefox browser environment within your JupyterLab workspace. This extension is designed for data scientists, researchers, and developers who need web browsing capabilities from where the notebook server runs.
 
-## Quick Start
+## Quick Start {#quick-start}
 
 Get up and running with JupyterLab Firefox Launcher in minutes:
 
