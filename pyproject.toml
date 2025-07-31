@@ -75,13 +75,15 @@ dev = [
     "hatch",
     "jupyterlab>=4.0.0,<5",
     "jupyter-packaging>=0.12,<1",
-]
-test = [
     "coverage",
     "pytest",
     "pytest-asyncio",
     "pytest-cov",
     "pytest-jupyter[server]>=0.4",
+    # Linting
+    "ruff",
+    "codespell",
+    "pyright",
 ]
 
 # JupyterLab extension configuration

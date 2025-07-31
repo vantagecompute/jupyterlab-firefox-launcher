@@ -9,75 +9,87 @@ When a notebook server is culled (terminated by JupyterHub, SlurmSpawner, or oth
 - **Session directory bloat** filling up disk space
 - **Resource leaks** in multi-user environments
 
-## Solution Implementation
+## Current Implementation
 
-We've implemented a comprehensive cleanup system that handles server shutdown through multiple mechanisms:
+As of the latest version, the cleanup system has been simplified for reliability and to prevent cross-session interference.
 
-### 1. Session Registry (`session_cleanup.py`)
+### 1. Local Session Tracking
 
-A centralized tracking system that maintains a registry of all active Firefox/Xpra sessions:
-
-```python
-# Register new sessions when they start
-session_registry.register_session(port, process_id, session_dir)
-
-# Unregister when manually stopped
-session_registry.unregister_session(port)
-
-# Cleanup all sessions on shutdown
-session_registry.cleanup_all_sessions(force=True)
-```
-
-### 2. Multiple Cleanup Triggers
-
-The system registers cleanup handlers for various shutdown scenarios:
-
-#### a) **atexit Handlers**
-- Triggered on normal Python exit
-- Ensures cleanup even if other methods fail
-
-#### b) **Signal Handlers** 
-- SIGTERM: Standard termination signal from process managers
-- SIGINT: Interrupt signal (Ctrl+C)
-- Handles forceful shutdown scenarios
-
-#### c) **Jupyter Server Hooks**
-- Integrates with Jupyter server shutdown process
-- Triggered when JupyterHub culls the server
-
-#### d) **PID File for External Cleanup**
-- Creates `/home/user/.firefox-launcher/jupyter_server.pid`
-- Allows external scripts to clean up orphaned sessions
-
-### 3. Integration with Firefox Handler
-
-The `firefox_handler.py` has been modified to:
+The `firefox_handler.py` maintains local session tracking without global registries:
 
 ```python
-# Import cleanup system
-from .session_cleanup import session_registry
+# Track sessions locally in the handler
+_active_sessions = {}  # port -> session_info
 
 # Register sessions when created
-def _start_server_proxy(self):
-    # ... create Xpra process ...
-    if final_poll is None:
-        # Register for cleanup
-        session_dir = Path.home() / '.firefox-launcher' / 'sessions' / f'session-{port}'
-        session_registry.register_session(port, process.pid, session_dir)
-        # ... continue with session setup ...
+_active_sessions[port] = {
+    "process_id": process.pid,
+    "port": port,
+    "session_dir": session_dir,
+    "created_at": time.time()
+}
 
-# Unregister when manually stopped
-def _stop_firefox(self):
-    # ... stop processes ...
-    session_registry.unregister_session(port)
+# Clean up when stopped
+if port in _active_sessions:
+    del _active_sessions[port]
 ```
 
-## How Cleanup Works During Server Culling
+### 2. Individual Session Cleanup
 
-### Scenario 1: Normal JupyterHub Culling
+Each session handles its own cleanup without global signal handlers:
 
-1. **JupyterHub sends SIGTERM** to the notebook server process
-2. **Signal handler activates** and calls `cleanup_all_sessions(force=True)`
+```python
+# Import cleanup utilities
+from .session_cleanup import cleanup_firefox_profile
+
+# Clean up individual sessions
+def _stop_firefox(self):
+    # ... stop processes ...
+    cleanup_firefox_profile(port)
+```
+
+### 3. Why Global Session Registry Was Removed
+
+The previous global session registry caused problems:
+
+- **Cross-session killing**: Global signal handlers would terminate ALL sessions when any single session stopped
+- **Process interference**: Starting a new session could inadvertently kill existing sessions
+- **Threading issues**: Global singleton patterns created race conditions in multi-user environments
+
+## Current Session Cleanup Approach
+
+### Per-Session Cleanup
+
+Each Firefox session is responsible for cleaning up its own resources:
+
+1. **Process termination**: Gracefully stop Xpra and Firefox processes
+2. **Directory cleanup**: Remove session-specific directories and temporary files
+3. **Port cleanup**: Free up the allocated port for reuse
+4. **Local tracking**: Update the handler's internal session tracking
+
+### Session Directory Structure
+
+```
+~/.firefox-launcher/
+├── sessions/
+│   ├── session-8001/
+│   ├── session-8002/
+│   └── ...
+└── temp/
+    ├── session-8001/
+    └── ...
+```
+
+### Cleanup Functions
+
+The `session_cleanup.py` module provides utility functions:
+
+```python
+def cleanup_firefox_profile(port: int) -> bool:
+    """Clean up session directory for a specific port."""
+    # Removes session directory and temporary files
+    # Returns True if successful
+```
 3. **All Firefox/Xpra processes terminated** with their child processes
 4. **Session directories cleaned up** to free disk space
 5. **Tracking cleared** from both registries
@@ -117,60 +129,136 @@ def _stop_firefox(self):
 - PID file for external monitoring
 - Session tracking for debugging
 
+## Server Shutdown Scenarios
+
+### JupyterHub Culling
+
+When JupyterHub terminates a notebook server:
+
+1. **Server process termination**: The main Jupyter server process is terminated
+2. **Child process cleanup**: Operating system handles cleanup of child processes
+3. **Session directories**: May remain and need periodic cleanup via external scripts
+4. **Port availability**: Ports become available for reuse automatically
+
+### Manual Session Management
+
+Users can manually start and stop sessions:
+
+```python
+# Start a new Firefox session
+handler.start_firefox()
+
+# Stop a specific session
+handler.stop_firefox(port=8001)
+```
+
+## Cleanup Best Practices
+
+### 1. Regular Directory Cleanup
+
+Set up periodic cleanup of old session directories:
+
+```bash
+#!/bin/bash
+# cleanup_old_sessions.sh
+
+# Remove session directories older than 7 days
+find "$HOME/.firefox-launcher/sessions" -type d -mtime +7 -exec rm -rf {} +
+
+# Remove temporary files older than 1 day  
+find "$HOME/.firefox-launcher/temp" -type f -mtime +1 -delete
+```
+
+### 2. Process Monitoring
+
+Monitor for orphaned processes:
+
+```bash
+# Check for orphaned Xpra processes
+ps aux | grep "xpra.*$USER" | grep -v grep
+
+# Check for orphaned Firefox processes
+ps aux | grep "firefox.*$USER" | grep -v grep
+```
+
+### 3. Port Usage Tracking
+
+Check which ports are in use:
+
+```bash
+# Check for listening ports in the Firefox range
+netstat -tlnp | grep ":80[0-9][0-9]"
+```
+
 ## Configuration
 
-The cleanup system is automatically activated when the first Firefox session is created. No additional configuration is needed.
+No special configuration is needed. Cleanup happens automatically when sessions are stopped properly.
 
 ### Environment Variables (Optional)
 
 - `FIREFOX_LAUNCHER_CLEANUP_TIMEOUT`: Cleanup timeout in seconds (default: 3)
-- `FIREFOX_LAUNCHER_FORCE_CLEANUP`: Always use force cleanup (default: False)
+- `FIREFOX_LAUNCHER_DEBUG`: Enable debug logging for cleanup operations
 
 ## Testing
 
-The system can be tested using the provided notebook:
+Test the cleanup system:
 
-```bash
-# Run the cleanup test notebook
-jupyter notebook server_shutdown_cleanup.ipynb
+```python
+# Test session cleanup
+from jupyterlab_firefox_launcher.session_cleanup import cleanup_firefox_profile
+
+# Clean up a specific session
+result = cleanup_firefox_profile(8001)
+print(f"Cleanup successful: {result}")
 ```
 
 ## External Cleanup Script Example
 
-For additional safety, you can create an external cleanup script:
+For additional safety in production environments, you can create monitoring scripts:
 
 ```bash
 #!/bin/bash
-# cleanup_orphaned_firefox.sh
+# monitor_firefox_sessions.sh
 
-PID_FILE="$HOME/.firefox-launcher/jupyter_server.pid"
+# Clean up any orphaned processes for the current user
+cleanup_orphaned() {
+    echo "Cleaning up orphaned Firefox/Xpra processes..."
+    
+    # Find and kill orphaned Xpra processes
+    pkill -u $(whoami) -f "xpra.*--bind-tcp"
+    
+    # Find and kill orphaned Firefox processes in headless mode
+    pkill -u $(whoami) -f "firefox.*--headless"
+    
+    # Clean up old session directories (older than 24 hours)
+    find "$HOME/.firefox-launcher/sessions" -type d -mtime +1 -exec rm -rf {} + 2>/dev/null
+    
+    echo "Cleanup completed"
+}
 
-if [ -f "$PID_FILE" ]; then
-    JUPYTER_PID=$(cat "$PID_FILE")
-    if ! kill -0 "$JUPYTER_PID" 2>/dev/null; then
-        echo "Jupyter server $JUPYTER_PID not running, cleaning up orphaned sessions..."
-        
-        # Clean up any remaining Xpra processes for this user
-        pkill -u $(whoami) xpra
-        
-        # Clean up session directories
-        rm -rf "$HOME/.firefox-launcher/sessions/"
-        
-        # Remove stale PID file
-        rm -f "$PID_FILE"
-        
-        echo "Cleanup completed"
-    fi
+# Check if any sessions are running
+if pgrep -u $(whoami) -f "xpra.*--bind-tcp" > /dev/null; then
+    echo "Active Firefox sessions detected"
+else
+    echo "No active sessions found"
+    cleanup_orphaned
 fi
 ```
 
 ## Summary
 
-This cleanup system ensures that when a notebook server is culled:
+The current cleanup system provides:
 
-1. **All Firefox/Xpra sessions are terminated** properly
-2. **Session directories are cleaned up** to prevent disk bloat
-3. **Resources are freed** for other users
-4. **No orphaned processes remain** consuming system resources
+1. **Isolated session management** - each session handles its own cleanup
+2. **No cross-session interference** - starting/stopping one session doesn't affect others
+3. **Simple and reliable** - fewer moving parts means fewer potential failure points
+4. **Resource efficiency** - no global signal handlers or background threads
 
-The multi-layered approach (signal handlers, atexit, Jupyter hooks, PID files) provides robust protection against resource leaks in various shutdown scenarios.
+### Key Improvements Over Previous Version
+
+- **Removed global session registry** that caused cross-session killing
+- **Eliminated global signal handlers** that interfered with process management
+- **Simplified architecture** for better maintainability and debugging
+- **Improved reliability** in multi-user environments
+
+This approach ensures that Firefox sessions are properly managed without the complexity and reliability issues of the previous global registry system.

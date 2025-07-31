@@ -1,4 +1,3 @@
-
 # Copyright (c) 2025 Vantage Compute Corporation.
 
 """
@@ -23,6 +22,6 @@ def _jupyter_server_extension_points():
     return [
         {
             "module": "jupyterlab_firefox_launcher.server_extension",
-            "function": "_load_jupyter_server_extension"
+            "function": "_load_jupyter_server_extension",
         }
     ]
