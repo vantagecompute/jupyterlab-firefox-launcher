@@ -1,0 +1,180 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Firefox Launcher - Missing Dependencies</title>
+    <style>
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+            margin: 0;
+            padding: 0;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+        .error-container {
+            background: white;
+            border-radius: 12px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
+            max-width: 600px;
+            width: 90%;
+            padding: 40px;
+            text-align: center;
+        }
+        .error-icon {
+            font-size: 4rem;
+            margin-bottom: 20px;
+            color: #e74c3c;
+        }
+        h1 {
+            color: #2c3e50;
+            margin-bottom: 10px;
+            font-size: 2rem;
+        }
+        .subtitle {
+            color: #7f8c8d;
+            margin-bottom: 30px;
+            font-size: 1.1rem;
+        }
+        .missing-deps {
+            background: #f8f9fa;
+            border: 1px solid #e9ecef;
+            border-radius: 8px;
+            padding: 20px;
+            margin: 25px 0;
+            text-align: left;
+        }
+        .missing-deps h3 {
+            color: #e74c3c;
+            margin-top: 0;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+        .dep-item {
+            background: #fff;
+            border-left: 4px solid #e74c3c;
+            padding: 15px;
+            margin: 10px 0;
+            border-radius: 4px;
+        }
+        .dep-name {
+            font-weight: bold;
+            color: #2c3e50;
+            margin-bottom: 8px;
+        }
+        .install-commands {
+            background: #f1f2f6;
+            border-radius: 4px;
+            padding: 10px;
+            font-family: 'Monaco', 'Consolas', monospace;
+            font-size: 0.9rem;
+            margin-top: 8px;
+        }
+        .install-commands code {
+            background: none;
+            padding: 0;
+            color: #2d3748;
+        }
+        .help-section {
+            background: #e8f4f8;
+            border-radius: 8px;
+            padding: 20px;
+            margin-top: 25px;
+            text-align: left;
+        }
+        .help-section h3 {
+            color: #3182ce;
+            margin-top: 0;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+        .step {
+            margin: 15px 0;
+            padding-left: 25px;
+            position: relative;
+        }
+        .step::before {
+            content: attr(data-step);
+            position: absolute;
+            left: 0;
+            top: 0;
+            background: #3182ce;
+            color: white;
+            border-radius: 50%;
+            width: 20px;
+            height: 20px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 0.8rem;
+            font-weight: bold;
+        }
+        .refresh-btn {
+            background: #3182ce;
+            color: white;
+            border: none;
+            padding: 12px 24px;
+            border-radius: 6px;
+            font-size: 1rem;
+            cursor: pointer;
+            margin-top: 20px;
+            transition: background-color 0.2s;
+        }
+        .refresh-btn:hover {
+            background: #2c5aa0;
+        }
+        .platform-specific {
+            margin-top: 15px;
+            padding: 10px;
+            background: #fff3cd;
+            border: 1px solid #ffeaa7;
+            border-radius: 4px;
+            font-size: 0.9rem;
+        }
+    </style>
+</head>
+<body>
+    <div class="error-container">
+        <div class="error-icon">🚫</div>
+        <h1>Firefox Launcher Unavailable</h1>
+        <p class="subtitle">Required system dependencies are missing</p>
+        
+                <div class="dependencies">
+            {{DEPENDENCIES_HTML}}
+        </div>
+
+        <div class="help-section">
+            <h3>🛠️ Installation Guide</h3>
+            <div class="step" data-step="1">
+                <strong>Install the missing dependencies</strong><br>
+                Choose the appropriate command for your operating system from the boxes above.
+            </div>
+            <div class="step" data-step="2">
+                <strong>Restart JupyterLab</strong><br>
+                After installation, restart your JupyterLab server to ensure the new dependencies are detected.
+            </div>
+            <div class="step" data-step="3">
+                <strong>Try launching Firefox again</strong><br>
+                Click the Firefox icon in the JupyterLab launcher or refresh this page.
+            </div>
+
+            <div class="platform-specific">
+                <strong>💡 Platform-specific notes:</strong><br>
+                • <strong>Ubuntu/Debian:</strong> Use <code>apt-get</code> commands<br>
+                • <strong>RHEL/CentOS:</strong> Use <code>yum</code> or <code>dnf</code> commands<br>
+                • <strong>Conda environments:</strong> Use <code>conda install</code> commands<br>
+                • <strong>Docker:</strong> Add dependencies to your Dockerfile
+            </div>
+        </div>
+
+        <button class="refresh-btn" onclick="window.location.reload()">
+            🔄 Check Dependencies Again
+        </button>
+    </div>
+</body>
+</html>

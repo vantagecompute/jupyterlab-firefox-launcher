@@ -343,6 +343,144 @@ def _create_xpra_command(port: int) -> List[str]:
     return xpra_cmd
 
 
+def _check_dependencies():
+    """
+    Check for required dependencies and return missing ones.
+    
+    Returns:
+        dict: A dictionary with 'missing' (list of missing deps) and 'all_present' (bool)
+    """
+    missing_deps = []
+    
+    # Check for Xpra
+    if not which("xpra"):
+        missing_deps.append({
+            "name": "Xpra",
+            "description": "Remote display server required for launching Firefox in isolated sessions",
+            "install_commands": [
+                "# Ubuntu/Debian:",
+                "sudo apt update && sudo apt install -y xpra",
+                "",
+                "# RHEL/CentOS/Fedora:",
+                "sudo yum install -y xpra",
+                "# or: sudo dnf install -y xpra",
+                "",
+                "# Conda:",
+                "conda install -c conda-forge xpra"
+            ]
+        })
+    
+    # Check for Firefox
+    if not which("firefox"):
+        missing_deps.append({
+            "name": "Firefox",
+            "description": "Web browser application",
+            "install_commands": [
+                "# Ubuntu/Debian:",
+                "sudo apt update && sudo apt install -y firefox",
+                "",
+                "# RHEL/CentOS/Fedora:",
+                "sudo yum install -y firefox",
+                "# or: sudo dnf install -y firefox",
+                "",
+                "# Manual download:",
+                "# Visit https://www.mozilla.org/firefox/"
+            ]
+        })
+    
+    # Check for Xvfb (virtual display)
+    if not which("Xvfb"):
+        missing_deps.append({
+            "name": "Xvfb",
+            "description": "Virtual framebuffer for headless display",
+            "install_commands": [
+                "# Ubuntu/Debian:",
+                "sudo apt update && sudo apt install -y xvfb",
+                "",
+                "# RHEL/CentOS/Fedora:",
+                "sudo yum install -y xorg-x11-server-Xvfb",
+                "# or: sudo dnf install -y xorg-x11-server-Xvfb"
+            ]
+        })
+    
+    return {
+        "missing": missing_deps,
+        "all_present": len(missing_deps) == 0
+    }
+
+
+def _render_dependency_error_html(missing_deps):
+    """
+    Render HTML error page for missing dependencies using simple string replacement.
+    
+    Args:
+        missing_deps (list): List of missing dependency dictionaries
+        
+    Returns:
+        str: Rendered HTML content
+    """
+    templates_dir = Path(__file__).parent / "templates"
+    template_path = templates_dir / "dependency_error.html"
+    
+    try:
+        # Read the template file
+        with open(template_path, 'r') as f:
+            html_content = f.read()
+        
+        # Generate HTML for missing dependencies
+        deps_html = ""
+        for dep in missing_deps:
+            # Format install commands with proper styling
+            commands_html = ""
+            for cmd in dep["install_commands"]:
+                css_class = ' class="comment"' if cmd.startswith('#') else ''
+                commands_html += f'<code{css_class}>{cmd}</code>\n'
+            
+            # Create the dependency item HTML
+            deps_html += f"""
+            <div class="dep-item">
+                <div class="dep-name">{dep['name']}</div>
+                <div class="dep-description">{dep['description']}</div>
+                <div class="install-commands">
+                    {commands_html}
+                </div>
+            </div>
+            """
+        
+        # Replace the placeholder with our generated HTML
+        html_content = html_content.replace("{{DEPENDENCIES_HTML}}", deps_html)
+        return html_content
+            
+    except Exception as e:
+        _logger.error(f"Error rendering dependency error template: {e}")
+        # Fallback to basic HTML
+        deps_list = "\n".join([f"<li><strong>{dep['name']}</strong>: {dep['description']}</li>" 
+                              for dep in missing_deps])
+        return f"""
+        <!DOCTYPE html>
+        <html>
+        <head>
+            <title>Firefox Launcher - Missing Dependencies</title>
+            <style>
+                body {{ font-family: Arial, sans-serif; margin: 40px; text-align: center; }}
+                .container {{ max-width: 600px; margin: 0 auto; }}
+                .error {{ color: #e74c3c; }}
+                ul {{ text-align: left; }}
+            </style>
+        </head>
+        <body>
+            <div class="container">
+                <h1 class="error">🔧 Firefox Launcher Unavailable</h1>
+                <p>The following system dependencies are missing:</p>
+                <ul>{deps_list}</ul>
+                <p>Please install the missing dependencies and restart JupyterLab.</p>
+                <button onclick="window.location.reload()">🔄 Check Again</button>
+            </div>
+        </body>
+        </html>
+        """
+
+
 class FirefoxLauncherHandler(JupyterHandler):
     """Handler for Firefox launcher requests."""
 
@@ -363,6 +501,85 @@ class FirefoxLauncherHandler(JupyterHandler):
         # Initialize active sessions tracking if it doesn't exist
         if not hasattr(FirefoxLauncherHandler, "_active_sessions"):
             FirefoxLauncherHandler._active_sessions = {}
+
+    @web.authenticated
+    async def get(self):
+        """Check dependencies first, then handle session status or redirect to proxy."""
+        self.log.info("GET request received for Firefox launcher")
+        
+        # Always check dependencies first
+        dep_check = _check_dependencies()
+        
+        if not dep_check["all_present"]:
+            # Dependencies are missing, render error page
+            self.log.warning(f"Missing dependencies: {[dep['name'] for dep in dep_check['missing']]}")
+            
+            try:
+                html_content = _render_dependency_error_html(dep_check["missing"])
+                self.set_header("Content-Type", "text/html")
+                self.set_status(503)  # Service Unavailable
+                self.write(html_content)
+                return
+            except Exception as e:
+                self.log.error(f"Error rendering dependency error page: {e}")
+                # Fallback to JSON response
+                self.set_status(503)
+                self.write({
+                    "status": "error",
+                    "message": "Firefox launcher dependencies missing",
+                    "missing_dependencies": dep_check["missing"]
+                })
+                return
+        
+        # Dependencies are present, continue with normal logic
+        try:
+            # If there are query parameters, handle as status check
+            if self.request.arguments:
+                # Check if we have any active sessions
+                active_sessions = len(FirefoxLauncherHandler._active_sessions)
+                running = active_sessions > 0
+
+                self.set_status(200)
+                self.write(
+                    {
+                        "status": "running" if running else "stopped",
+                        "message": f"Firefox is {'running' if running else 'not running'}",
+                        "active_sessions": active_sessions,
+                        "dependencies": "all present"
+                    }
+                )
+                return
+
+            # Otherwise, redirect to first available proxy (legacy proxy handler behavior)
+            if not FirefoxLauncherHandler._active_sessions:
+                self.set_status(503)
+                self.write(
+                    {
+                        "error": "No Firefox sessions are currently running",
+                        "status": "no_sessions",
+                    }
+                )
+                return
+
+            # Get the first available active port (simple approach)
+            port = next(iter(FirefoxLauncherHandler._active_sessions.keys()))
+
+            # Redirect to the Xpra HTML5 interface using the server proxy path
+            proxy_path = f"/proxy/{port}/"
+            self.log.info(
+                f"GET request: Redirecting to Xpra HTML5 interface at {proxy_path}"
+            )
+            self.redirect(proxy_path)
+
+        except Exception as e:
+            self.log.error(f"Error in GET handler: {type(e).__name__}: {str(e)}")
+
+            # Log traceback only in debug mode
+            if self.log.isEnabledFor(10):  # DEBUG level
+                self.log.debug(f"GET handler traceback: {traceback.format_exc()}")
+
+            self.set_status(500)
+            self.write({"status": "error", "message": str(e)})
 
     @web.authenticated
     async def post(self):
@@ -429,6 +646,23 @@ class FirefoxLauncherHandler(JupyterHandler):
             if self.log.isEnabledFor(10):  # DEBUG level
                 self.log.debug(f"POST handler traceback: {traceback.format_exc()}")
 
+            # Check if this is a dependency issue
+            if isinstance(e, RuntimeError) and ("executable not found" in str(e)):
+                # This is likely a missing dependency issue
+                dep_check = _check_dependencies()
+                if not dep_check["all_present"]:
+                    # Render HTML error page for missing dependencies
+                    try:
+                        html_content = _render_dependency_error_html(dep_check["missing"])
+                        self.set_header("Content-Type", "text/html")
+                        self.set_status(503)  # Service Unavailable
+                        self.write(html_content)
+                        return
+                    except Exception as render_error:
+                        self.log.error(f"Error rendering dependency error page: {render_error}")
+                        # Fall through to regular JSON error response
+
+            # Regular JSON error response
             self.set_status(500)
             self.write(
                 {
@@ -690,57 +924,6 @@ class FirefoxLauncherHandler(JupyterHandler):
             # Log traceback only in debug mode
             if self.log.isEnabledFor(10):  # DEBUG level
                 self.log.debug(f"DELETE handler traceback: {traceback.format_exc()}")
-
-            self.set_status(500)
-            self.write({"status": "error", "message": str(e)})
-
-    @web.authenticated
-    async def get(self):
-        """Get Firefox process status or redirect to proxy."""
-        try:
-            # If there are query parameters, handle as status check
-            if self.request.arguments:
-                # Check if we have any active sessions
-                active_sessions = len(FirefoxLauncherHandler._active_sessions)
-                running = active_sessions > 0
-
-                self.set_status(200)
-                self.write(
-                    {
-                        "status": "running" if running else "stopped",
-                        "message": f"Firefox is {'running' if running else 'not running'}",
-                        "active_sessions": active_sessions,
-                    }
-                )
-                return
-
-            # Otherwise, redirect to first available proxy (legacy proxy handler behavior)
-            if not FirefoxLauncherHandler._active_sessions:
-                self.set_status(503)
-                self.write(
-                    {
-                        "error": "No Firefox sessions are currently running",
-                        "status": "no_sessions",
-                    }
-                )
-                return
-
-            # Get the first available active port (simple approach)
-            port = next(iter(FirefoxLauncherHandler._active_sessions.keys()))
-
-            # Redirect to the Xpra HTML5 interface using the server proxy path
-            proxy_path = f"/proxy/{port}/"
-            self.log.info(
-                f"GET request: Redirecting to Xpra HTML5 interface at {proxy_path}"
-            )
-            self.redirect(proxy_path)
-
-        except Exception as e:
-            self.log.error(f"Error in GET handler: {type(e).__name__}: {str(e)}")
-
-            # Log traceback only in debug mode
-            if self.log.isEnabledFor(10):  # DEBUG level
-                self.log.debug(f"GET handler traceback: {traceback.format_exc()}")
 
             self.set_status(500)
             self.write({"status": "error", "message": str(e)})
