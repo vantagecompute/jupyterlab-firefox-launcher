@@ -1,6 +1,6 @@
 {
   "name": "jupyterlab-firefox-launcher",
-  "version": "0.9.9",
+  "version": "0.9.10",
   "description": "JupyterLab extension to launch Firefox in a tab",
   "keywords": [
     "jupyter",
