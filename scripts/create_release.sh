@@ -75,8 +75,8 @@ if ! echo "$NEW_VERSION" | grep -qE '^[0-9]+\.[0-9]+\.[0-9]+(-[a-zA-Z0-9.-]+)?(\
 fi
 
 # Check if tag already exists
-if git tag -l | grep -q "^v$NEW_VERSION$"; then
-    print_error "Tag v$NEW_VERSION already exists"
+if git tag -l | grep -q "^$NEW_VERSION$"; then
+    print_error "Tag $NEW_VERSION already exists"
     exit 1
 fi
 
