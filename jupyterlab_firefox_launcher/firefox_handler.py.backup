@@ -233,14 +233,12 @@ def _create_xpra_command(port: int) -> List[str]:
     except Exception as version_error:
         _logger.debug(f"Could not detect Xpra version: {version_error}")
 
-    # Note: Using only TCP binding - WebSocket will use the same port
-    # This is the configuration that was working before
-
     # Log key configuration decisions
     _logger.info("🔧 Xpra Configuration Decisions:")
     _logger.info(f"   TCP Binding: 0.0.0.0:{port} (all interfaces)")
-    _logger.info("   WebSocket: Will use same port as TCP (Xpra default)")
-    _logger.info("   HTML5 Client: Enabled with WebSocket support")
+    _logger.info(
+        "   HTML5 Client: Enabled (no WebSockets for SlurmSpawner compatibility)"
+    )
     _logger.info("   Daemon Mode: Disabled (foreground for process management)")
     _logger.info(f"   Child Process: {firefox_wrapper}")
     _logger.info(f"   Session Directory: {session_dir} (unified session structure)")
@@ -255,7 +253,7 @@ def _create_xpra_command(port: int) -> List[str]:
         "   Session Isolation: Complete (unified directory structure per session)"
     )
 
-    # IMPORTANT: Using TCP-only binding for simplicity and compatibility
+    # IMPORTANT: Use only TCP binding with HTML5 client - NO WebSockets for SlurmSpawner compatibility
 
     # Dynamically resolve Xvfb path for portability
     xvfb_path = which("Xvfb")
@@ -268,7 +266,8 @@ def _create_xpra_command(port: int) -> List[str]:
     xpra_cmd = [
         xpra,
         "start",
-        f"--bind-tcp=0.0.0.0:{port}",        # Use the provided port for TCP
+        f"--bind-tcp=0.0.0.0:{port}",  # Use the provided port for TCP
+        f"--bind-ws=0.0.0.0:{port}",   # Also bind WebSocket on the same port
         "--bind=none",  # Disable Unix socket binding to force TCP only
         "--html=on",  # Enable HTML5 client
         "--daemon=no",  # Run in foreground for proper process management
@@ -279,6 +278,7 @@ def _create_xpra_command(port: int) -> List[str]:
         # Xvfb configuration - let Xpra automatically manage display numbers and screen allocation
         f"--xvfb={xvfb_path} +extension Composite -screen 0 1280x800x24+32 -nolisten tcp -noreset +extension GLX",
         "--mdns=no",  # Disable mDNS
+        "--audio=no",  # Completely disable all audio support
         "--pulseaudio=no",  # Disable audio for simplicity
         "--notifications=no",  # Disable notifications
         "--clipboard=yes",  # Enable clipboard sharing
@@ -537,88 +537,7 @@ class FirefoxLauncherHandler(JupyterHandler):
         try:
             # If there are query parameters, handle as status check
             if self.request.arguments:
-                # Check for specific port status
-                port_arg = self.get_argument("port", None)
-                status_arg = self.get_argument("status", None)
-                
-                if status_arg == "check" and port_arg:
-                    # Check specific port status
-                    try:
-                        port = int(port_arg)
-                        if port in FirefoxLauncherHandler._active_sessions:
-                            # Port is tracked, but verify process is still running
-                            session_info = FirefoxLauncherHandler._active_sessions[port]
-                            process_id = session_info.get("process_id")
-                            
-                            if process_id:
-                                try:
-                                    import psutil
-                                    process = psutil.Process(process_id)
-                                    if process.is_running():
-                                        # Also try to connect to the port to verify Xpra is responding
-                                        import socket
-                                        test_sock = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
-                                        test_sock.settimeout(1)
-                                        result = test_sock.connect_ex(("localhost", port))
-                                        test_sock.close()
-                                        
-                                        if result == 0:
-                                            self.set_status(200)
-                                            self.write({
-                                                "status": "ready",
-                                                "message": f"Xpra server on port {port} is ready",
-                                                "port": port,
-                                                "process_id": process_id
-                                            })
-                                            return
-                                        else:
-                                            self.set_status(503)
-                                            self.write({
-                                                "status": "starting",
-                                                "message": f"Xpra server on port {port} is starting",
-                                                "port": port,
-                                                "process_id": process_id
-                                            })
-                                            return
-                                    else:
-                                        # Process died, clean up
-                                        del FirefoxLauncherHandler._active_sessions[port]
-                                        self.set_status(503)
-                                        self.write({
-                                            "status": "stopped",
-                                            "message": f"Xpra server on port {port} has stopped",
-                                            "port": port
-                                        })
-                                        return
-                                except (psutil.NoSuchProcess, ImportError):
-                                    # Process doesn't exist or psutil not available
-                                    del FirefoxLauncherHandler._active_sessions[port]
-                                    self.set_status(503)
-                                    self.write({
-                                        "status": "stopped",
-                                        "message": f"Xpra server on port {port} has stopped",
-                                        "port": port
-                                    })
-                                    return
-                        
-                        # Port not in active sessions
-                        self.set_status(503)
-                        self.write({
-                            "status": "not_found",
-                            "message": f"No Xpra server found on port {port}",
-                            "port": port
-                        })
-                        return
-                        
-                    except ValueError:
-                        self.set_status(400)
-                        self.write({
-                            "status": "error",
-                            "message": f"Invalid port number: {port_arg}"
-                        })
-                        return
-                
-                # General status check (existing behavior)
+                # Check if we have any active sessions
                 active_sessions = len(FirefoxLauncherHandler._active_sessions)
                 running = active_sessions > 0
 
@@ -647,35 +566,12 @@ class FirefoxLauncherHandler(JupyterHandler):
             # Get the first available active port (simple approach)
             port = next(iter(FirefoxLauncherHandler._active_sessions.keys()))
 
-            # Instead of redirecting to proxy (which doesn't work), provide direct WebSocket URL
-            import socket
-            hostname = socket.gethostname()
-            
-            # Create direct WebSocket URL that bypasses the proxy
-            direct_ws_url = f"ws://{hostname}:{port}/"
-            direct_http_url = f"http://{hostname}:{port}/"
-            
-            # Get the base URL for fallback proxy path
-            base_url = self.settings.get("base_url", "/")
-            proxy_path = f"{base_url}proxy/{port}/"
-            if not proxy_path.startswith("/"):
-                proxy_path = "/" + proxy_path
-
-            self.log.info(f"GET request: Providing direct WebSocket URL: {direct_ws_url}")
-            self.log.info(f"GET request: Direct HTTP URL: {direct_http_url}")
-            self.log.info(f"GET request: Fallback proxy path: {proxy_path}")
-            
-            # Return JSON with direct URLs instead of redirecting to broken proxy
-            self.set_header("Content-Type", "application/json")
-            self.write({
-                "status": "running",
-                "port": port,
-                "websocket_url": direct_ws_url,
-                "http_url": direct_http_url,
-                "proxy_path": proxy_path,
-                "direct_connection": True,
-                "message": "Use websocket_url for direct connection to Xpra server"
-            })
+            # Redirect to the Xpra HTML5 interface using the server proxy path
+            proxy_path = f"/proxy/{port}/"
+            self.log.info(
+                f"GET request: Redirecting to Xpra HTML5 interface at {proxy_path}"
+            )
+            self.redirect(proxy_path)
 
         except Exception as e:
             self.log.error(f"Error in GET handler: {type(e).__name__}: {str(e)}")
@@ -709,41 +605,17 @@ class FirefoxLauncherHandler(JupyterHandler):
                         "port": port,
                     }
 
-                    # Register the dynamic proxy route with jupyter-server-proxy
-                    await self._register_dynamic_proxy(port)
-
-                    # Instead of using proxy path, provide direct WebSocket URLs
-                    import socket
-                    hostname = socket.gethostname()
-                    
-                    # Create direct WebSocket URL that bypasses the proxy
-                    direct_ws_url = f"ws://{hostname}:{port}/"
-                    direct_http_url = f"http://{hostname}:{port}/"
-                    
-                    # Get the base URL for fallback proxy path
-                    base_url = self.settings.get("base_url", "/")
-                    proxy_path = f"{base_url}proxy/{port}/"
-                    if not proxy_path.startswith("/"):
-                        proxy_path = "/" + proxy_path
-
                     self.log.info(
                         f"Firefox launched successfully on port {port} with process ID {process_id}"
                     )
-                    self.log.info(f"🌐 Direct WebSocket URL: {direct_ws_url}")
-                    self.log.info(f"🌐 Direct HTTP URL: {direct_http_url}")
-                    self.log.info(f"🌐 Fallback proxy path: {proxy_path}")
                     self.set_status(200)
                     self.write(
                         {
                             "status": "success",
-                            "message": "Firefox launched successfully - use direct WebSocket connection",
+                            "message": "Firefox launched successfully",
                             "port": port,
                             "process_id": process_id,
-                            "websocket_url": direct_ws_url,
-                            "http_url": direct_http_url,
-                            "proxy_path": proxy_path,
-                            "direct_connection": True,
-                            "instructions": "Connect directly to websocket_url to bypass proxy issues"
+                            "proxy_path": f"/proxy/{port}/",
                         }
                     )
                 else:
@@ -858,35 +730,21 @@ class FirefoxLauncherHandler(JupyterHandler):
             self.log.info(f"   Proxy URL will be: /proxy/{port}/")
             self.log.info("   Process will run in foreground (daemon mode disabled)")
 
-            # Wait and monitor process startup with HTTP readiness check
+            # Wait and monitor process startup
             self.log.info("⏱️ Monitoring Xpra process startup...")
-            startup_checks = [0.5, 1.0, 1.5, 2.0]  # Extended checks with HTTP testing
+            startup_checks = [0.1, 0.2, 0.2]  # Check at 0.1s, 0.3s, 0.5s
 
             for i, wait_time in enumerate(startup_checks):
-                await asyncio.sleep(wait_time)
+                await asyncio.sleep(
+                    wait_time
+                )  # Use async sleep instead of blocking sleep
 
                 try:
                     poll_result = process.poll()
                     if poll_result is None:
-                        self.log.info(
-                            f"✓ Startup check {i+1}/{len(startup_checks)}: Process {process.pid} running"
+                        self.log.debug(
+                            f"✓ Startup check {i+1}/{len(startup_checks)}: Process running"
                         )
-                        
-                        # After 1 second, also test HTTP connectivity
-                        if i >= 1:  # Start testing HTTP after the second check
-                            try:
-                                test_sock = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
-                                test_sock.settimeout(1.0)
-                                result = test_sock.connect_ex(("localhost", port))
-                                test_sock.close()
-                                
-                                if result == 0:
-                                    self.log.info(f"🌐 HTTP readiness check passed: Port {port} accepting connections")
-                                    break  # Ready to proceed
-                                else:
-                                    self.log.debug(f"🔍 HTTP readiness check {i+1}: Port {port} not yet ready (code: {result})")
-                            except Exception as http_check_error:
-                                self.log.debug(f"🔍 HTTP readiness check {i+1} failed: {http_check_error}")
                     else:
                         self.log.error(
                             f"❌ Startup check {i+1}/{len(startup_checks)}: Process exited with code {poll_result}"
@@ -988,67 +846,6 @@ class FirefoxLauncherHandler(JupyterHandler):
             # Clean up any partial state
             self.log.error("❌ Xpra server proxy startup failed")
             return False, None, None
-
-    async def _register_dynamic_proxy(self, port: int):
-        """
-        Register a dynamic proxy route with jupyter-server-proxy that supports WebSocket connections.
-        
-        Args:
-            port (int): The port where Xpra is running
-        """
-        try:
-            # Import jupyter-server-proxy components
-            from jupyter_server_proxy.handlers import LocalProxyHandler
-            from tornado import web
-            
-            # Get the base URL to construct the correct proxy pattern
-            base_url = self.settings.get("base_url", "/")
-            if base_url.endswith("/"):
-                base_url = base_url[:-1]
-            
-            # Create a proxy handler for this specific port that supports WebSockets
-            proxy_pattern = f"{base_url}/proxy/{port}/(.*)"
-            
-            # Add the handler to the web application
-            web_app = self.settings.get('webapp', self.application)
-            
-            # Create handler class that proxies to localhost:port with WebSocket support
-            class DynamicFirefoxProxyHandler(LocalProxyHandler):
-                def get_host(self):
-                    return 'localhost'
-                    
-                def get_port(self):
-                    return port
-                    
-                def get_timeout(self):
-                    return 30
-                    
-                # Ensure WebSocket support is properly inherited
-                def select_subprotocol(self, subprotocols):
-                    # Allow any WebSocket subprotocol that Xpra might use
-                    return subprotocols[0] if subprotocols else None
-                    
-                def check_origin(self, origin):
-                    # Allow connections from the JupyterHub host
-                    return True
-                    
-                def get_compression_options(self):
-                    # Enable WebSocket compression for better performance
-                    return {}
-            
-            # Register the handler with the web application
-            new_handlers = [(proxy_pattern, DynamicFirefoxProxyHandler)]
-            web_app.add_handlers(".*$", new_handlers)
-            
-            self.log.info(f"✅ Registered dynamic proxy route with WebSocket support:")
-            self.log.info(f"   Pattern: {proxy_pattern}")
-            self.log.info(f"   Target: localhost:{port}")
-            self.log.info(f"   WebSocket: Enabled")
-            
-        except Exception as e:
-            self.log.error(f"❌ Failed to register dynamic proxy for port {port}: {e}")
-            # Don't fail the Firefox launch if proxy registration fails
-            self.log.warning("⚠️ Continuing without dynamic proxy registration")
 
     def _cleanup_inactive_sessions(self):
         """Clean up sessions that are no longer running."""

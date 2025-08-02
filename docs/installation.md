@@ -71,7 +71,36 @@ URIs: https://xpra.org/lts
 Suites: noble
 Components: main
 Signed-By: /usr/share/keyrings/xpra.asc
-Architectures: amd64 arm64' | sudo tee /etc/apt/sources.list.d/xpra.source
+Architectures: amd64 arm64' | \
+  sudo tee /etc/apt/sources.list.d/xpra.list
+
+
+# Update and install
+sudo apt update
+sudo apt install -y xvfb dbus-x11 xpra firefox
+```
+
+### Install Firefox, Xpra, dbus-x11, xvfb (Ubuntu Jammy)
+```bash
+# Add Mozilla repository
+sudo install -d -m 0755 /etc/apt/keyrings
+wget -q https://packages.mozilla.org/apt/repo-signing-key.gpg -O- | \
+  sudo tee /etc/apt/keyrings/packages.mozilla.org.asc > /dev/null
+
+echo "deb [signed-by=/etc/apt/keyrings/packages.mozilla.org.asc] https://packages.mozilla.org/apt mozilla main" | \
+  sudo tee -a /etc/apt/sources.list.d/mozilla.list > /dev/null
+
+echo 'Package: *
+Pin: origin packages.mozilla.org
+Pin-Priority: 1000' | \
+  sudo tee /etc/apt/preferences.d/mozilla
+
+
+# Add Xpra Key and Repo
+sudo wget -O "/usr/share/keyrings/xpra.asc" https://xpra.org/xpra.asc
+
+echo "deb [signed-by=/usr/share/keyrings/xpra.asc] https://xpra.org/lts jammy main" | \
+  sudo tee /etc/apt/sources.list.d/xpra.list
 
 
 # Update and install
@@ -229,173 +258,6 @@ Add configuration to your JupyterLab settings:
     "session_timeout": 3600
   }
 }
-```
-
-## Docker Installation
-
-For containerized environments:
-
-### Dockerfile Example
-
-```dockerfile
-FROM jupyter/base-notebook:latest
-
-# Switch to root to install system dependencies
-USER root
-
-# Install system dependencies
-RUN apt-get update && apt-get install -y \
-    xvfb \
-    dbus-x11 \
-    xpra \
-    firefox \
-    && rm -rf /var/lib/apt/lists/*
-
-# Switch back to notebook user
-USER ${NB_UID}
-
-# Install the extension
-RUN pip install jupyterlab-firefox-launcher
-
-# Start JupyterLab
-CMD ["jupyter", "lab", "--ip=0.0.0.0", "--port=8888", "--no-browser", "--allow-root"]
-```
-
-### Docker Compose Example
-
-```yaml
-version: '3.8'
-services:
-  jupyter:
-    build: .
-    ports:
-      - "8888:8888"
-    volumes:
-      - ./work:/home/jovyan/work
-    environment:
-      - FIREFOX_LAUNCHER_QUALITY=80
-      - FIREFOX_LAUNCHER_DEBUG=1
-    command: |
-      jupyter lab --ip=0.0.0.0 --port=8888 --no-browser 
-      --allow-root --NotebookApp.token='' --NotebookApp.password=''
-```
-
-## Troubleshooting Installation
-
-### Common Issues
-
-#### 1. Missing System Dependencies
-
-**Error**: `xpra executable not found`
-
-**Solution**:
-```bash
-# Ubuntu/Debian
-sudo apt install -y xpra
-
-# CentOS/RHEL/Fedora
-sudo dnf install -y xpra
-```
-
-#### 2. Firefox Not Found
-
-**Error**: `firefox executable not found`
-
-**Solution**:
-```bash
-# Install Firefox
-sudo apt install -y firefox  # Ubuntu/Debian
-sudo dnf install -y firefox  # CentOS/RHEL/Fedora
-```
-
-#### 3. Permission Issues
-
-**Error**: `Permission denied` when running Xvfb
-
-**Solution**:
-```bash
-# Add user to necessary groups
-sudo usermod -a -G audio,video $USER
-
-# Logout and login again, or run:
-newgrp audio
-newgrp video
-```
-
-#### 4. Extension Not Visible
-
-**Error**: Firefox launcher not appearing in JupyterLab
-
-**Solution**:
-```bash
-# Rebuild JupyterLab
-jupyter lab build
-
-# Clear browser cache
-# Restart JupyterLab
-jupyter lab --port=8889  # Use different port to force refresh
-```
-
-#### 5. Snap Firefox Issues on SlurmSpawner/cgroups
-
-**Error**: Firefox fails to start in SlurmSpawner environments with cgroups
-
-**Problem**: Ubuntu's default `apt install firefox` installs the snap version, which conflicts with cgroups process management used by SlurmSpawner.
-
-**Solution**: Install Firefox from Mozilla's official repository:
-```bash
-# Remove snap Firefox if already installed
-sudo snap remove firefox
-
-# Add Mozilla repository (as shown in installation section above)
-sudo install -d -m 0755 /etc/apt/keyrings
-wget -q https://packages.mozilla.org/apt/repo-signing-key.gpg -O- | \
-  sudo tee /etc/apt/keyrings/packages.mozilla.org.asc > /dev/null
-
-echo "deb [signed-by=/etc/apt/keyrings/packages.mozilla.org.asc] https://packages.mozilla.org/apt mozilla main" | \
-  sudo tee -a /etc/apt/sources.list.d/mozilla.list > /dev/null
-
-echo 'Package: *
-Pin: origin packages.mozilla.org
-Pin-Priority: 1000' | \
-  sudo tee /etc/apt/preferences.d/mozilla
-
-# Update and install non-snap Firefox
-sudo apt update
-sudo apt install -y firefox
-```
-
-**Alternative**: Download and install Firefox manually:
-```bash
-# Download Firefox directly from Mozilla
-wget -O firefox.tar.bz2 "https://download.mozilla.org/?product=firefox-latest&os=linux64&lang=en-US"
-tar -xjf firefox.tar.bz2
-sudo mv firefox /opt/
-sudo ln -sf /opt/firefox/firefox /usr/local/bin/firefox
-```
-
-### Diagnostic Commands
-
-Use these commands to diagnose installation issues:
-
-```bash
-# Check system dependencies
-echo "Checking system dependencies..."
-which xvfb && echo "✓ Xvfb found" || echo "✗ Xvfb missing"
-which xpra && echo "✓ Xpra found" || echo "✗ Xpra missing"  
-which firefox && echo "✓ Firefox found" || echo "✗ Firefox missing"
-
-# Check Python installation
-echo "Checking Python installation..."
-python -c "import jupyterlab_firefox_launcher; print('✓ Extension imported successfully')" 2>/dev/null || echo "✗ Extension import failed"
-
-# Check JupyterLab integration
-echo "Checking JupyterLab integration..."
-jupyter labextension list | grep firefox-launcher && echo "✓ Extension enabled" || echo "✗ Extension not found"
-
-# Test Xpra functionality
-echo "Testing Xpra..."
-xpra start --bind-tcp=localhost:9999 --html=on --daemon=no --start-child=echo "test" --exit-with-children=yes
 ```
 
 ### Getting Help

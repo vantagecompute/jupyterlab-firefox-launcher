@@ -149,8 +149,10 @@ class FirefoxWidget extends Widget {
    */
   setPortAndRefresh(port: number): void {
     this._xpraPort = port;
-    // Check if jupyter-server-proxy is available by trying the proxy route first
-    this._iframe.src = `/proxy/${port}/`;
+    // Use absolute URL to prevent path duplication issues in JupyterHub
+    const proxyPath = `/user/bdx/proxy/${port}/`;
+    const absoluteUrl = `${window.location.origin}${proxyPath}`;
+    this._iframe.src = absoluteUrl;
     // Hide loading indicator and show iframe
     this._loadingDiv.style.display = 'none';
     this._iframe.style.display = 'block';
@@ -160,8 +162,10 @@ class FirefoxWidget extends Widget {
    * Set the proxy path and refresh the Firefox connection
    */
   setProxyPathAndRefresh(proxyPath: string): void {
-    // Use the proxy path provided by the backend
-    this._iframe.src = proxyPath;
+    // Use absolute URL to prevent path duplication issues in JupyterHub
+    const absoluteUrl = proxyPath.startsWith('/') ? 
+      `${window.location.origin}${proxyPath}` : proxyPath;
+    this._iframe.src = absoluteUrl;
     // Hide loading indicator and show iframe
     this._loadingDiv.style.display = 'none';
     this._iframe.style.display = 'block';
@@ -347,8 +351,8 @@ const plugin: JupyterFrontEndPlugin<void> = {
               // Use the proxy path provided by the backend
               testUrl = proxyPath;
             } else if (xpraPort) {
-              // Fallback: Try jupyter-server-proxy route
-              testUrl = `/proxy/${xpraPort}/`;
+              // Fallback: Try JupyterHub proxy route
+              testUrl = `/user/bdx/proxy/${xpraPort}/`;
             } else {
               // Fallback to direct proxy route
               testUrl = '/firefox-launcher/firefox';

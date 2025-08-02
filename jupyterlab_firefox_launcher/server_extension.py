@@ -31,6 +31,9 @@ def _load_jupyter_server_extension(serverapp):
     # Register our handlers
     web_app = serverapp.web_app
     base_url = web_app.settings.get("base_url", "/")
+    
+    # Log the base URL for debugging
+    serverapp.log.info(f"🔧 Base URL detected: {base_url}")
 
     # Handler for Firefox launcher API
     firefox_launcher_pattern = _url_path_join(
@@ -42,10 +45,15 @@ def _load_jupyter_server_extension(serverapp):
         base_url, "firefox-launcher", "api", "cleanup"
     )
 
+    # Log the patterns for debugging
+    serverapp.log.info(f"🔧 Firefox launcher pattern: {firefox_launcher_pattern}")
+    serverapp.log.info(f"🔧 Firefox cleanup pattern: {firefox_cleanup_pattern}")
+
     # Add handlers - make sure patterns are properly escaped for regex
+    # Use more permissive regex patterns to handle query parameters and trailing slashes
     handlers = [
-        (firefox_launcher_pattern + r"(?:\?.*)?", FirefoxLauncherHandler),
-        (firefox_cleanup_pattern + r"(?:\?.*)?", FirefoxCleanupHandler),
+        (firefox_launcher_pattern + r"/?(?:\?.*)?$", FirefoxLauncherHandler),
+        (firefox_cleanup_pattern + r"/?(?:\?.*)?$", FirefoxCleanupHandler),
     ]
 
     web_app.add_handlers(".*$", handlers)
