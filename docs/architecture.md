@@ -19,17 +19,25 @@ The extension consists of several interconnected components that work together t
 │   Frontend      │    │    Extension     │    │    Process      │
 │                 │    │                  │    │                 │
 │ ┌─────────────┐ │    │ ┌──────────────┐ │    │ ┌─────────────┐ │
-│ │   Widget    │◄┼────┼─│   Handler    │ │    │ │   Browser   │ │
-│ │             │ │    │ │              │ │    │ │   Instance  │ │
+│ │   Widget    │◄┼────┼─│ Launcher API │ │    │ │   Browser   │ │
+│ │             │ │    │ │   Handler    │ │    │ │   Instance  │ │
 │ └─────────────┘ │    │ └──────────────┘ │    │ └─────────────┘ │
 │ ┌─────────────┐ │    │ ┌──────────────┐ │    │ ┌─────────────┐ │
-│ │  Launcher   │ │    │ │   Xpra CMD   │◄┼────┼─│    Xpra     │ │
-│ │   Button    │ │    │ │   Builder    │ │    │ │   Server    │ │
+│ │  Launcher   │ │    │ │  Xpra Client │◄┼────┼─│    Xpra     │ │
+│ │   Button    │ │    │ │   Handler    │ │    │ │   Server    │ │
 │ └─────────────┘ │    │ └──────────────┘ │    │ └─────────────┘ │
-└─────────────────┘    └──────────────────┘    └─────────────────┘
-        │                        │                        │
-        │                        │                        │
-        └────────── HTTP API ────┼──── unix/tcp sockets ──┘
+└─────────────────┘    │ ┌──────────────┐ │    └─────────────────┘
+        │              │ │ Xpra Proxy & │ │            │
+        │              │ │ WebSocket    │ │            │
+        │              │ │  Handlers    │ │            │
+        │              │ └──────────────┘ │            │
+        │              │ ┌──────────────┐ │            │
+        │              │ │Static & Auth │ │            │
+        │              │ │   Bypass     │ │            │
+        │              │ └──────────────┘ │            │
+        │              └──────────────────┘            │
+        │                        │                     │
+        └────────── HTTP API ────┼──── TCP/WebSocket ──┘
                                  │
                     ┌──────────────────┐
                     │   Session        │
@@ -64,9 +72,12 @@ The frontend communicates with the backend through RESTful APIs:
 
 **API Endpoints:**
 - `POST /firefox-launcher/api/firefox` - Launch new session
-- `GET /firefox-launcher/api/firefox` - Session status and redirect
+- `GET /firefox-launcher/api/firefox?port={port}` - Session status and redirect
 - `POST /firefox-launcher/api/cleanup` - Session cleanup
-- `HEAD /firefox-launcher/api/firefox` - Session availability check
+- `GET /firefox-launcher/client` - Xpra HTML5 client interface
+- `GET /firefox-launcher/proxy` - Xpra server proxy with CSP bypass
+- `WebSocket /firefox-launcher/ws` - WebSocket proxy for Xpra
+- `GET /firefox-launcher/{path}` - Static file handler with auth bypass
 
 ### Backend Layer
 
@@ -79,29 +90,77 @@ Registers HTTP handlers with the Jupyter server and manages the extension lifecy
 - Integration with Jupyter server lifecycle
 
 #### 2. Firefox Handler (`firefox_handler.py`)
-Core backend component that manages Firefox sessions and processes.
+Core backend component that manages Firefox sessions and processes through multiple specialized handlers.
+
+**Handler Classes:**
+
+**FirefoxLauncherHandler**
+- Primary session launch and management
+- Process lifecycle control
+- Session isolation and directory management
+- JupyterHub proxy registration support
+
+**XpraClientHandler**
+- Serves custom Xpra HTML5 client templates
+- Handles client configuration and URL parameters
+- Provides browser interface for Firefox sessions
+
+**XpraProxyHandler** 
+- Proxies HTTP requests to Xpra servers
+- Strips CSP headers for iframe compatibility
+- Handles authentication bypass for proxy requests
+
+**XpraWebSocketHandler**
+- WebSocket proxy for real-time Xpra communication
+- Bi-directional message forwarding
+- Connection lifecycle management
+
+**XpraStaticHandler**
+- Serves static files from Xpra servers
+- Authentication bypass for static assets
+- HEAD method support for asset verification
+
+**FirefoxCleanupHandler**
+- Session cleanup and resource management
+- Process termination and directory cleanup
+- Bulk cleanup operations
 
 **Key Features:**
-- Multi-session management
-- Process lifecycle control
-- Session isolation
-- Resource cleanup
-- Error handling and logging
+- Multi-handler architecture for separation of concerns
+- Process lifecycle control and monitoring
+- Session isolation with dedicated directories
+- Resource cleanup and management
+- Error handling and comprehensive logging
+- JupyterHub and standalone JupyterLab support
 
 **Session Management Flow:**
 ```python
 Session Request → Port Allocation → Directory Creation → 
-Process Launch → Proxy Setup → Session Tracking
+Xpra Process Launch → JupyterHub Proxy Registration → 
+Client Template Serving → Session Tracking
 ```
 
-#### 3. Cleanup Handler
-Specialized handler for session cleanup and resource management.
+#### 3. Server Extension (`server_extension.py`)
+Registers HTTP handlers with the Jupyter server and manages extension lifecycle.
 
-**Cleanup Types:**
-- **Automatic**: Triggered by frontend lifecycle events
-- **Manual**: User-initiated cleanup
-- **Batch**: Multiple session cleanup
-- **Emergency**: Nuclear cleanup for stuck processes
+**Handler Registration Pattern:**
+```python
+handlers = [
+    (firefox_launcher_pattern + r"/?(?:\?.*)?$", FirefoxLauncherHandler),
+    (firefox_cleanup_pattern + r"/?(?:\?.*)?$", FirefoxCleanupHandler),
+    (xpra_client_pattern + r"/?(?:\?.*)?$", XpraClientHandler),
+    (xpra_proxy_pattern + r"/?(?:\?.*)?$", XpraProxyHandler),
+    (xpra_ws_pattern + r"/?(?:\?.*)?$", XpraWebSocketHandler),
+    (xpra_static_pattern, XpraStaticHandler),  # Must be last (catch-all)
+]
+```
+
+**Responsibilities:**
+- Multi-handler registration and routing
+- URL pattern management with query parameter support
+- Extension configuration management
+- Integration with Jupyter server lifecycle
+- jupyter-server-proxy integration when available
 
 ### System Layer
 
@@ -155,18 +214,21 @@ Complete isolation between sessions using dedicated directory structures.
 sequenceDiagram
     participant User
     participant Frontend
-    participant Backend
-    participant Xpra
+    participant LauncherAPI
+    participant XpraClient
+    participant XpraServer
     participant Firefox
 
     User->>Frontend: Click Firefox Launcher
-    Frontend->>Backend: POST /firefox-launcher/api/firefox
-    Backend->>Backend: Allocate Port
-    Backend->>Backend: Create Session Directory
-    Backend->>Xpra: Start Xpra Server
-    Xpra->>Firefox: Launch Firefox Process
-    Backend->>Frontend: Return Session Info
-    Frontend->>Frontend: Create Widget
+    Frontend->>LauncherAPI: POST /firefox-launcher/api/firefox
+    LauncherAPI->>LauncherAPI: Allocate Port
+    LauncherAPI->>LauncherAPI: Create Session Directory
+    LauncherAPI->>XpraServer: Start Xpra Server Process
+    XpraServer->>Firefox: Launch Firefox Process
+    LauncherAPI->>LauncherAPI: Register JupyterHub Proxy (if available)
+    LauncherAPI->>Frontend: Return Session Info + Client URL
+    Frontend->>XpraClient: GET /firefox-launcher/client?port={port}
+    XpraClient->>Frontend: Return HTML5 Client Interface
     Frontend->>User: Display Firefox in Tab
 ```
 
@@ -176,18 +238,26 @@ sequenceDiagram
 sequenceDiagram
     participant User
     participant Browser
-    participant JupyterLab
-    participant Proxy
-    participant Xpra
+    participant XpraClient
+    participant XpraProxy
+    participant XpraWS
+    participant XpraServer
     participant Firefox
 
     User->>Browser: Interact with Firefox Widget
-    Browser->>JupyterLab: Forward Events
-    JupyterLab->>Proxy: Route to Session
-    Proxy->>Xpra: Forward to Xpra HTML5
-    Xpra->>Firefox: Process User Input
-    Firefox->>Xpra: Return Display Updates
-    Xpra->>Browser: Stream Display Data
+    Browser->>XpraClient: Load HTML5 Client Interface
+    XpraClient->>XpraWS: WebSocket /firefox-launcher/ws?port={port}
+    XpraWS->>XpraServer: Forward WebSocket Messages
+    XpraServer->>Firefox: Process User Input
+    Firefox->>XpraServer: Return Display Updates
+    XpraServer->>XpraWS: Forward Display Data
+    XpraWS->>Browser: Stream Display Updates
+    
+    Note over XpraProxy: HTTP requests for static assets
+    Browser->>XpraProxy: GET /firefox-launcher/proxy?port={port}&path={resource}
+    XpraProxy->>XpraServer: Forward with CSP bypass
+    XpraServer->>XpraProxy: Return Resource
+    XpraProxy->>Browser: Serve with Modified Headers
 ```
 
 ### 3. Cleanup Flow
@@ -195,9 +265,24 @@ sequenceDiagram
 ```mermaid
 sequenceDiagram
     participant Frontend
-    participant Backend
-    participant Xpra
+    participant CleanupAPI
+    participant LauncherAPI
+    participant XpraServer
     participant Firefox
+    participant Filesystem
+
+    Frontend->>CleanupAPI: POST /firefox-launcher/api/cleanup
+    CleanupAPI->>CleanupAPI: Identify Target Processes
+    CleanupAPI->>XpraServer: Terminate Xpra Process
+    XpraServer->>Firefox: Terminate Firefox Process
+    CleanupAPI->>Filesystem: Clean Session Directory
+    CleanupAPI->>LauncherAPI: Update Session Tracking
+    CleanupAPI->>Frontend: Confirm Cleanup Complete
+    
+    Note over CleanupAPI: Supports bulk cleanup
+    Frontend->>CleanupAPI: POST /cleanup (no process_id)
+    CleanupAPI->>CleanupAPI: Clean All Sessions
+```
     participant Filesystem
 
     Frontend->>Backend: POST /cleanup (process_id)

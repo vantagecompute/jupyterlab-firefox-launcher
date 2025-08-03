@@ -11,11 +11,11 @@ This document describes the automated release process for JupyterLab Firefox Lau
 
 ## Overview
 
-The release process is fully automated through GitHub Actions and is triggered when version tags (following the pattern `v*`) are pushed to the repository. The workflow ensures consistent, reliable releases with comprehensive testing and validation.
+The release process is fully automated through GitHub Actions and is triggered when version tags (following semantic versioning) are pushed to the repository. The workflow ensures consistent, reliable releases with comprehensive testing and validation.
 
 ```mermaid
 graph TD
-    A[Push Version Tag v1.0.0] --> B[GitHub Actions Trigger]
+    A[Push Version Tag 1.0.0] --> B[GitHub Actions Trigger]
     B --> C[Build Job]
     B --> D[Test Job]
     
@@ -51,16 +51,16 @@ The release process is triggered by pushing a version tag to the repository:
 
 ```bash
 # Create and push a version tag
-git tag v1.0.0
-git push origin v1.0.0
+git tag 1.0.0
+git push origin 1.0.0
 
 # Or use the automated release script
 ./scripts/create_release.sh 1.0.0
 ```
 
 **Tag Format Requirements:**
-- Must follow the pattern `v*` (e.g., `v1.0.0`, `v2.1.3`, `v1.0.0-rc1`)
-- Supports semantic versioning with pre-release identifiers
+- Must follow semantic versioning (e.g., `1.0.0`, `2.1.3`, `1.0.0-rc1`)
+- Supports pre-release identifiers (`alpha`, `beta`, `rc`)
 - Automatically determines if release is stable or pre-release based on version string
 
 ### GitHub Actions Workflow

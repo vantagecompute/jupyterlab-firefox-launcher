@@ -85,20 +85,22 @@ sudo dnf install -y xorg-x11-server-Xvfb dbus-x11  # CentOS/RHEL/Fedora
 #### Core Jupyter Components
 ```python
 # JupyterLab platform and extensions
-jupyterlab >= 4.0.0, < 5.0.0     # JupyterLab platform
-jupyter-server >= 2.0.0          # Jupyter server backend  
-tornado >= 6.0.0                 # Async web framework
+jupyterlab >= 4.4.5              # JupyterLab platform
+jupyter-server >= 2.0.1, < 3     # Jupyter server backend  
+tornado >= 6.1.0                 # Async web framework
 
 # Process and system monitoring
-psutil >= 5.8.0                  # Process management and monitoring
-```
+psutil                           # Process management and monitoring
 
-#### Optional but Recommended
-```python
-# Proxy integration (enhances functionality)
+# Proxy integration
 jupyter-server-proxy >= 3.0.0    # Enhanced proxy support
 
-# Enhanced process management
+# HTTP and WebSocket communication
+aiohttp >= 3.12.14               # Async HTTP client/server
+websockets >= 15.0.1             # WebSocket implementation
+requests >= 2.32.4               # HTTP library
+
+# System integration
 python-uinput >= 1.0.1           # Input device simulation
 ```
 
@@ -145,11 +147,8 @@ sphinx-rtd-theme                 # ReadTheDocs theme
 
 #### Standard Installation
 ```bash
-# Install runtime dependencies only
+# Install runtime dependencies
 pip install jupyterlab-firefox-launcher
-
-# Install with optional dependencies
-pip install "jupyterlab-firefox-launcher[proxy]"
 ```
 
 #### Development Installation

@@ -55,14 +55,30 @@ graph TD
 #### 1. **Entry Point: `build.sh`**
 ```bash
 #!/bin/bash
-# Copyright (c) 2025 Vantage Compute Corporation.
 
-rm -rf jupyterlab_firefox_launcher/labextension/static
-rm -rf jupyterlab_firefox_launcher/labextension/package.json
+deactivate
+
+pkill -f configurable-http-proxy
+pkill -f "jupyter*"
+
+rm -rf .venv
+# Clean previous build artifacts
+rm -rf jupyterlab_firefox_launcher/labextension
 rm -rf lib/
 rm -rf dist/
 
+uv venv
+source .venv/bin/activate
+# Build wheel package with verbose output and no cache
 uv build --wheel --no-cache --verbose
+
+uv pip install dist/*.whl --no-cache-dir
+uv pip install jupyterhub configurable-http-proxy jupyter-server
+
+pkill -f configurable-http-proxy
+pkill -f "jupyter*"
+
+jupyterhub --ip=0.0.0.0 --port=8889 --debug --Authenticator.allow_all=True
 ```
 
 **Purpose:**
@@ -602,23 +618,27 @@ function activate(app: JupyterFrontEnd): void {
 - Integration with jupyter-server-proxy
 
 **Firefox Handler (`firefox_handler.py`)**
-- Core session management logic
-- Xpra server integration and command generation
+Multi-handler architecture providing specialized functionality:
+
+- **FirefoxLauncherHandler**: Primary session launch and management API
+- **XpraClientHandler**: Custom Xpra HTML5 client template serving
+- **XpraProxyHandler**: HTTP proxy with CSP header modifications for iframe compatibility
+- **XpraWebSocketHandler**: Real-time WebSocket communication proxy
+- **XpraStaticHandler**: Static file serving with authentication bypass
+- **FirefoxCleanupHandler**: Resource cleanup and session termination
+
+Core functionality:
+- Xpra server integration and optimized command generation
 - Process lifecycle management (start, monitor, cleanup)
-- Multi-session support with port allocation
-- Session data persistence and retrieval
+- Multi-session support with dynamic port allocation
+- Session isolation with dedicated directories
+- JupyterHub proxy registration support
+- Environment detection (JupyterHub vs standalone)
 
 **Server Proxy Integration (`server_proxy.py`)**
 - jupyter-server-proxy entry point configuration
-- Proxy setup for Xpra HTML5 client access
-- URL mapping and routing
-
-**Session Cleanup (`session_cleanup.py`)**
-- Centralized session registry for tracking active sessions
-- Automatic cleanup on server shutdown
-- Process monitoring and zombie process detection
-- Resource cleanup (session directories, temp files)
-- Thread-safe session management
+- Proxy setup for legacy compatibility
+- Alternative integration path
 
 ### Testing
 
@@ -983,31 +1003,72 @@ echo 'user_pref("browser.startup.homepage", "about:blank");' >> "$PROFILE_DIR/us
 echo 'user_pref("browser.sessionstore.resume_from_crash", false);' >> "$PROFILE_DIR/user.js"
 ```
 
-#### Extending the API
+#### Extending the Handlers
 
-Add new API endpoints by extending the handlers:
+Add new functionality by extending the existing handlers:
 
 ```python
-class CustomFirefoxHandler(FirefoxLauncherHandler):
-    async def patch(self):
-        """Custom PATCH endpoint for session updates."""
-        data = self.get_json()
-        # Custom logic here
-        self.write({"status": "success"})
+# Custom launcher with additional features
+class CustomFirefoxLauncherHandler(FirefoxLauncherHandler):
+    async def post(self):
+        """Custom launch logic with additional validation."""
+        # Add custom validation
+        url = self.get_argument('url', 'about:blank')
+        if not self.validate_url(url):
+            self.set_status(400)
+            self.write({"success": False, "error": "Invalid URL"})
+            return
+        
+        # Call parent implementation
+        await super().post()
+    
+    def validate_url(self, url: str) -> bool:
+        """Custom URL validation logic."""
+        # Implementation here
+        return True
+
+# Custom proxy with additional header modifications
+class CustomXpraProxyHandler(XpraProxyHandler):
+    def modify_response_headers(self, response):
+        """Add custom security headers."""
+        super().modify_response_headers(response)
+        response.headers['X-Custom-Header'] = 'Firefox-Launcher'
+```
+
+#### Adding New Handler Types
+
+Register new handlers in `server_extension.py`:
+
+```python
+# In server_extension.py
+custom_pattern = _url_path_join(base_url, "firefox-launcher", "custom")
+handlers.append((custom_pattern + r"/?(?:\?.*)?$", CustomHandler))
 ```
 
 #### Performance Monitoring
 
-Add performance monitoring to track resource usage:
+Add monitoring to track session performance:
 
 ```python
 import psutil
 import time
+from typing import Dict, Any
 
-def monitor_session_resources(port: int):
-    """Monitor resource usage for a session."""
-    # Implementation for resource monitoring
-    pass
+def get_session_metrics(port: int) -> Dict[str, Any]:
+    """Get performance metrics for a session."""
+    try:
+        # Find Xpra process by port
+        for proc in psutil.process_iter(['pid', 'name', 'cmdline']):
+            if 'xpra' in proc.info['name'] and str(port) in ' '.join(proc.info['cmdline']):
+                return {
+                    'cpu_percent': proc.cpu_percent(),
+                    'memory_mb': proc.memory_info().rss / 1024 / 1024,
+                    'status': proc.status(),
+                    'create_time': proc.create_time()
+                }
+    except (psutil.NoSuchProcess, psutil.AccessDenied):
+        pass
+    return {}
 ```
 
 ## Next Steps

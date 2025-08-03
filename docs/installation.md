@@ -36,9 +36,9 @@ Before installing the extension, ensure your system meets the requirements:
 - **Python**: 3.10 or higher
 - **JupyterLab**: 4.0 or higher
 - **Node.js**: 16+ (for development only)
-- **xpra**: +5.x
-- **xfvb**: --
-- **Firefox**: --
+- **Xpra**: 4.0+ (required for remote display)
+- **Xvfb**: Latest (required for virtual display)
+- **Firefox**: Latest stable (browser engine)
 
 
 ## System Dependencies

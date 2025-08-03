@@ -31,11 +31,11 @@ pip show jupyterlab-firefox-launcher
 # Test X server functionality
 xvfb-run -a firefox --version
 
-# Test VNC server
-which x11vnc
+# Test Xpra functionality
+xpra --version
 
-# Test noVNC availability  
-which novnc_proxy || echo "noVNC not found in PATH"
+# Test Xpra HTML5 client support
+xpra start --bind-tcp=0.0.0.0:9999 --html=on --daemon=no --start-child=xterm & sleep 2 && curl -s http://localhost:9999/ | grep -q "Xpra HTML5" && echo "Xpra HTML5 client working" || echo "Xpra HTML5 client not working"
 
 # Check display availability
 echo $DISPLAY
@@ -138,53 +138,70 @@ ldd $(which firefox) | grep "not found"
 sudo apt install -y libgtk-3-0 libx11-xcb1 libxtst6 libxrandr2 libasound2 libpangocairo-1.0-0
 ```
 
-### 3. VNC Connection Issues
+### 3. Xpra Connection Issues
 
 **Symptoms:**
-- Session launches but VNC viewer shows blank screen
-- VNC connection refused
-- Performance issues in VNC viewer
+- Session launches but browser shows blank screen
+- Xpra connection refused
+- Performance issues in browser display
+- WebSocket connection failures
 
 **Solutions:**
 
-#### VNC Server Not Starting
+#### Xpra Server Not Starting
 ```bash
-# Check if x11vnc is installed
-which x11vnc || sudo apt install -y x11vnc
+# Check if Xpra is installed and working
+xpra --version
 
-# Test VNC server manually
+# Test Xpra server manually
 export DISPLAY=:99
 Xvfb $DISPLAY -screen 0 1024x768x24 &
-x11vnc -display $DISPLAY -forever -shared -rfbport 5900
+xpra start --bind-tcp=0.0.0.0:9999 --html=on --daemon=no --start-child=xterm
+
+# Check if Xpra HTML5 client is accessible
+curl -s http://localhost:9999/ | grep -q "Xpra HTML5"
 ```
 
 #### Connection Refused
 ```bash
 # Check if port is accessible
-netstat -tulpn | grep :6080
+netstat -tulpn | grep :43051  # Replace with actual port
 
 # Check firewall settings
 sudo ufw status
-sudo ufw allow 6080
+sudo ufw allow 43051  # Replace with actual port
 
-# Test local connection
-curl http://localhost:6080/
+# Test local connection to Xpra server
+curl http://localhost:43051/
+
+# Check Xpra server logs
+tail -f ~/.xpra/logs/
 ```
 
 #### Poor Performance
 ```bash
-# Reduce quality settings
-{
-  "quality": 50,
-  "dpi": 72
-}
-
-# Use lower resolution
-export FIREFOX_LAUNCHER_RESOLUTION="800x600"
+# Check Xpra server options (these are already optimized in the extension)
+# The extension uses:
+# --compressors=none --quality=100 --encoding=auto
+# --min-quality=30 --min-speed=30
 
 # Check system resources
 htop
 free -h
+
+# Check network connectivity if using remote JupyterLab
+ping your-jupyterlab-server
+```
+
+#### WebSocket Issues
+```bash
+# Check if WebSocket proxy is working
+# Look for "WebSocket connection failed" in browser console
+# This usually indicates proxy configuration issues
+
+# Enable debug logging
+export FIREFOX_LAUNCHER_DEBUG=1
+jupyter lab --log-level=DEBUG
 ```
 
 ### 4. Permission Issues
@@ -286,7 +303,7 @@ cat ~/.local/share/jupyterlab-firefox-launcher/sessions/*/session_info.json
 # Dockerfile additions for GUI support
 RUN apt-get update && apt-get install -y \
     xvfb \
-    x11vnc \
+    xpra \
     firefox \
     dbus-x11 \
     && rm -rf /var/lib/apt/lists/*
@@ -435,7 +452,7 @@ sudo apt update
 sudo apt install -y \
     firefox \
     xvfb \
-    x11vnc \
+    xpra \
     dbus-x11 \
     xauth \
     xfonts-base \
@@ -461,7 +478,7 @@ sudo apt install firefox
 sudo yum install -y epel-release
 
 # Install packages
-sudo yum install -y firefox xorg-x11-server-Xvfb x11vnc
+sudo yum install -y firefox xorg-x11-server-Xvfb xpra
 ```
 
 #### SELinux Issues
@@ -510,10 +527,10 @@ valgrind --tool=memcheck firefox --version
 netstat -tulpn | grep firefox
 
 # Trace network activity
-tcpdump -i lo port 6080
+tcpdump -i lo port 43051  # Replace with actual Xpra port
 
-# Debug VNC protocol
-x11vnc -display :99 -verbose -debug 2
+# Debug Xpra protocol
+xpra info tcp://localhost:43051  # Replace with actual port
 ```
 
 ### Process Debugging
@@ -601,10 +618,10 @@ dmesg | tail -100 > dmesg.log
 journalctl --user -u jupyter-lab --no-pager > journal.log
 
 # Process information
-ps aux | grep -E "(firefox|jupyter|xvfb|x11vnc)" > processes.txt
+ps aux | grep -E "(firefox|jupyter|xvfb|xpra)" > processes.txt
 
 # Network information
-netstat -tulpn | grep -E "(6080|8888)" > network.txt
+netstat -tulpn | grep -E "(43051|8888)" > network.txt
 
 # Tar the bundle
 cd ..

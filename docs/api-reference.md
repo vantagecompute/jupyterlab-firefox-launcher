@@ -1,4 +1,5 @@
 ---
+# Copyright (c) 2025 Vantage Compute Corporation.
 layout: page
 title: API Reference
 permalink: /api-reference/
@@ -16,31 +17,27 @@ The server extension provides REST API endpoints for managing Firefox sessions.
 
 #### Launch Session
 
-**POST** `/jupyterlab-firefox-launcher/launch`
+**POST** `/firefox-launcher/api/firefox`
 
 Launch a new Firefox session.
 
 **Request Body:**
 ```json
 {
-  "url": "https://example.com",
-  "quality": 80,
-  "dpi": 96
+  "url": "https://example.com"
 }
 ```
 
 **Parameters:**
 - `url` (string, optional): URL to open in Firefox. Defaults to `about:blank`
-- `quality` (integer, optional): Video quality 1-100. Defaults to `80`
-- `dpi` (integer, optional): Display DPI 50-200. Defaults to `96`
 
 **Response:**
 ```json
 {
   "success": true,
-  "port": 6080,
-  "session_id": "session_abc123",
-  "url": "http://localhost:6080/vnc.html",
+  "port": 43051,
+  "session_id": "Firefox-Session-43051",
+  "url": "/firefox-launcher/client?port=43051",
   "message": "Firefox session launched successfully"
 }
 ```
@@ -54,50 +51,86 @@ Launch a new Firefox session.
 }
 ```
 
-#### Delete Session
+#### Get Session Status / Redirect
 
-**DELETE** `/jupyterlab-firefox-launcher/sessions/{session_id}`
+**GET** `/firefox-launcher/api/firefox?port={port}`
 
-Delete a specific Firefox session.
+Get session status or redirect to the Firefox client.
 
 **Parameters:**
-- `session_id` (string): ID of the session to delete
+- `port` (integer): Port number of the Firefox session
+
+**Response:**
+- **302 Redirect**: Redirects to the Firefox client interface
+- **404 Not Found**: If session doesn't exist
+
+#### Cleanup Session
+
+**POST** `/firefox-launcher/api/cleanup`
+
+Clean up Firefox sessions.
+
+**Request Body:**
+```json
+{
+  "process_id": 12345
+}
+```
+
+**Parameters:**
+- `process_id` (integer, optional): Specific process ID to clean up. If not provided, cleans all sessions.
 
 **Response:**
 ```json
 {
   "success": true,
-  "message": "Session deleted successfully"
+  "message": "Cleanup completed successfully",
+  "processes_terminated": 3
 }
 ```
 
-#### List Sessions
+#### Get Xpra Client
 
-**GET** `/jupyterlab-firefox-launcher/sessions`
+**GET** `/firefox-launcher/client?port={port}&httpUrl={url}&websocketUrl={ws_url}`
 
-Get information about all active sessions.
+Get the custom Xpra HTML5 client interface.
+
+**Parameters:**
+- `port` (integer): Port number of the Xpra server
+- `httpUrl` (string, optional): HTTP URL for the Xpra server
+- `websocketUrl` (string, optional): WebSocket URL for the Xpra server
 
 **Response:**
-```json
-{
-  "sessions": [
-    {
-      "session_id": "session_abc123",
-      "port": 6080,
-      "pid": 12345,
-      "created_at": "2024-12-19T10:30:00Z",
-      "status": "running"
-    }
-  ],
-  "count": 1
-}
-```
+- **200 OK**: Returns HTML5 Xpra client interface
+- **404 Not Found**: If client template is not available
 
-#### Session Status
+#### Proxy Xpra Content
 
-**GET** `/jupyterlab-firefox-launcher/sessions/{session_id}/status`
+**GET** `/firefox-launcher/proxy?port={port}&path={path}`
 
-Get status of a specific session.
+Proxy requests to the Xpra server with CSP header modifications.
+
+**Parameters:**
+- `port` (integer): Port number of the Xpra server  
+- `path` (string, optional): Path to proxy to the Xpra server
+
+**WebSocket Proxy**
+
+**WebSocket** `/firefox-launcher/ws?port={port}`
+
+WebSocket proxy for Xpra connections.
+
+**Parameters:**
+- `port` (integer): Port number of the Xpra server
+
+#### Static File Handler
+
+**GET** `/firefox-launcher/{path}`
+
+Serve static files from the Xpra server with authentication bypass.
+
+**Parameters:**
+- `path` (string): Path to the static file on the Xpra server
 
 **Response:**
 ```json
@@ -111,283 +144,96 @@ Get status of a specific session.
 }
 ```
 
-### Python API
+## Python API
+
+The extension provides handler classes that can be extended or integrated:
+
+### Handler Classes
 
 #### FirefoxLauncherHandler
-
-Main request handler for the server extension.
+Main request handler for session launch and management.
 
 ```python
 from jupyterlab_firefox_launcher.firefox_handler import FirefoxLauncherHandler
-
-class FirefoxLauncherHandler(tornado.web.RequestHandler):
-    """Main handler for Firefox launcher requests."""
 ```
 
-##### Methods
+**Methods:**
+- `async post(self)`: Handle session launch requests
+- `async get(self)`: Handle session status/redirect requests
 
-**async post(self)**
-Handle POST requests to launch new Firefox sessions.
+#### XpraClientHandler
+Serves the custom Xpra HTML5 client interface.
 
-**async delete(self, session_id: str)**
-Handle DELETE requests to terminate sessions.
+```python
+from jupyterlab_firefox_launcher.firefox_handler import XpraClientHandler
+```
 
-**async get(self, session_id: str = None)**
-Handle GET requests for session information.
+#### XpraProxyHandler
+Proxies HTTP requests to Xpra servers with CSP modifications.
+
+```python
+from jupyterlab_firefox_launcher.firefox_handler import XpraProxyHandler
+```
+
+#### XpraWebSocketHandler
+WebSocket proxy for real-time Xpra communication.
+
+```python
+from jupyterlab_firefox_launcher.firefox_handler import XpraWebSocketHandler
+```
+
+#### XpraStaticHandler
+Serves static files with authentication bypass.
+
+```python
+from jupyterlab_firefox_launcher.firefox_handler import XpraStaticHandler
+```
 
 #### FirefoxCleanupHandler
-
-Automatic cleanup handler for terminated sessions.
+Handles session cleanup and resource management.
 
 ```python
 from jupyterlab_firefox_launcher.firefox_handler import FirefoxCleanupHandler
-
-class FirefoxCleanupHandler:
-    """Handles automatic cleanup of terminated Firefox sessions."""
 ```
 
-##### Methods
+**Methods:**
+- `async post(self)`: Handle cleanup requests
 
-**cleanup_sessions()**
-Scan for and clean up terminated sessions.
-
-**is_process_running(pid: int) -> bool**
-Check if a process is still running.
-
-**cleanup_session_directory(session_dir: Path)**
-Remove session directory and files.
-
-#### Utility Functions
-
-**get_available_port() -> int**
-Find an available port for VNC server.
-
+### Environment Detection
 ```python
-from jupyterlab_firefox_launcher.firefox_handler import get_available_port
+from jupyterlab_firefox_launcher.firefox_handler import _detect_environment
 
-port = get_available_port()
-print(f"Available port: {port}")
+env = _detect_environment()  # Returns 'jupyterhub', 'jupyterlab', or 'unknown'
 ```
 
-**create_session_directory(port: int) -> Path**
-Create isolated session directory.
+## Frontend Integration
 
-```python
-from jupyterlab_firefox_launcher.firefox_handler import create_session_directory
+The frontend integrates with JupyterLab's plugin system and communicates with the backend via HTTP APIs.
 
-session_dir = create_session_directory(6080)
-print(f"Session directory: {session_dir}")
-```
+### JupyterLab Plugin Integration
 
-**launch_firefox_session(port: int, url: str, quality: int, dpi: int) -> dict**
-Launch Firefox with VNC server.
+The extension is registered as a JupyterLab plugin that:
+- Adds a Firefox launcher button to the JupyterLab launcher
+- Handles session creation and management through HTTP APIs
+- Manages widget lifecycle and cleanup
+- Provides user feedback and error handling
 
-```python
-from jupyterlab_firefox_launcher.firefox_handler import launch_firefox_session
+### API Communication
 
-result = launch_firefox_session(
-    port=6080,
-    url="https://example.com",
-    quality=80,
-    dpi=96
-)
-```
+The frontend communicates with the backend handlers via:
+- **Session Launch**: `POST /firefox-launcher/api/firefox`
+- **Session Cleanup**: `POST /firefox-launcher/api/cleanup`
+- **Client Interface**: Direct navigation to `/firefox-launcher/client?port={port}`
 
-## Frontend API
+### Widget Lifecycle
 
-### TypeScript Interfaces
+1. User clicks Firefox launcher button
+2. Frontend makes API call to launch session
+3. Backend returns session information and client URL
+4. Frontend navigates to Xpra HTML5 client
+5. Session runs until user closes or cleanup occurs
 
-#### ISessionInfo
-
-Interface for session information.
-
-```typescript
-interface ISessionInfo {
-  session_id: string;
-  port: number;
-  pid: number;
-  created_at: string;
-  status: 'running' | 'stopped' | 'error';
-  uptime?: number;
-}
-```
-
-#### ILaunchRequest
-
-Interface for launch request parameters.
-
-```typescript
-interface ILaunchRequest {
-  url?: string;
-  quality?: number;
-  dpi?: number;
-}
-```
-
-#### ILaunchResponse
-
-Interface for launch response.
-
-```typescript
-interface ILaunchResponse {
-  success: boolean;
-  port?: number;
-  session_id?: string;
-  url?: string;
-  message?: string;
-  error?: string;
-  details?: string;
-}
-```
-
-### Classes
-
-#### FirefoxLauncherWidget
-
-Main widget for the Firefox launcher interface.
-
-```typescript
-import { FirefoxLauncherWidget } from 'jupyterlab-firefox-launcher';
-
-class FirefoxLauncherWidget extends Widget {
-  constructor(options: FirefoxLauncherWidget.IOptions) {
-    // Implementation
-  }
-}
-```
-
-##### Properties
-
-- `sessions: Map<string, ISessionInfo>` - Active sessions
-- `isLaunching: boolean` - Launch state indicator
-
-##### Methods
-
-**async launchSession(request: ILaunchRequest): Promise<ILaunchResponse>**
-Launch a new Firefox session.
-
-**async deleteSession(sessionId: string): Promise<void>**
-Delete a specific session.
-
-**async refreshSessions(): Promise<void>**
-Refresh the list of active sessions.
-
-**openSessionInNewTab(sessionId: string): void**
-Open session VNC viewer in new browser tab.
-
-#### FirefoxAPI
-
-API client for communicating with the server extension.
-
-```typescript
-import { FirefoxAPI } from 'jupyterlab-firefox-launcher';
-
-const api = new FirefoxAPI();
-```
-
-##### Methods
-
-**async launch(request: ILaunchRequest): Promise<ILaunchResponse>**
-Launch new session via API.
-
-```typescript
-const response = await api.launch({
-  url: 'https://example.com',
-  quality: 80,
-  dpi: 96
-});
-```
-
-**async deleteSessions(sessionId: string): Promise<void>**
-Delete session via API.
-
-```typescript
-await api.deleteSession('session_abc123');
-```
-
-**async getSessions(): Promise<ISessionInfo[]>**
-Get all active sessions.
-
-```typescript
-const sessions = await api.getSessions();
-```
-
-**async getSessionStatus(sessionId: string): Promise<ISessionInfo>**
-Get specific session status.
-
-```typescript
-const status = await api.getSessionStatus('session_abc123');
-```
-
-### React Components
-
-#### LaunchForm
-
-Form component for launching new sessions.
-
-```typescript
-interface LaunchFormProps {
-  onLaunch: (request: ILaunchRequest) => Promise<void>;
-  isLaunching: boolean;
-}
-
-export const LaunchForm: React.FC<LaunchFormProps> = (props) => {
-  // Implementation
-};
-```
-
-#### SessionList
-
-Component for displaying active sessions.
-
-```typescript
-interface SessionListProps {
-  sessions: ISessionInfo[];
-  onDelete: (sessionId: string) => Promise<void>;
-  onOpen: (sessionId: string) => void;
-  onRefresh: () => Promise<void>;
-}
-
-export const SessionList: React.FC<SessionListProps> = (props) => {
-  // Implementation
-};
-```
-
-#### SessionCard
-
-Component for individual session display.
-
-```typescript
-interface SessionCardProps {
-  session: ISessionInfo;
-  onDelete: () => Promise<void>;
-  onOpen: () => void;
-}
-
-export const SessionCard: React.FC<SessionCardProps> = (props) => {
-  // Implementation
-};
-```
-
-## Configuration API
-
-### Server Configuration
-
-Server extension can be configured via `jupyter_server_config.py`:
-
-```python
-# jupyter_server_config.py
-c.ServerApp.jpserver_extensions = {
-    'jupyterlab_firefox_launcher': True
-}
-
-# Custom configuration
-c.FirefoxLauncherApp.cleanup_interval = 300  # seconds
-c.FirefoxLauncherApp.max_sessions = 10
-c.FirefoxLauncherApp.session_timeout = 3600  # seconds
-c.FirefoxLauncherApp.default_quality = 80
-c.FirefoxLauncherApp.default_dpi = 96
-```
+## Configuration
 
 ### Environment Variables
 
@@ -397,177 +243,80 @@ Configure behavior via environment variables:
 # Enable debug logging
 export FIREFOX_LAUNCHER_DEBUG=1
 
-# Set session timeout (seconds)
-export FIREFOX_LAUNCHER_TIMEOUT=3600
+# Development override for firefox-xstartup script
+export DEV_FIREFOX_LAUNCHER_PATH=/path/to/custom/script
 
-# Set maximum concurrent sessions
-export FIREFOX_LAUNCHER_MAX_SESSIONS=5
+# JupyterHub integration settings (set automatically by JupyterHub)
+export JUPYTERHUB_SERVICE_PREFIX=/user/username/
+export CONFIGPROXY_API_URL=http://localhost:8001/api/routes
+export CONFIGPROXY_AUTH_TOKEN=secret-token
+```
 
-# Set cleanup interval (seconds)
-export FIREFOX_LAUNCHER_CLEANUP_INTERVAL=300
+### JupyterLab Configuration
 
-# Set default video quality (1-100)
-export FIREFOX_LAUNCHER_DEFAULT_QUALITY=80
+The extension integrates automatically with JupyterLab. Server extension settings can be configured in `jupyter_server_config.py`:
 
-# Set default DPI (50-200)
-export FIREFOX_LAUNCHER_DEFAULT_DPI=96
+```python
+# jupyter_server_config.py
+c.ServerApp.jpserver_extensions = {
+    'jupyterlab_firefox_launcher': True
+}
+```
+
+### Xpra Configuration
+
+The extension uses optimized Xpra settings for performance:
+
+```bash
+# Automatically configured by the extension:
+--compressors=none 
+--quality=100 
+--encoding=auto
+--min-quality=30 
+--min-speed=30
+--auto-refresh-delay=0.15
+--html=on
+--bind-tcp=0.0.0.0:{port}
 ```
 
 ## Error Handling
 
-### Error Types
-
-#### LaunchError
-
-Raised when Firefox session launch fails.
-
-```python
-from jupyterlab_firefox_launcher.exceptions import LaunchError
-
-try:
-    launch_firefox_session(port, url, quality, dpi)
-except LaunchError as e:
-    print(f"Launch failed: {e}")
-```
-
-#### SessionNotFoundError
-
-Raised when requested session doesn't exist.
-
-```python
-from jupyterlab_firefox_launcher.exceptions import SessionNotFoundError
-
-try:
-    delete_session(session_id)
-except SessionNotFoundError as e:
-    print(f"Session not found: {e}")
-```
-
-#### PortUnavailableError
-
-Raised when no ports are available.
-
-```python
-from jupyterlab_firefox_launcher.exceptions import PortUnavailableError
-
-try:
-    port = get_available_port()
-except PortUnavailableError as e:
-    print(f"No ports available: {e}")
-```
-
-### Error Responses
+### Error Response Format
 
 All API endpoints return structured error responses:
 
 ```json
 {
   "success": false,
-  "error": "Error type",
-  "details": "Detailed error message",
-  "code": "ERROR_CODE"
+  "error": "Error type description",
+  "details": "Detailed error message for debugging"
 }
 ```
 
-#### Error Codes
+### Common Error Types
 
-- `LAUNCH_FAILED`: Firefox session launch failed
-- `SESSION_NOT_FOUND`: Requested session doesn't exist
-- `PORT_UNAVAILABLE`: No available ports
-- `INVALID_PARAMETERS`: Invalid request parameters
-- `PERMISSION_DENIED`: Insufficient permissions
-- `SYSTEM_ERROR`: System-level error
+#### Session Launch Failures
+- **Port allocation errors**: No available ports
+- **Process launch failures**: Xpra or Firefox startup issues  
+- **Directory creation errors**: Filesystem permission issues
+- **System resource limits**: Insufficient memory or processes
 
-## Events
+#### Session Access Errors
+- **Session not found**: Invalid or expired session
+- **Connection failures**: Network or proxy issues
+- **Authentication errors**: JupyterLab security validation
 
-### Frontend Events
+#### Cleanup Errors
+- **Process termination issues**: Stuck or unresponsive processes
+- **Directory cleanup failures**: Filesystem permission issues
 
-The frontend emits custom events for session management:
+### Error Logging
 
-#### session-launched
+Enable debug logging for detailed error information:
 
-Emitted when a new session is launched.
-
-```typescript
-document.addEventListener('session-launched', (event: CustomEvent) => {
-  const session = event.detail.session;
-  console.log('Session launched:', session);
-});
-```
-
-#### session-deleted
-
-Emitted when a session is deleted.
-
-```typescript
-document.addEventListener('session-deleted', (event: CustomEvent) => {
-  const sessionId = event.detail.sessionId;
-  console.log('Session deleted:', sessionId);
-});
-```
-
-#### sessions-refreshed
-
-Emitted when session list is refreshed.
-
-```typescript
-document.addEventListener('sessions-refreshed', (event: CustomEvent) => {
-  const sessions = event.detail.sessions;
-  console.log('Sessions refreshed:', sessions);
-});
-```
-
-## Plugin System
-
-### JupyterLab Plugin
-
-The extension is implemented as a JupyterLab plugin:
-
-```typescript
-import {
-  JupyterFrontEnd,
-  JupyterFrontEndPlugin
-} from '@jupyterlab/application';
-
-const plugin: JupyterFrontEndPlugin<void> = {
-  id: 'jupyterlab-firefox-launcher',
-  autoStart: true,
-  requires: [],
-  optional: [],
-  activate: (app: JupyterFrontEnd) => {
-    // Plugin activation logic
-  }
-};
-
-export default plugin;
-```
-
-### Extension Points
-
-The plugin provides extension points for customization:
-
-#### Custom Launch Handlers
-
-```typescript
-interface ILaunchHandler {
-  canHandle(request: ILaunchRequest): boolean;
-  handle(request: ILaunchRequest): Promise<ILaunchResponse>;
-}
-
-// Register custom handler
-app.registerLaunchHandler(myCustomHandler);
-```
-
-#### Custom Session Renderers
-
-```typescript
-interface ISessionRenderer {
-  canRender(session: ISessionInfo): boolean;
-  render(session: ISessionInfo): Widget;
-}
-
-// Register custom renderer
-app.registerSessionRenderer(myCustomRenderer);
+```bash
+export FIREFOX_LAUNCHER_DEBUG=1
+jupyter lab --log-level=DEBUG
 ```
 
 ## Debugging
@@ -576,33 +325,44 @@ app.registerSessionRenderer(myCustomRenderer);
 
 Enable debug mode for detailed logging:
 
-```python
-# In Python
-import logging
-logging.getLogger('jupyterlab_firefox_launcher').setLevel(logging.DEBUG)
-```
-
 ```bash
 # Via environment variable
 export FIREFOX_LAUNCHER_DEBUG=1
-jupyter lab
+jupyter lab --log-level=DEBUG
 ```
 
-### Debug Information
+### Process Monitoring
 
-Access debug information via the API:
+Monitor active Firefox sessions:
 
-```python
-from jupyterlab_firefox_launcher.debug import get_debug_info
+```bash
+# Check for running Xpra processes
+ps aux | grep xpra
 
-debug_info = get_debug_info()
-print(debug_info)
+# Check session directories
+ls -la ~/.firefox-launcher/sessions/
+
+# Monitor resource usage
+htop | grep firefox
+```
+
+### Network Debugging
+
+```bash
+# Check active ports
+netstat -tulpn | grep -E "(43051|8000)"
+
+# Test Xpra server directly
+curl http://localhost:43051/
+
+# Check WebSocket connections
+ss -tulpn | grep :43051
 ```
 
 Returns:
 ```python
 {
-  'version': '0.1.0',
+  'version': '0.9.10',
   'sessions': {...},
   'system_info': {...},
   'configuration': {...}
@@ -614,7 +374,7 @@ Returns:
 ### Session Limits
 
 - **Maximum concurrent sessions**: 10 (configurable)
-- **Session timeout**: 1 hour (configurable)
+- **Session timeout**: 1 hour (configurable)  
 - **Cleanup interval**: 5 minutes (configurable)
 
 ### Resource Usage
@@ -627,9 +387,9 @@ Each Firefox session consumes:
 ### Optimization Tips
 
 1. **Limit concurrent sessions** to available system resources
-2. **Use appropriate quality settings** (lower quality = less bandwidth)
+2. **Use appropriate Xpra settings** (already optimized in extension)
 3. **Set reasonable timeouts** to prevent resource leaks
-4. **Monitor session usage** via the sessions API
+4. **Monitor session usage** via the cleanup API
 5. **Clean up unused sessions** regularly
 
 ## Security
@@ -638,37 +398,42 @@ Each Firefox session consumes:
 
 Sessions are isolated by:
 - **Process separation**: Each session runs in separate process
-- **Directory isolation**: Separate profile directories
+- **Directory isolation**: Separate profile directories per session
 - **Port isolation**: Unique ports per session
+- **Authentication integration**: JupyterLab's security model
 
 ### Network Security
 
-- VNC servers bind to localhost only
+- Xpra servers bind to localhost only
 - No external network access by default
 - HTTPS support via JupyterLab configuration
+- CSP header management for iframe compatibility
 
 ### Data Protection
 
-- Session directories are temporary
+- Session directories are temporary and isolated
 - Automatic cleanup on session termination
 - No persistent storage of browsing data
+- Authentication bypass only for approved static resources
 
 For more security considerations, see the [Security Documentation]({{ site.baseurl }}/security).
 
 ## Changelog
 
-### Version 0.1.0
+### Version 0.9.10
 
-- Initial release
-- Basic Firefox session management
-- VNC integration
-- JupyterLab 4.0+ support
+- Multi-handler architecture implementation
+- Xpra-based remote display (replaces VNC)
+- JupyterHub proxy integration
+- Authentication bypass for static files
+- WebSocket proxy support
+- Comprehensive session isolation
+- JupyterLab 4.4.5+ support
 
 ### Roadmap
 
-- **0.2.0**: Session persistence and recovery
-- **0.3.0**: Advanced configuration options
-- **0.4.0**: Multi-browser support
+- **0.9.11**: Performance optimizations and bug fixes
+- **0.10.0**: Enhanced session persistence and recovery
 - **1.0.0**: Production-ready stable release
 
 For complete version history, see [CHANGELOG.md](https://github.com/vantagecompute/jupyterlab-firefox-launcher/blob/main/CHANGELOG.md).
