@@ -521,8 +521,7 @@ The `build.sh` script provides a complete production build:
 #!/bin/bash
 
 # Clean previous build artifacts
-rm -rf jupyterlab_firefox_launcher/labextension/static
-rm -rf jupyterlab_firefox_launcher/labextension/package.json
+rm -rf jupyterlab_firefox_launcher/labextension
 rm -rf lib/
 rm -rf dist/
 
@@ -533,8 +532,7 @@ uv build --wheel --no-cache --verbose
 **Build Process Breakdown:**
 
 1. **Cleanup Phase**: Removes previous build artifacts
-   - `labextension/static/`: Compiled frontend assets
-   - `labextension/package.json`: Frontend package metadata
+   - `labextension`: Built frontend jupyterlab package 
    - `lib/`: TypeScript compilation output
    - `dist/`: Python wheel distribution
 

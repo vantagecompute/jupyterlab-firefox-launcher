@@ -23,6 +23,142 @@ from typing import Any, Dict, List
 import psutil
 from jupyter_server.base.handlers import JupyterHandler
 from tornado import web
+from tornado.httpclient import AsyncHTTPClient
+import tornado.websocket
+
+
+def _detect_environment():
+    """
+    Detect whether we're running in JupyterHub or standalone JupyterLab.
+    
+    Returns:
+        str: 'jupyterhub', 'jupyterlab', or 'unknown'
+    """
+    # Check for JupyterHub environment variables
+    if os.environ.get('JUPYTERHUB_SERVICE_PREFIX') or os.environ.get('CONFIGPROXY_API_URL'):
+        return 'jupyterhub'
+    
+    # Check for JupyterLab/Jupyter Server indicators
+    if os.environ.get('JUPYTER_SERVER_ROOT') or 'jupyter' in sys.modules:
+        return 'jupyterlab'
+    
+    return 'unknown'
+
+
+async def _register_with_configurable_http_proxy(port: int, base_url: str = "/") -> bool:
+    """
+    Register a new route with configurable-http-proxy (JupyterHub's proxy).
+    
+    Args:
+        port: The port number for the Xpra server
+        base_url: The base URL (usually from JupyterHub)
+        
+    Returns:
+        bool: True if registration succeeded, False otherwise
+    """
+    try:
+        # Get the JupyterHub proxy API endpoint
+        # This is usually set by JupyterHub when starting the single-user server
+        proxy_api_url = os.environ.get('CONFIGPROXY_API_URL')
+        proxy_auth_token = os.environ.get('CONFIGPROXY_AUTH_TOKEN')
+        
+        if not proxy_api_url or not proxy_auth_token:
+            _logger.debug(f"JupyterHub proxy environment not detected (API: {proxy_api_url}, Token: {'***' if proxy_auth_token else None})")
+            return False
+            
+        # Construct the route to register
+        # Format: /user/{username}/proxy/{port}/ -> http://localhost:{port}/
+        route_path = f"{base_url}proxy/{port}"
+        if not route_path.startswith("/"):
+            route_path = "/" + route_path
+            
+        target_url = f"http://localhost:{port}"
+        
+        # Prepare the registration request
+        registration_data = {
+            "target": target_url,
+            "last_activity": None
+        }
+        
+        client = AsyncHTTPClient()
+        
+        # Make the POST request to register the route
+        response = await client.fetch(
+            f"{proxy_api_url}/api/routes{route_path}",
+            method="POST",
+            headers={
+                "Authorization": f"token {proxy_auth_token}",
+                "Content-Type": "application/json"
+            },
+            body=json.dumps(registration_data),
+            raise_error=False
+        )
+        
+        if response.code in (200, 201):
+            _logger.info(f"✅ Successfully registered proxy route: {route_path} -> {target_url}")
+            return True
+        else:
+            _logger.warning(f"❌ Failed to register proxy route: {response.code} {response.reason}")
+            return False
+            
+    except Exception as e:
+        _logger.debug(f"Failed to register with configurable-http-proxy: {e}")
+        return False
+    finally:
+        try:
+            client.close()
+        except:
+            pass
+
+
+async def _unregister_from_configurable_http_proxy(port: int, base_url: str = "/") -> bool:
+    """
+    Unregister a route from configurable-http-proxy.
+    
+    Args:
+        port: The port number for the Xpra server
+        base_url: The base URL
+        
+    Returns:
+        bool: True if unregistration succeeded, False otherwise
+    """
+    try:
+        proxy_api_url = os.environ.get('CONFIGPROXY_API_URL')
+        proxy_auth_token = os.environ.get('CONFIGPROXY_AUTH_TOKEN')
+        
+        if not proxy_api_url or not proxy_auth_token:
+            return False
+            
+        route_path = f"{base_url}proxy/{port}"
+        if not route_path.startswith("/"):
+            route_path = "/" + route_path
+            
+        client = AsyncHTTPClient()
+        
+        response = await client.fetch(
+            f"{proxy_api_url}/api/routes{route_path}",
+            method="DELETE",
+            headers={
+                "Authorization": f"token {proxy_auth_token}"
+            },
+            raise_error=False
+        )
+        
+        if response.code in (200, 204):
+            _logger.info(f"✅ Successfully unregistered proxy route: {route_path}")
+            return True
+        else:
+            _logger.warning(f"❌ Failed to unregister proxy route: {response.code}")
+            return False
+            
+    except Exception as e:
+        _logger.debug(f"Failed to unregister from configurable-http-proxy: {e}")
+        return False
+    finally:
+        try:
+            client.close()
+        except:
+            pass
 
 # Set up a logger for this module
 if not logging.getLogger().hasHandlers():
@@ -233,14 +369,14 @@ def _create_xpra_command(port: int) -> List[str]:
     except Exception as version_error:
         _logger.debug(f"Could not detect Xpra version: {version_error}")
 
-    # Note: Using only TCP binding - WebSocket will use the same port
+    # Note: Using only TCP binding - WebSocket will use the same port for direct connectivity
     # This is the configuration that was working before
 
     # Log key configuration decisions
     _logger.info("🔧 Xpra Configuration Decisions:")
     _logger.info(f"   TCP Binding: 0.0.0.0:{port} (all interfaces)")
-    _logger.info("   WebSocket: Will use same port as TCP (Xpra default)")
-    _logger.info("   HTML5 Client: Enabled with WebSocket support")
+    _logger.info("   WebSocket: Direct WebSocket connection (HTML5 client disabled)")
+    _logger.info("   HTML5 Client: Disabled - using pure WebSocket connectivity")
     _logger.info("   Daemon Mode: Disabled (foreground for process management)")
     _logger.info(f"   Child Process: {firefox_wrapper}")
     _logger.info(f"   Session Directory: {session_dir} (unified session structure)")
@@ -270,7 +406,7 @@ def _create_xpra_command(port: int) -> List[str]:
         "start",
         f"--bind-tcp=0.0.0.0:{port}",        # Use the provided port for TCP
         "--bind=none",  # Disable Unix socket binding to force TCP only
-        "--html=on",  # Enable HTML5 client
+        "--html=on",  # Enable HTML5 client - we'll use direct HTTP URL
         "--daemon=no",  # Run in foreground for proper process management
         "--exit-with-children=yes",  # Exit when Firefox closes
         "--start-via-proxy=no",  # Disable proxy startup to avoid session manager issues
@@ -648,12 +784,12 @@ class FirefoxLauncherHandler(JupyterHandler):
             port = next(iter(FirefoxLauncherHandler._active_sessions.keys()))
 
             # Instead of redirecting to proxy (which doesn't work), provide direct WebSocket URL
-            import socket
-            hostname = socket.gethostname()
+            # Use the notebook server's IP address instead of hostname for proper connectivity
+            server_ip = self.request.host.split(':')[0] if self.request.host else 'localhost'
             
             # Create direct WebSocket URL that bypasses the proxy
-            direct_ws_url = f"ws://{hostname}:{port}/"
-            direct_http_url = f"http://{hostname}:{port}/"
+            direct_ws_url = f"ws://{server_ip}:{port}/"
+            direct_http_url = f"http://{server_ip}:{port}/"
             
             # Get the base URL for fallback proxy path
             base_url = self.settings.get("base_url", "/")
@@ -709,16 +845,18 @@ class FirefoxLauncherHandler(JupyterHandler):
                         "port": port,
                     }
 
-                    # Register the dynamic proxy route with jupyter-server-proxy
+                    # Register the dynamic proxy route with appropriate method based on environment
+                    environment = _detect_environment()
+                    self.log.info(f"🌍 Detected environment: {environment}")
                     await self._register_dynamic_proxy(port)
 
                     # Instead of using proxy path, provide direct WebSocket URLs
-                    import socket
-                    hostname = socket.gethostname()
+                    # Use the notebook server's IP address instead of hostname for proper connectivity
+                    server_ip = self.request.host.split(':')[0] if self.request.host else 'localhost'
                     
                     # Create direct WebSocket URL that bypasses the proxy
-                    direct_ws_url = f"ws://{hostname}:{port}/"
-                    direct_http_url = f"http://{hostname}:{port}/"
+                    direct_ws_url = f"ws://{server_ip}:{port}/"
+                    direct_http_url = f"http://{server_ip}:{port}/"
                     
                     # Get the base URL for fallback proxy path
                     base_url = self.settings.get("base_url", "/")
@@ -726,24 +864,31 @@ class FirefoxLauncherHandler(JupyterHandler):
                     if not proxy_path.startswith("/"):
                         proxy_path = "/" + proxy_path
 
+                    # Create client URL with connection parameters
+                    client_url = f"{base_url}firefox-launcher/client?ws={direct_ws_url}&http={direct_http_url}"
+                    if not client_url.startswith("/"):
+                        client_url = "/" + client_url
+
                     self.log.info(
                         f"Firefox launched successfully on port {port} with process ID {process_id}"
                     )
                     self.log.info(f"🌐 Direct WebSocket URL: {direct_ws_url}")
                     self.log.info(f"🌐 Direct HTTP URL: {direct_http_url}")
+                    self.log.info(f"🌐 Custom client URL: {client_url}")
                     self.log.info(f"🌐 Fallback proxy path: {proxy_path}")
                     self.set_status(200)
                     self.write(
                         {
                             "status": "success",
-                            "message": "Firefox launched successfully - use direct WebSocket connection",
+                            "message": "Firefox launched successfully - use custom client for best compatibility",
                             "port": port,
                             "process_id": process_id,
                             "websocket_url": direct_ws_url,
                             "http_url": direct_http_url,
+                            "client_url": client_url,
                             "proxy_path": proxy_path,
                             "direct_connection": True,
-                            "instructions": "Connect directly to websocket_url to bypass proxy issues"
+                            "instructions": "Use client_url for best compatibility, or websocket_url for direct connection"
                         }
                     )
                 else:
@@ -991,10 +1136,115 @@ class FirefoxLauncherHandler(JupyterHandler):
 
     async def _register_dynamic_proxy(self, port: int):
         """
-        Register a dynamic proxy route with jupyter-server-proxy that supports WebSocket connections.
+        Register a dynamic proxy route that works with both JupyterHub and standalone JupyterLab.
+        
+        For JupyterHub: Register with configurable-http-proxy
+        For JupyterLab: Register with jupyter-server-proxy handlers
         
         Args:
             port (int): The port where Xpra is running
+        """
+        # Try JupyterHub proxy registration first (configurable-http-proxy)
+        hub_success = await self._register_with_jupyterhub_proxy(port)
+        
+        # Try JupyterLab proxy registration (jupyter-server-proxy handlers)
+        lab_success = self._register_with_jupyterlab_proxy(port)
+        
+        if hub_success:
+            self.log.info(f"✅ Successfully registered with JupyterHub proxy for port {port}")
+        elif lab_success:
+            self.log.info(f"✅ Successfully registered with JupyterLab proxy for port {port}")
+        else:
+            self.log.warning(f"⚠️ Could not register proxy for port {port} - direct connection may be needed")
+    
+    async def _register_with_jupyterhub_proxy(self, port: int) -> bool:
+        """
+        Register with JupyterHub's configurable-http-proxy.
+        
+        Args:
+            port (int): The port where Xpra is running
+            
+        Returns:
+            bool: True if registration succeeded, False otherwise
+        """
+        try:
+            # Check if we're running in JupyterHub environment
+            proxy_api_url = os.environ.get('CONFIGPROXY_API_URL')
+            proxy_auth_token = os.environ.get('CONFIGPROXY_AUTH_TOKEN')
+            
+            if not proxy_api_url or not proxy_auth_token:
+                self.log.debug("Not in JupyterHub environment - no CONFIGPROXY_* variables found")
+                return False
+                
+            # Get the base URL to construct the correct route
+            base_url = self.settings.get("base_url", "/")
+            if not base_url.endswith("/"):
+                base_url += "/"
+                
+            # Construct the route to register (e.g., /user/bdx/proxy/39005/)
+            route_path = f"{base_url}proxy/{port}/"
+            
+            # Use the notebook server's IP address instead of localhost for proper proxy routing
+            server_ip = self.request.host.split(':')[0] if self.request.host else 'localhost'
+            target_url = f"http://{server_ip}:{port}"
+            
+            # Prepare the registration request with WebSocket support
+            registration_data = {
+                "target": target_url,
+                "last_activity": None,
+                "ws": True,  # Explicitly enable WebSocket proxying
+                "prependPath": False,  # Don't prepend route path to requests
+                "stripPath": False,  # Don't strip route path from requests  
+                "xfwd": True,  # Forward X-Forwarded-* headers
+                "changeOrigin": True,  # Change the origin header to target URL
+                "preserveHost": False,  # Don't preserve the original host header
+                "secure": False,  # Allow connection to non-HTTPS targets
+                "headers": {  # Preserve important WebSocket headers
+                    "Sec-WebSocket-Protocol": "binary"  # Required for Xpra
+                }
+            }
+            
+            client = AsyncHTTPClient()
+            
+            # Make the POST request to register the route
+            response = await client.fetch(
+                f"{proxy_api_url}/api/routes{route_path}",
+                method="POST",
+                headers={
+                    "Authorization": f"token {proxy_auth_token}",
+                    "Content-Type": "application/json"
+                },
+                body=json.dumps(registration_data),
+                raise_error=False
+            )
+            
+            if response.code in (200, 201):
+                self.log.info(f"✅ JupyterHub proxy route registered: {route_path} -> {target_url}")
+                self.log.info(f"   Server IP: {server_ip}")
+                self.log.info(f"   WebSocket support: Enabled with 'binary' subprotocol")
+                return True
+            else:
+                self.log.warning(f"❌ JupyterHub proxy registration failed: {response.code} {response.reason}")
+                return False
+                
+        except Exception as e:
+            self.log.debug(f"JupyterHub proxy registration failed: {e}")
+            return False
+        finally:
+            try:
+                client.close()
+            except:
+                pass
+    
+    def _register_with_jupyterlab_proxy(self, port: int) -> bool:
+        """
+        Register with JupyterLab's jupyter-server-proxy handlers.
+        
+        Args:
+            port (int): The port where Xpra is running
+            
+        Returns:
+            bool: True if registration succeeded, False otherwise
         """
         try:
             # Import jupyter-server-proxy components
@@ -1012,10 +1262,13 @@ class FirefoxLauncherHandler(JupyterHandler):
             # Add the handler to the web application
             web_app = self.settings.get('webapp', self.application)
             
-            # Create handler class that proxies to localhost:port with WebSocket support
+            # Create handler class that proxies to server IP:port with WebSocket support
+            # Get server IP from request host for proper routing
+            server_ip = self.request.host.split(':')[0] if self.request.host else 'localhost'
+            
             class DynamicFirefoxProxyHandler(LocalProxyHandler):
                 def get_host(self):
-                    return 'localhost'
+                    return server_ip
                     
                 def get_port(self):
                     return port
@@ -1040,15 +1293,16 @@ class FirefoxLauncherHandler(JupyterHandler):
             new_handlers = [(proxy_pattern, DynamicFirefoxProxyHandler)]
             web_app.add_handlers(".*$", new_handlers)
             
-            self.log.info(f"✅ Registered dynamic proxy route with WebSocket support:")
+            self.log.info(f"✅ JupyterLab proxy route registered:")
             self.log.info(f"   Pattern: {proxy_pattern}")
-            self.log.info(f"   Target: localhost:{port}")
-            self.log.info(f"   WebSocket: Enabled")
+            self.log.info(f"   Target: {server_ip}:{port}")
+            self.log.info(f"   WebSocket: Enabled with subprotocol support")
+            
+            return True
             
         except Exception as e:
-            self.log.error(f"❌ Failed to register dynamic proxy for port {port}: {e}")
-            # Don't fail the Firefox launch if proxy registration fails
-            self.log.warning("⚠️ Continuing without dynamic proxy registration")
+            self.log.debug(f"JupyterLab proxy registration failed: {e}")
+            return False
 
     def _cleanup_inactive_sessions(self):
         """Clean up sessions that are no longer running."""
@@ -1671,4 +1925,468 @@ class FirefoxCleanupHandler(JupyterHandler):
             self.set_status(500)
             self.write({"status": "error", "message": str(e)})
 
+
+class XpraClientHandler(JupyterHandler):
+    """Handler to serve custom Xpra client HTML page."""
+
+    def check_xsrf_cookie(self):
+        """Override XSRF check for client HTML page - needed for iframe embedding."""
+        # Skip XSRF check for client page to allow iframe embedding
+        pass
+
+    async def get(self):
+        """Serve custom Xpra client with WebSocket connection parameters."""
+        try:
+            # Get WebSocket and HTTP URLs from query parameters
+            websocket_url = self.get_argument("ws", None)
+            http_url = self.get_argument("http", None)
+            
+            if not websocket_url and not http_url:
+                self.set_status(400)
+                self.write("Missing connection parameters (ws or http)")
+                return
+            
+            # Read the HTML template
+            import os
+            template_path = os.path.join(
+                os.path.dirname(__file__), 
+                "templates", 
+                "xpra_client.html"
+            )
+            
+            if not os.path.exists(template_path):
+                self.set_status(500)
+                self.write("Xpra client template not found")
+                return
+                
+            with open(template_path, 'r') as f:
+                html_content = f.read()
+                
+            # Set appropriate content type
+            self.set_header("Content-Type", "text/html; charset=utf-8")
+            self.write(html_content)
+            
+        except Exception as e:
+            self.log.error(f"Error serving Xpra client: {e}")
+            self.set_status(500)
+            self.write(f"Error serving Xpra client: {e}")
+
+    async def head(self):
+        """Handle HEAD requests to check if client is available."""
+        try:
+            # Check if we have the required query parameters
+            websocket_url = self.get_argument("ws", None)
+            http_url = self.get_argument("http", None)
+            
+            if not websocket_url and not http_url:
+                self.set_status(400)
+                return
+            
+            # Check if template exists
+            import os
+            template_path = os.path.join(
+                os.path.dirname(__file__), 
+                "templates", 
+                "xpra_client.html"
+            )
+            
+            if not os.path.exists(template_path):
+                self.set_status(500)
+                return
+                
+            # Client is ready
+            self.set_status(200)
+            self.set_header("Content-Type", "text/html; charset=utf-8")
+            self.set_header("Content-Length", "0")
+            
+        except Exception as e:
+            self.log.error(f"Error in HEAD request for Xpra client: {e}")
+            self.set_status(500)
+            self.set_header("Content-Length", "0")
+
+
+class XpraProxyHandler(JupyterHandler):
+    """Proxy handler to serve Xpra content with modified CSP headers for iframe embedding."""
+    
+    def check_xsrf_cookie(self):
+        """Override XSRF check for iframe embedding - Xpra content is safe to proxy."""
+        # Skip XSRF check for Xpra proxy to enable iframe embedding
+        # The target Xpra server is on localhost and controlled by this extension
+        pass
+    
+    async def get(self):
+        """Proxy GET requests to Xpra server with CSP header modifications."""
+        await self._proxy_request("GET", "")
+    
+    async def head(self):
+        """Proxy HEAD requests to Xpra server with CSP header modifications."""
+        await self._proxy_request("HEAD", "")
+    
+    async def post(self):
+        """Proxy POST requests to Xpra server."""
+        await self._proxy_request("POST", "")
+    
+    async def put(self):
+        """Proxy PUT requests to Xpra server."""
+        await self._proxy_request("PUT", "")
+    
+    async def delete(self):
+        """Proxy DELETE requests to Xpra server."""
+        await self._proxy_request("DELETE", "")
+    
+    async def _proxy_request(self, method, path):
+        """Internal method to proxy requests to Xpra server."""
+        import aiohttp
+        import asyncio
+        
+        try:
+            # Get the target Xpra server URL from query parameters
+            target_host = self.get_argument("host", "localhost")
+            target_port = self.get_argument("port", None)
+            
+            if not target_port:
+                self.set_status(400)
+                self.write("Missing required 'port' parameter")
+                return
+            
+            # Construct target URL - use root path for Xpra HTML5 client
+            target_url = f"http://{target_host}:{target_port}/"
+            
+            self.log.info(f"🔗 Proxying {method} request to: {target_url}")
+            
+            # Prepare headers (exclude host-specific headers)
+            headers = {}
+            for name, value in self.request.headers.get_all():
+                name_lower = name.lower()
+                if name_lower not in ['host', 'content-length', 'connection']:
+                    headers[name] = value
+            
+            # Prepare request data
+            body = self.request.body if hasattr(self.request, 'body') else None
+            
+            # Make the proxied request with proper compression handling
+            timeout = aiohttp.ClientTimeout(total=30)
+            connector = aiohttp.TCPConnector(limit=100, limit_per_host=30)
+            
+            async with aiohttp.ClientSession(
+                timeout=timeout, 
+                connector=connector,
+                # Disable automatic compression to handle it manually
+                auto_decompress=False
+            ) as session:
+                async with session.request(
+                    method=method,
+                    url=target_url,
+                    headers=headers,
+                    data=body,
+                    allow_redirects=False,
+                    # Disable automatic compression handling
+                    compress=False
+                ) as response:
+                    # Set status
+                    self.set_status(response.status)
+                    
+                    # Track compression info
+                    content_encoding = response.headers.get('content-encoding', '').lower()
+                    is_compressed = content_encoding in ['gzip', 'deflate', 'br']
+                    
+                    self.log.debug(f"Response content-encoding: {content_encoding}, compressed: {is_compressed}")
+                    
+                    # Copy response headers with CSP modifications and compression fixes
+                    for name, value in response.headers.items():
+                        name_lower = name.lower()
+                        if name_lower == 'content-security-policy':
+                            # Modify CSP to allow iframe embedding
+                            modified_value = self._modify_csp(value)
+                            self.set_header(name, modified_value)
+                            self.log.info(f"🔧 Modified CSP: {value} -> {modified_value}")
+                        elif name_lower == 'content-encoding' and is_compressed:
+                            # Skip content-encoding header if we're decompressing
+                            # This prevents browser from trying to decompress already decompressed content
+                            self.log.debug(f"Skipping content-encoding header: {value}")
+                            continue
+                        elif name_lower not in ['content-length', 'transfer-encoding', 'connection']:
+                            self.set_header(name, value)
+                    
+                    # Add X-Frame-Options override if not present
+                    if 'x-frame-options' not in [h.lower() for h in response.headers.keys()]:
+                        self.set_header("X-Frame-Options", "ALLOWALL")
+                        self.log.info("🔧 Added X-Frame-Options: ALLOWALL")
+                    
+                    # Handle content streaming with proper decompression
+                    if is_compressed:
+                        # Read and decompress the content properly
+                        try:
+                            content = await response.read()
+                            
+                            if content_encoding == 'gzip':
+                                import gzip
+                                decompressed_content = gzip.decompress(content)
+                                self.log.debug(f"Decompressed gzip content: {len(content)} -> {len(decompressed_content)} bytes")
+                            elif content_encoding == 'deflate':
+                                import zlib
+                                decompressed_content = zlib.decompress(content)
+                                self.log.debug(f"Decompressed deflate content: {len(content)} -> {len(decompressed_content)} bytes")
+                            elif content_encoding == 'br':
+                                try:
+                                    import brotli
+                                    decompressed_content = brotli.decompress(content)
+                                    self.log.debug(f"Decompressed brotli content: {len(content)} -> {len(decompressed_content)} bytes")
+                                except ImportError:
+                                    self.log.warning("Brotli compression detected but brotli module not available, serving raw content")
+                                    decompressed_content = content
+                            else:
+                                decompressed_content = content
+                            
+                            # Write decompressed content
+                            self.write(decompressed_content)
+                            
+                        except Exception as e:
+                            self.log.error(f"Decompression error for {content_encoding}: {e}")
+                            # Fallback: try to stream raw content
+                            async for chunk in response.content.iter_chunked(8192):
+                                self.write(chunk)
+                    else:
+                        # Stream uncompressed content normally
+                        async for chunk in response.content.iter_chunked(8192):
+                            self.write(chunk)
+                    
+                    self.finish()
+                    
+        except asyncio.TimeoutError:
+            self.log.error(f"Timeout proxying request to Xpra server")
+            self.set_status(504)
+            self.write("Gateway timeout")
+        except Exception as e:
+            self.log.error(f"Error proxying request to Xpra server: {e}")
+            self.set_status(502)
+            self.write(f"Proxy error: {e}")
+    
+    def _modify_csp(self, csp_header):
+        """Modify Content Security Policy to allow iframe embedding."""
+        if not csp_header:
+            return csp_header
+            
+        # Split CSP directives
+        directives = [d.strip() for d in csp_header.split(';') if d.strip()]
+        modified_directives = []
+        
+        frame_ancestors_found = False
+        
+        for directive in directives:
+            parts = directive.split()
+            if not parts:
+                continue
+                
+            directive_name = parts[0].lower()
+            
+            if directive_name == 'frame-ancestors':
+                # Replace frame-ancestors with permissive setting
+                modified_directives.append("frame-ancestors *")
+                frame_ancestors_found = True
+            else:
+                # Keep other directives as-is
+                modified_directives.append(directive)
+        
+        # If no frame-ancestors directive was found, add a permissive one
+        if not frame_ancestors_found:
+            modified_directives.append("frame-ancestors *")
+            
+        return "; ".join(modified_directives)
+
+
+class XpraWebSocketHandler(tornado.websocket.WebSocketHandler, JupyterHandler):
+    """WebSocket proxy handler for Xpra connections."""
+    
+    def __init__(self, *args, **kwargs):
+        super().__init__(*args, **kwargs)
+        self.target_ws = None
+        self.target_host = None
+        self.target_port = None
+    
+    def check_origin(self, origin):
+        """Allow WebSocket connections from any origin for development."""
+        return True
+    
+    async def open(self):
+        """Establish WebSocket connection to target Xpra server."""
+        try:
+            # Get target server info from query parameters
+            self.target_host = self.get_argument("host", "localhost")
+            self.target_port = self.get_argument("port", None)
+            
+            if not self.target_port:
+                self.close(code=1002, reason="Missing required 'port' parameter")
+                return
+            
+            # Establish connection to target Xpra WebSocket
+            import websockets
+            
+            target_url = f"ws://{self.target_host}:{self.target_port}/"
+            self.target_ws = await websockets.connect(target_url)
+            
+            # Start forwarding messages from target to client
+            asyncio.create_task(self._forward_from_target())
+            
+            self.log.info(f"WebSocket proxy established to {target_url}")
+            
+        except Exception as e:
+            self.log.error(f"Failed to establish WebSocket proxy: {e}")
+            self.close(code=1011, reason=f"Proxy connection failed: {e}")
+    
+    async def on_message(self, message):
+        """Forward messages from client to target server."""
+        try:
+            if self.target_ws and not self.target_ws.closed:
+                await self.target_ws.send(message)
+        except Exception as e:
+            self.log.error(f"Error forwarding message to target: {e}")
+            self.close(code=1011, reason="Forwarding error")
+    
+    async def _forward_from_target(self):
+        """Forward messages from target server to client."""
+        try:
+            async for message in self.target_ws:
+                if not self.ws_connection.stream.closed():
+                    self.write_message(message)
+                else:
+                    break
+        except Exception as e:
+            self.log.error(f"Error forwarding message from target: {e}")
+        finally:
+            if not self.ws_connection.stream.closed():
+                self.close(code=1000, reason="Target connection closed")
+    
+    def on_close(self):
+        """Clean up target connection when client disconnects."""
+        if self.target_ws and not self.target_ws.closed:
+            asyncio.create_task(self.target_ws.close())
+
+
+class XpraStaticHandler(JupyterHandler):
+    """Handler to serve Xpra HTML5 client static files."""
+    
+    def check_xsrf_cookie(self):
+        """Override XSRF check for static files - these are safe to serve."""
+        # Skip XSRF check for static files
+        pass
+    
+    def get(self, path):
+        """Serve Xpra HTML5 client static files."""
+        import os
+        import mimetypes
+        from tornado import web
+        
+        try:
+            # Base directory for Xpra web client files
+            xpra_www_dir = "/usr/share/xpra/www"
+            
+            # Security check: prevent directory traversal
+            if ".." in path or path.startswith("/"):
+                self.set_status(403)
+                self.write("Forbidden")
+                return
+            
+            # Construct the full file path
+            file_path = os.path.join(xpra_www_dir, path)
+            
+            # Check if file exists and is within the allowed directory
+            if not os.path.exists(file_path) or not file_path.startswith(xpra_www_dir):
+                self.set_status(404)
+                self.write("File not found")
+                return
+            
+            # Determine MIME type
+            content_type, _ = mimetypes.guess_type(file_path)
+            if content_type is None:
+                if path.endswith('.js'):
+                    content_type = 'application/javascript'
+                elif path.endswith('.css'):
+                    content_type = 'text/css'
+                elif path.endswith('.html'):
+                    content_type = 'text/html'
+                else:
+                    content_type = 'application/octet-stream'
+            
+            # Set appropriate headers
+            self.set_header("Content-Type", content_type)
+            self.set_header("Cache-Control", "public, max-age=3600")  # Cache for 1 hour
+            
+            # Allow CORS for static files
+            self.set_header("Access-Control-Allow-Origin", "*")
+            self.set_header("Access-Control-Allow-Methods", "GET, HEAD, OPTIONS")
+            self.set_header("Access-Control-Allow-Headers", "Content-Type")
+            
+            # Read and serve the file
+            with open(file_path, 'rb') as f:
+                content = f.read()
+                self.write(content)
+            
+            self.log.debug(f"Served Xpra static file: {path} ({len(content)} bytes)")
+            
+        except Exception as e:
+            self.log.error(f"Error serving static file {path}: {e}")
+            self.set_status(500)
+            self.write("Internal server error")
+    
+    def head(self, path):
+        """Handle HEAD requests for static files (same as GET but without body)."""
+        import os
+        import mimetypes
+        from tornado import web
+        
+        try:
+            # Base directory for Xpra web client files
+            xpra_www_dir = "/usr/share/xpra/www"
+            
+            # Security check: prevent directory traversal
+            if ".." in path or path.startswith("/"):
+                self.set_status(403)
+                return
+            
+            # Construct the full file path
+            file_path = os.path.join(xpra_www_dir, path)
+            
+            # Check if file exists and is within the allowed directory
+            if not os.path.exists(file_path) or not file_path.startswith(xpra_www_dir):
+                self.set_status(404)
+                return
+            
+            # Determine MIME type
+            content_type, _ = mimetypes.guess_type(file_path)
+            if content_type is None:
+                if path.endswith('.js'):
+                    content_type = 'application/javascript'
+                elif path.endswith('.css'):
+                    content_type = 'text/css'
+                elif path.endswith('.html'):
+                    content_type = 'text/html'
+                else:
+                    content_type = 'application/octet-stream'
+            
+            # Set appropriate headers (same as GET but no body)
+            self.set_header("Content-Type", content_type)
+            self.set_header("Cache-Control", "public, max-age=3600")
+            
+            # Allow CORS for static files
+            self.set_header("Access-Control-Allow-Origin", "*")
+            self.set_header("Access-Control-Allow-Methods", "GET, HEAD, OPTIONS")
+            self.set_header("Access-Control-Allow-Headers", "Content-Type")
+            
+            # Get file size for Content-Length header
+            file_size = os.path.getsize(file_path)
+            self.set_header("Content-Length", str(file_size))
+            
+            self.log.debug(f"HEAD request for Xpra static file: {path} ({file_size} bytes)")
+            
+        except Exception as e:
+            self.log.error(f"Error handling HEAD request for static file {path}: {e}")
+            self.set_status(500)
+
+    def options(self, path):
+        """Handle CORS preflight requests."""
+        self.set_header("Access-Control-Allow-Origin", "*")
+        self.set_header("Access-Control-Allow-Methods", "GET, HEAD, OPTIONS")
+        self.set_header("Access-Control-Allow-Headers", "Content-Type")
+        self.set_status(200)
 

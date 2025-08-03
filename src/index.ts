@@ -149,9 +149,106 @@ class FirefoxWidget extends Widget {
    */
   setPortAndRefresh(port: number): void {
     this._xpraPort = port;
-    // Use absolute URL to prevent path duplication issues in JupyterHub
-    const proxyPath = `/user/bdx/proxy/${port}/`;
+    // Use dynamic proxy path that works with both JupyterHub and JupyterLab
+    // Get the current base URL from the browser location
+    const currentPath = window.location.pathname;
+    let basePath = '/';
+    
+    // Check if we're in JupyterHub (path contains /user/)
+    const userMatch = currentPath.match(/^\/user\/[^\/]+\//);
+    if (userMatch) {
+      basePath = userMatch[0]; // e.g., "/user/username/"
+    }
+    
+    const proxyPath = `${basePath}proxy/${port}/`;
     const absoluteUrl = `${window.location.origin}${proxyPath}`;
+    this._iframe.src = absoluteUrl;
+    // Hide loading indicator and show iframe
+    this._loadingDiv.style.display = 'none';
+    this._iframe.style.display = 'block';
+  }
+
+  /**
+   * Set direct URL and use proxy to enable iframe embedding
+   */
+  setDirectUrlAndRefresh(directUrl: string): void {
+    console.log(`🌐 Loading Firefox via proxy for iframe embedding: ${directUrl}`);
+    
+    // Parse the direct URL to extract host and port for proxy
+    try {
+      const url = new URL(directUrl);
+      const host = url.hostname;
+      const port = url.port;
+      
+      if (!port) {
+        console.error('❌ No port found in direct URL');
+        this._showError('Invalid direct URL - no port specified');
+        return;
+      }
+      
+      // Use our proxy handler to strip CSP headers
+      const currentPath = window.location.pathname;
+      let basePath = '/';
+      
+      // Check if we're in JupyterHub (path contains /user/)
+      const userMatch = currentPath.match(/^(\/user\/[^\/]+\/)/);
+      if (userMatch) {
+        basePath = userMatch[1]; // e.g., "/user/bdx/"
+        console.log(`🔧 JupyterHub detected, base path: ${basePath}`);
+      }
+      
+      // Create proxy URL that will strip CSP headers and enable iframe embedding
+      const proxyUrl = `${basePath}firefox-launcher/proxy?host=${encodeURIComponent(host)}&port=${encodeURIComponent(port)}`;
+      const absoluteProxyUrl = `${window.location.origin}${proxyUrl}`;
+      
+      console.log(`🔗 Using CSP-stripping proxy URL for iframe: ${absoluteProxyUrl}`);
+      console.log(`🔧 Original direct URL: ${directUrl}`);
+      console.log(`🔧 Extracted host: ${host}, port: ${port}`);
+      console.log(`🔧 Base path: ${basePath}`);
+      console.log(`🔧 This will strip frame-ancestors CSP to enable iframe embedding`);
+      
+      // Set iframe source to proxy URL that strips CSP headers
+      this._iframe.src = absoluteProxyUrl;
+      
+      // Hide loading indicator and show iframe
+      this._loadingDiv.style.display = 'none';
+      this._iframe.style.display = 'block';
+      
+    } catch (error) {
+      console.error('❌ Error parsing direct URL:', error);
+      this._showError(`Error parsing URL: ${error}`);
+    }
+  }
+
+  private _showError(message: string): void {
+    this._loadingDiv.style.display = 'none';
+    this._iframe.style.display = 'none';
+    
+    const errorDiv = document.createElement('div');
+    errorDiv.className = 'jp-firefox-error';
+    errorDiv.innerHTML = `
+      <div style="display: flex; flex-direction: column; align-items: center; justify-content: center; height: 100%; padding: 20px; text-align: center;">
+        <div style="margin-bottom: 20px;">
+          <svg width="50" height="50" viewBox="0 0 50 50" style="fill: #f44336;">
+            <circle cx="25" cy="25" r="20" fill="#f44336"/>
+            <path d="M15 15 L35 35 M35 15 L15 35" stroke="#fff" stroke-width="3"/>
+          </svg>
+        </div>
+        <h3 style="color: #f44336; margin: 10px 0;">Connection Error</h3>
+        <p style="color: #666; margin-bottom: 20px;">${message}</p>
+      </div>
+    `;
+    
+    this.node.appendChild(errorDiv);
+  }
+
+  /**
+   * Set the client URL and refresh the Firefox connection
+   */
+  setClientUrlAndRefresh(clientUrl: string): void {
+    // Use absolute URL if relative
+    const absoluteUrl = clientUrl.startsWith('/') ? 
+      `${window.location.origin}${clientUrl}` : clientUrl;
     this._iframe.src = absoluteUrl;
     // Hide loading indicator and show iframe
     this._loadingDiv.style.display = 'none';
@@ -331,56 +428,91 @@ const plugin: JupyterFrontEndPlugin<void> = {
           throw new Error(response.message || 'Failed to start Firefox');
         }
         
-        // Extract port, proxy path, and process ID from response if available
+        // Extract port, proxy path, process ID, and client URL from response if available
         const xpraPort = response.port;
         const proxyPath = response.proxy_path;
         const processId = response.process_id;
-        console.log(`Firefox process started on port ${xpraPort}, proxy path: ${proxyPath}, process ID: ${processId}, waiting for Xpra proxy...`);
+        const clientUrl = response.client_url;
+        const websocketUrl = response.websocket_url;
+        const httpUrl = response.http_url;
+        
+        console.log(`Firefox process started on port ${xpraPort}, process ID: ${processId}`);
+        if (clientUrl) {
+          console.log(`Custom client URL: ${clientUrl}`);
+        }
+        if (websocketUrl) {
+          console.log(`Direct WebSocket URL: ${websocketUrl}`);
+        }
+        if (httpUrl) {
+          console.log(`Direct HTTP URL: ${httpUrl}`);
+        }
+        console.log(`Proxy path: ${proxyPath}, waiting for connection...`);
         
         // Store process ID in widget for cleanup
         if (processId) {
           widget.setProcessId(processId);
         }
         
-        // Wait for Xpra proxy to become available
+        // Wait for connection to be available
         for (let attempt = 1; attempt <= maxRetries; attempt++) {
           try {
-            // Determine the proxy URL to test based on whether we have proxy path info
+            // Determine the URL to test based on what's available
             let testUrl: string;
-            if (proxyPath) {
+            
+            if (clientUrl) {
+              // Use custom client URL (best option)
+              testUrl = clientUrl;
+            } else if (proxyPath) {
               // Use the proxy path provided by the backend
               testUrl = proxyPath;
             } else if (xpraPort) {
-              // Fallback: Try JupyterHub proxy route
-              testUrl = `/user/bdx/proxy/${xpraPort}/`;
+              // Dynamic fallback: Detect JupyterHub vs JupyterLab
+              const currentPath = window.location.pathname;
+              const userMatch = currentPath.match(/^\/user\/[^\/]+\//);
+              const basePath = userMatch ? userMatch[0] : '/';
+              testUrl = `${basePath}proxy/${xpraPort}/`;
             } else {
               // Fallback to direct proxy route
               testUrl = '/firefox-launcher/firefox';
             }
             
-            // Test if the proxy is responding
-            const proxyResponse = await fetch(testUrl, {
+            // Test if the connection is ready
+            // For custom client, we just need to verify the endpoint exists
+            const testResponse = await fetch(testUrl, {
               method: 'HEAD',
               cache: 'no-cache'
             });
             
-            // Accept both 200 (ready) and 302 (redirect, which means Xpra is ready)
-            if (proxyResponse.ok || proxyResponse.status === 302) {
-              console.log(`Xpra proxy is available after ${attempt} attempts`);
-              if (proxyPath) {
-                // Use the proxy path from backend response
+                          // Accept various status codes that indicate readiness
+            if (testResponse.ok || testResponse.status === 302 || testResponse.status === 400) {
+              console.log(`✅ Connection ready after ${attempt} attempts`);
+              
+              // PRIORITY: Always use proxy for iframe embedding to strip CSP headers
+              if (httpUrl) {
+                // Use direct HTTP URL through our CSP-stripping proxy for iframe embedding
+                console.log(`✅ Using direct HTTP URL through CSP proxy: ${httpUrl}`);
+                widget.setDirectUrlAndRefresh(httpUrl);
+              } else if (clientUrl) {
+                // Use custom client URL  
+                console.log(`✅ Using custom client URL: ${clientUrl}`);
+                widget.setClientUrlAndRefresh(clientUrl);
+              } else if (proxyPath) {
+                // Use the proxy path from backend response  
+                console.log(`✅ Using proxy path: ${proxyPath}`);
                 widget.setProxyPathAndRefresh(proxyPath);
               } else if (xpraPort) {
+                console.log(`✅ Using dynamic port: ${xpraPort}`);
                 widget.setPortAndRefresh(xpraPort); // Use dynamic port
               } else {
+                console.log(`✅ Using fallback route`);
                 widget.refresh(); // Use fallback route
               }
               return;
-            } else if (proxyResponse.status === 503) {
-              // Service unavailable - Xpra not ready yet
-              console.log(`Attempt ${attempt}/${maxRetries}: Xpra proxy not ready (503)`);
+            } else if (testResponse.status === 503) {
+              // Service unavailable - not ready yet
+              console.log(`Attempt ${attempt}/${maxRetries}: Connection not ready (503)`);
             } else {
-              console.log(`Attempt ${attempt}/${maxRetries}: Unexpected response status ${proxyResponse.status}`);
+              console.log(`Attempt ${attempt}/${maxRetries}: Unexpected response status ${testResponse.status}`);
             }
           } catch (proxyError) {
             // Network error - proxy not yet available

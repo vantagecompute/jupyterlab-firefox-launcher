@@ -49,6 +49,9 @@ dependencies = [
     "tornado>=6.1.0",
     "psutil",
     "python-uinput>=1.0.1",
+    "aiohttp>=3.12.14",
+    "websockets>=15.0.1",
+    "requests>=2.32.4",
 ]
 
 [project.urls]
