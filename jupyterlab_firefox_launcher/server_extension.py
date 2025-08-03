@@ -11,7 +11,6 @@ from .firefox_handler import (
     XpraClientHandler,
     XpraProxyHandler,
     XpraWebSocketHandler,
-    XpraStaticHandler,
 )
 from .server_proxy import get_server_proxy_config
 
@@ -64,18 +63,12 @@ def _load_jupyter_server_extension(serverapp):
         base_url, "firefox-launcher", "ws"
     )
 
-    # Handler for Xpra static files (JS, CSS, etc.)
-    xpra_static_pattern = _url_path_join(
-        base_url, "firefox-launcher", "(.*)"
-    )
-
     # Log the patterns for debugging
     serverapp.log.info(f"🔧 Firefox launcher pattern: {firefox_launcher_pattern}")
     serverapp.log.info(f"🔧 Firefox cleanup pattern: {firefox_cleanup_pattern}")
     serverapp.log.info(f"🔧 Xpra client pattern: {xpra_client_pattern}")
     serverapp.log.info(f"🔧 Xpra proxy pattern: {xpra_proxy_pattern}")
     serverapp.log.info(f"🔧 Xpra WebSocket pattern: {xpra_ws_pattern}")
-    serverapp.log.info(f"🔧 Xpra static pattern: {xpra_static_pattern}")
 
     # Add handlers - make sure patterns are properly escaped for regex
     # Use more permissive regex patterns to handle query parameters and trailing slashes
@@ -86,8 +79,6 @@ def _load_jupyter_server_extension(serverapp):
         (xpra_client_pattern + r"/?(?:\?.*)?$", XpraClientHandler),
         (xpra_proxy_pattern + r"/?(?:\?.*)?$", XpraProxyHandler),
         (xpra_ws_pattern + r"/?(?:\?.*)?$", XpraWebSocketHandler),
-        # Static file handler - MUST be last due to catch-all pattern
-        (xpra_static_pattern, XpraStaticHandler),
     ]
 
     web_app.add_handlers(".*$", handlers)

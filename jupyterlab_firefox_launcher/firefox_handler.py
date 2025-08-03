@@ -416,6 +416,7 @@ def _create_xpra_command(port: int) -> List[str]:
         f"--xvfb={xvfb_path} +extension Composite -screen 0 1280x800x24+32 -nolisten tcp -noreset +extension GLX",
         "--mdns=no",  # Disable mDNS
         "--pulseaudio=no",  # Disable audio for simplicity
+        "--audio=no",  # Completely disable audio subsystem
         "--notifications=no",  # Disable notifications
         "--clipboard=yes",  # Enable clipboard sharing
         "--clipboard-direction=both",  # Allow bidirectional clipboard
@@ -784,12 +785,22 @@ class FirefoxLauncherHandler(JupyterHandler):
             port = next(iter(FirefoxLauncherHandler._active_sessions.keys()))
 
             # Instead of redirecting to proxy (which doesn't work), provide direct WebSocket URL
-            # Use the notebook server's IP address instead of hostname for proper connectivity
-            server_ip = self.request.host.split(':')[0] if self.request.host else 'localhost'
+            # Use better hostname resolution for WebSocket URLs
+            request_host = self.request.host.split(':')[0] if self.request.host else 'localhost'
             
-            # Create direct WebSocket URL that bypasses the proxy
-            direct_ws_url = f"ws://{server_ip}:{port}/"
-            direct_http_url = f"http://{server_ip}:{port}/"
+            # For WebSocket URLs, prefer localhost or FQDN over bare hostnames
+            if request_host and request_host != 'localhost' and '.' not in request_host:
+                # If it's a bare hostname (like 'raton00'), use localhost for WebSocket connections
+                # The client-side will resolve this properly
+                ws_host = 'localhost'
+                http_host = request_host  # Keep original for HTTP URL
+            else:
+                ws_host = request_host
+                http_host = request_host
+            
+            # Create WebSocket and HTTP URLs
+            direct_ws_url = f"ws://{ws_host}:{port}/"
+            direct_http_url = f"http://{http_host}:{port}/"
             
             # Get the base URL for fallback proxy path
             base_url = self.settings.get("base_url", "/")
@@ -851,12 +862,22 @@ class FirefoxLauncherHandler(JupyterHandler):
                     await self._register_dynamic_proxy(port)
 
                     # Instead of using proxy path, provide direct WebSocket URLs
-                    # Use the notebook server's IP address instead of hostname for proper connectivity
-                    server_ip = self.request.host.split(':')[0] if self.request.host else 'localhost'
+                    # Use better hostname resolution for WebSocket URLs
+                    request_host = self.request.host.split(':')[0] if self.request.host else 'localhost'
                     
-                    # Create direct WebSocket URL that bypasses the proxy
-                    direct_ws_url = f"ws://{server_ip}:{port}/"
-                    direct_http_url = f"http://{server_ip}:{port}/"
+                    # For WebSocket URLs, prefer localhost or FQDN over bare hostnames
+                    if request_host and request_host != 'localhost' and '.' not in request_host:
+                        # If it's a bare hostname (like 'raton00'), use localhost for WebSocket connections
+                        # The client-side will resolve this properly
+                        ws_host = 'localhost'
+                        http_host = request_host  # Keep original for HTTP URL
+                    else:
+                        ws_host = request_host
+                        http_host = request_host
+                    
+                    # Create WebSocket and HTTP URLs
+                    direct_ws_url = f"ws://{ws_host}:{port}/"
+                    direct_http_url = f"http://{http_host}:{port}/"
                     
                     # Get the base URL for fallback proxy path
                     base_url = self.settings.get("base_url", "/")
@@ -2208,27 +2229,44 @@ class XpraWebSocketHandler(tornado.websocket.WebSocketHandler, JupyterHandler):
         """Allow WebSocket connections from any origin for development."""
         return True
     
+    def select_subprotocol(self, subprotocols):
+        """Select the 'binary' subprotocol required by Xpra."""
+        if "binary" in subprotocols:
+            return "binary"
+        return None
+    
     async def open(self):
         """Establish WebSocket connection to target Xpra server."""
         try:
             # Get target server info from query parameters
-            self.target_host = self.get_argument("host", "localhost")
+            self.target_host = self.get_argument("host", "127.0.0.1")
             self.target_port = self.get_argument("port", None)
             
             if not self.target_port:
+                self.log.error("Missing required 'port' parameter")
                 self.close(code=1002, reason="Missing required 'port' parameter")
                 return
             
-            # Establish connection to target Xpra WebSocket
-            import websockets
+            # Use Tornado's WebSocket client instead of websockets library
+            from tornado.websocket import websocket_connect
+            from tornado.httpclient import HTTPRequest
             
             target_url = f"ws://{self.target_host}:{self.target_port}/"
-            self.target_ws = await websockets.connect(target_url)
+            self.log.info(f"Attempting to connect to Xpra WebSocket at {target_url}")
+            
+            # Create WebSocket request with Xpra's required subprotocol header
+            request = HTTPRequest(
+                target_url,
+                headers={"Sec-WebSocket-Protocol": "binary"}
+            )
+            
+            # Connect to target Xpra WebSocket using Tornado's client
+            self.target_ws = await websocket_connect(request)
             
             # Start forwarding messages from target to client
-            asyncio.create_task(self._forward_from_target())
+            tornado.ioloop.IOLoop.current().spawn_callback(self._forward_from_target)
             
-            self.log.info(f"WebSocket proxy established to {target_url}")
+            self.log.info(f"WebSocket proxy established to {target_url} with 'binary' subprotocol")
             
         except Exception as e:
             self.log.error(f"Failed to establish WebSocket proxy: {e}")
@@ -2237,8 +2275,8 @@ class XpraWebSocketHandler(tornado.websocket.WebSocketHandler, JupyterHandler):
     async def on_message(self, message):
         """Forward messages from client to target server."""
         try:
-            if self.target_ws and not self.target_ws.closed:
-                await self.target_ws.send(message)
+            if self.target_ws and not self.target_ws.protocol.stream.closed():
+                self.target_ws.write_message(message)
         except Exception as e:
             self.log.error(f"Error forwarding message to target: {e}")
             self.close(code=1011, reason="Forwarding error")
@@ -2246,147 +2284,27 @@ class XpraWebSocketHandler(tornado.websocket.WebSocketHandler, JupyterHandler):
     async def _forward_from_target(self):
         """Forward messages from target server to client."""
         try:
-            async for message in self.target_ws:
-                if not self.ws_connection.stream.closed():
+            while self.target_ws and not self.target_ws.protocol.stream.closed():
+                message = await self.target_ws.read_message()
+                if message is None:
+                    break
+                # Check if client connection exists and is open
+                if self.ws_connection and hasattr(self.ws_connection, 'stream') and not self.ws_connection.stream.closed():
                     self.write_message(message)
                 else:
                     break
         except Exception as e:
             self.log.error(f"Error forwarding message from target: {e}")
         finally:
-            if not self.ws_connection.stream.closed():
+            # Only try to close if we have a valid connection
+            if self.ws_connection and hasattr(self.ws_connection, 'stream') and not self.ws_connection.stream.closed():
                 self.close(code=1000, reason="Target connection closed")
     
     def on_close(self):
         """Clean up target connection when client disconnects."""
-        if self.target_ws and not self.target_ws.closed:
-            asyncio.create_task(self.target_ws.close())
-
-
-class XpraStaticHandler(JupyterHandler):
-    """Handler to serve Xpra HTML5 client static files."""
-    
-    def check_xsrf_cookie(self):
-        """Override XSRF check for static files - these are safe to serve."""
-        # Skip XSRF check for static files
-        pass
-    
-    def get(self, path):
-        """Serve Xpra HTML5 client static files."""
-        import os
-        import mimetypes
-        from tornado import web
-        
         try:
-            # Base directory for Xpra web client files
-            xpra_www_dir = "/usr/share/xpra/www"
-            
-            # Security check: prevent directory traversal
-            if ".." in path or path.startswith("/"):
-                self.set_status(403)
-                self.write("Forbidden")
-                return
-            
-            # Construct the full file path
-            file_path = os.path.join(xpra_www_dir, path)
-            
-            # Check if file exists and is within the allowed directory
-            if not os.path.exists(file_path) or not file_path.startswith(xpra_www_dir):
-                self.set_status(404)
-                self.write("File not found")
-                return
-            
-            # Determine MIME type
-            content_type, _ = mimetypes.guess_type(file_path)
-            if content_type is None:
-                if path.endswith('.js'):
-                    content_type = 'application/javascript'
-                elif path.endswith('.css'):
-                    content_type = 'text/css'
-                elif path.endswith('.html'):
-                    content_type = 'text/html'
-                else:
-                    content_type = 'application/octet-stream'
-            
-            # Set appropriate headers
-            self.set_header("Content-Type", content_type)
-            self.set_header("Cache-Control", "public, max-age=3600")  # Cache for 1 hour
-            
-            # Allow CORS for static files
-            self.set_header("Access-Control-Allow-Origin", "*")
-            self.set_header("Access-Control-Allow-Methods", "GET, HEAD, OPTIONS")
-            self.set_header("Access-Control-Allow-Headers", "Content-Type")
-            
-            # Read and serve the file
-            with open(file_path, 'rb') as f:
-                content = f.read()
-                self.write(content)
-            
-            self.log.debug(f"Served Xpra static file: {path} ({len(content)} bytes)")
-            
-        except Exception as e:
-            self.log.error(f"Error serving static file {path}: {e}")
-            self.set_status(500)
-            self.write("Internal server error")
-    
-    def head(self, path):
-        """Handle HEAD requests for static files (same as GET but without body)."""
-        import os
-        import mimetypes
-        from tornado import web
-        
-        try:
-            # Base directory for Xpra web client files
-            xpra_www_dir = "/usr/share/xpra/www"
-            
-            # Security check: prevent directory traversal
-            if ".." in path or path.startswith("/"):
-                self.set_status(403)
-                return
-            
-            # Construct the full file path
-            file_path = os.path.join(xpra_www_dir, path)
-            
-            # Check if file exists and is within the allowed directory
-            if not os.path.exists(file_path) or not file_path.startswith(xpra_www_dir):
-                self.set_status(404)
-                return
-            
-            # Determine MIME type
-            content_type, _ = mimetypes.guess_type(file_path)
-            if content_type is None:
-                if path.endswith('.js'):
-                    content_type = 'application/javascript'
-                elif path.endswith('.css'):
-                    content_type = 'text/css'
-                elif path.endswith('.html'):
-                    content_type = 'text/html'
-                else:
-                    content_type = 'application/octet-stream'
-            
-            # Set appropriate headers (same as GET but no body)
-            self.set_header("Content-Type", content_type)
-            self.set_header("Cache-Control", "public, max-age=3600")
-            
-            # Allow CORS for static files
-            self.set_header("Access-Control-Allow-Origin", "*")
-            self.set_header("Access-Control-Allow-Methods", "GET, HEAD, OPTIONS")
-            self.set_header("Access-Control-Allow-Headers", "Content-Type")
-            
-            # Get file size for Content-Length header
-            file_size = os.path.getsize(file_path)
-            self.set_header("Content-Length", str(file_size))
-            
-            self.log.debug(f"HEAD request for Xpra static file: {path} ({file_size} bytes)")
-            
-        except Exception as e:
-            self.log.error(f"Error handling HEAD request for static file {path}: {e}")
-            self.set_status(500)
-
-    def options(self, path):
-        """Handle CORS preflight requests."""
-        self.set_header("Access-Control-Allow-Origin", "*")
-        self.set_header("Access-Control-Allow-Methods", "GET, HEAD, OPTIONS")
-        self.set_header("Access-Control-Allow-Headers", "Content-Type")
-        self.set_status(200)
+            if self.target_ws and not self.target_ws.protocol.stream.closed():
+                self.target_ws.close()
+        except:
+            pass
 

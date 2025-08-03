@@ -22,6 +22,7 @@ import { Message } from '@lumino/messaging';
 import { LabIcon } from '@jupyterlab/ui-components';
 
 import { requestAPI } from './firefox-api';
+import { FirefoxXpraClient, FirefoxXpraClientOptions } from './xpra-client';
 
 // Import CSS styles
 import '../style/index.css';
@@ -32,10 +33,13 @@ import '../style/index.css';
 class FirefoxWidget extends Widget {
   private _iframe: HTMLIFrameElement;
   private _loadingDiv: HTMLDivElement;
+  private _xpraContainer: HTMLDivElement;
+  private _xpraClient: FirefoxXpraClient | null = null;
   private _xpraPort: number | null = null;
   private _processId: number | null = null;
   private _beforeUnloadHandler: () => void;
   private _isFullyInitialized: boolean = false; // Flag to prevent premature cleanup
+  private _useIframe: boolean = false; // Flag to determine rendering method
 
   constructor() {
     super();
@@ -61,7 +65,14 @@ class FirefoxWidget extends Widget {
       </div>
     `;
 
-    // Create iframe for Firefox proxy (initially hidden)
+    // Create container for TypeScript Xpra client
+    this._xpraContainer = document.createElement('div');
+    this._xpraContainer.className = 'jp-firefox-xpra-container';
+    this._xpraContainer.style.width = '100%';
+    this._xpraContainer.style.height = '100%';
+    this._xpraContainer.style.display = 'none'; // Hidden initially
+
+    // Create iframe for fallback proxy (initially hidden)
     this._iframe = document.createElement('iframe');
     this._iframe.style.width = '100%';
     this._iframe.style.height = '100%';
@@ -70,6 +81,7 @@ class FirefoxWidget extends Widget {
     this._iframe.title = 'Firefox Browser';
     
     this.node.appendChild(this._loadingDiv);
+    this.node.appendChild(this._xpraContainer);
     this.node.appendChild(this._iframe);
 
     // Add window beforeunload listener as safety net (for browser close, not tab close)
@@ -283,6 +295,47 @@ class FirefoxWidget extends Widget {
   }
 
   /**
+   * Use TypeScript Xpra client with WebSocket connection
+   */
+  setXpraClientAndConnect(websocketUrl: string, httpUrl?: string): void {
+    console.log('🔗 Using TypeScript Xpra client', { websocketUrl, httpUrl });
+    
+    try {
+      // Initialize the TypeScript Xpra client
+      this._xpraClient = new FirefoxXpraClient({
+        container: this._xpraContainer,
+        wsUrl: websocketUrl,
+        httpUrl: httpUrl,
+        autoConnect: true,
+        debug: true
+      });
+
+      // Hide loading indicator and show Xpra container
+      this._loadingDiv.style.display = 'none';
+      this._xpraContainer.style.display = 'block';
+      this._useIframe = false;
+
+      console.log('✅ TypeScript Xpra client initialized');
+    } catch (error) {
+      console.error('❌ Failed to initialize TypeScript Xpra client:', error);
+      // Fallback to iframe approach
+      this._fallbackToIframe(httpUrl || websocketUrl);
+    }
+  }
+
+  /**
+   * Fallback to iframe when TypeScript client fails
+   */
+  private _fallbackToIframe(url: string): void {
+    console.log('🔄 Falling back to iframe approach');
+    this._useIframe = true;
+    this._iframe.src = url;
+    this._loadingDiv.style.display = 'none';
+    this._iframe.style.display = 'block';
+    this._xpraContainer.style.display = 'none';
+  }
+
+  /**
    * Set the process ID for cleanup when widget is disposed
    */
   setProcessId(processId: number): void {
@@ -298,6 +351,13 @@ class FirefoxWidget extends Widget {
     console.log('🧹 FirefoxWidget.dispose() called');
     console.log(`   Process ID: ${this._processId}`);
     console.log(`   Port: ${this._xpraPort}`);
+    
+    // Clean up TypeScript Xpra client if it exists
+    if (this._xpraClient) {
+      console.log('🧹 Cleaning up TypeScript Xpra client');
+      this._xpraClient.destroy();
+      this._xpraClient = null;
+    }
     
     // Remove beforeunload listener
     if (this._beforeUnloadHandler) {
@@ -459,7 +519,12 @@ const plugin: JupyterFrontEndPlugin<void> = {
             // Determine the URL to test based on what's available
             let testUrl: string;
             
-            if (clientUrl) {
+            // PRIORITY: For TypeScript Xpra client, test the actual Xpra server directly
+            if (websocketUrl && httpUrl) {
+              // Test the HTTP URL directly since WebSocket test is more complex
+              const httpUrlObj = new URL(httpUrl);
+              testUrl = `http://${httpUrlObj.hostname}:${httpUrlObj.port}/`;
+            } else if (clientUrl) {
               // Use custom client URL (best option)
               testUrl = clientUrl;
             } else if (proxyPath) {
@@ -487,8 +552,11 @@ const plugin: JupyterFrontEndPlugin<void> = {
             if (testResponse.ok || testResponse.status === 302 || testResponse.status === 400) {
               console.log(`✅ Connection ready after ${attempt} attempts`);
               
-              // PRIORITY: Always use proxy for iframe embedding to strip CSP headers
-              if (httpUrl) {
+              // PRIORITY: Use TypeScript Xpra client if WebSocket URL is available
+              if (websocketUrl) {
+                console.log(`✅ Using TypeScript Xpra client with WebSocket: ${websocketUrl}`);
+                widget.setXpraClientAndConnect(websocketUrl, httpUrl);
+              } else if (httpUrl) {
                 // Use direct HTTP URL through our CSP-stripping proxy for iframe embedding
                 console.log(`✅ Using direct HTTP URL through CSP proxy: ${httpUrl}`);
                 widget.setDirectUrlAndRefresh(httpUrl);
