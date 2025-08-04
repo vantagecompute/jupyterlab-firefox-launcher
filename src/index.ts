@@ -22,7 +22,7 @@ import { Message } from '@lumino/messaging';
 import { LabIcon } from '@jupyterlab/ui-components';
 
 import { requestAPI } from './firefox-api';
-import { ProxyXpraClient } from './xpra-client-proxy';
+import { FirefoxXpraClient } from './xpra-client';
 
 // Import CSS styles
 import '../style/index.css';
@@ -33,7 +33,7 @@ import '../style/index.css';
 class FirefoxWidget extends Widget {
   private _loadingDiv: HTMLDivElement;
   private _xpraContainer: HTMLDivElement;
-  private _xpraClient: ProxyXpraClient | null = null;
+  private _xpraClient: FirefoxXpraClient | null = null;
   private _xpraPort: number | null = null;
   private _processId: number | null = null;
   private _beforeUnloadHandler: () => void;
@@ -174,16 +174,15 @@ class FirefoxWidget extends Widget {
    * Use TypeScript Xpra client with WebSocket connection
    */
   setXpraClientAndConnect(websocketUrl: string, httpUrl?: string): void {
-    console.log('🔗 Using TypeScript Xpra client with proxy compatibility', { websocketUrl, httpUrl });
+    console.log('🔗 Using TypeScript Xpra client (pure approach)', { websocketUrl, httpUrl });
     
     try {
-      // Test with proxy-compatible client first
-      console.log('🔧 Testing proxy-compatible WebSocket client');
-      this._xpraClient = new ProxyXpraClient({
+      // Initialize the TypeScript Xpra client
+      this._xpraClient = new FirefoxXpraClient({
         container: this._xpraContainer,
         wsUrl: websocketUrl,
         httpUrl: httpUrl,
-        autoConnect: false,  // We'll call connect manually
+        autoConnect: true,
         debug: true
       });
 
@@ -191,10 +190,7 @@ class FirefoxWidget extends Widget {
       this._loadingDiv.style.display = 'none';
       this._xpraContainer.style.display = 'block';
 
-      // Manually initiate connection
-      this._xpraClient.connect();
-
-      console.log('✅ Proxy-compatible Xpra client initialized successfully');
+      console.log('✅ TypeScript Xpra client initialized successfully');
     } catch (error) {
       console.error('❌ Failed to initialize TypeScript Xpra client:', error);
       // Show error in loading div instead of iframe fallback
@@ -243,7 +239,7 @@ class FirefoxWidget extends Widget {
     // Clean up TypeScript Xpra client if it exists
     if (this._xpraClient) {
       console.log('🧹 Cleaning up TypeScript Xpra client');
-      this._xpraClient.cleanup();
+      this._xpraClient.destroy();
       this._xpraClient = null;
     }
     
@@ -510,18 +506,23 @@ const plugin: JupyterFrontEndPlugin<void> = {
               console.log(`✅ Connection ready after ${attempt} attempts`);
               console.log(`✅ Final test response: ${testResponse.status} ${testResponse.statusText}`);
               
-              // PRIORITY: Use TypeScript Xpra client with WebSocket URL
+              // Use our TypeScript Xpra client with appropriate connection method
               if (websocketUrl) {
                 console.log(`🎯 Using TypeScript Xpra client with WebSocket: ${websocketUrl}`);
-                console.log(`🎯 HTTP URL for fallback: ${httpUrl}`);
+                console.log(`🎯 HTTP URL for verification: ${httpUrl}`);
                 widget.setXpraClientAndConnect(websocketUrl, httpUrl);
+              } else if (proxyPath) {
+                console.log(`🎯 Using proxy path for Xpra connection: ${proxyPath}`);
+                // For proxy paths, construct WebSocket URL from the proxy path
+                const wsUrl = proxyPath.replace(/^http/, 'ws').replace(/\/$/, '') + '/';
+                console.log(`🎯 Constructed WebSocket URL from proxy: ${wsUrl}`);
+                widget.setXpraClientAndConnect(wsUrl, proxyPath);
               } else {
-                console.error(`❌ No WebSocket URL available - cannot connect to Xpra`);
-                console.log('Available URLs:', { httpUrl, clientUrl, proxyPath, xpraPort });
+                console.error(`❌ No connection method available - need either WebSocket URL or proxy path`);
                 // Show error in widget
                 widget.showError(
                   'Configuration Error',
-                  'No WebSocket URL provided for Xpra connection. Pure Xpra client requires WebSocket connectivity.'
+                  'No connection method available. Extension requires WebSocket URL or proxy path.'
                 );
               }
               

@@ -3,8 +3,8 @@
 /**
  * Proxy-Compatible Xpra Client for JupyterLab Firefox Launcher
  * 
- * This module provides a WebSocket-based client for connecting to Xpra servers
- * running Firefox instances through JupyterHub proxy URLs.
+ * This module overrides the WebSocket class to allow xpra-html5-client
+ * to work with JupyterHub proxy URLs that include paths.
  */
 
 import { XpraClient, XpraConnectionOptions } from 'xpra-html5-client';

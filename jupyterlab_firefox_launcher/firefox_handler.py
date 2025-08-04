@@ -27,139 +27,6 @@ from tornado.httpclient import AsyncHTTPClient
 import tornado.websocket
 
 
-def _detect_environment():
-    """
-    Detect whether we're running in JupyterHub or standalone JupyterLab.
-    
-    Returns:
-        str: 'jupyterhub', 'jupyterlab', or 'unknown'
-    """
-    # Check for JupyterHub environment variables
-    if os.environ.get('JUPYTERHUB_SERVICE_PREFIX') or os.environ.get('CONFIGPROXY_API_URL'):
-        return 'jupyterhub'
-    
-    # Check for JupyterLab/Jupyter Server indicators
-    if os.environ.get('JUPYTER_SERVER_ROOT') or 'jupyter' in sys.modules:
-        return 'jupyterlab'
-    
-    return 'unknown'
-
-
-async def _register_with_configurable_http_proxy(port: int, base_url: str = "/") -> bool:
-    """
-    Register a new route with configurable-http-proxy (JupyterHub's proxy).
-    
-    Args:
-        port: The port number for the Xpra server
-        base_url: The base URL (usually from JupyterHub)
-        
-    Returns:
-        bool: True if registration succeeded, False otherwise
-    """
-    try:
-        # Get the JupyterHub proxy API endpoint
-        # This is usually set by JupyterHub when starting the single-user server
-        proxy_api_url = os.environ.get('CONFIGPROXY_API_URL')
-        proxy_auth_token = os.environ.get('CONFIGPROXY_AUTH_TOKEN')
-        
-        if not proxy_api_url or not proxy_auth_token:
-            _logger.debug(f"JupyterHub proxy environment not detected (API: {proxy_api_url}, Token: {'***' if proxy_auth_token else None})")
-            return False
-            
-        # Construct the route to register
-        # Format: /user/{username}/proxy/{port}/ -> http://localhost:{port}/
-        route_path = f"{base_url}proxy/{port}"
-        if not route_path.startswith("/"):
-            route_path = "/" + route_path
-            
-        target_url = f"http://localhost:{port}"
-        
-        # Prepare the registration request
-        registration_data = {
-            "target": target_url,
-            "last_activity": None
-        }
-        
-        client = AsyncHTTPClient()
-        
-        # Make the POST request to register the route
-        response = await client.fetch(
-            f"{proxy_api_url}/api/routes{route_path}",
-            method="POST",
-            headers={
-                "Authorization": f"token {proxy_auth_token}",
-                "Content-Type": "application/json"
-            },
-            body=json.dumps(registration_data),
-            raise_error=False
-        )
-        
-        if response.code in (200, 201):
-            _logger.info(f"✅ Successfully registered proxy route: {route_path} -> {target_url}")
-            return True
-        else:
-            _logger.warning(f"❌ Failed to register proxy route: {response.code} {response.reason}")
-            return False
-            
-    except Exception as e:
-        _logger.debug(f"Failed to register with configurable-http-proxy: {e}")
-        return False
-    finally:
-        try:
-            client.close()
-        except:
-            pass
-
-
-async def _unregister_from_configurable_http_proxy(port: int, base_url: str = "/") -> bool:
-    """
-    Unregister a route from configurable-http-proxy.
-    
-    Args:
-        port: The port number for the Xpra server
-        base_url: The base URL
-        
-    Returns:
-        bool: True if unregistration succeeded, False otherwise
-    """
-    try:
-        proxy_api_url = os.environ.get('CONFIGPROXY_API_URL')
-        proxy_auth_token = os.environ.get('CONFIGPROXY_AUTH_TOKEN')
-        
-        if not proxy_api_url or not proxy_auth_token:
-            return False
-            
-        route_path = f"{base_url}proxy/{port}"
-        if not route_path.startswith("/"):
-            route_path = "/" + route_path
-            
-        client = AsyncHTTPClient()
-        
-        response = await client.fetch(
-            f"{proxy_api_url}/api/routes{route_path}",
-            method="DELETE",
-            headers={
-                "Authorization": f"token {proxy_auth_token}"
-            },
-            raise_error=False
-        )
-        
-        if response.code in (200, 204):
-            _logger.info(f"✅ Successfully unregistered proxy route: {route_path}")
-            return True
-        else:
-            _logger.warning(f"❌ Failed to unregister proxy route: {response.code}")
-            return False
-            
-    except Exception as e:
-        _logger.debug(f"Failed to unregister from configurable-http-proxy: {e}")
-        return False
-    finally:
-        try:
-            client.close()
-        except:
-            pass
-
 # Set up a logger for this module
 if not logging.getLogger().hasHandlers():
     logging.basicConfig(
@@ -802,39 +669,30 @@ class FirefoxLauncherHandler(JupyterHandler):
                 ws_host = request_host
                 http_host = request_host
             
-            # Create WebSocket proxy URL (not direct connection)
-            # The WebSocket proxy handler is at /firefox-launcher/ws
-            base_url = self.settings.get("base_url", "/")
-            if not base_url.endswith("/"):
-                base_url += "/"
-            
-            # Get the current request host for WebSocket proxy URL
-            request_host = self.request.headers.get('Host', f"{ws_host}:8889")
-            ws_scheme = "wss" if self.request.protocol == "https" else "ws"
-            
-            # Create WebSocket proxy URL with query parameters
-            ws_proxy_url = f"{ws_scheme}://{request_host}{base_url}firefox-launcher/ws?host={ws_host}&port={port}"
+            # Create WebSocket, HTTP, and proxy URLs
+            direct_ws_url = f"ws://{ws_host}:{port}/"
             direct_http_url = f"http://{http_host}:{port}/"
             
-            # Get the base URL for fallback proxy path
+            # Get the base URL for proxy path (essential for JupyterHub)
+            base_url = self.settings.get("base_url", "/")
             proxy_path = f"{base_url}proxy/{port}/"
             if not proxy_path.startswith("/"):
                 proxy_path = "/" + proxy_path
 
-            self.log.info(f"GET request: Providing WebSocket proxy URL: {ws_proxy_url}")
+            self.log.info(f"GET request: Providing direct WebSocket URL: {direct_ws_url}")
             self.log.info(f"GET request: Direct HTTP URL: {direct_http_url}")
-            self.log.info(f"GET request: Fallback proxy path: {proxy_path}")
+            self.log.info(f"GET request: Proxy path: {proxy_path}")
             
-            # Return JSON with proxy URLs instead of direct connections
+            # Return JSON with all connection options
             self.set_header("Content-Type", "application/json")
             self.write({
                 "status": "running",
                 "port": port,
-                "websocket_url": ws_proxy_url,
+                "websocket_url": direct_ws_url,
                 "http_url": direct_http_url,
                 "proxy_path": proxy_path,
-                "direct_connection": False,
-                "message": "Use websocket_url for proxied connection to Xpra server"
+                "direct_connection": True,
+                "message": "Multiple connection options available"
             })
 
         except Exception as e:
@@ -869,12 +727,6 @@ class FirefoxLauncherHandler(JupyterHandler):
                         "port": port,
                     }
 
-                    # Register the dynamic proxy route with appropriate method based on environment
-                    environment = _detect_environment()
-                    self.log.info(f"🌍 Detected environment: {environment}")
-                    await self._register_dynamic_proxy(port)
-
-                    # Instead of using proxy path, provide direct WebSocket URLs
                     # Use better hostname resolution for WebSocket URLs
                     request_host = self.request.host.split(':')[0] if self.request.host else 'localhost'
                     
@@ -888,50 +740,33 @@ class FirefoxLauncherHandler(JupyterHandler):
                         ws_host = request_host
                         http_host = request_host
                     
-                    # Create WebSocket proxy URL (not direct connection)
-                    # The WebSocket proxy handler is at /firefox-launcher/ws
-                    base_url = self.settings.get("base_url", "/")
-                    if not base_url.endswith("/"):
-                        base_url += "/"
-                    
-                    # Get the current request host for WebSocket proxy URL
-                    request_host = self.request.headers.get('Host', f"{ws_host}:8889")
-                    ws_scheme = "wss" if self.request.protocol == "https" else "ws"
-                    
-                    # Create WebSocket proxy URL with query parameters
-                    ws_proxy_url = f"{ws_scheme}://{request_host}{base_url}firefox-launcher/ws?host={ws_host}&port={port}"
+                    # Create WebSocket, HTTP, and proxy URLs for comprehensive compatibility
+                    direct_ws_url = f"ws://{ws_host}:{port}/"
                     direct_http_url = f"http://{http_host}:{port}/"
                     
-                    # Get the base URL for fallback proxy path
+                    # Get the base URL for proxy path (essential for JupyterHub)
+                    base_url = self.settings.get("base_url", "/")
                     proxy_path = f"{base_url}proxy/{port}/"
                     if not proxy_path.startswith("/"):
                         proxy_path = "/" + proxy_path
 
-                    # Create client URL with connection parameters
-                    client_url = f"{base_url}firefox-launcher/client?ws={ws_proxy_url}&http={direct_http_url}"
-                    if not client_url.startswith("/"):
-                        client_url = "/" + client_url
-
                     self.log.info(
                         f"Firefox launched successfully on port {port} with process ID {process_id}"
                     )
-                    self.log.info(f"🌐 WebSocket proxy URL: {ws_proxy_url}")
+                    self.log.info(f"🌐 Direct WebSocket URL: {direct_ws_url}")
                     self.log.info(f"🌐 Direct HTTP URL: {direct_http_url}")
-                    self.log.info(f"🌐 Custom client URL: {client_url}")
-                    self.log.info(f"🌐 Fallback proxy path: {proxy_path}")
+                    self.log.info(f"🌐 Proxy path: {proxy_path}")
                     self.set_status(200)
                     self.write(
                         {
                             "status": "success",
-                            "message": "Firefox launched successfully - use custom client for best compatibility",
+                            "message": "Firefox launched successfully",
                             "port": port,
                             "process_id": process_id,
-                            "websocket_url": ws_proxy_url,
+                            "websocket_url": direct_ws_url,
                             "http_url": direct_http_url,
-                            "client_url": client_url,
                             "proxy_path": proxy_path,
-                            "direct_connection": False,
-                            "instructions": "Use client_url for best compatibility, or websocket_url for proxied connection"
+                            "direct_connection": True
                         }
                     )
                 else:
@@ -1176,34 +1011,6 @@ class FirefoxLauncherHandler(JupyterHandler):
             # Clean up any partial state
             self.log.error("❌ Xpra server proxy startup failed")
             return False, None, None
-
-    async def _register_dynamic_proxy(self, port: int):
-        """
-        Register a dynamic proxy route that works with both JupyterHub and standalone JupyterLab.
-        
-        For JupyterHub: Register with configurable-http-proxy
-        For JupyterLab: Register with jupyter-server-proxy handlers
-        
-        Args:
-            port (int): The port where Xpra is running
-        """
-        # Try JupyterHub proxy registration first (configurable-http-proxy)
-        # We need to register BOTH the Xpra server port AND the WebSocket proxy handler
-        hub_port_success = await self._register_with_jupyterhub_proxy(port)
-        hub_ws_success = await self._register_websocket_proxy_with_jupyterhub()
-        
-        # Try JupyterLab proxy registration (jupyter-server-proxy handlers)
-        lab_success = self._register_with_jupyterlab_proxy(port)
-        
-        if hub_port_success and hub_ws_success:
-            self.log.info(f"✅ Successfully registered both Xpra port {port} and WebSocket proxy with JupyterHub")
-        elif hub_port_success:
-            self.log.info(f"✅ Successfully registered Xpra port {port} with JupyterHub proxy")
-            self.log.warning(f"⚠️ Failed to register WebSocket proxy with JupyterHub - direct connection may be needed")
-        elif lab_success:
-            self.log.info(f"✅ Successfully registered with JupyterLab proxy for port {port}")
-        else:
-            self.log.warning(f"⚠️ Could not register proxy for port {port} - direct connection may be needed")
     
     async def _register_with_jupyterhub_proxy(self, port: int) -> bool:
         """
@@ -1277,84 +1084,6 @@ class FirefoxLauncherHandler(JupyterHandler):
                 
         except Exception as e:
             self.log.debug(f"JupyterHub proxy registration failed: {e}")
-            return False
-        finally:
-            try:
-                client.close()
-            except:
-                pass
-    
-    async def _register_websocket_proxy_with_jupyterhub(self) -> bool:
-        """
-        Register the WebSocket proxy handler with JupyterHub's configurable-http-proxy.
-        
-        Returns:
-            bool: True if registration succeeded, False otherwise
-        """
-        try:
-            # Check if we're running in JupyterHub environment
-            proxy_api_url = os.environ.get('CONFIGPROXY_API_URL')
-            proxy_auth_token = os.environ.get('CONFIGPROXY_AUTH_TOKEN')
-            
-            if not proxy_api_url or not proxy_auth_token:
-                self.log.debug("Not in JupyterHub environment - no CONFIGPROXY_* variables found")
-                return False
-                
-            # Get the base URL to construct the correct route
-            base_url = self.settings.get("base_url", "/")
-            if not base_url.endswith("/"):
-                base_url += "/"
-                
-            # Construct the WebSocket proxy handler route (e.g., /user/bdx/firefox-launcher/ws)
-            ws_route_path = f"{base_url}firefox-launcher/ws"
-            
-            # The WebSocket proxy handler runs on the same server as JupyterHub
-            # We need to route to the local server where our XpraWebSocketHandler is running
-            server_ip = self.request.host.split(':')[0] if self.request.host else 'localhost'
-            server_port = self.request.host.split(':')[1] if ':' in self.request.host else '8889'
-            target_url = f"http://{server_ip}:{server_port}"
-            
-            # Prepare the registration request with WebSocket support
-            registration_data = {
-                "target": target_url,
-                "last_activity": None,
-                "ws": True,  # Explicitly enable WebSocket proxying
-                "prependPath": False,  # Don't prepend route path to requests
-                "stripPath": False,  # Don't strip route path from requests  
-                "xfwd": True,  # Forward X-Forwarded-* headers
-                "changeOrigin": True,  # Change the origin header to target URL
-                "preserveHost": False,  # Don't preserve the original host header
-                "secure": False,  # Allow connection to non-HTTPS targets
-                "headers": {  # Preserve important WebSocket headers
-                    "Sec-WebSocket-Protocol": "binary"  # Required for Xpra
-                }
-            }
-            
-            client = AsyncHTTPClient()
-            
-            # Make the POST request to register the WebSocket proxy route
-            response = await client.fetch(
-                f"{proxy_api_url}/api/routes{ws_route_path}",
-                method="POST",
-                headers={
-                    "Authorization": f"token {proxy_auth_token}",
-                    "Content-Type": "application/json"
-                },
-                body=json.dumps(registration_data),
-                raise_error=False
-            )
-            
-            if response.code in (200, 201):
-                self.log.info(f"✅ JupyterHub WebSocket proxy route registered: {ws_route_path} -> {target_url}")
-                self.log.info(f"   WebSocket support: Enabled with 'binary' subprotocol")
-                self.log.info(f"   Route handles: firefox-launcher/ws WebSocket connections")
-                return True
-            else:
-                self.log.warning(f"❌ JupyterHub WebSocket proxy registration failed: {response.code} {response.reason}")
-                return False
-                
-        except Exception as e:
-            self.log.debug(f"JupyterHub WebSocket proxy registration failed: {e}")
             return False
         finally:
             try:
