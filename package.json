@@ -62,11 +62,12 @@
     "@jupyterlab/translation": "^4.0.0",
     "@jupyterlab/ui-components": "^4.0.0",
     "@lumino/widgets": "^2.0.0",
+    "configurable-http-proxy": "^5.0.1",
     "react": "^18.2.0",
     "xpra-html5-client": "^2.3.0"
   },
   "devDependencies": {
-    "@jupyterlab/builder": "^4.0.0",
+    "@jupyterlab/builder": "^4.4.5",
     "@types/json-schema": "^7.0.11",
     "@types/node": "^20.0.0",
     "@types/react": "^18.0.26",

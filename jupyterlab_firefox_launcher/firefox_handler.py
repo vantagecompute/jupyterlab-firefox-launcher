@@ -412,6 +412,10 @@ def _create_xpra_command(port: int) -> List[str]:
         "--start-via-proxy=no",  # Disable proxy startup to avoid session manager issues
         "--start=",  # Explicitly disable default Xsession startup
         f"--start-child={firefox_wrapper}",  # Use our custom wrapper script
+        # Authentication settings - disable all authentication for WebSocket compatibility
+        "--auth=none",  # Explicitly disable authentication
+        "--tcp-auth=none",  # Disable TCP authentication
+        "--socket-permissions=666",  # Allow open socket permissions
         # Xvfb configuration - let Xpra automatically manage display numbers and screen allocation
         f"--xvfb={xvfb_path} +extension Composite -screen 0 1280x800x24+32 -nolisten tcp -noreset +extension GLX",
         "--mdns=no",  # Disable mDNS
@@ -798,30 +802,39 @@ class FirefoxLauncherHandler(JupyterHandler):
                 ws_host = request_host
                 http_host = request_host
             
-            # Create WebSocket and HTTP URLs
-            direct_ws_url = f"ws://{ws_host}:{port}/"
+            # Create WebSocket proxy URL (not direct connection)
+            # The WebSocket proxy handler is at /firefox-launcher/ws
+            base_url = self.settings.get("base_url", "/")
+            if not base_url.endswith("/"):
+                base_url += "/"
+            
+            # Get the current request host for WebSocket proxy URL
+            request_host = self.request.headers.get('Host', f"{ws_host}:8889")
+            ws_scheme = "wss" if self.request.protocol == "https" else "ws"
+            
+            # Create WebSocket proxy URL with query parameters
+            ws_proxy_url = f"{ws_scheme}://{request_host}{base_url}firefox-launcher/ws?host={ws_host}&port={port}"
             direct_http_url = f"http://{http_host}:{port}/"
             
             # Get the base URL for fallback proxy path
-            base_url = self.settings.get("base_url", "/")
             proxy_path = f"{base_url}proxy/{port}/"
             if not proxy_path.startswith("/"):
                 proxy_path = "/" + proxy_path
 
-            self.log.info(f"GET request: Providing direct WebSocket URL: {direct_ws_url}")
+            self.log.info(f"GET request: Providing WebSocket proxy URL: {ws_proxy_url}")
             self.log.info(f"GET request: Direct HTTP URL: {direct_http_url}")
             self.log.info(f"GET request: Fallback proxy path: {proxy_path}")
             
-            # Return JSON with direct URLs instead of redirecting to broken proxy
+            # Return JSON with proxy URLs instead of direct connections
             self.set_header("Content-Type", "application/json")
             self.write({
                 "status": "running",
                 "port": port,
-                "websocket_url": direct_ws_url,
+                "websocket_url": ws_proxy_url,
                 "http_url": direct_http_url,
                 "proxy_path": proxy_path,
-                "direct_connection": True,
-                "message": "Use websocket_url for direct connection to Xpra server"
+                "direct_connection": False,
+                "message": "Use websocket_url for proxied connection to Xpra server"
             })
 
         except Exception as e:
@@ -875,25 +888,34 @@ class FirefoxLauncherHandler(JupyterHandler):
                         ws_host = request_host
                         http_host = request_host
                     
-                    # Create WebSocket and HTTP URLs
-                    direct_ws_url = f"ws://{ws_host}:{port}/"
+                    # Create WebSocket proxy URL (not direct connection)
+                    # The WebSocket proxy handler is at /firefox-launcher/ws
+                    base_url = self.settings.get("base_url", "/")
+                    if not base_url.endswith("/"):
+                        base_url += "/"
+                    
+                    # Get the current request host for WebSocket proxy URL
+                    request_host = self.request.headers.get('Host', f"{ws_host}:8889")
+                    ws_scheme = "wss" if self.request.protocol == "https" else "ws"
+                    
+                    # Create WebSocket proxy URL with query parameters
+                    ws_proxy_url = f"{ws_scheme}://{request_host}{base_url}firefox-launcher/ws?host={ws_host}&port={port}"
                     direct_http_url = f"http://{http_host}:{port}/"
                     
                     # Get the base URL for fallback proxy path
-                    base_url = self.settings.get("base_url", "/")
                     proxy_path = f"{base_url}proxy/{port}/"
                     if not proxy_path.startswith("/"):
                         proxy_path = "/" + proxy_path
 
                     # Create client URL with connection parameters
-                    client_url = f"{base_url}firefox-launcher/client?ws={direct_ws_url}&http={direct_http_url}"
+                    client_url = f"{base_url}firefox-launcher/client?ws={ws_proxy_url}&http={direct_http_url}"
                     if not client_url.startswith("/"):
                         client_url = "/" + client_url
 
                     self.log.info(
                         f"Firefox launched successfully on port {port} with process ID {process_id}"
                     )
-                    self.log.info(f"🌐 Direct WebSocket URL: {direct_ws_url}")
+                    self.log.info(f"🌐 WebSocket proxy URL: {ws_proxy_url}")
                     self.log.info(f"🌐 Direct HTTP URL: {direct_http_url}")
                     self.log.info(f"🌐 Custom client URL: {client_url}")
                     self.log.info(f"🌐 Fallback proxy path: {proxy_path}")
@@ -904,12 +926,12 @@ class FirefoxLauncherHandler(JupyterHandler):
                             "message": "Firefox launched successfully - use custom client for best compatibility",
                             "port": port,
                             "process_id": process_id,
-                            "websocket_url": direct_ws_url,
+                            "websocket_url": ws_proxy_url,
                             "http_url": direct_http_url,
                             "client_url": client_url,
                             "proxy_path": proxy_path,
-                            "direct_connection": True,
-                            "instructions": "Use client_url for best compatibility, or websocket_url for direct connection"
+                            "direct_connection": False,
+                            "instructions": "Use client_url for best compatibility, or websocket_url for proxied connection"
                         }
                     )
                 else:
@@ -1166,13 +1188,18 @@ class FirefoxLauncherHandler(JupyterHandler):
             port (int): The port where Xpra is running
         """
         # Try JupyterHub proxy registration first (configurable-http-proxy)
-        hub_success = await self._register_with_jupyterhub_proxy(port)
+        # We need to register BOTH the Xpra server port AND the WebSocket proxy handler
+        hub_port_success = await self._register_with_jupyterhub_proxy(port)
+        hub_ws_success = await self._register_websocket_proxy_with_jupyterhub()
         
         # Try JupyterLab proxy registration (jupyter-server-proxy handlers)
         lab_success = self._register_with_jupyterlab_proxy(port)
         
-        if hub_success:
-            self.log.info(f"✅ Successfully registered with JupyterHub proxy for port {port}")
+        if hub_port_success and hub_ws_success:
+            self.log.info(f"✅ Successfully registered both Xpra port {port} and WebSocket proxy with JupyterHub")
+        elif hub_port_success:
+            self.log.info(f"✅ Successfully registered Xpra port {port} with JupyterHub proxy")
+            self.log.warning(f"⚠️ Failed to register WebSocket proxy with JupyterHub - direct connection may be needed")
         elif lab_success:
             self.log.info(f"✅ Successfully registered with JupyterLab proxy for port {port}")
         else:
@@ -1250,6 +1277,84 @@ class FirefoxLauncherHandler(JupyterHandler):
                 
         except Exception as e:
             self.log.debug(f"JupyterHub proxy registration failed: {e}")
+            return False
+        finally:
+            try:
+                client.close()
+            except:
+                pass
+    
+    async def _register_websocket_proxy_with_jupyterhub(self) -> bool:
+        """
+        Register the WebSocket proxy handler with JupyterHub's configurable-http-proxy.
+        
+        Returns:
+            bool: True if registration succeeded, False otherwise
+        """
+        try:
+            # Check if we're running in JupyterHub environment
+            proxy_api_url = os.environ.get('CONFIGPROXY_API_URL')
+            proxy_auth_token = os.environ.get('CONFIGPROXY_AUTH_TOKEN')
+            
+            if not proxy_api_url or not proxy_auth_token:
+                self.log.debug("Not in JupyterHub environment - no CONFIGPROXY_* variables found")
+                return False
+                
+            # Get the base URL to construct the correct route
+            base_url = self.settings.get("base_url", "/")
+            if not base_url.endswith("/"):
+                base_url += "/"
+                
+            # Construct the WebSocket proxy handler route (e.g., /user/bdx/firefox-launcher/ws)
+            ws_route_path = f"{base_url}firefox-launcher/ws"
+            
+            # The WebSocket proxy handler runs on the same server as JupyterHub
+            # We need to route to the local server where our XpraWebSocketHandler is running
+            server_ip = self.request.host.split(':')[0] if self.request.host else 'localhost'
+            server_port = self.request.host.split(':')[1] if ':' in self.request.host else '8889'
+            target_url = f"http://{server_ip}:{server_port}"
+            
+            # Prepare the registration request with WebSocket support
+            registration_data = {
+                "target": target_url,
+                "last_activity": None,
+                "ws": True,  # Explicitly enable WebSocket proxying
+                "prependPath": False,  # Don't prepend route path to requests
+                "stripPath": False,  # Don't strip route path from requests  
+                "xfwd": True,  # Forward X-Forwarded-* headers
+                "changeOrigin": True,  # Change the origin header to target URL
+                "preserveHost": False,  # Don't preserve the original host header
+                "secure": False,  # Allow connection to non-HTTPS targets
+                "headers": {  # Preserve important WebSocket headers
+                    "Sec-WebSocket-Protocol": "binary"  # Required for Xpra
+                }
+            }
+            
+            client = AsyncHTTPClient()
+            
+            # Make the POST request to register the WebSocket proxy route
+            response = await client.fetch(
+                f"{proxy_api_url}/api/routes{ws_route_path}",
+                method="POST",
+                headers={
+                    "Authorization": f"token {proxy_auth_token}",
+                    "Content-Type": "application/json"
+                },
+                body=json.dumps(registration_data),
+                raise_error=False
+            )
+            
+            if response.code in (200, 201):
+                self.log.info(f"✅ JupyterHub WebSocket proxy route registered: {ws_route_path} -> {target_url}")
+                self.log.info(f"   WebSocket support: Enabled with 'binary' subprotocol")
+                self.log.info(f"   Route handles: firefox-launcher/ws WebSocket connections")
+                return True
+            else:
+                self.log.warning(f"❌ JupyterHub WebSocket proxy registration failed: {response.code} {response.reason}")
+                return False
+                
+        except Exception as e:
+            self.log.debug(f"JupyterHub WebSocket proxy registration failed: {e}")
             return False
         finally:
             try:
@@ -2216,14 +2321,17 @@ class XpraProxyHandler(JupyterHandler):
         return "; ".join(modified_directives)
 
 
-class XpraWebSocketHandler(tornado.websocket.WebSocketHandler, JupyterHandler):
-    """WebSocket proxy handler for Xpra connections."""
+class XpraWebSocketHandler(tornado.websocket.WebSocketHandler):
+    """WebSocket proxy handler for Xpra connections - no authentication required."""
     
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
         self.target_ws = None
         self.target_host = None
         self.target_port = None
+        # Set up simple logging for WebSocket handler
+        import logging
+        self.log = logging.getLogger(__name__)
     
     def check_origin(self, origin):
         """Allow WebSocket connections from any origin for development."""
@@ -2237,13 +2345,17 @@ class XpraWebSocketHandler(tornado.websocket.WebSocketHandler, JupyterHandler):
     
     async def open(self):
         """Establish WebSocket connection to target Xpra server."""
+        self.log.info("🔌 WebSocket connection opened - establishing proxy to Xpra server")
+        
         try:
             # Get target server info from query parameters
             self.target_host = self.get_argument("host", "127.0.0.1")
             self.target_port = self.get_argument("port", None)
             
+            self.log.info(f"🔌 WebSocket proxy request: host={self.target_host}, port={self.target_port}")
+            
             if not self.target_port:
-                self.log.error("Missing required 'port' parameter")
+                self.log.error("❌ Missing required 'port' parameter")
                 self.close(code=1002, reason="Missing required 'port' parameter")
                 return
             
@@ -2252,7 +2364,7 @@ class XpraWebSocketHandler(tornado.websocket.WebSocketHandler, JupyterHandler):
             from tornado.httpclient import HTTPRequest
             
             target_url = f"ws://{self.target_host}:{self.target_port}/"
-            self.log.info(f"Attempting to connect to Xpra WebSocket at {target_url}")
+            self.log.info(f"🔌 Attempting to connect to Xpra WebSocket at {target_url}")
             
             # Create WebSocket request with Xpra's required subprotocol header
             request = HTTPRequest(
@@ -2266,10 +2378,13 @@ class XpraWebSocketHandler(tornado.websocket.WebSocketHandler, JupyterHandler):
             # Start forwarding messages from target to client
             tornado.ioloop.IOLoop.current().spawn_callback(self._forward_from_target)
             
-            self.log.info(f"WebSocket proxy established to {target_url} with 'binary' subprotocol")
+            self.log.info(f"🎉 WebSocket proxy established to {target_url} with 'binary' subprotocol")
             
         except Exception as e:
-            self.log.error(f"Failed to establish WebSocket proxy: {e}")
+            self.log.error(f"❌ Failed to establish WebSocket proxy: {e}")
+            self.log.error(f"❌ Exception type: {type(e).__name__}")
+            import traceback
+            self.log.error(f"❌ Traceback: {traceback.format_exc()}")
             self.close(code=1011, reason=f"Proxy connection failed: {e}")
     
     async def on_message(self, message):

@@ -1,9 +1,12 @@
 #!/bin/bash
 
-deactivate
+./.venv/bin/deactivate
 
 pkill -f configurable-http-proxy
-pkill -f "jupyter*"
+pkill -f "jupyter.*"
+pkill -f "jupyterhub.*"
+pkill -f "firefox.*"
+pkill -f "xpra.*"
 
 rm -rf .venv
 # Clean previous build artifacts
@@ -17,9 +20,7 @@ source .venv/bin/activate
 uv build --wheel --no-cache --verbose
 
 uv pip install dist/*.whl --no-cache-dir
-uv pip install jupyterhub configurable-http-proxy jupyter-server
+uv pip install jupyterhub configurable-http-proxy jupyter-server pycurl
 
-pkill -f configurable-http-proxy
-pkill -f "jupyter*"
 
-jupyterhub --ip=0.0.0.0 --port=8889 --debug --Authenticator.allow_all=True
+# jupyterhub --ip=0.0.0.0 --port=8889 --debug --Authenticator.allow_all=True

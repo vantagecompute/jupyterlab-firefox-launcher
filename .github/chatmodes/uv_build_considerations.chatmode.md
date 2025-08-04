@@ -4,6 +4,8 @@ tools: ['changes', 'codebase', 'editFiles', 'extensions', 'fetch', 'findTestFile
 ---
 Always use uv run to run any commands related to python or packaging or building or testing. Only ever build the project using ./build.sh. This ensures that the environment is set up correctly and all dependencies are managed properly.
 
+Always use uv!
+
 # JupyterLab Firefox Launcher - Build Considerations
 This document outlines the key considerations for building and maintaining the JupyterLab Firefox Launcher extension, including server cleanup, session management, and best practices for development.
 
