@@ -19,10 +19,8 @@ import {
 
 import { Message } from '@lumino/messaging';
 
-import { LabIcon } from '@jupyterlab/ui-components';
-
 import { requestAPI } from './firefox-api';
-import { FirefoxXpraClient } from './xpra-client';
+import { ProxyXpraClient } from './xpra-client-proxy';
 
 // Import CSS styles
 import '../style/index.css';
@@ -33,7 +31,7 @@ import '../style/index.css';
 class FirefoxWidget extends Widget {
   private _loadingDiv: HTMLDivElement;
   private _xpraContainer: HTMLDivElement;
-  private _xpraClient: FirefoxXpraClient | null = null;
+  private _xpraClient: ProxyXpraClient | null = null;
   private _xpraPort: number | null = null;
   private _processId: number | null = null;
   private _beforeUnloadHandler: () => void;
@@ -69,7 +67,7 @@ class FirefoxWidget extends Widget {
       </div>
     `;
 
-    // Create container for TypeScript Xpra client
+    // Create container for Xpra HTML5 client
     this._xpraContainer = document.createElement('div');
     this._xpraContainer.className = 'jp-firefox-xpra-container';
     this._xpraContainer.style.width = '100%';
@@ -161,8 +159,7 @@ class FirefoxWidget extends Widget {
    * Refresh the Firefox connection using Xpra client
    */
   refresh(): void {
-    console.log('🔄 Refresh called - using pure Xpra client approach');
-    // Pure Xpra client approach - no iframe fallback
+    console.log('🔄 Refresh called - using Xpra HTML5 client');
     if (this._xpraClient) {
       console.log('✅ Xpra client already exists and connected');
     } else {
@@ -171,14 +168,14 @@ class FirefoxWidget extends Widget {
   }
 
   /**
-   * Use TypeScript Xpra client with WebSocket connection
+   * Initialize Xpra client with WebSocket connection
    */
   setXpraClientAndConnect(websocketUrl: string, httpUrl?: string): void {
-    console.log('🔗 Using TypeScript Xpra client (pure approach)', { websocketUrl, httpUrl });
+    console.log('🔗 Initializing Xpra HTML5 client', { websocketUrl, httpUrl });
     
     try {
-      // Initialize the TypeScript Xpra client
-      this._xpraClient = new FirefoxXpraClient({
+      // Initialize the Xpra HTML5 client directly
+      this._xpraClient = new ProxyXpraClient({
         container: this._xpraContainer,
         wsUrl: websocketUrl,
         httpUrl: httpUrl,
@@ -190,10 +187,9 @@ class FirefoxWidget extends Widget {
       this._loadingDiv.style.display = 'none';
       this._xpraContainer.style.display = 'block';
 
-      console.log('✅ TypeScript Xpra client initialized successfully');
+      console.log('✅ Xpra HTML5 client initialized successfully');
     } catch (error) {
-      console.error('❌ Failed to initialize TypeScript Xpra client:', error);
-      // Show error in loading div instead of iframe fallback
+      console.error('❌ Failed to initialize Xpra client:', error);
       this._loadingDiv.innerHTML = `
         <div style="color: red; text-align: center; padding: 20px;">
           <h3>Connection Error</h3>
@@ -236,10 +232,10 @@ class FirefoxWidget extends Widget {
     console.log(`   Process ID: ${this._processId}`);
     console.log(`   Port: ${this._xpraPort}`);
     
-    // Clean up TypeScript Xpra client if it exists
+    // Clean up Xpra HTML5 client if it exists
     if (this._xpraClient) {
-      console.log('🧹 Cleaning up TypeScript Xpra client');
-      this._xpraClient.destroy();
+      console.log('🧹 Cleaning up Xpra HTML5 client');
+      this._xpraClient.cleanup();
       this._xpraClient = null;
     }
     
@@ -467,9 +463,9 @@ const plugin: JupyterFrontEndPlugin<void> = {
               console.log('🔧 User match:', userMatch);
               console.log('🔧 Base path:', basePath);
             } else {
-              // Fallback to direct proxy route
-              testUrl = '/firefox-launcher/firefox';
-              console.log('🔧 Using fallback direct proxy route for testing:', testUrl);
+              // No fallback needed - direct WebSocket connection doesn't require HTTP testing
+              console.error('❌ No proxy path or port available for connection testing');
+              throw new Error('No connection path available');
             }
             
             console.log(`🌐 Testing connection to: ${testUrl}`);

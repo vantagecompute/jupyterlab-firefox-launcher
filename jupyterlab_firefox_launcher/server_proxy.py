@@ -71,9 +71,9 @@ def get_server_proxy_config() -> Dict[str, Dict[str, Any]]:
                 "XPRA_CRASH_DEBUG": "1",
             },
             "absolute_url": False,  # Use relative URLs
-            #"request_headers_override": {
-            #    "Sec-WebSocket-Protocol": "binary",  # Required for Xpra WebSocket
-            #},
+            "request_headers_override": {
+                "Sec-WebSocket-Protocol": "binary",  # Required for Xpra WebSocket
+            },
             "rewrite_response": False,
         }
     }

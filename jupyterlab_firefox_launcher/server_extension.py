@@ -8,8 +8,6 @@ using jupyter_server_extension_points and configures jupyter-server-proxy.
 from .firefox_handler import (
     FirefoxLauncherHandler,
     FirefoxCleanupHandler,
-    XpraClientHandler,
-    XpraProxyHandler,
     XpraWebSocketHandler,
 )
 from .server_proxy import get_server_proxy_config
@@ -48,16 +46,6 @@ def _load_jupyter_server_extension(serverapp):
         base_url, "firefox-launcher", "api", "cleanup"
     )
 
-    # Handler for custom Xpra client
-    xpra_client_pattern = _url_path_join(
-        base_url, "firefox-launcher", "client"
-    )
-
-    # Handler for Xpra proxy (to strip CSP headers)
-    xpra_proxy_pattern = _url_path_join(
-        base_url, "firefox-launcher", "proxy"
-    )
-
     # Handler for Xpra WebSocket proxy
     xpra_ws_pattern = _url_path_join(
         base_url, "firefox-launcher", "ws"
@@ -66,18 +54,13 @@ def _load_jupyter_server_extension(serverapp):
     # Log the patterns for debugging
     serverapp.log.info(f"🔧 Firefox launcher pattern: {firefox_launcher_pattern}")
     serverapp.log.info(f"🔧 Firefox cleanup pattern: {firefox_cleanup_pattern}")
-    serverapp.log.info(f"🔧 Xpra client pattern: {xpra_client_pattern}")
-    serverapp.log.info(f"🔧 Xpra proxy pattern: {xpra_proxy_pattern}")
     serverapp.log.info(f"🔧 Xpra WebSocket pattern: {xpra_ws_pattern}")
 
     # Add handlers - make sure patterns are properly escaped for regex
     # Use more permissive regex patterns to handle query parameters and trailing slashes
-    # IMPORTANT: Static handler must be LAST to avoid interfering with API endpoints
     handlers = [
         (firefox_launcher_pattern + r"/?(?:\?.*)?$", FirefoxLauncherHandler),
         (firefox_cleanup_pattern + r"/?(?:\?.*)?$", FirefoxCleanupHandler),
-        (xpra_client_pattern + r"/?(?:\?.*)?$", XpraClientHandler),
-        (xpra_proxy_pattern + r"/?(?:\?.*)?$", XpraProxyHandler),
         (xpra_ws_pattern + r"/?(?:\?.*)?$", XpraWebSocketHandler),
     ]
 
