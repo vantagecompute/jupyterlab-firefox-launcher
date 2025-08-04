@@ -655,44 +655,21 @@ class FirefoxLauncherHandler(JupyterHandler):
             # Get the first available active port (simple approach)
             port = next(iter(FirefoxLauncherHandler._active_sessions.keys()))
 
-            # Instead of redirecting to proxy (which doesn't work), provide direct WebSocket URL
-            # Use better hostname resolution for WebSocket URLs
-            request_host = self.request.host.split(':')[0] if self.request.host else 'localhost'
-            
-            # For WebSocket URLs, prefer localhost or FQDN over bare hostnames
-            if request_host and request_host != 'localhost' and '.' not in request_host:
-                # If it's a bare hostname (like 'raton00'), use localhost for WebSocket connections
-                # The client-side will resolve this properly
-                ws_host = 'localhost'
-                http_host = request_host  # Keep original for HTTP URL
-            else:
-                ws_host = request_host
-                http_host = request_host
-            
-            # Create WebSocket, HTTP, and proxy URLs
-            direct_ws_url = f"ws://{ws_host}:{port}/"
-            direct_http_url = f"http://{http_host}:{port}/"
-            
-            # Get the base URL for proxy path (essential for JupyterHub)
+            # Get the base URL for proxy path (JupyterHub integration)
             base_url = self.settings.get("base_url", "/")
             proxy_path = f"{base_url}proxy/{port}/"
             if not proxy_path.startswith("/"):
                 proxy_path = "/" + proxy_path
 
-            self.log.info(f"GET request: Providing direct WebSocket URL: {direct_ws_url}")
-            self.log.info(f"GET request: Direct HTTP URL: {direct_http_url}")
-            self.log.info(f"GET request: Proxy path: {proxy_path}")
+            self.log.info(f"GET request: Providing proxy path: {proxy_path}")
             
-            # Return JSON with all connection options
+            # Return JSON with proxy path only
             self.set_header("Content-Type", "application/json")
             self.write({
                 "status": "running",
                 "port": port,
-                "websocket_url": direct_ws_url,
-                "http_url": direct_http_url,
                 "proxy_path": proxy_path,
-                "direct_connection": True,
-                "message": "Multiple connection options available"
+                "message": "Firefox session available via proxy path"
             })
 
         except Exception as e:
@@ -727,24 +704,7 @@ class FirefoxLauncherHandler(JupyterHandler):
                         "port": port,
                     }
 
-                    # Use better hostname resolution for WebSocket URLs
-                    request_host = self.request.host.split(':')[0] if self.request.host else 'localhost'
-                    
-                    # For WebSocket URLs, prefer localhost or FQDN over bare hostnames
-                    if request_host and request_host != 'localhost' and '.' not in request_host:
-                        # If it's a bare hostname (like 'raton00'), use localhost for WebSocket connections
-                        # The client-side will resolve this properly
-                        ws_host = 'localhost'
-                        http_host = request_host  # Keep original for HTTP URL
-                    else:
-                        ws_host = request_host
-                        http_host = request_host
-                    
-                    # Create WebSocket, HTTP, and proxy URLs for comprehensive compatibility
-                    direct_ws_url = f"ws://{ws_host}:{port}/"
-                    direct_http_url = f"http://{http_host}:{port}/"
-                    
-                    # Get the base URL for proxy path (essential for JupyterHub)
+                    # Get the base URL for proxy path (JupyterHub integration)
                     base_url = self.settings.get("base_url", "/")
                     proxy_path = f"{base_url}proxy/{port}/"
                     if not proxy_path.startswith("/"):
@@ -753,9 +713,7 @@ class FirefoxLauncherHandler(JupyterHandler):
                     self.log.info(
                         f"Firefox launched successfully on port {port} with process ID {process_id}"
                     )
-                    self.log.info(f"🌐 Direct WebSocket URL: {direct_ws_url}")
-                    self.log.info(f"🌐 Direct HTTP URL: {direct_http_url}")
-                    self.log.info(f"🌐 Proxy path: {proxy_path}")
+                    self.log.info(f"🛤️ Proxy path: {proxy_path}")
                     self.set_status(200)
                     self.write(
                         {
@@ -763,10 +721,7 @@ class FirefoxLauncherHandler(JupyterHandler):
                             "message": "Firefox launched successfully",
                             "port": port,
                             "process_id": process_id,
-                            "websocket_url": direct_ws_url,
-                            "http_url": direct_http_url,
-                            "proxy_path": proxy_path,
-                            "direct_connection": True
+                            "proxy_path": proxy_path
                         }
                     )
                 else:

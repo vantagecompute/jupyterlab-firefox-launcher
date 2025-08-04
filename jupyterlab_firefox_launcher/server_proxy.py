@@ -3,10 +3,8 @@
 Server proxy configuration for jupyter-server-proxy integration.
 """
 
-import os
-import sys
 import logging
-from typing import Dict, Any, List, Callable, Optional
+from typing import Dict, Any, List
 from .firefox_handler import _create_xpra_command, _find_free_port, _check_dependencies
 
 _logger = logging.getLogger(__name__)

@@ -4,14 +4,7 @@
  * Xpra Client Integration for JupyterLab Firefox Launcher
  * 
  * This module provides a TypeScript wrapper around the xpra-html5-client
- * library             }
-      
-      // Initialize the client first
-      await this.client.init();      
-      // Initialize the client firstonsole.log(`🎯 Direct Xpra WebSocket URL: ${finalXpraUrl}`);
-      }
-      
-      // Initialize the client firstamless integration with our JupyterLab extension.
+ * library for seamless integration with our JupyterLab extension.
  */
 
 import { XpraClient, XpraConnectionOptions } from 'xpra-html5-client';
@@ -212,7 +205,6 @@ export class FirefoxXpraClient {
         console.log(`🎯 Direct Xpra WebSocket URL: ${finalXpraUrl}`);
       }
       
-      console.log(`� Direct Xpra WebSocket URL: ${directXpraUrl}`);
       
       // Initialize the client first
       await this.client.init();

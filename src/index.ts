@@ -411,33 +411,27 @@ const plugin: JupyterFrontEndPlugin<void> = {
           throw new Error(response.message || 'Failed to start Firefox');
         }
         
-        // Extract port, proxy path, process ID, and client URL from response if available
+        // Extract port, proxy path, and process ID from response
         const xpraPort = response.port;
         const proxyPath = response.proxy_path;
         const processId = response.process_id;
-        const clientUrl = response.client_url;
-        const websocketUrl = response.websocket_url;
-        const httpUrl = response.http_url;
         
         console.log('📡 Extracted response data:');
         console.log('   🔌 Xpra Port:', xpraPort);
         console.log('   🛤️  Proxy Path:', proxyPath);
         console.log('   🆔 Process ID:', processId);
-        console.log('   🌐 Client URL:', clientUrl);
-        console.log('   🔗 WebSocket URL:', websocketUrl);
-        console.log('   🌍 HTTP URL:', httpUrl);
         
         console.log(`✅ Firefox process started on port ${xpraPort}, process ID: ${processId}`);
-        if (clientUrl) {
-          console.log(`📱 Custom client URL: ${clientUrl}`);
+        console.log(`�️ Proxy path: ${proxyPath}, waiting for connection...`);
+        
+        if (!proxyPath) {
+          console.error('❌ No proxy path received from server');
+          widget.showError(
+            'Configuration Error',
+            'No proxy path available. Extension requires JupyterHub proxy routing.'
+          );
+          return;
         }
-        if (websocketUrl) {
-          console.log(`🔗 Direct WebSocket URL: ${websocketUrl}`);
-        }
-        if (httpUrl) {
-          console.log(`🌍 Direct HTTP URL: ${httpUrl}`);
-        }
-        console.log(`🛤️ Proxy path: ${proxyPath}, waiting for connection...`);
         
         // Store process ID in widget for cleanup
         if (processId) {
@@ -453,22 +447,12 @@ const plugin: JupyterFrontEndPlugin<void> = {
           console.log(`🔄 Connection attempt ${attempt}/${maxRetries}`);
           
           try {
-            // Determine the URL to test based on what's available
+            // Determine the URL to test based on proxy path
             let testUrl: string;
             
-            console.log('🔧 Determining test URL...');
+            console.log('🔧 Using proxy path for connection...');
             
-            // PRIORITY: For TypeScript Xpra client, test the actual Xpra server directly
-            if (websocketUrl && httpUrl) {
-              // Test the HTTP URL directly since WebSocket test is more complex
-              const httpUrlObj = new URL(httpUrl);
-              testUrl = `http://${httpUrlObj.hostname}:${httpUrlObj.port}/`;
-              console.log('🔧 Using direct HTTP URL for testing:', testUrl);
-            } else if (clientUrl) {
-              // Use custom client URL (best option)
-              testUrl = clientUrl;
-              console.log('🔧 Using custom client URL for testing:', testUrl);
-            } else if (proxyPath) {
+            if (proxyPath) {
               // Use the proxy path provided by the backend
               testUrl = proxyPath;
               console.log('🔧 Using proxy path for testing:', testUrl);
@@ -506,25 +490,12 @@ const plugin: JupyterFrontEndPlugin<void> = {
               console.log(`✅ Connection ready after ${attempt} attempts`);
               console.log(`✅ Final test response: ${testResponse.status} ${testResponse.statusText}`);
               
-              // Use our TypeScript Xpra client with appropriate connection method
-              if (websocketUrl) {
-                console.log(`🎯 Using TypeScript Xpra client with WebSocket: ${websocketUrl}`);
-                console.log(`🎯 HTTP URL for verification: ${httpUrl}`);
-                widget.setXpraClientAndConnect(websocketUrl, httpUrl);
-              } else if (proxyPath) {
-                console.log(`🎯 Using proxy path for Xpra connection: ${proxyPath}`);
-                // For proxy paths, construct WebSocket URL from the proxy path
-                const wsUrl = proxyPath.replace(/^http/, 'ws').replace(/\/$/, '') + '/';
-                console.log(`🎯 Constructed WebSocket URL from proxy: ${wsUrl}`);
-                widget.setXpraClientAndConnect(wsUrl, proxyPath);
-              } else {
-                console.error(`❌ No connection method available - need either WebSocket URL or proxy path`);
-                // Show error in widget
-                widget.showError(
-                  'Configuration Error',
-                  'No connection method available. Extension requires WebSocket URL or proxy path.'
-                );
-              }
+              // Use proxy path for Xpra connection
+              console.log(`🎯 Using proxy path for Xpra connection: ${proxyPath}`);
+              // For proxy paths, construct WebSocket URL from the proxy path
+              const wsUrl = proxyPath.replace(/^http/, 'ws').replace(/\/$/, '') + '/';
+              console.log(`🎯 Constructed WebSocket URL from proxy: ${wsUrl}`);
+              widget.setXpraClientAndConnect(wsUrl, proxyPath);
               
               console.log('✅ ========= START FIREFOX WITH RETRY COMPLETE =========');
               return;
