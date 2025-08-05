@@ -82,6 +82,23 @@ def _find_free_port():
     return port
 
 
+def _find_two_free_ports():
+    """Find two consecutive free ports for Xpra server (TCP and WebSocket)."""
+    # Find first port
+    with socket.socket(socket.AF_INET, socket.SOCK_STREAM) as s:
+        s.bind(("", 0))
+        s.listen(1)
+        port1 = s.getsockname()[1]
+    
+    # Find second port  
+    with socket.socket(socket.AF_INET, socket.SOCK_STREAM) as s:
+        s.bind(("", 0))
+        s.listen(1)
+        port2 = s.getsockname()[1]
+    
+    return port1, port2
+
+
 def _get_xpra_and_firefox_exec_paths():
     """
     Get Firefox command, checking for availability on demand.
@@ -241,8 +258,8 @@ def _create_xpra_command(port: int) -> List[str]:
 
     # Log key configuration decisions
     _logger.info("🔧 Xpra Configuration Decisions:")
-    _logger.info(f"   TCP Binding: 0.0.0.0:{port} (all interfaces)")
-    _logger.info("   WebSocket: Direct WebSocket connection (HTML5 client disabled)")
+    _logger.info(f"   WebSocket Binding: 0.0.0.0:{port} (all interfaces)")
+    _logger.info("   TCP Binding: Disabled (WebSocket only for HTML5 client)")
     _logger.info("   HTML5 Client: Disabled - using pure WebSocket connectivity")
     _logger.info("   Daemon Mode: Disabled (foreground for process management)")
     _logger.info(f"   Child Process: {firefox_wrapper}")
@@ -271,9 +288,9 @@ def _create_xpra_command(port: int) -> List[str]:
     xpra_cmd = [
         xpra,
         "start",
-        f"--bind-tcp=0.0.0.0:{port}",        # Use the provided port for TCP
-        "--bind=none",  # Disable Unix socket binding to force TCP only
-        "--html=on",  # Enable HTML5 client - we'll use direct HTTP URL
+        f"--bind-ws=0.0.0.0:{port}",         # WebSocket binding for external HTML5 clients
+        "--bind=none",  # Disable Unix socket binding to force network only
+        "--html=on",  # Enable built-in HTML5 server for xpra-html5-client compatibility
         "--daemon=no",  # Run in foreground for proper process management
         "--exit-with-children=yes",  # Exit when Firefox closes
         "--start-via-proxy=no",  # Disable proxy startup to avoid session manager issues
@@ -333,7 +350,7 @@ def _create_xpra_command(port: int) -> List[str]:
     _logger.info("📋 Final Xpra Command Summary:")
     _logger.info(f"   Executable: {xpra_cmd[0]}")
     _logger.info(f"   Action: {xpra_cmd[1]}")
-    _logger.info(f"   Port Binding: --bind-tcp=0.0.0.0:{port}")
+    _logger.info(f"   WebSocket Binding: --bind-ws=0.0.0.0:{port}")
     _logger.info(f"   Firefox Wrapper: --start-child={firefox_wrapper}")
     _logger.info(f"   Session Directory: {session_dir} (unified structure)")
     _logger.info(f"   Socket Directory: {socket_dir}")

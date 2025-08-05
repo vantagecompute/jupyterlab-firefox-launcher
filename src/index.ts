@@ -168,6 +168,14 @@ class FirefoxWidget extends Widget {
   }
 
   /**
+   * Set the Xpra port for this widget
+   */
+  setXpraPort(port: number): void {
+    this._xpraPort = port;
+    console.log('🔧 Xpra port set to:', port);
+  }
+
+  /**
    * Initialize Xpra client with WebSocket connection
    */
   setXpraClientAndConnect(websocketUrl: string, httpUrl?: string): void {
@@ -429,12 +437,20 @@ const plugin: JupyterFrontEndPlugin<void> = {
           return;
         }
         
-        // Store process ID in widget for cleanup
+        // Store process ID and port in widget for cleanup
         if (processId) {
           console.log('🔧 Setting process ID in widget:', processId);
           widget.setProcessId(processId);
         } else {
           console.warn('⚠️ No process ID received from server');
+        }
+        
+        // Store Xpra port in widget
+        if (xpraPort) {
+          console.log('🔧 Setting Xpra port in widget:', xpraPort);
+          widget.setXpraPort(xpraPort);
+        } else {
+          console.warn('⚠️ No Xpra port received from server');
         }
         
         // Wait for connection to be available
@@ -486,11 +502,13 @@ const plugin: JupyterFrontEndPlugin<void> = {
               console.log(`✅ Connection ready after ${attempt} attempts`);
               console.log(`✅ Final test response: ${testResponse.status} ${testResponse.statusText}`);
               
-              // Use proxy path for Xpra connection
-              console.log(`🎯 Using proxy path for Xpra connection: ${proxyPath}`);
-              // For proxy paths, construct WebSocket URL from the proxy path
-              const wsUrl = proxyPath.replace(/^http/, 'ws').replace(/\/$/, '') + '/';
-              console.log(`🎯 Constructed WebSocket URL from proxy: ${wsUrl}`);
+              // Use direct connection to Xpra server (JupyterHub proxy doesn't support WebSocket)
+              console.log(`🎯 Using direct connection to Xpra server: port ${xpraPort}`);
+              // Construct direct WebSocket URL to Xpra server (bypassing JupyterHub proxy)
+              const currentLocation = window.location;
+              const wsProtocol = currentLocation.protocol === 'https:' ? 'wss:' : 'ws:';
+              const wsUrl = `${wsProtocol}//${currentLocation.hostname}:${xpraPort}/`;
+              console.log(`🎯 Constructed direct WebSocket URL: ${wsUrl}`);
               widget.setXpraClientAndConnect(wsUrl, proxyPath);
               
               console.log('✅ ========= START FIREFOX WITH RETRY COMPLETE =========');

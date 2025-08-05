@@ -9,6 +9,9 @@
 
 import { XpraClient, XpraConnectionOptions } from 'xpra-html5-client';
 
+// Store reference to original WebSocket before we override it
+const OriginalWebSocket = globalThis.WebSocket;
+
 // Custom WebSocket class that can handle proxy URLs
 class ProxyCompatibleWebSocket {
   private ws?: WebSocket;
@@ -25,8 +28,22 @@ class ProxyCompatibleWebSocket {
     this.protocols = protocols;
     console.log(`🔧 ProxyCompatibleWebSocket: Creating WebSocket for ${url} with protocols:`, protocols);
     
-    // Create the actual WebSocket connection with proper subprotocol
-    this.ws = new WebSocket(url, protocols || ['binary']);
+    // Fix for Xpra WebSocket protocol compatibility
+    // Use the EXACT same protocol as official Xpra HTML5 client
+    let effectiveProtocols = protocols;
+    
+    if (url.includes('/proxy/')) {
+      // JupyterHub proxy connection - use no subprotocol to avoid conflicts
+      console.log('🔧 Detected JupyterHub proxy URL - using no subprotocol');
+      effectiveProtocols = undefined;
+    } else {
+      // Direct connection to Xpra server - use 'binary' protocol (same as official client)
+      console.log('🔧 Direct Xpra connection - using binary protocol (official Xpra standard)');
+      effectiveProtocols = ['binary'];
+    }    // Create the actual WebSocket connection using the ORIGINAL WebSocket class
+    this.ws = new OriginalWebSocket(url, effectiveProtocols);
+    
+    console.log(`🔧 ProxyCompatibleWebSocket: Using protocols:`, effectiveProtocols);
     
     // Forward all events
     this.ws.onopen = (event) => {
@@ -91,6 +108,8 @@ export class ProxyXpraClient {
   private debug: boolean;
   private isConnected: boolean = false;
   private originalWebSocket?: typeof WebSocket;
+  private pendingRedraws: Set<HTMLElement> = new Set();
+  private drawPending: number = 0;
 
   constructor(options: ProxyXpraClientOptions) {
     this.container = options.container;
@@ -109,6 +128,14 @@ export class ProxyXpraClient {
     });
 
     this.setupEventHandlers();
+
+    // Handle autoConnect option
+    if (options.autoConnect) {
+      console.log('🚀 Auto-connecting Xpra client...');
+      this.connect().catch(error => {
+        console.error('❌ Auto-connect failed:', error);
+      });
+    }
   }
 
   private setupEventHandlers(): void {
@@ -182,21 +209,51 @@ export class ProxyXpraClient {
 
     console.log(`🎯 Window container created: <div id="${windowId}" class="xpra-window" style="..."></div>`);
 
-    // Create canvas for rendering
+    // Create visible canvas for rendering (same as official Xpra client)
     const canvas = document.createElement('canvas');
     canvas.width = width;
     canvas.height = height;
     canvas.style.width = '100%';
     canvas.style.height = '100%';
-    console.log(`🎨 Canvas created: ${width}x${height} pixels`);
+    canvas.className = 'xpra-canvas';
+    console.log(`🎨 Visible canvas created: ${width}x${height} pixels`);
 
-    // Add canvas to window element
+    // Create offscreen canvas for double buffering (same as official Xpra client)
+    const offscreenCanvas = document.createElement('canvas');
+    offscreenCanvas.width = width;
+    offscreenCanvas.height = height;
+    offscreenCanvas.className = 'xpra-offscreen-canvas';
+    console.log(`🎨 Offscreen canvas created: ${width}x${height} pixels`);
+
+    // Get canvas contexts
+    const ctx = canvas.getContext('2d');
+    const offscreenCtx = offscreenCanvas.getContext('2d');
+    
+    if (!ctx || !offscreenCtx) {
+      console.error(`❌ Failed to get canvas contexts for window ${windowId}`);
+      return;
+    }
+
+    // Configure contexts (same as official Xpra client)
+    ctx.imageSmoothingEnabled = false;
+    offscreenCtx.imageSmoothingEnabled = false;
+
+    // Store canvas references on the window element
+    (windowElement as any)._canvas = canvas;
+    (windowElement as any)._offscreenCanvas = offscreenCanvas;
+    (windowElement as any)._ctx = ctx;
+    (windowElement as any)._offscreenCtx = offscreenCtx;
+    (windowElement as any)._width = width;
+    (windowElement as any)._height = height;
+    (windowElement as any)._wid = windowId;
+
+    // Add visible canvas to window element
     windowElement.appendChild(canvas);
 
     // Add window element to container
     this.container.appendChild(windowElement);
 
-    console.log(`✅ Window element created successfully for ID ${windowId} with canvas`);
+    console.log(`✅ Window element created successfully for ID ${windowId} with visible and offscreen canvas`);
 
     // Request initial refresh for the window
     console.log(`🔄 Requesting refresh for window ${windowId}`);
@@ -223,6 +280,9 @@ export class ProxyXpraClient {
     
     console.log(`✅ Found canvas for window ${windowId}, processing draw event`);
     console.log(`🖼️ Canvas ready for drawing: ${canvas.width}x${canvas.height}`);
+    
+    // Process the draw data like the official Xpra client
+    this.processPaintData(windowElement, draw);
   }
 
   private handleDrawBuffer(draw: any, buffer: ImageBitmap | null): void {
@@ -235,23 +295,201 @@ export class ProxyXpraClient {
       return;
     }
 
-    const canvas = windowElement.querySelector('canvas');
-    if (!canvas) {
-      console.log(`⚠️ No canvas found in window element for window ID: ${windowId}`);
+    const offscreenCtx = (windowElement as any)._offscreenCtx;
+    if (!offscreenCtx) {
+      console.log(`⚠️ No offscreen canvas context found for window ID: ${windowId}`);
       return;
     }
 
-    const ctx = canvas.getContext('2d');
-    if (!ctx) {
-      console.log(`⚠️ Could not get 2D context for canvas in window ID: ${windowId}`);
-      return;
-    }
-
-    console.log(`🖼️ Drawing buffer to canvas for window ${windowId}`, buffer);
+    console.log(`🖼️ Drawing buffer to offscreen canvas for window ${windowId}`, buffer);
 
     if (buffer) {
-      ctx.drawImage(buffer, draw.x || 0, draw.y || 0);
+      // Draw to offscreen canvas first (like official Xpra client)
+      const x = draw.x || 0;
+      const y = draw.y || 0;
+      offscreenCtx.drawImage(buffer, x, y);
+      
+      // Request redraw to copy offscreen to visible canvas
+      this.requestRedraw(windowElement);
     }
+  }
+
+  // Main paint processing method (based on official Xpra client)
+  private processPaintData(windowElement: HTMLElement, paintData: any): void {
+    const offscreenCtx = (windowElement as any)._offscreenCtx;
+    if (!offscreenCtx) {
+      console.log(`⚠️ No offscreen canvas context found`);
+      return;
+    }
+
+    console.log('🎨 Processing paint data:', paintData);
+
+    // Extract paint parameters
+    const x = paintData.x || 0;
+    const y = paintData.y || 0;
+    const width = paintData.width || paintData.w || 0;
+    const height = paintData.height || paintData.h || 0;
+    const imgData = paintData.img_data || paintData.data;
+    const coding = paintData.coding || paintData.encoding || 'rgb24';
+
+    console.log(`🎨 Paint parameters: x=${x}, y=${y}, size=${width}x${height}, coding=${coding}`);
+
+    // Handle different image encodings (similar to official Xpra client)
+    if (coding === 'rgb24' || coding === 'rgb32') {
+      this.paintRgb(offscreenCtx, x, y, width, height, imgData);
+    } else if (coding === 'jpeg' || coding === 'png' || coding === 'webp') {
+      this.paintImage(offscreenCtx, x, y, width, height, imgData, coding);
+    } else {
+      console.log(`🚧 Unsupported coding: ${coding}`);
+    }
+
+    // Request redraw to copy offscreen to visible canvas
+    this.requestRedraw(windowElement);
+  }
+
+  // Paint RGB data to canvas (like official Xpra client)
+  private paintRgb(ctx: CanvasRenderingContext2D, x: number, y: number, width: number, height: number, rgbData: any): void {
+    console.log(`🎨 Painting RGB data: ${width}x${height} at (${x},${y})`);
+    
+    if (!rgbData) {
+      console.log(`⚠️ No RGB data provided`);
+      return;
+    }
+
+    try {
+      // Create ImageData from RGB data
+      const imageData = ctx.createImageData(width, height);
+      
+      // Convert RGB data to RGBA format
+      if (rgbData instanceof Uint8Array || Array.isArray(rgbData)) {
+        for (let i = 0; i < width * height; i++) {
+          const srcOffset = i * 3; // RGB = 3 bytes per pixel
+          const dstOffset = i * 4; // RGBA = 4 bytes per pixel
+          
+          imageData.data[dstOffset] = rgbData[srcOffset];     // R
+          imageData.data[dstOffset + 1] = rgbData[srcOffset + 1]; // G
+          imageData.data[dstOffset + 2] = rgbData[srcOffset + 2]; // B
+          imageData.data[dstOffset + 3] = 255; // A (fully opaque)
+        }
+      }
+      
+      // Draw to offscreen canvas
+      ctx.putImageData(imageData, x, y);
+      console.log(`✅ RGB data painted successfully`);
+    } catch (error) {
+      console.error(`❌ Failed to paint RGB data:`, error);
+    }
+  }
+
+  // Paint image data to canvas (like official Xpra client)
+  private paintImage(ctx: CanvasRenderingContext2D, x: number, y: number, width: number, height: number, imgData: any, coding: string): void {
+    console.log(`🎨 Painting ${coding} image: ${width}x${height} at (${x},${y})`);
+    
+    if (!imgData) {
+      console.log(`⚠️ No image data provided`);
+      return;
+    }
+
+    try {
+      const image = new Image();
+      image.addEventListener('load', () => {
+        if (image.width === 0 || image.height === 0) {
+          console.log(`❌ Invalid image size: ${image.width}x${image.height}`);
+          return;
+        }
+        
+        // Clear the area and draw the image
+        ctx.clearRect(x, y, width, height);
+        ctx.drawImage(image, x, y, width, height);
+        console.log(`✅ ${coding} image painted successfully`);
+      });
+      
+      image.onerror = () => {
+        console.error(`❌ Failed to load ${coding} image`);
+      };
+      
+      // Create data URL for the image
+      const dataUrl = this.constructBase64ImageUrl(coding, imgData);
+      image.src = dataUrl;
+    } catch (error) {
+      console.error(`❌ Failed to paint ${coding} image:`, error);
+    }
+  }
+
+  // Construct base64 data URL (based on official Xpra client)
+  private constructBase64ImageUrl(coding: string, imgData: any): string {
+    let base64Data = '';
+    
+    if (typeof imgData === 'string') {
+      base64Data = imgData;
+    } else if (imgData instanceof Uint8Array) {
+      // Convert Uint8Array to base64
+      const binary = Array.from(imgData, byte => String.fromCharCode(byte)).join('');
+      base64Data = btoa(binary);
+    } else {
+      console.log(`🚧 Unknown image data format for ${coding}`);
+      return '';
+    }
+    
+    return `data:image/${coding};base64,${base64Data}`;
+  }
+
+  // Request redraw (like official Xpra client)
+  private requestRedraw(windowElement: HTMLElement): void {
+    console.log('🔄 Requesting redraw for window');
+    
+    if (this.pendingRedraws.has(windowElement)) {
+      console.log('🔄 Redraw already pending for this window');
+      return;
+    }
+    
+    this.pendingRedraws.add(windowElement);
+    
+    if (this.drawPending) {
+      console.log('� Draw already scheduled');
+      return;
+    }
+    
+    // Schedule draw using requestAnimationFrame (like official Xpra client)
+    this.drawPending = performance.now();
+    window.requestAnimationFrame(() => {
+      this.drawPendingList();
+    });
+  }
+
+  // Draw all pending windows (like official Xpra client)
+  private drawPendingList(): void {
+    const elapsed = performance.now() - this.drawPending;
+    console.log(`🎨 Animation frame: ${this.pendingRedraws.size} windows to paint, processing delay ${elapsed}ms`);
+    
+    this.drawPending = 0;
+    
+    // Draw all pending windows
+    for (const windowElement of this.pendingRedraws) {
+      this.drawWindow(windowElement);
+    }
+    
+    this.pendingRedraws.clear();
+  }
+
+  // Draw window (copy offscreen to visible canvas - like official Xpra client)
+  private drawWindow(windowElement: HTMLElement): void {
+    const canvas = (windowElement as any)._canvas;
+    const offscreenCanvas = (windowElement as any)._offscreenCanvas;
+    const ctx = (windowElement as any)._ctx;
+    
+    if (!canvas || !offscreenCanvas || !ctx) {
+      console.log(`⚠️ Missing canvas elements for draw`);
+      return;
+    }
+    
+    console.log('🎨 Drawing window: copying offscreen to visible canvas');
+    
+    // Clear visible canvas and copy from offscreen (same as official Xpra client draw() method)
+    ctx.clearRect(0, 0, offscreenCanvas.width, offscreenCanvas.height);
+    ctx.drawImage(offscreenCanvas, 0, 0);
+    
+    console.log('✅ Window draw completed');
   }
 
   async connect(): Promise<void> {
