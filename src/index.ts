@@ -499,8 +499,9 @@ const plugin: JupyterFrontEndPlugin<void> = {
             console.log(`📡 Test response ok: ${testResponse.ok}`);
             console.log(`📡 Test response status text: ${testResponse.statusText}`);
             
-                          // Accept various status codes that indicate readiness
-            if (testResponse.ok || testResponse.status === 302 || testResponse.status === 400) {
+            // Accept various status codes that indicate readiness
+            // 404 is expected from Xpra WebSocket servers (they only serve WebSocket connections, not HTTP)
+            if (testResponse.ok || testResponse.status === 302 || testResponse.status === 400 || testResponse.status === 404) {
               console.log(`✅ Connection ready after ${attempt} attempts`);
               console.log(`✅ Final test response: ${testResponse.status} ${testResponse.statusText}`);
               
@@ -510,10 +511,18 @@ const plugin: JupyterFrontEndPlugin<void> = {
               // Convert relative URL to absolute WebSocket URL
               const currentLocation = window.location;
               const wsProtocol = currentLocation.protocol === 'https:' ? 'wss:' : 'ws:';
-              const absoluteWsUrl = wsUrl.startsWith('ws://') || wsUrl.startsWith('wss://') 
-                ? wsUrl 
-                : `${wsProtocol}//${currentLocation.host}${wsUrl}`;
               
+              let absoluteWsUrl: string;
+              if (wsUrl.startsWith('ws://') || wsUrl.startsWith('wss://')) {
+                // Already absolute WebSocket URL
+                absoluteWsUrl = wsUrl;
+              } else {
+                // Relative URL - construct absolute URL using current host
+                // This ensures we connect through the same host the browser is using (JupyterHub proxy)
+                absoluteWsUrl = `${wsProtocol}//${currentLocation.host}${wsUrl}`;
+              }
+              
+              console.log(`🔗 Current location: ${currentLocation.protocol}//${currentLocation.host}`);
               console.log(`🎯 Final WebSocket URL: ${absoluteWsUrl}`);
               widget.setXpraClientAndConnect(absoluteWsUrl, proxyPath);
               

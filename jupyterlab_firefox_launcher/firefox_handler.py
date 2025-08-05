@@ -290,7 +290,7 @@ def _create_xpra_command(port: int) -> List[str]:
         "start",
         f"--bind-ws=0.0.0.0:{port}",         # WebSocket binding for external HTML5 clients
         "--bind=none",  # Disable Unix socket binding to force network only
-        "--html=on",  # Enable built-in HTML5 server for xpra-html5-client compatibility
+        "--html=off",  # Disable built-in HTML5 server (we use our own frontend)
         "--daemon=no",  # Run in foreground for proper process management
         "--exit-with-children=yes",  # Exit when Firefox closes
         "--start-via-proxy=no",  # Disable proxy startup to avoid session manager issues
@@ -678,7 +678,8 @@ class FirefoxLauncherHandler(JupyterHandler):
             if not proxy_path.startswith("/"):
                 proxy_path = "/" + proxy_path
 
-            # Construct WebSocket URL for JupyterHub proxy
+            # Construct WebSocket URL through JupyterHub proxy (REQUIRED)
+            # Must use proxy routing, not direct connection
             ws_url = proxy_path
             if not ws_url.endswith('/'):
                 ws_url += '/'
@@ -734,8 +735,8 @@ class FirefoxLauncherHandler(JupyterHandler):
                     if not proxy_path.startswith("/"):
                         proxy_path = "/" + proxy_path
 
-                    # Construct WebSocket URL for JupyterHub proxy
-                    # Convert proxy_path from HTTP to WebSocket
+                    # Construct WebSocket URL through JupyterHub proxy (REQUIRED)
+                    # Must use proxy routing, not direct connection
                     ws_url = proxy_path
                     if not ws_url.endswith('/'):
                         ws_url += '/'
@@ -947,6 +948,23 @@ class FirefoxLauncherHandler(JupyterHandler):
                         f"🔍 Port check failed (expected during startup): {port_check_error}"
                     )
 
+                # Register with proxy services (JupyterHub/JupyterLab)
+                self.log.info("🔗 Registering with proxy services...")
+                
+                # Try JupyterHub proxy registration first
+                jupyterhub_registered = await self._register_with_jupyterhub_proxy(port)
+                if jupyterhub_registered:
+                    self.log.info("✅ Successfully registered with JupyterHub configurable-http-proxy")
+                else:
+                    self.log.debug("JupyterHub proxy registration failed or not available")
+                    
+                    # Fallback to JupyterLab proxy if JupyterHub registration failed
+                    jupyterlab_registered = self._register_with_jupyterlab_proxy(port)
+                    if jupyterlab_registered:
+                        self.log.info("✅ Successfully registered with JupyterLab jupyter-server-proxy")
+                    else:
+                        self.log.warning("⚠️ No proxy registration succeeded - connections may fail")
+
                 return True, port, process.pid
             else:
                 # Process exited immediately - comprehensive error logging
@@ -1026,9 +1044,17 @@ class FirefoxLauncherHandler(JupyterHandler):
             # Construct the route to register (e.g., /user/bdx/proxy/39005/)
             route_path = f"{base_url}proxy/{port}/"
             
-            # Use the notebook server's IP address instead of localhost for proper proxy routing
-            server_ip = self.request.host.split(':')[0] if self.request.host else 'localhost'
-            target_url = f"http://{server_ip}:{port}"
+            # For the proxy target, we need to determine where the Xpra server is actually running
+            # In JupyterHub setups, Xpra runs on the same machine as the notebook server
+            # We should use the same host that the browser will use to access the proxy
+            
+            # Get the request host - this tells us how the user is accessing JupyterHub
+            request_host = self.request.host.split(':')[0] if self.request.host else 'localhost'
+            
+            # Use the request host as the target since Xpra is running on the same machine
+            # This ensures the proxy route matches the access pattern (localhost vs external IP)
+            target_server_ip = request_host
+            target_url = f"http://{target_server_ip}:{port}"
             
             # Prepare the registration request with WebSocket support
             registration_data = {
@@ -1062,7 +1088,8 @@ class FirefoxLauncherHandler(JupyterHandler):
             
             if response.code in (200, 201):
                 self.log.info(f"✅ JupyterHub proxy route registered: {route_path} -> {target_url}")
-                self.log.info(f"   Server IP: {server_ip}")
+                self.log.info(f"   Request Host: {request_host}")
+                self.log.info(f"   Target Server: {target_server_ip}")
                 self.log.info(f"   WebSocket support: Enabled with 'binary' subprotocol")
                 return True
             else:

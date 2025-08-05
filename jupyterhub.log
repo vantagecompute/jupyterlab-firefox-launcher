@@ -1,0 +1,112 @@
+nohup: ignoring input
+[I 2025-08-05 02:53:04.520 JupyterHub app:3354] Running JupyterHub version 5.3.0
+[I 2025-08-05 02:53:04.520 JupyterHub app:3384] Using Authenticator: jupyterhub.auth.PAMAuthenticator-5.3.0
+[I 2025-08-05 02:53:04.520 JupyterHub app:3384] Using Spawner: jupyterhub.spawner.LocalProcessSpawner-5.3.0
+[I 2025-08-05 02:53:04.520 JupyterHub app:3384] Using Proxy: jupyterhub.proxy.ConfigurableHTTPProxy-5.3.0
+/home/bdx/allcode/github/vantagecompute/jup-fir-lau/.venv/lib/python3.12/site-packages/jupyter_events/schema.py:68: JupyterEventsVersionWarning: The `version` property of an event schema must be a string. It has been type coerced, but in a future version of this library, it will fail to validate. Please update schema: https://schema.jupyter.org/jupyterhub/events/server-action
+  validate_schema(_schema)
+[I 2025-08-05 02:53:04.525 JupyterHub app:1835] Loading cookie_secret from /home/bdx/allcode/github/vantagecompute/jup-fir-lau/jupyterhub_cookie_secret
+[D 2025-08-05 02:53:04.525 JupyterHub app:2006] Connecting to db: sqlite:///jupyterhub.sqlite
+[D 2025-08-05 02:53:04.538 JupyterHub orm:1509] database schema version found: 4621fec11365
+[I 2025-08-05 02:53:04.581 JupyterHub proxy:556] Generating new CONFIGPROXY_AUTH_TOKEN
+[D 2025-08-05 02:53:04.581 JupyterHub app:2346] Loading roles into database
+[W 2025-08-05 02:53:04.586 JupyterHub auth:191] No allow config found, it's possible that nobody can login to your Hub!
+    You can set `c.Authenticator.allow_all = True` to allow any user who can login to access the Hub,
+    or e.g. `allowed_users` to a set of users who should have access.
+    You may suppress this warning by setting c.Authenticator.any_allow_config = True.
+[D 2025-08-05 02:53:04.597 JupyterHub app:2693] Purging expired APITokens
+[D 2025-08-05 02:53:04.599 JupyterHub app:2693] Purging expired OAuthCodes
+[D 2025-08-05 02:53:04.600 JupyterHub app:2693] Purging expired Shares
+[D 2025-08-05 02:53:04.601 JupyterHub app:2693] Purging expired ShareCodes
+[D 2025-08-05 02:53:04.602 JupyterHub app:2467] Loading role assignments from config
+[D 2025-08-05 02:53:04.613 JupyterHub app:2978] Initializing spawners
+[D 2025-08-05 02:53:04.619 JupyterHub app:3128] Loaded users:
+    
+[I 2025-08-05 02:53:04.619 JupyterHub app:3424] Initialized 0 spawners in 0.006 seconds
+[I 2025-08-05 02:53:04.623 JupyterHub metrics:425] Found 1 active users in the last ActiveUserPeriods.twenty_four_hours
+[I 2025-08-05 02:53:04.624 JupyterHub metrics:425] Found 1 active users in the last ActiveUserPeriods.seven_days
+[I 2025-08-05 02:53:04.624 JupyterHub metrics:425] Found 1 active users in the last ActiveUserPeriods.thirty_days
+[W 2025-08-05 02:53:04.625 JupyterHub proxy:748] Running JupyterHub without SSL.  I hope there is SSL termination happening somewhere else...
+[I 2025-08-05 02:53:04.625 JupyterHub proxy:752] Starting proxy @ http://:8889/
+[D 2025-08-05 02:53:04.625 JupyterHub proxy:753] Proxy cmd: ['configurable-http-proxy', '--ip', '', '--port', '8889', '--api-ip', '127.0.0.1', '--api-port', '8001', '--error-target', 'http://127.0.0.1:8081/hub/error', '--log-level', 'debug']
+[D 2025-08-05 02:53:04.625 JupyterHub proxy:670] Writing proxy pid file: jupyterhub-proxy.pid
+[D 2025-08-05 02:53:04.625 JupyterHub utils:277] Waiting 10s for server at raton00:8889
+[D 2025-08-05 02:53:04.627 JupyterHub utils:121] Server at raton00:8889 not ready: [Errno 111] Connection refused
+[D 2025-08-05 02:53:04.627 JupyterHub utils:277] Waiting 10s for server at 127.0.0.1:8001
+[D 2025-08-05 02:53:04.627 JupyterHub utils:121] Server at 127.0.0.1:8001 not ready: [Errno 111] Connection refused
+[D 2025-08-05 02:53:04.675 JupyterHub utils:121] Server at 127.0.0.1:8001 not ready: [Errno 111] Connection refused
+/home/bdx/allcode/github/vantagecompute/jup-fir-lau/.venv/lib/python3.12/site-packages/configurable_http_proxy/_version.py:8: UserWarning: pkg_resources is deprecated as an API. See https://setuptools.pypa.io/en/latest/pkg_resources.html. The pkg_resources package is slated for removal as early as 2025-11-30. Refrain from using this package or pin to Setuptools<81.
+  from pkg_resources import get_distribution
+[D 2025-08-05 02:53:04.757 JupyterHub utils:121] Server at raton00:8889 not ready: [Errno 111] Connection refused
+[I 2025-08-05 02:53:04,800 configurable_http_proxy] Proxying http://*:8889 to (no default)
+[I 2025-08-05 02:53:04,800 configurable_http_proxy] Proxy API at http://127.0.0.1:8001/api/routes
+[D 2025-08-05 02:53:04.808 JupyterHub utils:285] Server at 127.0.0.1:8001 responded in 0.18s
+[D 2025-08-05 02:53:04.820 JupyterHub utils:285] Server at raton00:8889 responded in 0.19s
+[D 2025-08-05 02:53:04.821 JupyterHub proxy:832] Proxy started and appears to be up
+[D 2025-08-05 02:53:04.822 JupyterHub proxy:925] Proxy: Fetching GET http://127.0.0.1:8001/api/routes
+[I 2025-08-05 02:53:04,823 configurable_http_proxy] 200 GET /api/routes 
+[I 2025-08-05 02:53:04.823 JupyterHub app:3747] Hub API listening on http://127.0.0.1:8081/hub/
+[D 2025-08-05 02:53:04.823 JupyterHub proxy:389] Fetching routes to check
+[D 2025-08-05 02:53:04.823 JupyterHub proxy:925] Proxy: Fetching GET http://127.0.0.1:8001/api/routes
+[I 2025-08-05 02:53:04,824 configurable_http_proxy] 200 GET /api/routes 
+[D 2025-08-05 02:53:04.824 JupyterHub proxy:392] Checking routes
+[I 2025-08-05 02:53:04.824 JupyterHub proxy:477] Adding route for Hub: / => http://127.0.0.1:8081
+[D 2025-08-05 02:53:04.824 JupyterHub proxy:925] Proxy: Fetching POST http://127.0.0.1:8001/api/routes/
+[I 2025-08-05 02:53:04,825 configurable_http_proxy] Adding route / -> http://127.0.0.1:8081
+[I 2025-08-05 02:53:04,825 configurable_http_proxy] Route added / -> http://127.0.0.1:8081
+[I 2025-08-05 02:53:04,825 configurable_http_proxy] 201 POST /api/routes/ 
+[I 2025-08-05 02:53:04.825 JupyterHub app:3778] JupyterHub is now running at http://:8889/
+[D 2025-08-05 02:53:04.826 JupyterHub app:3347] It took 0.316 seconds for the Hub to start
+[D 2025-08-05 02:53:22,680 configurable_http_proxy] PROXY WEB /user/bdx/lab to http://127.0.0.1:8081
+[I 2025-08-05 02:53:22.682 JupyterHub log:192] 302 GET /user/bdx/lab?id=f65e7415-1105-4be9-8e57-5d39c5ec2393&vscodeBrowserReqId=[secret] -> /hub/user/bdx/lab?id=f65e7415-1105-4be9-8e57-5d39c5ec2393&vscodeBrowserReqId=[secret] (@192.168.99.63) 0.43ms
+[D 2025-08-05 02:53:22,682 configurable_http_proxy] Not recording activity for status 302 on /
+[D 2025-08-05 02:53:22,694 configurable_http_proxy] PROXY WEB /hub/user/bdx/lab to http://127.0.0.1:8081
+[I 2025-08-05 02:53:22.696 JupyterHub log:192] 302 GET /hub/user/bdx/lab?id=f65e7415-1105-4be9-8e57-5d39c5ec2393&vscodeBrowserReqId=[secret] -> /hub/login?next=%2Fhub%2Fuser%2Fbdx%2Flab%3Fid%3Df65e7415-1105-4be9-8e57-5d39c5ec2393%26vscodeBrowserReqId%3D1754362402545 (@192.168.99.63) 0.42ms
+[D 2025-08-05 02:53:22,696 configurable_http_proxy] Not recording activity for status 302 on /
+[D 2025-08-05 02:53:22,701 configurable_http_proxy] PROXY WEB /hub/login to http://127.0.0.1:8081
+[I 2025-08-05 02:53:22.702 JupyterHub _xsrf_utils:130] Setting new xsrf cookie for b'None:m-nILZymtwUWMMb_nRgjIqqgWZwUUdmdeWSxmaLKHJ4=' {'path': '/hub/', 'max_age': 3600}
+[I 2025-08-05 02:53:22.703 JupyterHub _xsrf_utils:130] Setting new xsrf cookie for b'None:m-nILZymtwUWMMb_nRgjIqqgWZwUUdmdeWSxmaLKHJ4=' {'path': '/hub/', 'max_age': 3600}
+[I 2025-08-05 02:53:22.725 JupyterHub log:192] 200 GET /hub/login?next=%2Fhub%2Fuser%2Fbdx%2Flab%3Fid%3Df65e7415-1105-4be9-8e57-5d39c5ec2393%26vscodeBrowserReqId%3D1754362402545 (@192.168.99.63) 23.27ms
+[D 2025-08-05 02:53:22,768 configurable_http_proxy] PROXY WEB /hub/security/csp-report to http://127.0.0.1:8081
+[W 2025-08-05 02:53:22.769 JupyterHub web:1932] 403 POST /hub/security/csp-report (192.168.99.63): '_xsrf' argument missing from POST
+[I 2025-08-05 02:53:22.769 JupyterHub _xsrf_utils:130] Setting new xsrf cookie for b'None:m-nILZymtwUWMMb_nRgjIqqgWZwUUdmdeWSxmaLKHJ4=' {'path': '/hub/', 'max_age': 3600}
+[D 2025-08-05 02:53:22.769 JupyterHub base:1542] Using default error template for 403
+[W 2025-08-05 02:53:22.784 JupyterHub log:192] 403 POST /hub/security/csp-report (@192.168.99.63) 15.26ms
+[W 2025-08-05 02:53:22,784 tornado.access] 403 POST /hub/security/csp-report (192.168.99.63) 16.60ms
+[D 2025-08-05 02:53:22,784 configurable_http_proxy] Not recording activity for status 403 on /
+[D 2025-08-05 02:53:30,445 configurable_http_proxy] PROXY WEB /user/bdx/api/events/subscribe to http://127.0.0.1:8081
+[D 2025-08-05 02:53:30,445 configurable_http_proxy] PROXY WEB /user/bdx/api/events/subscribe to http://127.0.0.1:8081
+[I 2025-08-05 02:53:30.452 JupyterHub log:192] 302 GET /user/bdx/api/events/subscribe -> /hub/user/bdx/api/events/subscribe (@192.168.99.63) 2.49ms
+[D 2025-08-05 02:53:30,453 configurable_http_proxy] Not recording activity for status 302 on /
+[D 2025-08-05 02:53:30,454 configurable_http_proxy] PROXY WEB /user/bdx/api/contents to http://127.0.0.1:8081
+[I 2025-08-05 02:53:30.455 JupyterHub log:192] 302 GET /user/bdx/api/contents?content=1&hash=0&1754362410313 -> /hub/user/bdx/api/contents?content=1&hash=0&1754362410313 (@192.168.99.63) 0.53ms
+[D 2025-08-05 02:53:30,455 configurable_http_proxy] Not recording activity for status 302 on /
+[D 2025-08-05 02:53:30,469 configurable_http_proxy] PROXY WEB /hub/user/bdx/api/contents to http://127.0.0.1:8081
+[D 2025-08-05 02:53:30.485 JupyterHub base:411] Refreshing auth for bdx
+[D 2025-08-05 02:53:30.485 JupyterHub user:496] Creating <class 'jupyterhub.spawner.LocalProcessSpawner'> for bdx:
+[W 2025-08-05 02:53:30.486 JupyterHub base:1637] Failing suspected API request to not-running server: /hub/user/bdx/api/contents
+[W 2025-08-05 02:53:30.487 JupyterHub log:192] 424 GET /hub/user/bdx/api/contents?content=1&hash=0&1754362410313 (bdx@192.168.99.63) 15.80ms
+[W 2025-08-05 02:53:30,487 tornado.access] 424 GET /hub/user/bdx/api/contents?content=1&hash=0&1754362410313 (192.168.99.63) 18.22ms
+[D 2025-08-05 02:53:30,488 configurable_http_proxy] Not recording activity for status 424 on /
+[D 2025-08-05 02:53:32,531 configurable_http_proxy] PROXY WEB /user/bdx/api/events/subscribe to http://127.0.0.1:8081
+[D 2025-08-05 02:53:32,531 configurable_http_proxy] PROXY WEB /user/bdx/api/events/subscribe to http://127.0.0.1:8081
+[I 2025-08-05 02:53:32.535 JupyterHub log:192] 302 GET /user/bdx/api/events/subscribe -> /hub/user/bdx/api/events/subscribe (@192.168.99.63) 0.81ms
+[D 2025-08-05 02:53:32,535 configurable_http_proxy] Not recording activity for status 302 on /
+[D 2025-08-05 02:53:41,509 configurable_http_proxy] PROXY WEB /user/bdx/api/contents to http://127.0.0.1:8081
+[I 2025-08-05 02:53:41.512 JupyterHub log:192] 302 GET /user/bdx/api/contents?content=1&hash=0&1754362421391 -> /hub/user/bdx/api/contents?content=1&hash=0&1754362421391 (@192.168.99.63) 0.86ms
+[D 2025-08-05 02:53:41,512 configurable_http_proxy] Not recording activity for status 302 on /
+[D 2025-08-05 02:53:41,532 configurable_http_proxy] PROXY WEB /hub/user/bdx/api/contents to http://127.0.0.1:8081
+[W 2025-08-05 02:53:41.554 JupyterHub base:1637] Failing suspected API request to not-running server: /hub/user/bdx/api/contents
+[W 2025-08-05 02:53:41.556 JupyterHub log:192] 424 GET /hub/user/bdx/api/contents?content=1&hash=0&1754362421391 (bdx@192.168.99.63) 19.45ms
+[W 2025-08-05 02:53:41,557 tornado.access] 424 GET /hub/user/bdx/api/contents?content=1&hash=0&1754362421391 (192.168.99.63) 26.18ms
+[D 2025-08-05 02:53:41,558 configurable_http_proxy] Not recording activity for status 424 on /
+[C 2025-08-05 02:54:47.670 JupyterHub app:3869] Received signal SIGTERM, initiating shutdown...
+[I 2025-08-05 02:54:47.670 JupyterHub app:3478] Cleaning up single-user servers...
+[D 2025-08-05 02:54:47.670 JupyterHub app:3490] Stopping proxy
+[I 2025-08-05 02:54:47.670 JupyterHub proxy:865] Cleaning up proxy[733379]...
+[D 2025-08-05 02:54:47.670 JupyterHub proxy:678] Removing proxy pid file jupyterhub-proxy.pid
+[I 2025-08-05 02:54:47.670 JupyterHub app:3510] ...done
+[D 2025-08-05 02:54:47.670 JupyterHub app:3876] Cancelling pending tasks
+[D 2025-08-05 02:54:47.670 JupyterHub app:3888] Task status: <Task pending name='Task-155' coro=<JupyterHub.shutdown_cancel_tasks() running at /home/bdx/allcode/github/vantagecompute/jup-fir-lau/.venv/lib/python3.12/site-packages/jupyterhub/app.py:3888>>
+🔧 JupyterHub config: Forwarding CONFIGPROXY_API_URL=http://127.0.0.1:8001
+🔧 JupyterHub config: Forwarding CONFIGPROXY_AUTH_TOKEN=[SET]
