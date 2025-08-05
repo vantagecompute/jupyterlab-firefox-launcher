@@ -415,14 +415,16 @@ const plugin: JupyterFrontEndPlugin<void> = {
           throw new Error(response.message || 'Failed to start Firefox');
         }
         
-        // Extract port, proxy path, and process ID from response
+        // Extract port, proxy path, WebSocket URL, and process ID from response
         const xpraPort = response.port;
         const proxyPath = response.proxy_path;
+        const wsUrl = response.ws_url;
         const processId = response.process_id;
         
         console.log('📡 Extracted response data:');
         console.log('   🔌 Xpra Port:', xpraPort);
         console.log('   🛤️  Proxy Path:', proxyPath);
+        console.log('   🔗 WebSocket URL:', wsUrl);
         console.log('   🆔 Process ID:', processId);
         
         console.log(`✅ Firefox process started on port ${xpraPort}, process ID: ${processId}`);
@@ -502,14 +504,18 @@ const plugin: JupyterFrontEndPlugin<void> = {
               console.log(`✅ Connection ready after ${attempt} attempts`);
               console.log(`✅ Final test response: ${testResponse.status} ${testResponse.statusText}`);
               
-              // Use direct connection to Xpra server (JupyterHub proxy doesn't support WebSocket)
-              console.log(`🎯 Using direct connection to Xpra server: port ${xpraPort}`);
-              // Construct direct WebSocket URL to Xpra server (bypassing JupyterHub proxy)
+              // Use WebSocket URL from API response (JupyterHub proxy routing)
+              console.log(`🎯 Using WebSocket URL from API response: ${wsUrl}`);
+              
+              // Convert relative URL to absolute WebSocket URL
               const currentLocation = window.location;
               const wsProtocol = currentLocation.protocol === 'https:' ? 'wss:' : 'ws:';
-              const wsUrl = `${wsProtocol}//${currentLocation.hostname}:${xpraPort}/`;
-              console.log(`🎯 Constructed direct WebSocket URL: ${wsUrl}`);
-              widget.setXpraClientAndConnect(wsUrl, proxyPath);
+              const absoluteWsUrl = wsUrl.startsWith('ws://') || wsUrl.startsWith('wss://') 
+                ? wsUrl 
+                : `${wsProtocol}//${currentLocation.host}${wsUrl}`;
+              
+              console.log(`🎯 Final WebSocket URL: ${absoluteWsUrl}`);
+              widget.setXpraClientAndConnect(absoluteWsUrl, proxyPath);
               
               console.log('✅ ========= START FIREFOX WITH RETRY COMPLETE =========');
               return;

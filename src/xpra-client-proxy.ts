@@ -10,7 +10,11 @@
 import { XpraClient, XpraConnectionOptions } from 'xpra-html5-client';
 
 // Store reference to original WebSocket before we override it
+// Use a more robust storage mechanism to prevent bypassing
 const OriginalWebSocket = globalThis.WebSocket;
+if (!(globalThis as any)._OriginalWebSocket) {
+  (globalThis as any)._OriginalWebSocket = OriginalWebSocket;
+}
 
 // Custom WebSocket class that can handle proxy URLs
 class ProxyCompatibleWebSocket {
@@ -29,16 +33,20 @@ class ProxyCompatibleWebSocket {
     console.log(`🔧 ProxyCompatibleWebSocket: Creating WebSocket for ${url} with protocols:`, protocols);
     
     // Fix for Xpra WebSocket protocol compatibility
-    // Use the EXACT same protocol as official Xpra HTML5 client
-    let effectiveProtocols = protocols;
+    // Xpra servers ALWAYS require the 'binary' subprotocol, regardless of proxy routing
+    let effectiveProtocols: string[] | undefined;
     
-    if (url.includes('/proxy/')) {
-      // JupyterHub proxy connection - use no subprotocol to avoid conflicts
-      console.log('🔧 Detected JupyterHub proxy URL - using no subprotocol');
-      effectiveProtocols = undefined;
+    if (protocols && Array.isArray(protocols) && protocols.includes('binary')) {
+      // Use 'binary' protocol as requested - this is what Xpra expects
+      console.log('🔧 Using binary protocol for Xpra compatibility');
+      effectiveProtocols = ['binary'];
+    } else if (protocols === 'binary' || (typeof protocols === 'string' && protocols === 'binary')) {
+      // Handle string protocol
+      console.log('🔧 Using binary protocol for Xpra compatibility');
+      effectiveProtocols = ['binary'];
     } else {
-      // Direct connection to Xpra server - use 'binary' protocol (same as official client)
-      console.log('🔧 Direct Xpra connection - using binary protocol (official Xpra standard)');
+      // Default to binary protocol for all Xpra connections
+      console.log('🔧 Defaulting to binary protocol for Xpra compatibility');
       effectiveProtocols = ['binary'];
     }    // Create the actual WebSocket connection using the ORIGINAL WebSocket class
     this.ws = new OriginalWebSocket(url, effectiveProtocols);
@@ -118,10 +126,18 @@ export class ProxyXpraClient {
     this.debug = options.debug || false;
 
     // Store original WebSocket and replace with our proxy-compatible version
+    // Use more robust storage to prevent xpra-html5-client from bypassing
     this.originalWebSocket = (globalThis as any).WebSocket;
+    if (!(globalThis as any)._OriginalWebSocket) {
+      (globalThis as any)._OriginalWebSocket = this.originalWebSocket;
+    }
+    
+    // Apply override - this must happen before XpraClient initialization
     (globalThis as any).WebSocket = ProxyCompatibleWebSocket as any;
+    
+    console.log('🔧 WebSocket override applied for xpra-html5-client');
 
-    // Initialize the Xpra client
+    // Initialize the Xpra client AFTER WebSocket override
     this.client = new XpraClient({
       worker: undefined,
       decoder: undefined
@@ -539,8 +555,10 @@ export class ProxyXpraClient {
       this.client.disconnect();
     }
     
-    // Restore original WebSocket
-    if (this.originalWebSocket) {
+    // Restore original WebSocket using robust storage
+    if ((globalThis as any)._OriginalWebSocket) {
+      (globalThis as any).WebSocket = (globalThis as any)._OriginalWebSocket;
+    } else if (this.originalWebSocket) {
       (globalThis as any).WebSocket = this.originalWebSocket;
     }
   }

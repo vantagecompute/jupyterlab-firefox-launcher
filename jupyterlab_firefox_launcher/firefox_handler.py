@@ -678,14 +678,21 @@ class FirefoxLauncherHandler(JupyterHandler):
             if not proxy_path.startswith("/"):
                 proxy_path = "/" + proxy_path
 
+            # Construct WebSocket URL for JupyterHub proxy
+            ws_url = proxy_path
+            if not ws_url.endswith('/'):
+                ws_url += '/'
+
             self.log.info(f"GET request: Providing proxy path: {proxy_path}")
+            self.log.info(f"GET request: Providing WebSocket URL: {ws_url}")
             
-            # Return JSON with proxy path only
+            # Return JSON with proxy path and WebSocket URL
             self.set_header("Content-Type", "application/json")
             self.write({
                 "status": "running",
                 "port": port,
                 "proxy_path": proxy_path,
+                "ws_url": ws_url,
                 "message": "Firefox session available via proxy path"
             })
 
@@ -727,10 +734,17 @@ class FirefoxLauncherHandler(JupyterHandler):
                     if not proxy_path.startswith("/"):
                         proxy_path = "/" + proxy_path
 
+                    # Construct WebSocket URL for JupyterHub proxy
+                    # Convert proxy_path from HTTP to WebSocket
+                    ws_url = proxy_path
+                    if not ws_url.endswith('/'):
+                        ws_url += '/'
+
                     self.log.info(
                         f"Firefox launched successfully on port {port} with process ID {process_id}"
                     )
                     self.log.info(f"🛤️ Proxy path: {proxy_path}")
+                    self.log.info(f"🔌 WebSocket URL: {ws_url}")
                     self.set_status(200)
                     self.write(
                         {
@@ -738,7 +752,8 @@ class FirefoxLauncherHandler(JupyterHandler):
                             "message": "Firefox launched successfully",
                             "port": port,
                             "process_id": process_id,
-                            "proxy_path": proxy_path
+                            "proxy_path": proxy_path,
+                            "ws_url": ws_url
                         }
                     )
                 else:
