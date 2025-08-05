@@ -1031,7 +1031,10 @@ class FirefoxLauncherHandler(JupyterHandler):
             # Check if we're running in JupyterHub environment
             proxy_api_url = os.environ.get('CONFIGPROXY_API_URL')
             proxy_auth_token = os.environ.get('CONFIGPROXY_AUTH_TOKEN')
-            
+            self.log.debug("Checking JupyterHub environment variables for proxy registration")
+            self.log.debug(f"   CONFIGPROXY_API_URL: {proxy_api_url}")
+            self.log.debug(f"   CONFIGPROXY_AUTH_TOKEN: {'[SET]' if proxy_auth_token else '[NOT SET]'}")
+
             if not proxy_api_url or not proxy_auth_token:
                 self.log.debug("Not in JupyterHub environment - no CONFIGPROXY_* variables found")
                 return False
