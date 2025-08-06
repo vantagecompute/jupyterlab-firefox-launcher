@@ -27,6 +27,12 @@ class ProxyCompatibleWebSocket {
   public onerror?: (event: Event) => void;
   public onmessage?: (event: MessageEvent) => void;
   
+  // WebSocket constants - these are critical for xpra-html5-client compatibility
+  static readonly CONNECTING = 0;
+  static readonly OPEN = 1;
+  static readonly CLOSING = 2;
+  static readonly CLOSED = 3;
+  
   constructor(url: string, protocols?: string | string[]) {
     this.wsUrl = url;
     this.protocols = protocols;
@@ -48,7 +54,9 @@ class ProxyCompatibleWebSocket {
       // Default to binary protocol for all Xpra connections
       console.log('🔧 Defaulting to binary protocol for Xpra compatibility');
       effectiveProtocols = ['binary'];
-    }    // Create the actual WebSocket connection using the ORIGINAL WebSocket class
+    }
+    
+    // Create the actual WebSocket connection using the ORIGINAL WebSocket class
     this.ws = new OriginalWebSocket(url, effectiveProtocols);
     
     console.log(`🔧 ProxyCompatibleWebSocket: Using protocols:`, effectiveProtocols);
@@ -56,6 +64,21 @@ class ProxyCompatibleWebSocket {
     // Forward all events
     this.ws.onopen = (event) => {
       console.log('🎉 ProxyCompatibleWebSocket: Connection opened');
+      
+      // Handle JupyterHub proxy protocol header issue
+      // If the proxy strips the protocol header, manually set it for Xpra compatibility
+      if (this.ws && effectiveProtocols && effectiveProtocols.includes('binary')) {
+        if (!this.ws.protocol || this.ws.protocol !== 'binary') {
+          console.log('🔧 ProxyCompatibleWebSocket: Protocol header missing from proxy response, setting binary protocol manually');
+          // Override the protocol property to ensure Xpra client sees the expected protocol
+          Object.defineProperty(this.ws, 'protocol', {
+            value: 'binary',
+            writable: false,
+            configurable: false
+          });
+        }
+      }
+      
       if (this.onopen) this.onopen(event);
     };
     
@@ -88,16 +111,39 @@ class ProxyCompatibleWebSocket {
   }
   
   get readyState(): number {
-    return this.ws ? this.ws.readyState : WebSocket.CLOSED;
+    return this.ws ? this.ws.readyState : ProxyCompatibleWebSocket.CLOSED;
   }
   
   get protocol(): string {
-    return this.ws ? this.ws.protocol : '';
+    // Handle JupyterHub proxy protocol header stripping
+    // If we requested binary protocol but proxy stripped the header, return 'binary' anyway
+    if (this.ws) {
+      const actualProtocol = this.ws.protocol;
+      if (actualProtocol === 'binary') {
+        return actualProtocol;
+      } else if (this.protocols && (
+        (Array.isArray(this.protocols) && this.protocols.includes('binary')) ||
+        (typeof this.protocols === 'string' && this.protocols === 'binary')
+      )) {
+        // We requested binary protocol, so return it even if proxy stripped the header
+        console.log('🔧 ProxyCompatibleWebSocket: Returning binary protocol despite proxy header stripping');
+        return 'binary';
+      } else {
+        return actualProtocol;
+      }
+    }
+    return '';
   }
   
   get url(): string {
     return this.ws ? this.ws.url : this.wsUrl;
   }
+  
+  // Instance properties for WebSocket constants (for compatibility)
+  get CONNECTING(): number { return ProxyCompatibleWebSocket.CONNECTING; }
+  get OPEN(): number { return ProxyCompatibleWebSocket.OPEN; }
+  get CLOSING(): number { return ProxyCompatibleWebSocket.CLOSING; }
+  get CLOSED(): number { return ProxyCompatibleWebSocket.CLOSED; }
 }
 
 export interface ProxyXpraClientOptions {
@@ -120,10 +166,16 @@ export class ProxyXpraClient {
   private drawPending: number = 0;
 
   constructor(options: ProxyXpraClientOptions) {
+    console.log('🔧 ProxyXpraClient constructor called with options:', options);
+    
     this.container = options.container;
     this.wsUrl = options.wsUrl;
     this.httpUrl = options.httpUrl;
     this.debug = options.debug || false;
+
+    console.log(`🔌 WebSocket URL: ${this.wsUrl}`);
+    console.log(`🌐 HTTP URL: ${this.httpUrl || 'not provided'}`);
+    console.log(`🐛 Debug mode: ${this.debug}`);
 
     // Store original WebSocket and replace with our proxy-compatible version
     // Use more robust storage to prevent xpra-html5-client from bypassing
@@ -132,12 +184,14 @@ export class ProxyXpraClient {
       (globalThis as any)._OriginalWebSocket = this.originalWebSocket;
     }
     
+    console.log('🔄 Applying WebSocket override...');
     // Apply override - this must happen before XpraClient initialization
     (globalThis as any).WebSocket = ProxyCompatibleWebSocket as any;
     
     console.log('🔧 WebSocket override applied for xpra-html5-client');
 
     // Initialize the Xpra client AFTER WebSocket override
+    console.log('🏗️ Initializing XpraClient...');
     this.client = new XpraClient({
       worker: undefined,
       decoder: undefined

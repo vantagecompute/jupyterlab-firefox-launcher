@@ -1,0 +1,2088 @@
+./build.sh: line 3: ./.venv/bin/deactivate: No such file or directory
+Using CPython 3.12.3 interpreter at: /usr/bin/python3.12
+Creating virtual environment at: .venv
+Activate with: source .venv/bin/activate
+DEBUG uv 0.6.6
+DEBUG Found workspace root: `/home/bdx/allcode/github/vantagecompute/jup-fir-lau`
+DEBUG Adding root workspace member: `/home/bdx/allcode/github/vantagecompute/jup-fir-lau`
+DEBUG Reading Python requests from version file at `/home/bdx/allcode/github/vantagecompute/jup-fir-lau/.python-version`
+DEBUG Searching for Python 3.12 in virtual environments, managed installations, or search path
+DEBUG Found `cpython-3.12.3-linux-x86_64-gnu` at `/home/bdx/allcode/github/vantagecompute/jup-fir-lau/.venv/bin/python3` (active virtual environment)
+DEBUG Using request timeout of 30s
+Building wheel...
+DEBUG No workspace root found, using project root
+DEBUG Using base executable for virtual environment: /usr/bin/python3.12
+DEBUG Ignoring empty directory
+DEBUG Resolving build requirements
+DEBUG Solving with installed Python version: 3.12.3
+DEBUG Solving with target Python version: >=3.12.3
+DEBUG Adding direct dependency: hatchling>=1.5.0
+DEBUG Adding direct dependency: jupyterlab>=4.0.0, <5
+DEBUG Adding direct dependency: hatch-jupyter-builder>=0.8.3
+DEBUG No cache entry for: https://pypi.org/simple/hatchling/
+DEBUG No cache entry for: https://pypi.org/simple/jupyterlab/
+DEBUG No cache entry for: https://pypi.org/simple/hatch-jupyter-builder/
+DEBUG Searching for a compatible version of hatchling (>=1.5.0)
+DEBUG No cache entry for: https://files.pythonhosted.org/packages/9f/ce/be681f7af8141eabe61df05c7990db3bafe0ea9e2d7cec9329fad75a00e4/hatch_jupyter_builder-0.9.1-py3-none-any.whl.metadata
+DEBUG Selecting: hatchling==1.27.0 [compatible] (hatchling-1.27.0-py3-none-any.whl)
+DEBUG No cache entry for: https://files.pythonhosted.org/packages/08/e7/ae38d7a6dfba0533684e0b2136817d667588ae3ec984c1a4e5df5eb88482/hatchling-1.27.0-py3-none-any.whl.metadata
+DEBUG No cache entry for: https://files.pythonhosted.org/packages/47/74/e144ce85b34414e44b14c1f6bf2e3bfe17964c8e5670ebdc7629f2e53672/jupyterlab-4.4.5-py3-none-any.whl.metadata
+DEBUG Adding transitive dependency for hatchling==1.27.0: packaging>=24.2
+DEBUG Adding transitive dependency for hatchling==1.27.0: pathspec>=0.10.1
+DEBUG Adding transitive dependency for hatchling==1.27.0: pluggy>=1.0.0
+DEBUG Adding transitive dependency for hatchling==1.27.0: trove-classifiers*
+DEBUG Searching for a compatible version of jupyterlab (>=4.0.0, <5)
+DEBUG Selecting: jupyterlab==4.4.5 [compatible] (jupyterlab-4.4.5-py3-none-any.whl)
+DEBUG No cache entry for: https://pypi.org/simple/packaging/
+DEBUG No cache entry for: https://pypi.org/simple/pathspec/
+DEBUG No cache entry for: https://pypi.org/simple/pluggy/
+DEBUG Adding transitive dependency for jupyterlab==4.4.5: async-lru>=1.0.0
+DEBUG No cache entry for: https://pypi.org/simple/trove-classifiers/
+DEBUG Adding transitive dependency for jupyterlab==4.4.5: httpx>=0.25.0
+DEBUG Adding transitive dependency for jupyterlab==4.4.5: ipykernel>=6.5.0
+DEBUG Adding transitive dependency for jupyterlab==4.4.5: jinja2>=3.0.3
+DEBUG Adding transitive dependency for jupyterlab==4.4.5: jupyter-core*
+DEBUG Adding transitive dependency for jupyterlab==4.4.5: jupyter-lsp>=2.0.0
+DEBUG Adding transitive dependency for jupyterlab==4.4.5: jupyter-server>=2.4.0, <3
+DEBUG Adding transitive dependency for jupyterlab==4.4.5: jupyterlab-server>=2.27.1, <3
+DEBUG Adding transitive dependency for jupyterlab==4.4.5: notebook-shim>=0.2
+DEBUG Adding transitive dependency for jupyterlab==4.4.5: packaging*
+DEBUG Adding transitive dependency for jupyterlab==4.4.5: setuptools>=41.1.0
+DEBUG Adding transitive dependency for jupyterlab==4.4.5: tornado>=6.2.0
+DEBUG Adding transitive dependency for jupyterlab==4.4.5: traitlets*
+DEBUG Searching for a compatible version of hatch-jupyter-builder (>=0.8.3)
+DEBUG Selecting: hatch-jupyter-builder==0.9.1 [compatible] (hatch_jupyter_builder-0.9.1-py3-none-any.whl)
+DEBUG No cache entry for: https://pypi.org/simple/async-lru/
+DEBUG No cache entry for: https://pypi.org/simple/httpx/
+DEBUG No cache entry for: https://pypi.org/simple/ipykernel/
+DEBUG No cache entry for: https://pypi.org/simple/jinja2/
+DEBUG No cache entry for: https://pypi.org/simple/jupyter-core/
+DEBUG No cache entry for: https://pypi.org/simple/jupyter-lsp/
+DEBUG No cache entry for: https://pypi.org/simple/notebook-shim/
+DEBUG No cache entry for: https://pypi.org/simple/tornado/
+DEBUG No cache entry for: https://pypi.org/simple/setuptools/
+DEBUG No cache entry for: https://pypi.org/simple/traitlets/
+DEBUG No cache entry for: https://pypi.org/simple/jupyter-server/
+DEBUG No cache entry for: https://pypi.org/simple/jupyterlab-server/
+DEBUG Adding transitive dependency for hatch-jupyter-builder==0.9.1: hatchling>=1.17
+DEBUG No cache entry for: https://files.pythonhosted.org/packages/f9/33/bd5b9137445ea4b680023eb0469b2bb969d61303dedb2aac6560ff3d14a1/notebook_shim-0.2.4-py3-none-any.whl.metadata
+DEBUG No cache entry for: https://files.pythonhosted.org/packages/54/20/4d324d65cc6d9205fabedc306948156824eb9f0ee1633355a8f7ec5c66bf/pluggy-1.6.0-py3-none-any.whl.metadata
+DEBUG Searching for a compatible version of packaging (>=24.2)
+DEBUG Selecting: packaging==25.0 [compatible] (packaging-25.0-py3-none-any.whl)
+WARN Skipping file for jinja2: Jinja2-2.0rc1-py2.4-linux-i686.egg
+WARN Skipping file for jinja2: Jinja2-2.0rc1-py2.4-linux-x86_64.egg
+WARN Skipping file for jinja2: Jinja2-2.0rc1-py2.4-macosx-10.3-i386.egg
+WARN Skipping file for jinja2: Jinja2-2.0rc1-py2.4-win32.egg
+WARN Skipping file for jinja2: Jinja2-2.0rc1-py2.5-linux-i686.egg
+WARN Skipping file for jinja2: Jinja2-2.0rc1-py2.5-linux-x86_64.egg
+WARN Skipping file for jinja2: Jinja2-2.0rc1-py2.5-macosx-10.3-i386.egg
+WARN Skipping file for jinja2: Jinja2-2.0rc1-py2.5-win32.egg
+WARN Skipping file for jinja2: Jinja2-2.1-py2.4-win32.egg
+WARN Skipping file for jinja2: Jinja2-2.1-py2.5-win32.egg
+WARN Skipping file for jinja2: Jinja2-2.1-py2.6-win32.egg
+WARN Skipping file for jinja2: Jinja2-2.1.1-py2.4-win32.egg
+WARN Skipping file for jinja2: Jinja2-2.1.1-py2.5-win32.egg
+WARN Skipping file for jinja2: Jinja2-2.1.1-py2.6-win32.egg
+DEBUG No cache entry for: https://files.pythonhosted.org/packages/20/12/38679034af332785aac8774540895e234f4d07f7545804097de4b666afd8/packaging-25.0-py3-none-any.whl.metadata
+DEBUG No cache entry for: https://files.pythonhosted.org/packages/2f/57/6bffd4b20b88da3800c5d691e0337761576ee688eb01299eae865689d2df/jupyter_core-5.8.1-py3-none-any.whl.metadata
+DEBUG No cache entry for: https://files.pythonhosted.org/packages/fc/c7/b445faca8deb954fe536abebff4ece5b097b923de482b26e78448c89d1dd/ipykernel-6.30.1-py3-none-any.whl.metadata
+DEBUG No cache entry for: https://files.pythonhosted.org/packages/2a/39/e50c7c3a983047577ee07d2a9e53faf5a69493943ec3f6a384bdc792deb2/httpx-0.28.1-py3-none-any.whl.metadata
+DEBUG No cache entry for: https://files.pythonhosted.org/packages/cc/20/ff623b09d963f88bfde16306a54e12ee5ea43e9b597108672ff3a408aad6/pathspec-0.12.1-py3-none-any.whl.metadata
+DEBUG No cache entry for: https://files.pythonhosted.org/packages/03/49/d10027df9fce941cb8184e78a02857af36360d33e1721df81c5ed2179a1a/async_lru-2.0.5-py3-none-any.whl.metadata
+DEBUG No cache entry for: https://files.pythonhosted.org/packages/92/ef/c6deb083748be3bcad6f471b6ae983950c161890bf5ae1b2af80cc56c530/trove_classifiers-2025.5.9.12-py3-none-any.whl.metadata
+DEBUG No cache entry for: https://files.pythonhosted.org/packages/62/a1/3d680cbfd5f4b8f15abc1d571870c5fc3e594bb582bc3b64ea099db13e56/jinja2-3.1.6-py3-none-any.whl.metadata
+DEBUG No cache entry for: https://files.pythonhosted.org/packages/47/7c/12f68daf85b469b4896d5e4a629baa33c806d61de75ac5b39d8ef27ec4a2/jupyter_lsp-2.2.6-py3-none-any.whl.metadata
+DEBUG No cache entry for: https://files.pythonhosted.org/packages/00/c0/8f5d070730d7836adc9c9b6408dec68c6ced86b304a9b26a14df072a6e8c/traitlets-5.14.3-py3-none-any.whl.metadata
+WARN Skipping file for setuptools: setuptools-0.6b1-py2.3.egg
+WARN Skipping file for setuptools: setuptools-0.6b1-py2.4.egg
+WARN Skipping file for setuptools: setuptools-0.6b2-py2.3.egg
+WARN Skipping file for setuptools: setuptools-0.6b2-py2.4.egg
+WARN Skipping file for setuptools: setuptools-0.6b3-py2.3.egg
+WARN Skipping file for setuptools: setuptools-0.6b3-py2.4.egg
+WARN Skipping file for setuptools: setuptools-0.6b4-py2.3.egg
+WARN Skipping file for setuptools: setuptools-0.6b4-py2.4.egg
+WARN Skipping file for setuptools: setuptools-0.6c1-py2.3.egg
+WARN Skipping file for setuptools: setuptools-0.6c1-py2.4.egg
+WARN Skipping file for setuptools: setuptools-0.6c10-1.src.rpm
+WARN Skipping file for setuptools: setuptools-0.6c10-py2.3.egg
+WARN Skipping file for setuptools: setuptools-0.6c10-py2.4.egg
+WARN Skipping file for setuptools: setuptools-0.6c10-py2.5.egg
+WARN Skipping file for setuptools: setuptools-0.6c10-py2.6.egg
+WARN Skipping file for setuptools: setuptools-0.6c10.win32-py2.3.exe
+WARN Skipping file for setuptools: setuptools-0.6c10.win32-py2.4.exe
+WARN Skipping file for setuptools: setuptools-0.6c10.win32-py2.5.exe
+WARN Skipping file for setuptools: setuptools-0.6c10.win32-py2.6.exe
+WARN Skipping file for setuptools: setuptools-0.6c11-1.src.rpm
+WARN Skipping file for setuptools: setuptools-0.6c11-py2.3.egg
+WARN Skipping file for setuptools: setuptools-0.6c11-py2.4.egg
+WARN Skipping file for setuptools: setuptools-0.6c11-py2.5.egg
+WARN Skipping file for setuptools: setuptools-0.6c11-py2.6.egg
+WARN Skipping file for setuptools: setuptools-0.6c11-py2.7.egg
+WARN Skipping file for setuptools: setuptools-0.6c11.win32-py2.3.exe
+WARN Skipping file for setuptools: setuptools-0.6c11.win32-py2.4.exe
+WARN Skipping file for setuptools: setuptools-0.6c11.win32-py2.5.exe
+WARN Skipping file for setuptools: setuptools-0.6c11.win32-py2.6.exe
+WARN Skipping file for setuptools: setuptools-0.6c11.win32-py2.7.exe
+WARN Skipping file for setuptools: setuptools-0.6c2-py2.3.egg
+WARN Skipping file for setuptools: setuptools-0.6c2-py2.4.egg
+WARN Skipping file for setuptools: setuptools-0.6c3-py2.3.egg
+WARN Skipping file for setuptools: setuptools-0.6c3-py2.4.egg
+WARN Skipping file for setuptools: setuptools-0.6c3-py2.5.egg
+WARN Skipping file for setuptools: setuptools-0.6c4-1.src.rpm
+WARN Skipping file for setuptools: setuptools-0.6c4-py2.3.egg
+WARN Skipping file for setuptools: setuptools-0.6c4-py2.4.egg
+WARN Skipping file for setuptools: setuptools-0.6c4-py2.5.egg
+WARN Skipping file for setuptools: setuptools-0.6c4.win32-py2.3.exe
+WARN Skipping file for setuptools: setuptools-0.6c4.win32-py2.4.exe
+WARN Skipping file for setuptools: setuptools-0.6c4.win32-py2.5.exe
+WARN Skipping file for setuptools: setuptools-0.6c5-1.src.rpm
+WARN Skipping file for setuptools: setuptools-0.6c5-py2.3.egg
+WARN Skipping file for setuptools: setuptools-0.6c5-py2.4.egg
+WARN Skipping file for setuptools: setuptools-0.6c5-py2.5.egg
+WARN Skipping file for setuptools: setuptools-0.6c5.win32-py2.3.exe
+WARN Skipping file for setuptools: setuptools-0.6c5.win32-py2.4.exe
+WARN Skipping file for setuptools: setuptools-0.6c5.win32-py2.5.exe
+WARN Skipping file for setuptools: setuptools-0.6c6-1.src.rpm
+WARN Skipping file for setuptools: setuptools-0.6c6-py2.3.egg
+WARN Skipping file for setuptools: setuptools-0.6c6-py2.4.egg
+WARN Skipping file for setuptools: setuptools-0.6c6-py2.5.egg
+WARN Skipping file for setuptools: setuptools-0.6c6.win32-py2.3.exe
+WARN Skipping file for setuptools: setuptools-0.6c6.win32-py2.4.exe
+WARN Skipping file for setuptools: setuptools-0.6c6.win32-py2.5.exe
+WARN Skipping file for setuptools: setuptools-0.6c7-1.src.rpm
+WARN Skipping file for setuptools: setuptools-0.6c7-py2.3.egg
+WARN Skipping file for setuptools: setuptools-0.6c7-py2.4.egg
+WARN Skipping file for setuptools: setuptools-0.6c7-py2.5.egg
+WARN Skipping file for setuptools: setuptools-0.6c7.win32-py2.3.exe
+WARN Skipping file for setuptools: setuptools-0.6c7.win32-py2.4.exe
+WARN Skipping file for setuptools: setuptools-0.6c7.win32-py2.5.exe
+WARN Skipping file for setuptools: setuptools-0.6c8-1.src.rpm
+WARN Skipping file for setuptools: setuptools-0.6c8-py2.3.egg
+WARN Skipping file for setuptools: setuptools-0.6c8-py2.4.egg
+WARN Skipping file for setuptools: setuptools-0.6c8-py2.5.egg
+WARN Skipping file for setuptools: setuptools-0.6c8.win32-py2.3.exe
+WARN Skipping file for setuptools: setuptools-0.6c8.win32-py2.4.exe
+WARN Skipping file for setuptools: setuptools-0.6c8.win32-py2.5.exe
+WARN Skipping file for setuptools: setuptools-0.6c9-1.src.rpm
+WARN Skipping file for setuptools: setuptools-0.6c9-py2.3.egg
+WARN Skipping file for setuptools: setuptools-0.6c9-py2.4.egg
+WARN Skipping file for setuptools: setuptools-0.6c9-py2.5.egg
+WARN Skipping file for setuptools: setuptools-0.6c9-py2.6.egg
+WARN Skipping file for setuptools: setuptools-0.6c9.win32-py2.3.exe
+WARN Skipping file for setuptools: setuptools-0.6c9.win32-py2.4.exe
+WARN Skipping file for setuptools: setuptools-0.6c9.win32-py2.5.exe
+WARN Skipping file for setuptools: setuptools-18.3.1-py3.4.egg
+DEBUG No cache entry for: https://files.pythonhosted.org/packages/54/09/2032e7d15c544a0e3cd831c51d77a8ca57f7555b2e1b2922142eddb02a84/jupyterlab_server-2.27.3-py3-none-any.whl.metadata
+DEBUG No cache entry for: https://files.pythonhosted.org/packages/46/1f/5ebbced977171d09a7b0c08a285ff9a20aafb9c51bde07e52349ff1ddd71/jupyter_server-2.16.0-py3-none-any.whl.metadata
+DEBUG No cache entry for: https://files.pythonhosted.org/packages/7d/f7/0c48ba992d875521ac761e6e04b0a1750f8150ae42ea26df1852d6a98942/tornado-6.5.1-cp39-abi3-manylinux_2_5_x86_64.manylinux1_x86_64.manylinux_2_17_x86_64.manylinux2014_x86_64.whl.metadata
+DEBUG No cache entry for: https://files.pythonhosted.org/packages/a3/dc/17031897dae0efacfea57dfd3a82fdd2a2aeb58e0ff71b77b87e44edc772/setuptools-80.9.0-py3-none-any.whl.metadata
+DEBUG Searching for a compatible version of pathspec (>=0.10.1)
+DEBUG Selecting: pathspec==0.12.1 [compatible] (pathspec-0.12.1-py3-none-any.whl)
+DEBUG Searching for a compatible version of pluggy (>=1.0.0)
+DEBUG Selecting: pluggy==1.6.0 [compatible] (pluggy-1.6.0-py3-none-any.whl)
+DEBUG Searching for a compatible version of trove-classifiers (*)
+DEBUG Selecting: trove-classifiers==2025.5.9.12 [compatible] (trove_classifiers-2025.5.9.12-py3-none-any.whl)
+DEBUG Searching for a compatible version of async-lru (>=1.0.0)
+DEBUG Selecting: async-lru==2.0.5 [compatible] (async_lru-2.0.5-py3-none-any.whl)
+DEBUG Searching for a compatible version of httpx (>=0.25.0)
+DEBUG Selecting: httpx==0.28.1 [compatible] (httpx-0.28.1-py3-none-any.whl)
+DEBUG Adding transitive dependency for httpx==0.28.1: anyio*
+DEBUG Adding transitive dependency for httpx==0.28.1: certifi*
+DEBUG Adding transitive dependency for httpx==0.28.1: httpcore>=1.dev0, <2.dev0
+DEBUG Adding transitive dependency for httpx==0.28.1: idna*
+DEBUG Searching for a compatible version of ipykernel (>=6.5.0)
+DEBUG Selecting: ipykernel==6.30.1 [compatible] (ipykernel-6.30.1-py3-none-any.whl)
+DEBUG No cache entry for: https://pypi.org/simple/anyio/
+DEBUG No cache entry for: https://pypi.org/simple/certifi/
+DEBUG No cache entry for: https://pypi.org/simple/httpcore/
+DEBUG No cache entry for: https://pypi.org/simple/idna/
+DEBUG Adding transitive dependency for ipykernel==6.30.1: comm>=0.1.1
+DEBUG Adding transitive dependency for ipykernel==6.30.1: debugpy>=1.6.5
+DEBUG Adding transitive dependency for ipykernel==6.30.1: ipython>=7.23.1
+DEBUG Adding transitive dependency for ipykernel==6.30.1: jupyter-client>=8.0.0
+DEBUG Adding transitive dependency for ipykernel==6.30.1: jupyter-core>=4.12, <5.0.dev0 | >=5.1.dev0
+DEBUG Adding transitive dependency for ipykernel==6.30.1: matplotlib-inline>=0.1
+DEBUG Adding transitive dependency for ipykernel==6.30.1: nest-asyncio>=1.4
+DEBUG Adding transitive dependency for ipykernel==6.30.1: packaging>=22
+DEBUG Adding transitive dependency for ipykernel==6.30.1: psutil>=5.7
+DEBUG Adding transitive dependency for ipykernel==6.30.1: pyzmq>=25
+DEBUG Adding transitive dependency for ipykernel==6.30.1: tornado>=6.2
+DEBUG Adding transitive dependency for ipykernel==6.30.1: traitlets>=5.4.0
+DEBUG Searching for a compatible version of jinja2 (>=3.0.3)
+DEBUG Selecting: jinja2==3.1.6 [compatible] (jinja2-3.1.6-py3-none-any.whl)
+DEBUG Adding transitive dependency for jinja2==3.1.6: markupsafe>=2.0
+DEBUG No cache entry for: https://pypi.org/simple/comm/
+DEBUG Searching for a compatible version of jupyter-core (>=4.12, <5.0.dev0 | >=5.1.dev0)
+DEBUG Selecting: jupyter-core==5.8.1 [compatible] (jupyter_core-5.8.1-py3-none-any.whl)
+DEBUG No cache entry for: https://pypi.org/simple/ipython/
+DEBUG No cache entry for: https://pypi.org/simple/debugpy/
+DEBUG Adding transitive dependency for jupyter-core==5.8.1: platformdirs>=2.5
+DEBUG Adding transitive dependency for jupyter-core==5.8.1: traitlets>=5.3
+DEBUG Searching for a compatible version of jupyter-lsp (>=2.0.0)
+DEBUG No cache entry for: https://pypi.org/simple/jupyter-client/
+DEBUG Selecting: jupyter-lsp==2.2.6 [compatible] (jupyter_lsp-2.2.6-py3-none-any.whl)
+DEBUG No cache entry for: https://pypi.org/simple/matplotlib-inline/
+DEBUG Adding transitive dependency for jupyter-lsp==2.2.6: jupyter-server>=1.1.2
+DEBUG Searching for a compatible version of jupyter-server (>=2.4.0, <3)
+DEBUG No cache entry for: https://pypi.org/simple/nest-asyncio/
+DEBUG Selecting: jupyter-server==2.16.0 [compatible] (jupyter_server-2.16.0-py3-none-any.whl)
+DEBUG No cache entry for: https://pypi.org/simple/pyzmq/
+DEBUG No cache entry for: https://pypi.org/simple/psutil/
+DEBUG No cache entry for: https://pypi.org/simple/markupsafe/
+DEBUG No cache entry for: https://pypi.org/simple/platformdirs/
+DEBUG Adding transitive dependency for jupyter-server==2.16.0: anyio>=3.1.0
+DEBUG Adding transitive dependency for jupyter-server==2.16.0: argon2-cffi>=21.1
+DEBUG Adding transitive dependency for jupyter-server==2.16.0: jinja2>=3.0.3
+DEBUG Adding transitive dependency for jupyter-server==2.16.0: jupyter-client>=7.4.4
+DEBUG Adding transitive dependency for jupyter-server==2.16.0: jupyter-core>=4.12, <5.0.dev0 | >=5.1.dev0
+DEBUG Adding transitive dependency for jupyter-server==2.16.0: jupyter-events>=0.11.0
+DEBUG Adding transitive dependency for jupyter-server==2.16.0: jupyter-server-terminals>=0.4.4
+DEBUG Adding transitive dependency for jupyter-server==2.16.0: nbconvert>=6.4.4
+DEBUG Adding transitive dependency for jupyter-server==2.16.0: nbformat>=5.3.0
+DEBUG Adding transitive dependency for jupyter-server==2.16.0: overrides>=5.0
+DEBUG Adding transitive dependency for jupyter-server==2.16.0: packaging>=22.0
+DEBUG Adding transitive dependency for jupyter-server==2.16.0: prometheus-client>=0.9
+DEBUG Adding transitive dependency for jupyter-server==2.16.0: pyzmq>=24
+DEBUG Adding transitive dependency for jupyter-server==2.16.0: send2trash>=1.8.2
+DEBUG Adding transitive dependency for jupyter-server==2.16.0: terminado>=0.8.3
+DEBUG Adding transitive dependency for jupyter-server==2.16.0: tornado>=6.2.0
+DEBUG Adding transitive dependency for jupyter-server==2.16.0: traitlets>=5.6.0
+DEBUG Adding transitive dependency for jupyter-server==2.16.0: websocket-client>=1.7
+DEBUG Searching for a compatible version of jupyterlab-server (>=2.27.1, <3)
+DEBUG Selecting: jupyterlab-server==2.27.3 [compatible] (jupyterlab_server-2.27.3-py3-none-any.whl)
+DEBUG Adding transitive dependency for jupyterlab-server==2.27.3: babel>=2.10
+DEBUG Adding transitive dependency for jupyterlab-server==2.27.3: jinja2>=3.0.3
+DEBUG Adding transitive dependency for jupyterlab-server==2.27.3: json5>=0.9.0
+DEBUG Adding transitive dependency for jupyterlab-server==2.27.3: jsonschema>=4.18.0
+DEBUG Adding transitive dependency for jupyterlab-server==2.27.3: jupyter-server>=1.21, <3
+DEBUG Adding transitive dependency for jupyterlab-server==2.27.3: packaging>=21.3
+DEBUG Adding transitive dependency for jupyterlab-server==2.27.3: requests>=2.31
+DEBUG Searching for a compatible version of notebook-shim (>=0.2)
+DEBUG Selecting: notebook-shim==0.2.4 [compatible] (notebook_shim-0.2.4-py3-none-any.whl)
+DEBUG Adding transitive dependency for notebook-shim==0.2.4: jupyter-server>=1.8, <3
+DEBUG Searching for a compatible version of setuptools (>=41.1.0)
+DEBUG Selecting: setuptools==80.9.0 [compatible] (setuptools-80.9.0-py3-none-any.whl)
+DEBUG No cache entry for: https://pypi.org/simple/argon2-cffi/
+DEBUG No cache entry for: https://pypi.org/simple/jupyter-events/
+DEBUG No cache entry for: https://pypi.org/simple/jupyter-server-terminals/
+DEBUG No cache entry for: https://pypi.org/simple/nbconvert/
+DEBUG No cache entry for: https://pypi.org/simple/nbformat/
+DEBUG No cache entry for: https://pypi.org/simple/prometheus-client/
+DEBUG No cache entry for: https://pypi.org/simple/send2trash/
+DEBUG No cache entry for: https://pypi.org/simple/terminado/
+DEBUG No cache entry for: https://pypi.org/simple/websocket-client/
+DEBUG No cache entry for: https://pypi.org/simple/overrides/
+DEBUG No cache entry for: https://pypi.org/simple/json5/
+DEBUG No cache entry for: https://pypi.org/simple/jsonschema/
+DEBUG No cache entry for: https://pypi.org/simple/babel/
+DEBUG No cache entry for: https://pypi.org/simple/requests/
+DEBUG No cache entry for: https://files.pythonhosted.org/packages/fe/39/979e8e21520d4e47a0bbe349e2713c0aac6f3d853d0e5b34d76206c439aa/platformdirs-4.3.8-py3-none-any.whl.metadata
+WARN Skipping file for psutil: psutil-0.2.0.win-amd64-py2.7.exe
+WARN Skipping file for psutil: psutil-0.2.0.win-amd64-py3.3.exe
+WARN Skipping file for psutil: psutil-0.2.0.win-amd64-py3.4.exe
+WARN Skipping file for psutil: psutil-0.2.0.win32-py2.5.exe
+WARN Skipping file for psutil: psutil-0.2.0.win32-py2.6.exe
+WARN Skipping file for psutil: psutil-0.2.0.win32-py2.7.exe
+WARN Skipping file for psutil: psutil-0.2.0.win32-py3.3.exe
+WARN Skipping file for psutil: psutil-0.2.0.win32-py3.4.exe
+WARN Skipping file for psutil: psutil-0.2.1.win-amd64-py2.7.exe
+WARN Skipping file for psutil: psutil-0.2.1.win-amd64-py3.3.exe
+WARN Skipping file for psutil: psutil-0.2.1.win-amd64-py3.4.exe
+WARN Skipping file for psutil: psutil-0.2.1.win32-py2.5.exe
+WARN Skipping file for psutil: psutil-0.2.1.win32-py2.6.exe
+WARN Skipping file for psutil: psutil-0.2.1.win32-py2.7.exe
+WARN Skipping file for psutil: psutil-0.2.1.win32-py3.3.exe
+WARN Skipping file for psutil: psutil-0.2.1.win32-py3.4.exe
+WARN Skipping file for psutil: psutil-0.3.0.win-amd64-py2.7.exe
+WARN Skipping file for psutil: psutil-0.3.0.win-amd64-py3.3.exe
+WARN Skipping file for psutil: psutil-0.3.0.win-amd64-py3.4.exe
+WARN Skipping file for psutil: psutil-0.3.0.win32-py2.5.exe
+WARN Skipping file for psutil: psutil-0.3.0.win32-py2.6.exe
+WARN Skipping file for psutil: psutil-0.3.0.win32-py2.7.exe
+WARN Skipping file for psutil: psutil-0.3.0.win32-py3.3.exe
+WARN Skipping file for psutil: psutil-0.3.0.win32-py3.4.exe
+WARN Skipping file for psutil: psutil-0.4.0.win-amd64-py2.7.exe
+WARN Skipping file for psutil: psutil-0.4.0.win-amd64-py3.3.exe
+WARN Skipping file for psutil: psutil-0.4.0.win-amd64-py3.4.exe
+WARN Skipping file for psutil: psutil-0.4.0.win32-py2.5.exe
+WARN Skipping file for psutil: psutil-0.4.0.win32-py2.6.exe
+WARN Skipping file for psutil: psutil-0.4.0.win32-py2.7.exe
+WARN Skipping file for psutil: psutil-0.4.0.win32-py3.3.exe
+WARN Skipping file for psutil: psutil-0.4.0.win32-py3.4.exe
+WARN Skipping file for psutil: psutil-0.4.1.win-amd64-py2.7.exe
+WARN Skipping file for psutil: psutil-0.4.1.win-amd64-py3.3.exe
+WARN Skipping file for psutil: psutil-0.4.1.win-amd64-py3.4.exe
+WARN Skipping file for psutil: psutil-0.4.1.win32-py2.5.exe
+WARN Skipping file for psutil: psutil-0.4.1.win32-py2.6.exe
+WARN Skipping file for psutil: psutil-0.4.1.win32-py2.7.exe
+WARN Skipping file for psutil: psutil-0.4.1.win32-py3.3.exe
+WARN Skipping file for psutil: psutil-0.4.1.win32-py3.4.exe
+WARN Skipping file for psutil: psutil-0.5.0.win-amd64-py2.7.exe
+WARN Skipping file for psutil: psutil-0.5.0.win-amd64-py3.3.exe
+WARN Skipping file for psutil: psutil-0.5.0.win-amd64-py3.4.exe
+WARN Skipping file for psutil: psutil-0.5.0.win32-py2.5.exe
+WARN Skipping file for psutil: psutil-0.5.0.win32-py2.6.exe
+WARN Skipping file for psutil: psutil-0.5.0.win32-py2.7.exe
+WARN Skipping file for psutil: psutil-0.5.0.win32-py3.3.exe
+WARN Skipping file for psutil: psutil-0.5.0.win32-py3.4.exe
+WARN Skipping file for psutil: psutil-0.5.1.win-amd64-py2.7.exe
+WARN Skipping file for psutil: psutil-0.5.1.win-amd64-py3.3.exe
+WARN Skipping file for psutil: psutil-0.5.1.win-amd64-py3.4.exe
+WARN Skipping file for psutil: psutil-0.5.1.win32-py2.5.exe
+WARN Skipping file for psutil: psutil-0.5.1.win32-py2.6.exe
+WARN Skipping file for psutil: psutil-0.5.1.win32-py2.7.exe
+WARN Skipping file for psutil: psutil-0.5.1.win32-py3.3.exe
+WARN Skipping file for psutil: psutil-0.5.1.win32-py3.4.exe
+WARN Skipping file for psutil: psutil-0.6.0.win-amd64-py2.7.exe
+WARN Skipping file for psutil: psutil-0.6.0.win-amd64-py3.3.exe
+WARN Skipping file for psutil: psutil-0.6.0.win-amd64-py3.4.exe
+WARN Skipping file for psutil: psutil-0.6.0.win32-py2.5.exe
+WARN Skipping file for psutil: psutil-0.6.0.win32-py2.6.exe
+WARN Skipping file for psutil: psutil-0.6.0.win32-py2.7.exe
+WARN Skipping file for psutil: psutil-0.6.0.win32-py3.3.exe
+WARN Skipping file for psutil: psutil-0.6.0.win32-py3.4.exe
+WARN Skipping file for psutil: psutil-0.6.1.win-amd64-py2.7.exe
+WARN Skipping file for psutil: psutil-0.6.1.win-amd64-py3.3.exe
+WARN Skipping file for psutil: psutil-0.6.1.win-amd64-py3.4.exe
+WARN Skipping file for psutil: psutil-0.6.1.win32-py2.5.exe
+WARN Skipping file for psutil: psutil-0.6.1.win32-py2.6.exe
+WARN Skipping file for psutil: psutil-0.6.1.win32-py2.7.exe
+WARN Skipping file for psutil: psutil-0.6.1.win32-py3.3.exe
+WARN Skipping file for psutil: psutil-0.6.1.win32-py3.4.exe
+WARN Skipping file for psutil: psutil-0.7.0.win-amd64-py2.7.exe
+WARN Skipping file for psutil: psutil-0.7.0.win-amd64-py3.3.exe
+WARN Skipping file for psutil: psutil-0.7.0.win-amd64-py3.4.exe
+WARN Skipping file for psutil: psutil-0.7.0.win32-py2.5.exe
+WARN Skipping file for psutil: psutil-0.7.0.win32-py2.6.exe
+WARN Skipping file for psutil: psutil-0.7.0.win32-py2.7.exe
+WARN Skipping file for psutil: psutil-0.7.0.win32-py3.3.exe
+WARN Skipping file for psutil: psutil-0.7.0.win32-py3.4.exe
+WARN Skipping file for psutil: psutil-0.7.1.win-amd64-py2.7.exe
+WARN Skipping file for psutil: psutil-0.7.1.win-amd64-py3.3.exe
+WARN Skipping file for psutil: psutil-0.7.1.win-amd64-py3.4.exe
+WARN Skipping file for psutil: psutil-0.7.1.win32-py2.5.exe
+WARN Skipping file for psutil: psutil-0.7.1.win32-py2.6.exe
+WARN Skipping file for psutil: psutil-0.7.1.win32-py2.7.exe
+WARN Skipping file for psutil: psutil-0.7.1.win32-py3.3.exe
+WARN Skipping file for psutil: psutil-0.7.1.win32-py3.4.exe
+WARN Skipping file for psutil: psutil-1.0.0.win-amd64-py2.7.exe
+WARN Skipping file for psutil: psutil-1.0.0.win-amd64-py3.3.exe
+WARN Skipping file for psutil: psutil-1.0.0.win-amd64-py3.4.exe
+WARN Skipping file for psutil: psutil-1.0.0.win32-py2.5.exe
+WARN Skipping file for psutil: psutil-1.0.0.win32-py2.6.exe
+WARN Skipping file for psutil: psutil-1.0.0.win32-py2.7.exe
+WARN Skipping file for psutil: psutil-1.0.0.win32-py3.3.exe
+WARN Skipping file for psutil: psutil-1.0.0.win32-py3.4.exe
+WARN Skipping file for psutil: psutil-1.0.1.win-amd64-py2.7.exe
+WARN Skipping file for psutil: psutil-1.0.1.win-amd64-py3.3.exe
+WARN Skipping file for psutil: psutil-1.0.1.win-amd64-py3.4.exe
+WARN Skipping file for psutil: psutil-1.0.1.win32-py2.5.exe
+WARN Skipping file for psutil: psutil-1.0.1.win32-py2.6.exe
+WARN Skipping file for psutil: psutil-1.0.1.win32-py2.7.exe
+WARN Skipping file for psutil: psutil-1.0.1.win32-py3.3.exe
+WARN Skipping file for psutil: psutil-1.0.1.win32-py3.4.exe
+WARN Skipping file for psutil: psutil-1.1.0.win-amd64-py2.7.exe
+WARN Skipping file for psutil: psutil-1.1.0.win-amd64-py3.2.exe
+WARN Skipping file for psutil: psutil-1.1.0.win32-py2.4.exe
+WARN Skipping file for psutil: psutil-1.1.0.win32-py2.5.exe
+WARN Skipping file for psutil: psutil-1.1.0.win32-py2.6.exe
+WARN Skipping file for psutil: psutil-1.1.0.win32-py3.2.exe
+WARN Skipping file for psutil: psutil-1.1.0.win32-py3.3.exe
+WARN Skipping file for psutil: psutil-1.1.1.win-amd64-py2.7.exe
+WARN Skipping file for psutil: psutil-1.1.1.win-amd64-py3.2.exe
+WARN Skipping file for psutil: psutil-1.1.1.win32-py2.4.exe
+WARN Skipping file for psutil: psutil-1.1.1.win32-py2.5.exe
+WARN Skipping file for psutil: psutil-1.1.1.win32-py2.6.exe
+WARN Skipping file for psutil: psutil-1.1.1.win32-py2.7.exe
+WARN Skipping file for psutil: psutil-1.1.1.win32-py3.2.exe
+WARN Skipping file for psutil: psutil-1.1.1.win32-py3.3.exe
+WARN Skipping file for psutil: psutil-1.1.2.win-amd64-py2.7.exe
+WARN Skipping file for psutil: psutil-1.1.2.win-amd64-py3.2.exe
+WARN Skipping file for psutil: psutil-1.1.2.win32-py2.4.exe
+WARN Skipping file for psutil: psutil-1.1.2.win32-py2.5.exe
+WARN Skipping file for psutil: psutil-1.1.2.win32-py2.6.exe
+WARN Skipping file for psutil: psutil-1.1.2.win32-py2.7.exe
+WARN Skipping file for psutil: psutil-1.1.2.win32-py3.2.exe
+WARN Skipping file for psutil: psutil-1.1.2.win32-py3.3.exe
+WARN Skipping file for psutil: psutil-1.1.3.win-amd64-py2.7.exe
+WARN Skipping file for psutil: psutil-1.1.3.win32-py2.4.exe
+WARN Skipping file for psutil: psutil-1.1.3.win32-py2.5.exe
+WARN Skipping file for psutil: psutil-1.1.3.win32-py2.6.exe
+WARN Skipping file for psutil: psutil-1.1.3.win32-py2.7.exe
+WARN Skipping file for psutil: psutil-1.1.3.win32-py3.2.exe
+WARN Skipping file for psutil: psutil-1.1.3.win32-py3.3.exe
+WARN Skipping file for psutil: psutil-1.2.0.win-amd64-py2.7.exe
+WARN Skipping file for psutil: psutil-1.2.0.win32-py2.4.exe
+WARN Skipping file for psutil: psutil-1.2.0.win32-py2.5.exe
+WARN Skipping file for psutil: psutil-1.2.0.win32-py2.6.exe
+WARN Skipping file for psutil: psutil-1.2.0.win32-py2.7.exe
+WARN Skipping file for psutil: psutil-1.2.0.win32-py3.2.exe
+WARN Skipping file for psutil: psutil-1.2.0.win32-py3.3.exe
+WARN Skipping file for psutil: psutil-1.2.1.win-amd64-py2.7.exe
+WARN Skipping file for psutil: psutil-1.2.1.win-amd64-py3.3.exe
+WARN Skipping file for psutil: psutil-1.2.1.win32-py2.4.exe
+WARN Skipping file for psutil: psutil-1.2.1.win32-py2.5.exe
+WARN Skipping file for psutil: psutil-1.2.1.win32-py2.6.exe
+WARN Skipping file for psutil: psutil-1.2.1.win32-py2.7.exe
+WARN Skipping file for psutil: psutil-1.2.1.win32-py3.2.exe
+WARN Skipping file for psutil: psutil-1.2.1.win32-py3.3.exe
+WARN Skipping file for psutil: psutil-2.0.0.win-amd64-py2.7.exe
+WARN Skipping file for psutil: psutil-2.0.0.win-amd64-py3.3.exe
+WARN Skipping file for psutil: psutil-2.0.0.win-amd64-py3.4.exe
+WARN Skipping file for psutil: psutil-2.0.0.win32-py2.4.exe
+WARN Skipping file for psutil: psutil-2.0.0.win32-py2.5.exe
+WARN Skipping file for psutil: psutil-2.0.0.win32-py2.6.exe
+WARN Skipping file for psutil: psutil-2.0.0.win32-py2.7.exe
+WARN Skipping file for psutil: psutil-2.0.0.win32-py3.3.exe
+WARN Skipping file for psutil: psutil-2.0.0.win32-py3.4.exe
+WARN Skipping file for psutil: psutil-2.1.0.win-amd64-py2.7.exe
+WARN Skipping file for psutil: psutil-2.1.0.win-amd64-py3.3.exe
+WARN Skipping file for psutil: psutil-2.1.0.win-amd64-py3.4.exe
+WARN Skipping file for psutil: psutil-2.1.0.win32-py2.4.exe
+WARN Skipping file for psutil: psutil-2.1.0.win32-py2.5.exe
+WARN Skipping file for psutil: psutil-2.1.0.win32-py2.6.exe
+WARN Skipping file for psutil: psutil-2.1.0.win32-py2.7.exe
+WARN Skipping file for psutil: psutil-2.1.0.win32-py3.3.exe
+WARN Skipping file for psutil: psutil-2.1.0.win32-py3.4.exe
+WARN Skipping file for psutil: psutil-2.1.1.win-amd64-py2.7.exe
+WARN Skipping file for psutil: psutil-2.1.1.win-amd64-py3.3.exe
+WARN Skipping file for psutil: psutil-2.1.1.win-amd64-py3.4.exe
+WARN Skipping file for psutil: psutil-2.1.1.win32-py2.4.exe
+WARN Skipping file for psutil: psutil-2.1.1.win32-py2.5.exe
+WARN Skipping file for psutil: psutil-2.1.1.win32-py2.6.exe
+WARN Skipping file for psutil: psutil-2.1.1.win32-py2.7.exe
+WARN Skipping file for psutil: psutil-2.1.1.win32-py3.3.exe
+WARN Skipping file for psutil: psutil-2.1.1.win32-py3.4.exe
+WARN Skipping file for psutil: psutil-2.1.2.win-amd64-py2.7.exe
+WARN Skipping file for psutil: psutil-2.1.2.win-amd64-py3.3.exe
+WARN Skipping file for psutil: psutil-2.1.2.win-amd64-py3.4.exe
+WARN Skipping file for psutil: psutil-2.1.2.win32-py2.4.exe
+WARN Skipping file for psutil: psutil-2.1.2.win32-py2.5.exe
+WARN Skipping file for psutil: psutil-2.1.2.win32-py2.6.exe
+WARN Skipping file for psutil: psutil-2.1.2.win32-py2.7.exe
+WARN Skipping file for psutil: psutil-2.1.2.win32-py3.3.exe
+WARN Skipping file for psutil: psutil-2.1.2.win32-py3.4.exe
+WARN Skipping file for psutil: psutil-2.1.3.win-amd64-py2.7.exe
+WARN Skipping file for psutil: psutil-2.1.3.win-amd64-py3.3.exe
+WARN Skipping file for psutil: psutil-2.1.3.win-amd64-py3.4.exe
+WARN Skipping file for psutil: psutil-2.1.3.win32-py2.4.exe
+WARN Skipping file for psutil: psutil-2.1.3.win32-py2.5.exe
+WARN Skipping file for psutil: psutil-2.1.3.win32-py2.6.exe
+WARN Skipping file for psutil: psutil-2.1.3.win32-py2.7.exe
+WARN Skipping file for psutil: psutil-2.1.3.win32-py3.3.exe
+WARN Skipping file for psutil: psutil-2.1.3.win32-py3.4.exe
+WARN Skipping file for psutil: psutil-2.2.0.win-amd64-py2.7.exe
+WARN Skipping file for psutil: psutil-2.2.0.win-amd64-py3.3.exe
+WARN Skipping file for psutil: psutil-2.2.0.win-amd64-py3.4.exe
+WARN Skipping file for psutil: psutil-2.2.0.win32-py2.6.exe
+WARN Skipping file for psutil: psutil-2.2.0.win32-py2.7.exe
+WARN Skipping file for psutil: psutil-2.2.0.win32-py3.3.exe
+WARN Skipping file for psutil: psutil-2.2.0.win32-py3.4.exe
+WARN Skipping file for psutil: psutil-2.2.1.win-amd64-py2.7.exe
+WARN Skipping file for psutil: psutil-2.2.1.win-amd64-py3.3.exe
+WARN Skipping file for psutil: psutil-2.2.1.win-amd64-py3.4.exe
+WARN Skipping file for psutil: psutil-2.2.1.win32-py2.6.exe
+WARN Skipping file for psutil: psutil-2.2.1.win32-py2.7.exe
+WARN Skipping file for psutil: psutil-2.2.1.win32-py3.3.exe
+WARN Skipping file for psutil: psutil-2.2.1.win32-py3.4.exe
+WARN Skipping file for psutil: psutil-3.0.0.win-amd64-py2.7.exe
+WARN Skipping file for psutil: psutil-3.0.0.win-amd64-py3.3.exe
+WARN Skipping file for psutil: psutil-3.0.0.win-amd64-py3.4.exe
+WARN Skipping file for psutil: psutil-3.0.0.win32-py2.6.exe
+WARN Skipping file for psutil: psutil-3.0.0.win32-py2.7.exe
+WARN Skipping file for psutil: psutil-3.0.0.win32-py3.3.exe
+WARN Skipping file for psutil: psutil-3.0.0.win32-py3.4.exe
+WARN Skipping file for psutil: psutil-3.0.1.win-amd64-py2.7.exe
+WARN Skipping file for psutil: psutil-3.0.1.win-amd64-py3.3.exe
+WARN Skipping file for psutil: psutil-3.0.1.win-amd64-py3.4.exe
+WARN Skipping file for psutil: psutil-3.0.1.win32-py2.6.exe
+WARN Skipping file for psutil: psutil-3.0.1.win32-py2.7.exe
+WARN Skipping file for psutil: psutil-3.0.1.win32-py3.3.exe
+WARN Skipping file for psutil: psutil-3.0.1.win32-py3.4.exe
+WARN Skipping file for psutil: psutil-3.1.0.win-amd64-py2.7.exe
+WARN Skipping file for psutil: psutil-3.1.0.win-amd64-py3.3.exe
+WARN Skipping file for psutil: psutil-3.1.0.win-amd64-py3.4.exe
+WARN Skipping file for psutil: psutil-3.1.0.win32-py2.6.exe
+WARN Skipping file for psutil: psutil-3.1.0.win32-py2.7.exe
+WARN Skipping file for psutil: psutil-3.1.0.win32-py3.3.exe
+WARN Skipping file for psutil: psutil-3.1.0.win32-py3.4.exe
+WARN Skipping file for psutil: psutil-3.1.1.win-amd64-py2.7.exe
+WARN Skipping file for psutil: psutil-3.1.1.win-amd64-py3.3.exe
+WARN Skipping file for psutil: psutil-3.1.1.win-amd64-py3.4.exe
+WARN Skipping file for psutil: psutil-3.1.1.win32-py2.6.exe
+WARN Skipping file for psutil: psutil-3.1.1.win32-py2.7.exe
+WARN Skipping file for psutil: psutil-3.1.1.win32-py3.3.exe
+WARN Skipping file for psutil: psutil-3.1.1.win32-py3.4.exe
+WARN Skipping file for psutil: psutil-3.2.0.win-amd64-py2.7.exe
+WARN Skipping file for psutil: psutil-3.2.0.win32-py2.7.exe
+WARN Skipping file for psutil: psutil-3.2.0.win32-py3.3.exe
+WARN Skipping file for psutil: psutil-3.2.0.win32-py3.4.exe
+WARN Skipping file for psutil: psutil-3.2.1.win-amd64-py2.7.exe
+WARN Skipping file for psutil: psutil-3.2.1.win-amd64-py3.3.exe
+WARN Skipping file for psutil: psutil-3.2.1.win-amd64-py3.4.exe
+WARN Skipping file for psutil: psutil-3.2.1.win32-py2.6.exe
+WARN Skipping file for psutil: psutil-3.2.1.win32-py2.7.exe
+WARN Skipping file for psutil: psutil-3.2.1.win32-py3.3.exe
+WARN Skipping file for psutil: psutil-3.2.1.win32-py3.4.exe
+WARN Skipping file for psutil: psutil-3.2.2.win-amd64-py2.7.exe
+WARN Skipping file for psutil: psutil-3.2.2.win-amd64-py3.3.exe
+WARN Skipping file for psutil: psutil-3.2.2.win-amd64-py3.5.exe
+WARN Skipping file for psutil: psutil-3.2.2.win32-py2.6.exe
+WARN Skipping file for psutil: psutil-3.2.2.win32-py3.3.exe
+WARN Skipping file for psutil: psutil-3.2.2.win32-py3.4.exe
+WARN Skipping file for psutil: psutil-3.2.2.win32-py3.5.exe
+WARN Skipping file for psutil: psutil-3.3.0.win-amd64-py2.6.exe
+WARN Skipping file for psutil: psutil-3.3.0.win-amd64-py2.7.exe
+WARN Skipping file for psutil: psutil-3.3.0.win-amd64-py3.3.exe
+WARN Skipping file for psutil: psutil-3.3.0.win-amd64-py3.4.exe
+WARN Skipping file for psutil: psutil-3.3.0.win-amd64-py3.5.exe
+WARN Skipping file for psutil: psutil-3.3.0.win32-py2.6.exe
+WARN Skipping file for psutil: psutil-3.3.0.win32-py2.7.exe
+WARN Skipping file for psutil: psutil-3.3.0.win32-py3.3.exe
+WARN Skipping file for psutil: psutil-3.3.0.win32-py3.4.exe
+WARN Skipping file for psutil: psutil-3.3.0.win32-py3.5.exe
+WARN Skipping file for psutil: psutil-3.4.1.win-amd64-py2.6.exe
+WARN Skipping file for psutil: psutil-3.4.1.win-amd64-py2.7.exe
+WARN Skipping file for psutil: psutil-3.4.1.win-amd64-py3.3.exe
+WARN Skipping file for psutil: psutil-3.4.1.win-amd64-py3.4.exe
+WARN Skipping file for psutil: psutil-3.4.1.win-amd64-py3.5.exe
+WARN Skipping file for psutil: psutil-3.4.1.win32-py2.6.exe
+WARN Skipping file for psutil: psutil-3.4.1.win32-py2.7.exe
+WARN Skipping file for psutil: psutil-3.4.1.win32-py3.3.exe
+WARN Skipping file for psutil: psutil-3.4.1.win32-py3.4.exe
+WARN Skipping file for psutil: psutil-3.4.1.win32-py3.5.exe
+WARN Skipping file for psutil: psutil-3.4.2.win-amd64-py2.6.exe
+WARN Skipping file for psutil: psutil-3.4.2.win-amd64-py2.7.exe
+WARN Skipping file for psutil: psutil-3.4.2.win-amd64-py3.3.exe
+WARN Skipping file for psutil: psutil-3.4.2.win-amd64-py3.4.exe
+WARN Skipping file for psutil: psutil-3.4.2.win-amd64-py3.5.exe
+WARN Skipping file for psutil: psutil-3.4.2.win32-py2.6.exe
+WARN Skipping file for psutil: psutil-3.4.2.win32-py2.7.exe
+WARN Skipping file for psutil: psutil-3.4.2.win32-py3.3.exe
+WARN Skipping file for psutil: psutil-3.4.2.win32-py3.4.exe
+WARN Skipping file for psutil: psutil-3.4.2.win32-py3.5.exe
+WARN Skipping file for psutil: psutil-4.0.0.win-amd64-py2.6.exe
+WARN Skipping file for psutil: psutil-4.0.0.win-amd64-py2.7.exe
+WARN Skipping file for psutil: psutil-4.0.0.win-amd64-py3.3.exe
+WARN Skipping file for psutil: psutil-4.0.0.win-amd64-py3.4.exe
+WARN Skipping file for psutil: psutil-4.0.0.win-amd64-py3.5.exe
+WARN Skipping file for psutil: psutil-4.0.0.win32-py2.6.exe
+WARN Skipping file for psutil: psutil-4.0.0.win32-py2.7.exe
+WARN Skipping file for psutil: psutil-4.0.0.win32-py3.3.exe
+WARN Skipping file for psutil: psutil-4.0.0.win32-py3.4.exe
+WARN Skipping file for psutil: psutil-4.0.0.win32-py3.5.exe
+WARN Skipping file for psutil: psutil-4.1.0.win-amd64-py2.6.exe
+WARN Skipping file for psutil: psutil-4.1.0.win-amd64-py2.7.exe
+WARN Skipping file for psutil: psutil-4.1.0.win-amd64-py3.3.exe
+WARN Skipping file for psutil: psutil-4.1.0.win-amd64-py3.4.exe
+WARN Skipping file for psutil: psutil-4.1.0.win-amd64-py3.5.exe
+WARN Skipping file for psutil: psutil-4.1.0.win32-py2.6.exe
+WARN Skipping file for psutil: psutil-4.1.0.win32-py2.7.exe
+WARN Skipping file for psutil: psutil-4.1.0.win32-py3.3.exe
+WARN Skipping file for psutil: psutil-4.1.0.win32-py3.4.exe
+WARN Skipping file for psutil: psutil-4.1.0.win32-py3.5.exe
+WARN Skipping file for psutil: psutil-4.2.0.win-amd64-py2.7.exe
+WARN Skipping file for psutil: psutil-4.2.0.win-amd64-py3.3.exe
+WARN Skipping file for psutil: psutil-4.2.0.win-amd64-py3.4.exe
+WARN Skipping file for psutil: psutil-4.2.0.win-amd64-py3.5.exe
+WARN Skipping file for psutil: psutil-4.2.0.win32-py2.7.exe
+WARN Skipping file for psutil: psutil-4.2.0.win32-py3.3.exe
+WARN Skipping file for psutil: psutil-4.2.0.win32-py3.4.exe
+WARN Skipping file for psutil: psutil-4.2.0.win32-py3.5.exe
+WARN Skipping file for psutil: psutil-4.3.0.win-amd64-py2.7.exe
+WARN Skipping file for psutil: psutil-4.3.0.win-amd64-py3.3.exe
+WARN Skipping file for psutil: psutil-4.3.0.win-amd64-py3.4.exe
+WARN Skipping file for psutil: psutil-4.3.0.win-amd64-py3.5.exe
+WARN Skipping file for psutil: psutil-4.3.0.win32-py2.7.exe
+WARN Skipping file for psutil: psutil-4.3.0.win32-py3.3.exe
+WARN Skipping file for psutil: psutil-4.3.0.win32-py3.4.exe
+WARN Skipping file for psutil: psutil-4.3.0.win32-py3.5.exe
+WARN Skipping file for psutil: psutil-4.3.1.win-amd64-py2.7.exe
+WARN Skipping file for psutil: psutil-4.3.1.win-amd64-py3.3.exe
+WARN Skipping file for psutil: psutil-4.3.1.win-amd64-py3.4.exe
+WARN Skipping file for psutil: psutil-4.3.1.win-amd64-py3.5.exe
+WARN Skipping file for psutil: psutil-4.3.1.win32-py2.7.exe
+WARN Skipping file for psutil: psutil-4.3.1.win32-py3.3.exe
+WARN Skipping file for psutil: psutil-4.3.1.win32-py3.4.exe
+WARN Skipping file for psutil: psutil-4.3.1.win32-py3.5.exe
+WARN Skipping file for psutil: psutil-4.4.0.win-amd64-py2.7.exe
+WARN Skipping file for psutil: psutil-4.4.0.win-amd64-py3.3.exe
+WARN Skipping file for psutil: psutil-4.4.0.win-amd64-py3.4.exe
+WARN Skipping file for psutil: psutil-4.4.0.win-amd64-py3.5.exe
+WARN Skipping file for psutil: psutil-4.4.0.win32-py2.7.exe
+WARN Skipping file for psutil: psutil-4.4.0.win32-py3.3.exe
+WARN Skipping file for psutil: psutil-4.4.0.win32-py3.4.exe
+WARN Skipping file for psutil: psutil-4.4.0.win32-py3.5.exe
+WARN Skipping file for psutil: psutil-4.4.1.win-amd64-py2.7.exe
+WARN Skipping file for psutil: psutil-4.4.1.win-amd64-py3.3.exe
+WARN Skipping file for psutil: psutil-4.4.1.win-amd64-py3.4.exe
+WARN Skipping file for psutil: psutil-4.4.1.win-amd64-py3.5.exe
+WARN Skipping file for psutil: psutil-4.4.1.win32-py2.7.exe
+WARN Skipping file for psutil: psutil-4.4.1.win32-py3.3.exe
+WARN Skipping file for psutil: psutil-4.4.1.win32-py3.4.exe
+WARN Skipping file for psutil: psutil-4.4.1.win32-py3.5.exe
+WARN Skipping file for psutil: psutil-4.4.2.win-amd64-py2.7.exe
+WARN Skipping file for psutil: psutil-4.4.2.win-amd64-py3.3.exe
+WARN Skipping file for psutil: psutil-4.4.2.win-amd64-py3.4.exe
+WARN Skipping file for psutil: psutil-4.4.2.win-amd64-py3.5.exe
+WARN Skipping file for psutil: psutil-4.4.2.win32-py2.7.exe
+WARN Skipping file for psutil: psutil-4.4.2.win32-py3.3.exe
+WARN Skipping file for psutil: psutil-4.4.2.win32-py3.4.exe
+WARN Skipping file for psutil: psutil-4.4.2.win32-py3.5.exe
+WARN Skipping file for psutil: psutil-5.0.0.win-amd64-py2.7.exe
+WARN Skipping file for psutil: psutil-5.0.0.win-amd64-py3.3.exe
+WARN Skipping file for psutil: psutil-5.0.0.win-amd64-py3.4.exe
+WARN Skipping file for psutil: psutil-5.0.0.win-amd64-py3.5.exe
+WARN Skipping file for psutil: psutil-5.0.0.win32-py2.7.exe
+WARN Skipping file for psutil: psutil-5.0.0.win32-py3.3.exe
+WARN Skipping file for psutil: psutil-5.0.0.win32-py3.4.exe
+WARN Skipping file for psutil: psutil-5.0.0.win32-py3.5.exe
+WARN Skipping file for psutil: psutil-5.0.1.win-amd64-py2.7.exe
+WARN Skipping file for psutil: psutil-5.0.1.win-amd64-py3.3.exe
+WARN Skipping file for psutil: psutil-5.0.1.win-amd64-py3.4.exe
+WARN Skipping file for psutil: psutil-5.0.1.win-amd64-py3.5.exe
+WARN Skipping file for psutil: psutil-5.0.1.win-amd64-py3.6.exe
+WARN Skipping file for psutil: psutil-5.0.1.win32-py2.7.exe
+WARN Skipping file for psutil: psutil-5.0.1.win32-py3.3.exe
+WARN Skipping file for psutil: psutil-5.0.1.win32-py3.4.exe
+WARN Skipping file for psutil: psutil-5.0.1.win32-py3.5.exe
+WARN Skipping file for psutil: psutil-5.0.1.win32-py3.6.exe
+WARN Skipping file for psutil: psutil-5.1.0.win-amd64-py2.7.exe
+WARN Skipping file for psutil: psutil-5.1.0.win-amd64-py3.3.exe
+WARN Skipping file for psutil: psutil-5.1.0.win-amd64-py3.4.exe
+WARN Skipping file for psutil: psutil-5.1.0.win-amd64-py3.5.exe
+WARN Skipping file for psutil: psutil-5.1.0.win-amd64-py3.6.exe
+WARN Skipping file for psutil: psutil-5.1.0.win32-py2.7.exe
+WARN Skipping file for psutil: psutil-5.1.0.win32-py3.3.exe
+WARN Skipping file for psutil: psutil-5.1.0.win32-py3.4.exe
+WARN Skipping file for psutil: psutil-5.1.0.win32-py3.5.exe
+WARN Skipping file for psutil: psutil-5.1.0.win32-py3.6.exe
+WARN Skipping file for psutil: psutil-5.1.1.win-amd64-py2.7.exe
+WARN Skipping file for psutil: psutil-5.1.1.win-amd64-py3.3.exe
+WARN Skipping file for psutil: psutil-5.1.1.win-amd64-py3.4.exe
+WARN Skipping file for psutil: psutil-5.1.1.win-amd64-py3.5.exe
+WARN Skipping file for psutil: psutil-5.1.1.win-amd64-py3.6.exe
+WARN Skipping file for psutil: psutil-5.1.1.win32-py2.7.exe
+WARN Skipping file for psutil: psutil-5.1.1.win32-py3.3.exe
+WARN Skipping file for psutil: psutil-5.1.1.win32-py3.4.exe
+WARN Skipping file for psutil: psutil-5.1.1.win32-py3.5.exe
+WARN Skipping file for psutil: psutil-5.1.1.win32-py3.6.exe
+WARN Skipping file for psutil: psutil-5.1.2.win-amd64-py2.7.exe
+WARN Skipping file for psutil: psutil-5.1.2.win-amd64-py3.3.exe
+WARN Skipping file for psutil: psutil-5.1.2.win-amd64-py3.4.exe
+WARN Skipping file for psutil: psutil-5.1.2.win-amd64-py3.5.exe
+WARN Skipping file for psutil: psutil-5.1.2.win-amd64-py3.6.exe
+WARN Skipping file for psutil: psutil-5.1.2.win32-py2.7.exe
+WARN Skipping file for psutil: psutil-5.1.2.win32-py3.3.exe
+WARN Skipping file for psutil: psutil-5.1.2.win32-py3.4.exe
+WARN Skipping file for psutil: psutil-5.1.2.win32-py3.5.exe
+WARN Skipping file for psutil: psutil-5.1.2.win32-py3.6.exe
+WARN Skipping file for psutil: psutil-5.1.3.win-amd64-py2.7.exe
+WARN Skipping file for psutil: psutil-5.1.3.win-amd64-py3.3.exe
+WARN Skipping file for psutil: psutil-5.1.3.win-amd64-py3.4.exe
+WARN Skipping file for psutil: psutil-5.1.3.win-amd64-py3.5.exe
+WARN Skipping file for psutil: psutil-5.1.3.win-amd64-py3.6.exe
+WARN Skipping file for psutil: psutil-5.1.3.win32-py2.7.exe
+WARN Skipping file for psutil: psutil-5.1.3.win32-py3.3.exe
+WARN Skipping file for psutil: psutil-5.1.3.win32-py3.4.exe
+WARN Skipping file for psutil: psutil-5.1.3.win32-py3.5.exe
+WARN Skipping file for psutil: psutil-5.1.3.win32-py3.6.exe
+WARN Skipping file for psutil: psutil-5.2.0.win-amd64-py2.7.exe
+WARN Skipping file for psutil: psutil-5.2.0.win-amd64-py3.3.exe
+WARN Skipping file for psutil: psutil-5.2.0.win-amd64-py3.4.exe
+WARN Skipping file for psutil: psutil-5.2.0.win-amd64-py3.5.exe
+WARN Skipping file for psutil: psutil-5.2.0.win-amd64-py3.6.exe
+WARN Skipping file for psutil: psutil-5.2.0.win32-py2.7.exe
+WARN Skipping file for psutil: psutil-5.2.0.win32-py3.3.exe
+WARN Skipping file for psutil: psutil-5.2.0.win32-py3.4.exe
+WARN Skipping file for psutil: psutil-5.2.0.win32-py3.5.exe
+WARN Skipping file for psutil: psutil-5.2.0.win32-py3.6.exe
+WARN Skipping file for psutil: psutil-5.2.1.win-amd64-py2.7.exe
+WARN Skipping file for psutil: psutil-5.2.1.win-amd64-py3.3.exe
+WARN Skipping file for psutil: psutil-5.2.1.win-amd64-py3.4.exe
+WARN Skipping file for psutil: psutil-5.2.1.win-amd64-py3.5.exe
+WARN Skipping file for psutil: psutil-5.2.1.win-amd64-py3.6.exe
+WARN Skipping file for psutil: psutil-5.2.1.win32-py2.7.exe
+WARN Skipping file for psutil: psutil-5.2.1.win32-py3.3.exe
+WARN Skipping file for psutil: psutil-5.2.1.win32-py3.4.exe
+WARN Skipping file for psutil: psutil-5.2.1.win32-py3.5.exe
+WARN Skipping file for psutil: psutil-5.2.1.win32-py3.6.exe
+WARN Skipping file for psutil: psutil-5.2.2.win-amd64-py2.7.exe
+WARN Skipping file for psutil: psutil-5.2.2.win-amd64-py3.3.exe
+WARN Skipping file for psutil: psutil-5.2.2.win-amd64-py3.4.exe
+WARN Skipping file for psutil: psutil-5.2.2.win-amd64-py3.5.exe
+WARN Skipping file for psutil: psutil-5.2.2.win-amd64-py3.6.exe
+WARN Skipping file for psutil: psutil-5.2.2.win32-py2.7.exe
+WARN Skipping file for psutil: psutil-5.2.2.win32-py3.3.exe
+WARN Skipping file for psutil: psutil-5.2.2.win32-py3.4.exe
+WARN Skipping file for psutil: psutil-5.2.2.win32-py3.5.exe
+WARN Skipping file for psutil: psutil-5.2.2.win32-py3.6.exe
+WARN Skipping file for psutil: psutil-5.3.0.win-amd64-py2.7.exe
+WARN Skipping file for psutil: psutil-5.3.0.win-amd64-py3.3.exe
+WARN Skipping file for psutil: psutil-5.3.0.win-amd64-py3.4.exe
+WARN Skipping file for psutil: psutil-5.3.0.win-amd64-py3.5.exe
+WARN Skipping file for psutil: psutil-5.3.0.win-amd64-py3.6.exe
+WARN Skipping file for psutil: psutil-5.3.0.win32-py2.7.exe
+WARN Skipping file for psutil: psutil-5.3.0.win32-py3.3.exe
+WARN Skipping file for psutil: psutil-5.3.0.win32-py3.4.exe
+WARN Skipping file for psutil: psutil-5.3.0.win32-py3.5.exe
+WARN Skipping file for psutil: psutil-5.3.0.win32-py3.6.exe
+DEBUG No cache entry for: https://files.pythonhosted.org/packages/bf/b9/b0eb3f3cbcb734d930fdf839431606844a825b23eaf9a6ab371edac8162c/psutil-7.0.0-cp36-abi3-manylinux_2_12_x86_64.manylinux2010_x86_64.manylinux_2_17_x86_64.manylinux2014_x86_64.whl.metadata
+DEBUG No cache entry for: https://files.pythonhosted.org/packages/8f/8e/9ad090d3553c280a8060fbf6e24dc1c0c29704ee7d1c372f0c174aa59285/matplotlib_inline-0.1.7-py3-none-any.whl.metadata
+DEBUG No cache entry for: https://files.pythonhosted.org/packages/60/97/891a0971e1e4a8c5d2b20bbe0e524dc04548d2307fee33cdeba148fd4fc7/comm-0.2.3-py3-none-any.whl.metadata
+DEBUG No cache entry for: https://files.pythonhosted.org/packages/11/85/b0394e0b6fcccd2c1eeefc230978a6f8cb0c5df1e4cd3e7625735a0d7d1e/jupyter_client-8.6.3-py3-none-any.whl.metadata
+DEBUG No cache entry for: https://files.pythonhosted.org/packages/f3/f0/89e7aadfb3749d0f52234a0c8c7867877876e0a20b60e2188e9850794c17/MarkupSafe-3.0.2-cp312-cp312-manylinux_2_17_x86_64.manylinux2014_x86_64.whl.metadata
+WARN Skipping file for ipython: ipython-0.10-py2.5.egg
+WARN Skipping file for ipython: ipython-0.10-py2.6.egg
+WARN Skipping file for ipython: ipython-0.10-py25.noarch.rpm
+WARN Skipping file for ipython: ipython-0.10-py26.noarch.rpm
+WARN Skipping file for ipython: ipython-0.10.win32-setup.exe
+WARN Skipping file for ipython: ipython-0.12.1-py2.6.egg
+WARN Skipping file for ipython: ipython-0.12.1-py2.7.egg
+WARN Skipping file for ipython: ipython-0.12.1.win-amd64.exe
+WARN Skipping file for ipython: ipython-0.12.1.win32.exe
+WARN Skipping file for ipython: ipython-0.13-py2.7.egg
+WARN Skipping file for ipython: ipython-0.13.1-py2.7.egg
+WARN Skipping file for ipython: ipython-0.13.1.py2-win-amd64.exe
+WARN Skipping file for ipython: ipython-0.13.1.py2-win32-PROPER.exe
+WARN Skipping file for ipython: ipython-0.13.1.py3-win-amd64-PROPER.exe
+WARN Skipping file for ipython: ipython-0.13.1.py3-win32.exe
+WARN Skipping file for ipython: ipython-0.13.2.py2-win-amd64.exe
+WARN Skipping file for ipython: ipython-0.13.2.py2-win32.exe
+WARN Skipping file for ipython: ipython-0.13.2.py3-win-amd64.exe
+WARN Skipping file for ipython: ipython-0.13.2.py3-win32.exe
+WARN Skipping file for ipython: ipython-0.13.py2-win-amd64.exe
+WARN Skipping file for ipython: ipython-0.13.py2-win32.exe
+WARN Skipping file for ipython: ipython-0.13.py3-win-amd64.exe
+WARN Skipping file for ipython: ipython-0.13.py3-win32.exe
+WARN Skipping file for ipython: ipython-0.7.3-py2.5.egg
+DEBUG Searching for a compatible version of tornado (>=6.2.0)
+DEBUG Selecting: tornado==6.5.1 [compatible] (tornado-6.5.1-cp39-abi3-manylinux_2_5_x86_64.manylinux1_x86_64.manylinux_2_17_x86_64.manylinux2014_x86_64.whl)
+DEBUG Searching for a compatible version of traitlets (>=5.6.0)
+DEBUG Selecting: traitlets==5.14.3 [compatible] (traitlets-5.14.3-py3-none-any.whl)
+DEBUG No cache entry for: https://files.pythonhosted.org/packages/76/c6/c88e154df9c4e1a2a66ccf0005a88dfb2650c1dffb6f5ce603dfbd452ce3/idna-3.10-py3-none-any.whl.metadata
+DEBUG No cache entry for: https://files.pythonhosted.org/packages/7e/f5/f66802a942d491edb555dd61e3a9961140fd64c90bce1eafd741609d334d/httpcore-1.0.9-py3-none-any.whl.metadata
+DEBUG No cache entry for: https://files.pythonhosted.org/packages/e5/48/1549795ba7742c948d2ad169c1c8cdbae65bc450d6cd753d124b17c8cd32/certifi-2025.8.3-py3-none-any.whl.metadata
+DEBUG No cache entry for: https://files.pythonhosted.org/packages/63/f8/0031ee2b906a15a33d6bfc12dd09c3dfa966b3cb5b284ecfb7549e6ac3c4/ipython-9.4.0-py3-none-any.whl.metadata
+DEBUG No cache entry for: https://files.pythonhosted.org/packages/a0/c4/c2971a3ba4c6103a3d10c4b0f24f461ddc027f0f09763220cf35ca1401b3/nest_asyncio-1.6.0-py3-none-any.whl.metadata
+WARN Fixing invalid version specifier by inserting missing dot (before: `>=2.7,!=3.0*,!=3.1*,!=3.2*`; after: `>=2.7,!=3.0.*,!=3.1.*,!=3.2.*`)
+WARN Fixing invalid version specifier by inserting missing dot (before: `>=2.7,!=3.0*,!=3.1*,!=3.2*`; after: `>=2.7,!=3.0.*,!=3.1.*,!=3.2.*`)
+WARN Fixing invalid version specifier by inserting missing dot (before: `>=2.7,!=3.0*,!=3.1*,!=3.2*`; after: `>=2.7,!=3.0.*,!=3.1.*,!=3.2.*`)
+WARN Fixing invalid version specifier by inserting missing dot (before: `>=2.7,!=3.0*,!=3.1*,!=3.2*`; after: `>=2.7,!=3.0.*,!=3.1.*,!=3.2.*`)
+WARN Fixing invalid version specifier by inserting missing dot (before: `>=2.7,!=3.0*,!=3.1*,!=3.2*`; after: `>=2.7,!=3.0.*,!=3.1.*,!=3.2.*`)
+WARN Fixing invalid version specifier by inserting missing dot (before: `>=2.7,!=3.0*,!=3.1*,!=3.2*`; after: `>=2.7,!=3.0.*,!=3.1.*,!=3.2.*`)
+WARN Fixing invalid version specifier by inserting missing dot (before: `>=2.7,!=3.0*,!=3.1*,!=3.2*`; after: `>=2.7,!=3.0.*,!=3.1.*,!=3.2.*`)
+WARN Fixing invalid version specifier by inserting missing dot (before: `>=2.7,!=3.0*,!=3.1*,!=3.2*`; after: `>=2.7,!=3.0.*,!=3.1.*,!=3.2.*`)
+WARN Fixing invalid version specifier by inserting missing dot (before: `>=2.7,!=3.0*,!=3.1*,!=3.2*`; after: `>=2.7,!=3.0.*,!=3.1.*,!=3.2.*`)
+WARN Fixing invalid version specifier by inserting missing dot (before: `>=2.7,!=3.0*,!=3.1*,!=3.2*`; after: `>=2.7,!=3.0.*,!=3.1.*,!=3.2.*`)
+WARN Fixing invalid version specifier by inserting missing dot (before: `>=2.7,!=3.0*,!=3.1*,!=3.2*`; after: `>=2.7,!=3.0.*,!=3.1.*,!=3.2.*`)
+WARN Fixing invalid version specifier by inserting missing dot (before: `>=2.7,!=3.0*,!=3.1*,!=3.2*`; after: `>=2.7,!=3.0.*,!=3.1.*,!=3.2.*`)
+WARN Fixing invalid version specifier by inserting missing dot (before: `>=2.7,!=3.0*,!=3.1*,!=3.2*`; after: `>=2.7,!=3.0.*,!=3.1.*,!=3.2.*`)
+WARN Fixing invalid version specifier by inserting missing dot (before: `>=2.7,!=3.0*,!=3.1*,!=3.2*`; after: `>=2.7,!=3.0.*,!=3.1.*,!=3.2.*`)
+WARN Fixing invalid version specifier by inserting missing dot (before: `>=2.7,!=3.0*,!=3.1*,!=3.2*`; after: `>=2.7,!=3.0.*,!=3.1.*,!=3.2.*`)
+WARN Fixing invalid version specifier by inserting missing dot (before: `>=2.7,!=3.0*,!=3.1*,!=3.2*`; after: `>=2.7,!=3.0.*,!=3.1.*,!=3.2.*`)
+WARN Fixing invalid version specifier by inserting missing dot (before: `>=2.7,!=3.0*,!=3.1*,!=3.2*`; after: `>=2.7,!=3.0.*,!=3.1.*,!=3.2.*`)
+WARN Fixing invalid version specifier by inserting missing dot (before: `>=2.7,!=3.0*,!=3.1*,!=3.2*`; after: `>=2.7,!=3.0.*,!=3.1.*,!=3.2.*`)
+WARN Fixing invalid version specifier by inserting missing dot (before: `>=2.7,!=3.0*,!=3.1*,!=3.2*`; after: `>=2.7,!=3.0.*,!=3.1.*,!=3.2.*`)
+WARN Fixing invalid version specifier by inserting missing dot (before: `>=2.7,!=3.0*,!=3.1*,!=3.2*`; after: `>=2.7,!=3.0.*,!=3.1.*,!=3.2.*`)
+WARN Fixing invalid version specifier by inserting missing dot (before: `>=2.7,!=3.0*,!=3.1*,!=3.2*`; after: `>=2.7,!=3.0.*,!=3.1.*,!=3.2.*`)
+WARN Fixing invalid version specifier by inserting missing dot (before: `>=2.7,!=3.0*,!=3.1*,!=3.2*`; after: `>=2.7,!=3.0.*,!=3.1.*,!=3.2.*`)
+WARN Fixing invalid version specifier by inserting missing dot (before: `>=2.7,!=3.0*,!=3.1*,!=3.2*`; after: `>=2.7,!=3.0.*,!=3.1.*,!=3.2.*`)
+WARN Fixing invalid version specifier by inserting missing dot (before: `>=2.7,!=3.0*,!=3.1*,!=3.2*`; after: `>=2.7,!=3.0.*,!=3.1.*,!=3.2.*`)
+WARN Fixing invalid version specifier by inserting missing dot (before: `>=2.7,!=3.0*,!=3.1*,!=3.2*`; after: `>=2.7,!=3.0.*,!=3.1.*,!=3.2.*`)
+WARN Fixing invalid version specifier by inserting missing dot (before: `>=2.7,!=3.0*,!=3.1*,!=3.2*`; after: `>=2.7,!=3.0.*,!=3.1.*,!=3.2.*`)
+WARN Fixing invalid version specifier by inserting missing dot (before: `>=2.7,!=3.0*,!=3.1*,!=3.2*`; after: `>=2.7,!=3.0.*,!=3.1.*,!=3.2.*`)
+WARN Fixing invalid version specifier by inserting missing dot (before: `>=2.7,!=3.0*,!=3.1*,!=3.2*`; after: `>=2.7,!=3.0.*,!=3.1.*,!=3.2.*`)
+WARN Fixing invalid version specifier by inserting missing dot (before: `>=2.7,!=3.0*,!=3.1*,!=3.2*`; after: `>=2.7,!=3.0.*,!=3.1.*,!=3.2.*`)
+WARN Fixing invalid version specifier by inserting missing dot (before: `>=2.7,!=3.0*,!=3.1*,!=3.2*`; after: `>=2.7,!=3.0.*,!=3.1.*,!=3.2.*`)
+WARN Fixing invalid version specifier by inserting missing dot (before: `>=2.7,!=3.0*,!=3.1*,!=3.2*`; after: `>=2.7,!=3.0.*,!=3.1.*,!=3.2.*`)
+WARN Fixing invalid version specifier by inserting missing dot (before: `>=2.7,!=3.0*,!=3.1*,!=3.2*`; after: `>=2.7,!=3.0.*,!=3.1.*,!=3.2.*`)
+WARN Fixing invalid version specifier by inserting missing dot (before: `>=2.7,!=3.0*,!=3.1*,!=3.2*`; after: `>=2.7,!=3.0.*,!=3.1.*,!=3.2.*`)
+WARN Fixing invalid version specifier by inserting missing dot (before: `>=2.7,!=3.0*,!=3.1*,!=3.2*`; after: `>=2.7,!=3.0.*,!=3.1.*,!=3.2.*`)
+WARN Fixing invalid version specifier by inserting missing dot (before: `>=2.7,!=3.0*,!=3.1*,!=3.2*`; after: `>=2.7,!=3.0.*,!=3.1.*,!=3.2.*`)
+WARN Fixing invalid version specifier by inserting missing dot (before: `>=2.7,!=3.0*,!=3.1*,!=3.2*`; after: `>=2.7,!=3.0.*,!=3.1.*,!=3.2.*`)
+WARN Fixing invalid version specifier by inserting missing dot (before: `>=2.7,!=3.0*,!=3.1*,!=3.2*`; after: `>=2.7,!=3.0.*,!=3.1.*,!=3.2.*`)
+WARN Fixing invalid version specifier by inserting missing dot (before: `>=2.7,!=3.0*,!=3.1*,!=3.2*`; after: `>=2.7,!=3.0.*,!=3.1.*,!=3.2.*`)
+WARN Fixing invalid version specifier by inserting missing dot (before: `>=2.7,!=3.0*,!=3.1*,!=3.2*`; after: `>=2.7,!=3.0.*,!=3.1.*,!=3.2.*`)
+WARN Fixing invalid version specifier by inserting missing dot (before: `>=2.7,!=3.0*,!=3.1*,!=3.2*`; after: `>=2.7,!=3.0.*,!=3.1.*,!=3.2.*`)
+WARN Fixing invalid version specifier by inserting missing dot (before: `>=2.7,!=3.0*,!=3.1*,!=3.2*`; after: `>=2.7,!=3.0.*,!=3.1.*,!=3.2.*`)
+WARN Fixing invalid version specifier by inserting missing dot (before: `>=2.7,!=3.0*,!=3.1*,!=3.2*`; after: `>=2.7,!=3.0.*,!=3.1.*,!=3.2.*`)
+WARN Fixing invalid version specifier by inserting missing dot (before: `>=2.7,!=3.0*,!=3.1*,!=3.2*`; after: `>=2.7,!=3.0.*,!=3.1.*,!=3.2.*`)
+WARN Fixing invalid version specifier by inserting missing dot (before: `>=2.7,!=3.0*,!=3.1*,!=3.2*`; after: `>=2.7,!=3.0.*,!=3.1.*,!=3.2.*`)
+WARN Fixing invalid version specifier by inserting missing dot (before: `>=2.7,!=3.0*,!=3.1*,!=3.2*`; after: `>=2.7,!=3.0.*,!=3.1.*,!=3.2.*`)
+WARN Fixing invalid version specifier by inserting missing dot (before: `>=2.7,!=3.0*,!=3.1*,!=3.2*`; after: `>=2.7,!=3.0.*,!=3.1.*,!=3.2.*`)
+WARN Fixing invalid version specifier by inserting missing dot (before: `>=2.7,!=3.0*,!=3.1*,!=3.2*`; after: `>=2.7,!=3.0.*,!=3.1.*,!=3.2.*`)
+WARN Fixing invalid version specifier by inserting missing dot (before: `>=2.7,!=3.0*,!=3.1*,!=3.2*`; after: `>=2.7,!=3.0.*,!=3.1.*,!=3.2.*`)
+WARN Fixing invalid version specifier by inserting missing dot (before: `>=2.7,!=3.0*,!=3.1*,!=3.2*`; after: `>=2.7,!=3.0.*,!=3.1.*,!=3.2.*`)
+WARN Fixing invalid version specifier by inserting missing dot (before: `>=2.7,!=3.0*,!=3.1*,!=3.2*`; after: `>=2.7,!=3.0.*,!=3.1.*,!=3.2.*`)
+WARN Fixing invalid version specifier by inserting missing dot (before: `>=2.7,!=3.0*,!=3.1*,!=3.2*`; after: `>=2.7,!=3.0.*,!=3.1.*,!=3.2.*`)
+WARN Fixing invalid version specifier by inserting missing dot (before: `>=2.7,!=3.0*,!=3.1*,!=3.2*`; after: `>=2.7,!=3.0.*,!=3.1.*,!=3.2.*`)
+WARN Fixing invalid version specifier by inserting missing dot (before: `>=2.7,!=3.0*,!=3.1*,!=3.2*`; after: `>=2.7,!=3.0.*,!=3.1.*,!=3.2.*`)
+WARN Fixing invalid version specifier by inserting missing dot (before: `>=2.7,!=3.0*,!=3.1*,!=3.2*`; after: `>=2.7,!=3.0.*,!=3.1.*,!=3.2.*`)
+WARN Fixing invalid version specifier by inserting missing dot (before: `>=2.7,!=3.0*,!=3.1*,!=3.2*`; after: `>=2.7,!=3.0.*,!=3.1.*,!=3.2.*`)
+WARN Fixing invalid version specifier by inserting missing dot (before: `>=2.7,!=3.0*,!=3.1*,!=3.2*`; after: `>=2.7,!=3.0.*,!=3.1.*,!=3.2.*`)
+WARN Fixing invalid version specifier by inserting missing dot (before: `>=2.7,!=3.0*,!=3.1*,!=3.2*`; after: `>=2.7,!=3.0.*,!=3.1.*,!=3.2.*`)
+WARN Fixing invalid version specifier by inserting missing dot (before: `>=2.7,!=3.0*,!=3.1*,!=3.2*`; after: `>=2.7,!=3.0.*,!=3.1.*,!=3.2.*`)
+WARN Fixing invalid version specifier by inserting missing dot (before: `>=2.7,!=3.0*,!=3.1*,!=3.2*`; after: `>=2.7,!=3.0.*,!=3.1.*,!=3.2.*`)
+WARN Fixing invalid version specifier by inserting missing dot (before: `>=2.7,!=3.0*,!=3.1*,!=3.2*`; after: `>=2.7,!=3.0.*,!=3.1.*,!=3.2.*`)
+WARN Fixing invalid version specifier by inserting missing dot (before: `>=2.7,!=3.0*,!=3.1*,!=3.2*`; after: `>=2.7,!=3.0.*,!=3.1.*,!=3.2.*`)
+WARN Fixing invalid version specifier by inserting missing dot (before: `>=2.7,!=3.0*,!=3.1*,!=3.2*`; after: `>=2.7,!=3.0.*,!=3.1.*,!=3.2.*`)
+WARN Fixing invalid version specifier by inserting missing dot (before: `>=2.7,!=3.0*,!=3.1*,!=3.2*`; after: `>=2.7,!=3.0.*,!=3.1.*,!=3.2.*`)
+WARN Fixing invalid version specifier by inserting missing dot (before: `>=2.7,!=3.0*,!=3.1*,!=3.2*`; after: `>=2.7,!=3.0.*,!=3.1.*,!=3.2.*`)
+WARN Fixing invalid version specifier by inserting missing dot (before: `>=2.7,!=3.0*,!=3.1*,!=3.2*`; after: `>=2.7,!=3.0.*,!=3.1.*,!=3.2.*`)
+WARN Fixing invalid version specifier by inserting missing dot (before: `>=2.7,!=3.0*,!=3.1*,!=3.2*`; after: `>=2.7,!=3.0.*,!=3.1.*,!=3.2.*`)
+WARN Fixing invalid version specifier by inserting missing dot (before: `>=2.7,!=3.0*,!=3.1*,!=3.2*`; after: `>=2.7,!=3.0.*,!=3.1.*,!=3.2.*`)
+WARN Fixing invalid version specifier by inserting missing dot (before: `>=2.7,!=3.0*,!=3.1*,!=3.2*`; after: `>=2.7,!=3.0.*,!=3.1.*,!=3.2.*`)
+WARN Fixing invalid version specifier by inserting missing dot (before: `>=2.7,!=3.0*,!=3.1*,!=3.2*`; after: `>=2.7,!=3.0.*,!=3.1.*,!=3.2.*`)
+WARN Fixing invalid version specifier by inserting missing dot (before: `>=2.7,!=3.0*,!=3.1*,!=3.2*`; after: `>=2.7,!=3.0.*,!=3.1.*,!=3.2.*`)
+WARN Fixing invalid version specifier by inserting missing dot (before: `>=2.7,!=3.0*,!=3.1*,!=3.2*`; after: `>=2.7,!=3.0.*,!=3.1.*,!=3.2.*`)
+WARN Fixing invalid version specifier by inserting missing dot (before: `>=2.7,!=3.0*,!=3.1*,!=3.2*`; after: `>=2.7,!=3.0.*,!=3.1.*,!=3.2.*`)
+WARN Fixing invalid version specifier by inserting missing dot (before: `>=2.7,!=3.0*,!=3.1*,!=3.2*`; after: `>=2.7,!=3.0.*,!=3.1.*,!=3.2.*`)
+WARN Fixing invalid version specifier by inserting missing dot (before: `>=2.7,!=3.0*,!=3.1*,!=3.2*`; after: `>=2.7,!=3.0.*,!=3.1.*,!=3.2.*`)
+WARN Fixing invalid version specifier by inserting missing dot (before: `>=2.7,!=3.0*,!=3.1*,!=3.2*`; after: `>=2.7,!=3.0.*,!=3.1.*,!=3.2.*`)
+WARN Fixing invalid version specifier by inserting missing dot (before: `>=2.7,!=3.0*,!=3.1*,!=3.2*`; after: `>=2.7,!=3.0.*,!=3.1.*,!=3.2.*`)
+WARN Fixing invalid version specifier by inserting missing dot (before: `>=2.7,!=3.0*,!=3.1*,!=3.2*`; after: `>=2.7,!=3.0.*,!=3.1.*,!=3.2.*`)
+WARN Fixing invalid version specifier by inserting missing dot (before: `>=2.7,!=3.0*,!=3.1*,!=3.2*`; after: `>=2.7,!=3.0.*,!=3.1.*,!=3.2.*`)
+WARN Fixing invalid version specifier by inserting missing dot (before: `>=2.7,!=3.0*,!=3.1*,!=3.2*`; after: `>=2.7,!=3.0.*,!=3.1.*,!=3.2.*`)
+WARN Fixing invalid version specifier by inserting missing dot (before: `>=2.7,!=3.0*,!=3.1*,!=3.2*`; after: `>=2.7,!=3.0.*,!=3.1.*,!=3.2.*`)
+WARN Fixing invalid version specifier by inserting missing dot (before: `>=2.7,!=3.0*,!=3.1*,!=3.2*`; after: `>=2.7,!=3.0.*,!=3.1.*,!=3.2.*`)
+WARN Fixing invalid version specifier by inserting missing dot (before: `>=2.7,!=3.0*,!=3.1*,!=3.2*`; after: `>=2.7,!=3.0.*,!=3.1.*,!=3.2.*`)
+WARN Fixing invalid version specifier by inserting missing dot (before: `>=2.7,!=3.0*,!=3.1*,!=3.2*`; after: `>=2.7,!=3.0.*,!=3.1.*,!=3.2.*`)
+WARN Fixing invalid version specifier by inserting missing dot (before: `>=2.7,!=3.0*,!=3.1*,!=3.2*`; after: `>=2.7,!=3.0.*,!=3.1.*,!=3.2.*`)
+WARN Fixing invalid version specifier by inserting missing dot (before: `>=2.7,!=3.0*,!=3.1*,!=3.2*`; after: `>=2.7,!=3.0.*,!=3.1.*,!=3.2.*`)
+WARN Fixing invalid version specifier by inserting missing dot (before: `>=2.7,!=3.0*,!=3.1*,!=3.2*`; after: `>=2.7,!=3.0.*,!=3.1.*,!=3.2.*`)
+WARN Fixing invalid version specifier by inserting missing dot (before: `>=2.7,!=3.0*,!=3.1*,!=3.2*`; after: `>=2.7,!=3.0.*,!=3.1.*,!=3.2.*`)
+WARN Fixing invalid version specifier by inserting missing dot (before: `>=2.7,!=3.0*,!=3.1*,!=3.2*`; after: `>=2.7,!=3.0.*,!=3.1.*,!=3.2.*`)
+WARN Fixing invalid version specifier by inserting missing dot (before: `>=2.7,!=3.0*,!=3.1*,!=3.2*`; after: `>=2.7,!=3.0.*,!=3.1.*,!=3.2.*`)
+WARN Fixing invalid version specifier by inserting missing dot (before: `>=2.7,!=3.0*,!=3.1*,!=3.2*`; after: `>=2.7,!=3.0.*,!=3.1.*,!=3.2.*`)
+WARN Fixing invalid version specifier by inserting missing dot (before: `>=2.7,!=3.0*,!=3.1*,!=3.2*`; after: `>=2.7,!=3.0.*,!=3.1.*,!=3.2.*`)
+WARN Fixing invalid version specifier by inserting missing dot (before: `>=2.7,!=3.0*,!=3.1*,!=3.2*`; after: `>=2.7,!=3.0.*,!=3.1.*,!=3.2.*`)
+WARN Fixing invalid version specifier by inserting missing dot (before: `>=2.7,!=3.0*,!=3.1*,!=3.2*`; after: `>=2.7,!=3.0.*,!=3.1.*,!=3.2.*`)
+WARN Fixing invalid version specifier by inserting missing dot (before: `>=2.7,!=3.0*,!=3.1*,!=3.2*`; after: `>=2.7,!=3.0.*,!=3.1.*,!=3.2.*`)
+WARN Fixing invalid version specifier by inserting missing dot (before: `>=2.7,!=3.0*,!=3.1*,!=3.2*`; after: `>=2.7,!=3.0.*,!=3.1.*,!=3.2.*`)
+WARN Fixing invalid version specifier by inserting missing dot (before: `>=2.7,!=3.0*,!=3.1*,!=3.2*`; after: `>=2.7,!=3.0.*,!=3.1.*,!=3.2.*`)
+WARN Fixing invalid version specifier by inserting missing dot (before: `>=2.7,!=3.0*,!=3.1*,!=3.2*`; after: `>=2.7,!=3.0.*,!=3.1.*,!=3.2.*`)
+WARN Fixing invalid version specifier by inserting missing dot (before: `>=2.7,!=3.0*,!=3.1*,!=3.2*`; after: `>=2.7,!=3.0.*,!=3.1.*,!=3.2.*`)
+WARN Fixing invalid version specifier by inserting missing dot (before: `>=2.7,!=3.0*,!=3.1*,!=3.2*`; after: `>=2.7,!=3.0.*,!=3.1.*,!=3.2.*`)
+WARN Fixing invalid version specifier by inserting missing dot (before: `>=2.7,!=3.0*,!=3.1*,!=3.2*`; after: `>=2.7,!=3.0.*,!=3.1.*,!=3.2.*`)
+WARN Fixing invalid version specifier by inserting missing dot (before: `>=2.7,!=3.0*,!=3.1*,!=3.2*`; after: `>=2.7,!=3.0.*,!=3.1.*,!=3.2.*`)
+WARN Fixing invalid version specifier by inserting missing dot (before: `>=2.7,!=3.0*,!=3.1*,!=3.2*`; after: `>=2.7,!=3.0.*,!=3.1.*,!=3.2.*`)
+WARN Fixing invalid version specifier by inserting missing dot (before: `>=2.7,!=3.0*,!=3.1*,!=3.2*`; after: `>=2.7,!=3.0.*,!=3.1.*,!=3.2.*`)
+WARN Fixing invalid version specifier by inserting missing dot (before: `>=2.7,!=3.0*,!=3.1*,!=3.2*`; after: `>=2.7,!=3.0.*,!=3.1.*,!=3.2.*`)
+WARN Fixing invalid version specifier by inserting missing dot (before: `>=2.7,!=3.0*,!=3.1*,!=3.2*`; after: `>=2.7,!=3.0.*,!=3.1.*,!=3.2.*`)
+WARN Fixing invalid version specifier by inserting missing dot (before: `>=2.7,!=3.0*,!=3.1*,!=3.2*`; after: `>=2.7,!=3.0.*,!=3.1.*,!=3.2.*`)
+WARN Fixing invalid version specifier by inserting missing dot (before: `>=2.7,!=3.0*,!=3.1*,!=3.2*`; after: `>=2.7,!=3.0.*,!=3.1.*,!=3.2.*`)
+WARN Fixing invalid version specifier by inserting missing dot (before: `>=2.7,!=3.0*,!=3.1*,!=3.2*`; after: `>=2.7,!=3.0.*,!=3.1.*,!=3.2.*`)
+WARN Fixing invalid version specifier by inserting missing dot (before: `>=2.7,!=3.0*,!=3.1*,!=3.2*`; after: `>=2.7,!=3.0.*,!=3.1.*,!=3.2.*`)
+WARN Fixing invalid version specifier by inserting missing dot (before: `>=2.7,!=3.0*,!=3.1*,!=3.2*`; after: `>=2.7,!=3.0.*,!=3.1.*,!=3.2.*`)
+WARN Fixing invalid version specifier by inserting missing dot (before: `>=2.7,!=3.0*,!=3.1*,!=3.2*`; after: `>=2.7,!=3.0.*,!=3.1.*,!=3.2.*`)
+WARN Fixing invalid version specifier by inserting missing dot (before: `>=2.7,!=3.0*,!=3.1*,!=3.2*`; after: `>=2.7,!=3.0.*,!=3.1.*,!=3.2.*`)
+WARN Fixing invalid version specifier by inserting missing dot (before: `>=2.7,!=3.0*,!=3.1*,!=3.2*`; after: `>=2.7,!=3.0.*,!=3.1.*,!=3.2.*`)
+WARN Fixing invalid version specifier by inserting missing dot (before: `>=2.7,!=3.0*,!=3.1*,!=3.2*`; after: `>=2.7,!=3.0.*,!=3.1.*,!=3.2.*`)
+WARN Fixing invalid version specifier by inserting missing dot (before: `>=2.7,!=3.0*,!=3.1*,!=3.2*`; after: `>=2.7,!=3.0.*,!=3.1.*,!=3.2.*`)
+WARN Fixing invalid version specifier by inserting missing dot (before: `>=2.7,!=3.0*,!=3.1*,!=3.2*`; after: `>=2.7,!=3.0.*,!=3.1.*,!=3.2.*`)
+WARN Fixing invalid version specifier by inserting missing dot (before: `>=2.7,!=3.0*,!=3.1*,!=3.2*`; after: `>=2.7,!=3.0.*,!=3.1.*,!=3.2.*`)
+WARN Fixing invalid version specifier by inserting missing dot (before: `>=2.7,!=3.0*,!=3.1*,!=3.2*`; after: `>=2.7,!=3.0.*,!=3.1.*,!=3.2.*`)
+WARN Fixing invalid version specifier by inserting missing dot (before: `>=2.7,!=3.0*,!=3.1*,!=3.2*`; after: `>=2.7,!=3.0.*,!=3.1.*,!=3.2.*`)
+WARN Fixing invalid version specifier by inserting missing dot (before: `>=2.7,!=3.0*,!=3.1*,!=3.2*`; after: `>=2.7,!=3.0.*,!=3.1.*,!=3.2.*`)
+WARN Fixing invalid version specifier by inserting missing dot (before: `>=2.7,!=3.0*,!=3.1*,!=3.2*`; after: `>=2.7,!=3.0.*,!=3.1.*,!=3.2.*`)
+WARN Fixing invalid version specifier by inserting missing dot (before: `>=2.7,!=3.0*,!=3.1*,!=3.2*`; after: `>=2.7,!=3.0.*,!=3.1.*,!=3.2.*`)
+WARN Fixing invalid version specifier by inserting missing dot (before: `>=2.7,!=3.0*,!=3.1*,!=3.2*`; after: `>=2.7,!=3.0.*,!=3.1.*,!=3.2.*`)
+WARN Fixing invalid version specifier by inserting missing dot (before: `>=2.7,!=3.0*,!=3.1*,!=3.2*`; after: `>=2.7,!=3.0.*,!=3.1.*,!=3.2.*`)
+WARN Fixing invalid version specifier by inserting missing dot (before: `>=2.7,!=3.0*,!=3.1*,!=3.2*`; after: `>=2.7,!=3.0.*,!=3.1.*,!=3.2.*`)
+WARN Fixing invalid version specifier by inserting missing dot (before: `>=2.7,!=3.0*,!=3.1*,!=3.2*`; after: `>=2.7,!=3.0.*,!=3.1.*,!=3.2.*`)
+WARN Fixing invalid version specifier by inserting missing dot (before: `>=2.7,!=3.0*,!=3.1*,!=3.2*`; after: `>=2.7,!=3.0.*,!=3.1.*,!=3.2.*`)
+WARN Fixing invalid version specifier by inserting missing dot (before: `>=2.7,!=3.0*,!=3.1*,!=3.2*`; after: `>=2.7,!=3.0.*,!=3.1.*,!=3.2.*`)
+WARN Fixing invalid version specifier by inserting missing dot (before: `>=2.7,!=3.0*,!=3.1*,!=3.2*`; after: `>=2.7,!=3.0.*,!=3.1.*,!=3.2.*`)
+WARN Fixing invalid version specifier by inserting missing dot (before: `>=2.7,!=3.0*,!=3.1*,!=3.2*`; after: `>=2.7,!=3.0.*,!=3.1.*,!=3.2.*`)
+WARN Fixing invalid version specifier by inserting missing dot (before: `>=2.7,!=3.0*,!=3.1*,!=3.2*`; after: `>=2.7,!=3.0.*,!=3.1.*,!=3.2.*`)
+WARN Fixing invalid version specifier by inserting missing dot (before: `>=2.7,!=3.0*,!=3.1*,!=3.2*`; after: `>=2.7,!=3.0.*,!=3.1.*,!=3.2.*`)
+WARN Fixing invalid version specifier by inserting missing dot (before: `>=2.7,!=3.0*,!=3.1*,!=3.2*`; after: `>=2.7,!=3.0.*,!=3.1.*,!=3.2.*`)
+WARN Fixing invalid version specifier by inserting missing dot (before: `>=2.7,!=3.0*,!=3.1*,!=3.2*`; after: `>=2.7,!=3.0.*,!=3.1.*,!=3.2.*`)
+WARN Fixing invalid version specifier by inserting missing dot (before: `>=2.7,!=3.0*,!=3.1*,!=3.2*`; after: `>=2.7,!=3.0.*,!=3.1.*,!=3.2.*`)
+WARN Fixing invalid version specifier by inserting missing dot (before: `>=2.7,!=3.0*,!=3.1*,!=3.2*`; after: `>=2.7,!=3.0.*,!=3.1.*,!=3.2.*`)
+WARN Fixing invalid version specifier by inserting missing dot (before: `>=2.7,!=3.0*,!=3.1*,!=3.2*`; after: `>=2.7,!=3.0.*,!=3.1.*,!=3.2.*`)
+WARN Fixing invalid version specifier by inserting missing dot (before: `>=2.7,!=3.0*,!=3.1*,!=3.2*`; after: `>=2.7,!=3.0.*,!=3.1.*,!=3.2.*`)
+WARN Fixing invalid version specifier by inserting missing dot (before: `>=2.7,!=3.0*,!=3.1*,!=3.2*`; after: `>=2.7,!=3.0.*,!=3.1.*,!=3.2.*`)
+WARN Fixing invalid version specifier by inserting missing dot (before: `>=2.7,!=3.0*,!=3.1*,!=3.2*`; after: `>=2.7,!=3.0.*,!=3.1.*,!=3.2.*`)
+WARN Fixing invalid version specifier by inserting missing dot (before: `>=2.7,!=3.0*,!=3.1*,!=3.2*`; after: `>=2.7,!=3.0.*,!=3.1.*,!=3.2.*`)
+WARN Fixing invalid version specifier by inserting missing dot (before: `>=2.7,!=3.0*,!=3.1*,!=3.2*`; after: `>=2.7,!=3.0.*,!=3.1.*,!=3.2.*`)
+WARN Fixing invalid version specifier by inserting missing dot (before: `>=2.7,!=3.0*,!=3.1*,!=3.2*`; after: `>=2.7,!=3.0.*,!=3.1.*,!=3.2.*`)
+WARN Fixing invalid version specifier by inserting missing dot (before: `>=2.7,!=3.0*,!=3.1*,!=3.2*`; after: `>=2.7,!=3.0.*,!=3.1.*,!=3.2.*`)
+WARN Fixing invalid version specifier by inserting missing dot (before: `>=2.7,!=3.0*,!=3.1*,!=3.2*`; after: `>=2.7,!=3.0.*,!=3.1.*,!=3.2.*`)
+WARN Fixing invalid version specifier by inserting missing dot (before: `>=2.7,!=3.0*,!=3.1*,!=3.2*`; after: `>=2.7,!=3.0.*,!=3.1.*,!=3.2.*`)
+WARN Fixing invalid version specifier by inserting missing dot (before: `>=2.7,!=3.0*,!=3.1*,!=3.2*`; after: `>=2.7,!=3.0.*,!=3.1.*,!=3.2.*`)
+WARN Fixing invalid version specifier by inserting missing dot (before: `>=2.7,!=3.0*,!=3.1*,!=3.2*`; after: `>=2.7,!=3.0.*,!=3.1.*,!=3.2.*`)
+WARN Fixing invalid version specifier by inserting missing dot (before: `>=2.7,!=3.0*,!=3.1*,!=3.2*`; after: `>=2.7,!=3.0.*,!=3.1.*,!=3.2.*`)
+WARN Fixing invalid version specifier by inserting missing dot (before: `>=2.7,!=3.0*,!=3.1*,!=3.2*`; after: `>=2.7,!=3.0.*,!=3.1.*,!=3.2.*`)
+WARN Fixing invalid version specifier by inserting missing dot (before: `>=2.7,!=3.0*,!=3.1*,!=3.2*`; after: `>=2.7,!=3.0.*,!=3.1.*,!=3.2.*`)
+WARN Fixing invalid version specifier by inserting missing dot (before: `>=2.7,!=3.0*,!=3.1*,!=3.2*`; after: `>=2.7,!=3.0.*,!=3.1.*,!=3.2.*`)
+WARN Fixing invalid version specifier by inserting missing dot (before: `>=2.7,!=3.0*,!=3.1*,!=3.2*`; after: `>=2.7,!=3.0.*,!=3.1.*,!=3.2.*`)
+WARN Fixing invalid version specifier by inserting missing dot (before: `>=2.7,!=3.0*,!=3.1*,!=3.2*`; after: `>=2.7,!=3.0.*,!=3.1.*,!=3.2.*`)
+WARN Fixing invalid version specifier by inserting missing dot (before: `>=2.7,!=3.0*,!=3.1*,!=3.2*`; after: `>=2.7,!=3.0.*,!=3.1.*,!=3.2.*`)
+WARN Fixing invalid version specifier by inserting missing dot (before: `>=2.7,!=3.0*,!=3.1*,!=3.2*`; after: `>=2.7,!=3.0.*,!=3.1.*,!=3.2.*`)
+WARN Fixing invalid version specifier by inserting missing dot (before: `>=2.7,!=3.0*,!=3.1*,!=3.2*`; after: `>=2.7,!=3.0.*,!=3.1.*,!=3.2.*`)
+WARN Fixing invalid version specifier by inserting missing dot (before: `>=2.7,!=3.0*,!=3.1*,!=3.2*`; after: `>=2.7,!=3.0.*,!=3.1.*,!=3.2.*`)
+WARN Fixing invalid version specifier by inserting missing dot (before: `>=2.7,!=3.0*,!=3.1*,!=3.2*`; after: `>=2.7,!=3.0.*,!=3.1.*,!=3.2.*`)
+WARN Fixing invalid version specifier by inserting missing dot (before: `>=2.7,!=3.0*,!=3.1*,!=3.2*`; after: `>=2.7,!=3.0.*,!=3.1.*,!=3.2.*`)
+WARN Fixing invalid version specifier by inserting missing dot (before: `>=2.7,!=3.0*,!=3.1*,!=3.2*`; after: `>=2.7,!=3.0.*,!=3.1.*,!=3.2.*`)
+WARN Fixing invalid version specifier by inserting missing dot (before: `>=2.7,!=3.0*,!=3.1*,!=3.2*`; after: `>=2.7,!=3.0.*,!=3.1.*,!=3.2.*`)
+WARN Fixing invalid version specifier by inserting missing dot (before: `>=2.7,!=3.0*,!=3.1*,!=3.2*`; after: `>=2.7,!=3.0.*,!=3.1.*,!=3.2.*`)
+WARN Fixing invalid version specifier by inserting missing dot (before: `>=2.7,!=3.0*,!=3.1*,!=3.2*`; after: `>=2.7,!=3.0.*,!=3.1.*,!=3.2.*`)
+WARN Fixing invalid version specifier by inserting missing dot (before: `>=2.7,!=3.0*,!=3.1*,!=3.2*`; after: `>=2.7,!=3.0.*,!=3.1.*,!=3.2.*`)
+WARN Fixing invalid version specifier by inserting missing dot (before: `>=2.7,!=3.0*,!=3.1*,!=3.2*`; after: `>=2.7,!=3.0.*,!=3.1.*,!=3.2.*`)
+WARN Fixing invalid version specifier by inserting missing dot (before: `>=2.7,!=3.0*,!=3.1*,!=3.2*`; after: `>=2.7,!=3.0.*,!=3.1.*,!=3.2.*`)
+WARN Fixing invalid version specifier by inserting missing dot (before: `>=2.7,!=3.0*,!=3.1*,!=3.2*`; after: `>=2.7,!=3.0.*,!=3.1.*,!=3.2.*`)
+WARN Fixing invalid version specifier by inserting missing dot (before: `>=2.7,!=3.0*,!=3.1*,!=3.2*`; after: `>=2.7,!=3.0.*,!=3.1.*,!=3.2.*`)
+WARN Fixing invalid version specifier by inserting missing dot (before: `>=2.7,!=3.0*,!=3.1*,!=3.2*`; after: `>=2.7,!=3.0.*,!=3.1.*,!=3.2.*`)
+WARN Fixing invalid version specifier by inserting missing dot (before: `>=2.7,!=3.0*,!=3.1*,!=3.2*`; after: `>=2.7,!=3.0.*,!=3.1.*,!=3.2.*`)
+WARN Fixing invalid version specifier by inserting missing dot (before: `>=2.7,!=3.0*,!=3.1*,!=3.2*`; after: `>=2.7,!=3.0.*,!=3.1.*,!=3.2.*`)
+WARN Fixing invalid version specifier by inserting missing dot (before: `>=2.7,!=3.0*,!=3.1*,!=3.2*`; after: `>=2.7,!=3.0.*,!=3.1.*,!=3.2.*`)
+WARN Fixing invalid version specifier by inserting missing dot (before: `>=2.7,!=3.0*,!=3.1*,!=3.2*`; after: `>=2.7,!=3.0.*,!=3.1.*,!=3.2.*`)
+WARN Fixing invalid version specifier by inserting missing dot (before: `>=2.7,!=3.0*,!=3.1*,!=3.2*`; after: `>=2.7,!=3.0.*,!=3.1.*,!=3.2.*`)
+WARN Fixing invalid version specifier by inserting missing dot (before: `>=2.7,!=3.0*,!=3.1*,!=3.2*`; after: `>=2.7,!=3.0.*,!=3.1.*,!=3.2.*`)
+WARN Fixing invalid version specifier by inserting missing dot (before: `>=2.7,!=3.0*,!=3.1*,!=3.2*`; after: `>=2.7,!=3.0.*,!=3.1.*,!=3.2.*`)
+WARN Fixing invalid version specifier by inserting missing dot (before: `>=2.7,!=3.0*,!=3.1*,!=3.2*`; after: `>=2.7,!=3.0.*,!=3.1.*,!=3.2.*`)
+WARN Fixing invalid version specifier by inserting missing dot (before: `>=2.7,!=3.0*,!=3.1*,!=3.2*`; after: `>=2.7,!=3.0.*,!=3.1.*,!=3.2.*`)
+WARN Fixing invalid version specifier by inserting missing dot (before: `>=2.7,!=3.0*,!=3.1*,!=3.2*`; after: `>=2.7,!=3.0.*,!=3.1.*,!=3.2.*`)
+WARN Fixing invalid version specifier by inserting missing dot (before: `>=2.7,!=3.0*,!=3.1*,!=3.2*`; after: `>=2.7,!=3.0.*,!=3.1.*,!=3.2.*`)
+WARN Fixing invalid version specifier by inserting missing dot (before: `>=2.7,!=3.0*,!=3.1*,!=3.2*`; after: `>=2.7,!=3.0.*,!=3.1.*,!=3.2.*`)
+WARN Fixing invalid version specifier by inserting missing dot (before: `>=2.7,!=3.0*,!=3.1*,!=3.2*`; after: `>=2.7,!=3.0.*,!=3.1.*,!=3.2.*`)
+WARN Fixing invalid version specifier by inserting missing dot (before: `>=2.7,!=3.0*,!=3.1*,!=3.2*`; after: `>=2.7,!=3.0.*,!=3.1.*,!=3.2.*`)
+WARN Fixing invalid version specifier by inserting missing dot (before: `>=2.7,!=3.0*,!=3.1*,!=3.2*`; after: `>=2.7,!=3.0.*,!=3.1.*,!=3.2.*`)
+WARN Fixing invalid version specifier by inserting missing dot (before: `>=2.7,!=3.0*,!=3.1*,!=3.2*`; after: `>=2.7,!=3.0.*,!=3.1.*,!=3.2.*`)
+WARN Fixing invalid version specifier by inserting missing dot (before: `>=2.7,!=3.0*,!=3.1*,!=3.2*`; after: `>=2.7,!=3.0.*,!=3.1.*,!=3.2.*`)
+WARN Fixing invalid version specifier by inserting missing dot (before: `>=2.7,!=3.0*,!=3.1*,!=3.2*`; after: `>=2.7,!=3.0.*,!=3.1.*,!=3.2.*`)
+WARN Fixing invalid version specifier by inserting missing dot (before: `>=2.7,!=3.0*,!=3.1*,!=3.2*`; after: `>=2.7,!=3.0.*,!=3.1.*,!=3.2.*`)
+WARN Fixing invalid version specifier by inserting missing dot (before: `>=2.7,!=3.0*,!=3.1*,!=3.2*`; after: `>=2.7,!=3.0.*,!=3.1.*,!=3.2.*`)
+WARN Fixing invalid version specifier by inserting missing dot (before: `>=2.7,!=3.0*,!=3.1*,!=3.2*`; after: `>=2.7,!=3.0.*,!=3.1.*,!=3.2.*`)
+WARN Fixing invalid version specifier by inserting missing dot (before: `>=2.7,!=3.0*,!=3.1*,!=3.2*`; after: `>=2.7,!=3.0.*,!=3.1.*,!=3.2.*`)
+WARN Fixing invalid version specifier by inserting missing dot (before: `>=2.7,!=3.0*,!=3.1*,!=3.2*`; after: `>=2.7,!=3.0.*,!=3.1.*,!=3.2.*`)
+WARN Fixing invalid version specifier by inserting missing dot (before: `>=2.7,!=3.0*,!=3.1*,!=3.2*`; after: `>=2.7,!=3.0.*,!=3.1.*,!=3.2.*`)
+WARN Fixing invalid version specifier by inserting missing dot (before: `>=2.7,!=3.0*,!=3.1*,!=3.2*`; after: `>=2.7,!=3.0.*,!=3.1.*,!=3.2.*`)
+WARN Fixing invalid version specifier by inserting missing dot (before: `>=2.7,!=3.0*,!=3.1*,!=3.2*`; after: `>=2.7,!=3.0.*,!=3.1.*,!=3.2.*`)
+WARN Fixing invalid version specifier by inserting missing dot (before: `>=2.7,!=3.0*,!=3.1*,!=3.2*`; after: `>=2.7,!=3.0.*,!=3.1.*,!=3.2.*`)
+WARN Fixing invalid version specifier by inserting missing dot (before: `>=2.7,!=3.0*,!=3.1*,!=3.2*`; after: `>=2.7,!=3.0.*,!=3.1.*,!=3.2.*`)
+WARN Fixing invalid version specifier by inserting missing dot (before: `>=2.7,!=3.0*,!=3.1*,!=3.2*`; after: `>=2.7,!=3.0.*,!=3.1.*,!=3.2.*`)
+WARN Fixing invalid version specifier by inserting missing dot (before: `>=2.7,!=3.0*,!=3.1*,!=3.2*`; after: `>=2.7,!=3.0.*,!=3.1.*,!=3.2.*`)
+WARN Fixing invalid version specifier by inserting missing dot (before: `>=2.7,!=3.0*,!=3.1*,!=3.2*`; after: `>=2.7,!=3.0.*,!=3.1.*,!=3.2.*`)
+WARN Fixing invalid version specifier by inserting missing dot (before: `>=2.7,!=3.0*,!=3.1*,!=3.2*`; after: `>=2.7,!=3.0.*,!=3.1.*,!=3.2.*`)
+WARN Fixing invalid version specifier by inserting missing dot (before: `>=2.7,!=3.0*,!=3.1*,!=3.2*`; after: `>=2.7,!=3.0.*,!=3.1.*,!=3.2.*`)
+WARN Fixing invalid version specifier by inserting missing dot (before: `>=2.7,!=3.0*,!=3.1*,!=3.2*`; after: `>=2.7,!=3.0.*,!=3.1.*,!=3.2.*`)
+WARN Fixing invalid version specifier by inserting missing dot (before: `>=2.7,!=3.0*,!=3.1*,!=3.2*`; after: `>=2.7,!=3.0.*,!=3.1.*,!=3.2.*`)
+WARN Fixing invalid version specifier by inserting missing dot (before: `>=2.7,!=3.0*,!=3.1*,!=3.2*`; after: `>=2.7,!=3.0.*,!=3.1.*,!=3.2.*`)
+WARN Fixing invalid version specifier by inserting missing dot (before: `>=2.7,!=3.0*,!=3.1*,!=3.2*`; after: `>=2.7,!=3.0.*,!=3.1.*,!=3.2.*`)
+WARN Fixing invalid version specifier by inserting missing dot (before: `>=2.7,!=3.0*,!=3.1*,!=3.2*`; after: `>=2.7,!=3.0.*,!=3.1.*,!=3.2.*`)
+WARN Fixing invalid version specifier by inserting missing dot (before: `>=2.7,!=3.0*,!=3.1*,!=3.2*`; after: `>=2.7,!=3.0.*,!=3.1.*,!=3.2.*`)
+WARN Fixing invalid version specifier by inserting missing dot (before: `>=2.7,!=3.0*,!=3.1*,!=3.2*`; after: `>=2.7,!=3.0.*,!=3.1.*,!=3.2.*`)
+WARN Fixing invalid version specifier by inserting missing dot (before: `>=2.7,!=3.0*,!=3.1*,!=3.2*`; after: `>=2.7,!=3.0.*,!=3.1.*,!=3.2.*`)
+WARN Fixing invalid version specifier by inserting missing dot (before: `>=2.7,!=3.0*,!=3.1*,!=3.2*`; after: `>=2.7,!=3.0.*,!=3.1.*,!=3.2.*`)
+WARN Fixing invalid version specifier by inserting missing dot (before: `>=2.7,!=3.0*,!=3.1*,!=3.2*`; after: `>=2.7,!=3.0.*,!=3.1.*,!=3.2.*`)
+WARN Fixing invalid version specifier by inserting missing dot (before: `>=2.7,!=3.0*,!=3.1*,!=3.2*`; after: `>=2.7,!=3.0.*,!=3.1.*,!=3.2.*`)
+WARN Fixing invalid version specifier by inserting missing dot (before: `>=2.7,!=3.0*,!=3.1*,!=3.2*`; after: `>=2.7,!=3.0.*,!=3.1.*,!=3.2.*`)
+WARN Fixing invalid version specifier by inserting missing dot (before: `>=2.7,!=3.0*,!=3.1*,!=3.2*`; after: `>=2.7,!=3.0.*,!=3.1.*,!=3.2.*`)
+WARN Fixing invalid version specifier by inserting missing dot (before: `>=2.7,!=3.0*,!=3.1*,!=3.2*`; after: `>=2.7,!=3.0.*,!=3.1.*,!=3.2.*`)
+WARN Fixing invalid version specifier by inserting missing dot (before: `>=2.7,!=3.0*,!=3.1*,!=3.2*`; after: `>=2.7,!=3.0.*,!=3.1.*,!=3.2.*`)
+WARN Fixing invalid version specifier by inserting missing dot (before: `>=2.7,!=3.0*,!=3.1*,!=3.2*`; after: `>=2.7,!=3.0.*,!=3.1.*,!=3.2.*`)
+WARN Fixing invalid version specifier by inserting missing dot (before: `>=2.7,!=3.0*,!=3.1*,!=3.2*`; after: `>=2.7,!=3.0.*,!=3.1.*,!=3.2.*`)
+WARN Fixing invalid version specifier by inserting missing dot (before: `>=2.7,!=3.0*,!=3.1*,!=3.2*`; after: `>=2.7,!=3.0.*,!=3.1.*,!=3.2.*`)
+WARN Fixing invalid version specifier by inserting missing dot (before: `>=2.7,!=3.0*,!=3.1*,!=3.2*`; after: `>=2.7,!=3.0.*,!=3.1.*,!=3.2.*`)
+WARN Fixing invalid version specifier by inserting missing dot (before: `>=2.7,!=3.0*,!=3.1*,!=3.2*`; after: `>=2.7,!=3.0.*,!=3.1.*,!=3.2.*`)
+WARN Fixing invalid version specifier by inserting missing dot (before: `>=2.7,!=3.0*,!=3.1*,!=3.2*`; after: `>=2.7,!=3.0.*,!=3.1.*,!=3.2.*`)
+WARN Fixing invalid version specifier by inserting missing dot (before: `>=2.7,!=3.0*,!=3.1*,!=3.2*`; after: `>=2.7,!=3.0.*,!=3.1.*,!=3.2.*`)
+WARN Fixing invalid version specifier by inserting missing dot (before: `>=2.7,!=3.0*,!=3.1*,!=3.2*`; after: `>=2.7,!=3.0.*,!=3.1.*,!=3.2.*`)
+WARN Fixing invalid version specifier by inserting missing dot (before: `>=2.7,!=3.0*,!=3.1*,!=3.2*`; after: `>=2.7,!=3.0.*,!=3.1.*,!=3.2.*`)
+WARN Fixing invalid version specifier by inserting missing dot (before: `>=2.7,!=3.0*,!=3.1*,!=3.2*`; after: `>=2.7,!=3.0.*,!=3.1.*,!=3.2.*`)
+WARN Fixing invalid version specifier by inserting missing dot (before: `>=2.7,!=3.0*,!=3.1*,!=3.2*`; after: `>=2.7,!=3.0.*,!=3.1.*,!=3.2.*`)
+WARN Fixing invalid version specifier by inserting missing dot (before: `>=2.7,!=3.0*,!=3.1*,!=3.2*`; after: `>=2.7,!=3.0.*,!=3.1.*,!=3.2.*`)
+WARN Fixing invalid version specifier by inserting missing dot (before: `>=2.7,!=3.0*,!=3.1*,!=3.2*`; after: `>=2.7,!=3.0.*,!=3.1.*,!=3.2.*`)
+WARN Fixing invalid version specifier by inserting missing dot (before: `>=2.7,!=3.0*,!=3.1*,!=3.2*`; after: `>=2.7,!=3.0.*,!=3.1.*,!=3.2.*`)
+WARN Fixing invalid version specifier by inserting missing dot (before: `>=2.7,!=3.0*,!=3.1*,!=3.2*`; after: `>=2.7,!=3.0.*,!=3.1.*,!=3.2.*`)
+WARN Fixing invalid version specifier by inserting missing dot (before: `>=2.7,!=3.0*,!=3.1*,!=3.2*`; after: `>=2.7,!=3.0.*,!=3.1.*,!=3.2.*`)
+WARN Fixing invalid version specifier by inserting missing dot (before: `>=2.7,!=3.0*,!=3.1*,!=3.2*`; after: `>=2.7,!=3.0.*,!=3.1.*,!=3.2.*`)
+WARN Fixing invalid version specifier by inserting missing dot (before: `>=2.7,!=3.0*,!=3.1*,!=3.2*`; after: `>=2.7,!=3.0.*,!=3.1.*,!=3.2.*`)
+WARN Fixing invalid version specifier by inserting missing dot (before: `>=2.7,!=3.0*,!=3.1*,!=3.2*`; after: `>=2.7,!=3.0.*,!=3.1.*,!=3.2.*`)
+WARN Fixing invalid version specifier by inserting missing dot (before: `>=2.7,!=3.0*,!=3.1*,!=3.2*`; after: `>=2.7,!=3.0.*,!=3.1.*,!=3.2.*`)
+WARN Fixing invalid version specifier by inserting missing dot (before: `>=2.7,!=3.0*,!=3.1*,!=3.2*`; after: `>=2.7,!=3.0.*,!=3.1.*,!=3.2.*`)
+WARN Fixing invalid version specifier by inserting missing dot (before: `>=2.7,!=3.0*,!=3.1*,!=3.2*`; after: `>=2.7,!=3.0.*,!=3.1.*,!=3.2.*`)
+WARN Fixing invalid version specifier by inserting missing dot (before: `>=2.7,!=3.0*,!=3.1*,!=3.2*`; after: `>=2.7,!=3.0.*,!=3.1.*,!=3.2.*`)
+WARN Fixing invalid version specifier by inserting missing dot (before: `>=2.7,!=3.0*,!=3.1*,!=3.2*`; after: `>=2.7,!=3.0.*,!=3.1.*,!=3.2.*`)
+WARN Fixing invalid version specifier by inserting missing dot (before: `>=2.7,!=3.0*,!=3.1*,!=3.2*`; after: `>=2.7,!=3.0.*,!=3.1.*,!=3.2.*`)
+WARN Fixing invalid version specifier by inserting missing dot (before: `>=2.7,!=3.0*,!=3.1*,!=3.2*`; after: `>=2.7,!=3.0.*,!=3.1.*,!=3.2.*`)
+WARN Skipping file for pyzmq: pyzmq-13.0.0-py2.7-macosx-10.6-intel.egg
+WARN Skipping file for pyzmq: pyzmq-13.0.0-py2.7-win-amd64.egg
+WARN Skipping file for pyzmq: pyzmq-13.0.0-py2.7-win32.egg
+WARN Skipping file for pyzmq: pyzmq-13.0.0-py3.3-macosx-10.6-intel.egg
+WARN Skipping file for pyzmq: pyzmq-13.0.0-py3.3-win-amd64.egg
+WARN Skipping file for pyzmq: pyzmq-13.0.0-py3.3-win32.egg
+WARN Skipping file for pyzmq: pyzmq-13.0.0.win-amd64-py2.7.msi
+WARN Skipping file for pyzmq: pyzmq-13.0.0.win-amd64-py3.3.msi
+WARN Skipping file for pyzmq: pyzmq-13.0.0.win32-py2.7.msi
+WARN Skipping file for pyzmq: pyzmq-13.0.0.win32-py3.3.msi
+WARN Skipping file for pyzmq: pyzmq-13.0.1-py2.7-macosx-10.8-intel.egg
+WARN Skipping file for pyzmq: pyzmq-13.0.1-py3.3-macosx-10.6-intel.egg
+WARN Skipping file for pyzmq: pyzmq-13.0.2-py2.7-macosx-10.8-intel.egg
+WARN Skipping file for pyzmq: pyzmq-13.0.2-py2.7-win-amd64.egg
+WARN Skipping file for pyzmq: pyzmq-13.0.2-py2.7-win32.egg
+WARN Skipping file for pyzmq: pyzmq-13.0.2-py3.3-macosx-10.6-intel.egg
+WARN Skipping file for pyzmq: pyzmq-13.0.2-py3.3-win-amd64.egg
+WARN Skipping file for pyzmq: pyzmq-13.0.2-py3.3-win32.egg
+WARN Skipping file for pyzmq: pyzmq-13.1.0-py2.7-macosx-10.6-intel.egg
+WARN Skipping file for pyzmq: pyzmq-13.1.0-py2.7-win-amd64.egg
+WARN Skipping file for pyzmq: pyzmq-13.1.0-py2.7-win32.egg
+WARN Skipping file for pyzmq: pyzmq-13.1.0-py3.3-macosx-10.6-intel.egg
+WARN Skipping file for pyzmq: pyzmq-13.1.0-py3.3-win-amd64.egg
+WARN Skipping file for pyzmq: pyzmq-13.1.0-py3.3-win32.egg
+WARN Skipping file for pyzmq: pyzmq-14.0.0-py2.7-macosx-10.6-intel.egg
+WARN Skipping file for pyzmq: pyzmq-14.0.0-py2.7-win-amd64.egg
+WARN Skipping file for pyzmq: pyzmq-14.0.0-py2.7-win32.egg
+WARN Skipping file for pyzmq: pyzmq-14.0.0-py3.3-macosx-10.6-intel.egg
+WARN Skipping file for pyzmq: pyzmq-14.0.0-py3.3-win-amd64.egg
+WARN Skipping file for pyzmq: pyzmq-14.0.0-py3.3-win32.egg
+WARN Skipping file for pyzmq: pyzmq-14.0.1-py2.7-macosx-10.6-intel.egg
+WARN Skipping file for pyzmq: pyzmq-14.0.1-py2.7-win-amd64.egg
+WARN Skipping file for pyzmq: pyzmq-14.0.1-py2.7-win32.egg
+WARN Skipping file for pyzmq: pyzmq-14.0.1-py3.3-macosx-10.6-intel.egg
+WARN Skipping file for pyzmq: pyzmq-14.0.1-py3.3-win-amd64.egg
+WARN Skipping file for pyzmq: pyzmq-14.0.1-py3.3-win32.egg
+WARN Skipping file for pyzmq: pyzmq-14.1.0-py2.7-macosx-10.6-intel.egg
+WARN Skipping file for pyzmq: pyzmq-14.1.0-py2.7-win-amd64.egg
+WARN Skipping file for pyzmq: pyzmq-14.1.0-py2.7-win32.egg
+WARN Skipping file for pyzmq: pyzmq-14.1.0-py3.3-macosx-10.6-intel.egg
+WARN Skipping file for pyzmq: pyzmq-14.1.0-py3.3-win-amd64.egg
+WARN Skipping file for pyzmq: pyzmq-14.1.0-py3.3-win32.egg
+WARN Skipping file for pyzmq: pyzmq-14.1.1-py2.7-macosx-10.6-intel.egg
+WARN Skipping file for pyzmq: pyzmq-14.1.1-py2.7-win-amd64.egg
+WARN Skipping file for pyzmq: pyzmq-14.1.1-py2.7-win32.egg
+WARN Skipping file for pyzmq: pyzmq-14.1.1-py3.3-macosx-10.6-intel.egg
+WARN Skipping file for pyzmq: pyzmq-14.1.1-py3.3-win-amd64.egg
+WARN Skipping file for pyzmq: pyzmq-14.1.1-py3.3-win32.egg
+WARN Skipping file for pyzmq: pyzmq-14.2.0-py2.7-macosx-10.6-intel.egg
+WARN Skipping file for pyzmq: pyzmq-14.2.0-py2.7-win-amd64.egg
+WARN Skipping file for pyzmq: pyzmq-14.2.0-py2.7-win32.egg
+WARN Skipping file for pyzmq: pyzmq-14.2.0-py3.3-macosx-10.6-intel.egg
+WARN Skipping file for pyzmq: pyzmq-14.2.0-py3.3-win-amd64.egg
+WARN Skipping file for pyzmq: pyzmq-14.2.0-py3.3-win32.egg
+WARN Skipping file for pyzmq: pyzmq-14.3.0-py2.7-macosx-10.6-intel.egg
+WARN Skipping file for pyzmq: pyzmq-14.3.0-py2.7-win-amd64.egg
+WARN Skipping file for pyzmq: pyzmq-14.3.0-py2.7-win32.egg
+WARN Skipping file for pyzmq: pyzmq-14.3.0-py3.3-macosx-10.6-intel.egg
+WARN Skipping file for pyzmq: pyzmq-14.3.0-py3.3-win-amd64.egg
+WARN Skipping file for pyzmq: pyzmq-14.3.0-py3.3-win32.egg
+WARN Skipping file for pyzmq: pyzmq-14.3.1-py2.7-macosx-10.6-intel.egg
+WARN Skipping file for pyzmq: pyzmq-14.3.1-py2.7-win-amd64.egg
+WARN Skipping file for pyzmq: pyzmq-14.3.1-py2.7-win32.egg
+WARN Skipping file for pyzmq: pyzmq-14.3.1-py3.3-macosx-10.6-intel.egg
+WARN Skipping file for pyzmq: pyzmq-14.3.1-py3.3-win-amd64.egg
+WARN Skipping file for pyzmq: pyzmq-14.3.1-py3.3-win32.egg
+WARN Skipping file for pyzmq: pyzmq-14.4.0-py2.7-macosx-10.6-intel.egg
+WARN Skipping file for pyzmq: pyzmq-14.4.0-py2.7-win-amd64.egg
+WARN Skipping file for pyzmq: pyzmq-14.4.0-py2.7-win32.egg
+WARN Skipping file for pyzmq: pyzmq-14.4.1-py2.7-macosx-10.6-intel.egg
+WARN Skipping file for pyzmq: pyzmq-14.4.1-py2.7-win-amd64.egg
+WARN Skipping file for pyzmq: pyzmq-14.4.1-py2.7-win32.egg
+WARN Skipping file for pyzmq: pyzmq-14.5.0-py2.7-macosx-10.6-intel.egg
+WARN Skipping file for pyzmq: pyzmq-14.5.0-py2.7-win-amd64.egg
+WARN Skipping file for pyzmq: pyzmq-14.5.0-py2.7-win32.egg
+WARN Skipping file for pyzmq: pyzmq-14.6.0-py2.7-win-amd64.egg
+WARN Skipping file for pyzmq: pyzmq-14.6.0-py2.7-win32.egg
+WARN Skipping file for pyzmq: pyzmq-14.6.00-py2.7-macosx-10.6-intel.egg
+WARN Skipping file for pyzmq: pyzmq-14.7.0-py2.7-macosx-10.6-intel.egg
+WARN Skipping file for pyzmq: pyzmq-14.7.0-py2.7-win-amd64.egg
+WARN Skipping file for pyzmq: pyzmq-14.7.0-py2.7-win32.egg
+WARN Skipping file for pyzmq: pyzmq-15.0.0-py2.7-macosx-10.6-intel.egg
+WARN Skipping file for pyzmq: pyzmq-15.0.0-py2.7-win-amd64.egg
+WARN Skipping file for pyzmq: pyzmq-15.0.0-py2.7-win32.egg
+WARN Skipping file for pyzmq: pyzmq-15.1.0-py2.7-macosx-10.6-intel.egg
+WARN Skipping file for pyzmq: pyzmq-15.1.0-py2.7-win-amd64.egg
+WARN Skipping file for pyzmq: pyzmq-15.1.0-py2.7-win32.egg
+WARN Skipping file for pyzmq: pyzmq-15.2.0-py2.7-macosx-10.6-intel.egg
+WARN Skipping file for pyzmq: pyzmq-15.2.0-py2.7-win-amd64.egg
+WARN Skipping file for pyzmq: pyzmq-15.2.0-py2.7-win32.egg
+WARN Skipping file for pyzmq: pyzmq-15.3.0-py2.7-macosx-10.6-intel.egg
+WARN Skipping file for pyzmq: pyzmq-15.4.0-py2.7-macosx-10.6-intel.egg
+WARN Skipping file for pyzmq: pyzmq-2.1.10-py2.7-macosx-10.7-intel.egg
+WARN Skipping file for pyzmq: pyzmq-2.1.10-py2.7-win-amd64.egg
+WARN Skipping file for pyzmq: pyzmq-2.1.10-py2.7-win32.egg
+WARN Skipping file for pyzmq: pyzmq-2.1.10-py3.2-macosx-10.6-intel.egg
+WARN Skipping file for pyzmq: pyzmq-2.1.10-py3.2-win-amd64.egg
+WARN Skipping file for pyzmq: pyzmq-2.1.10-py3.2-win32.egg
+WARN Skipping file for pyzmq: pyzmq-2.1.11-py2.6-macosx-10.6-universal.egg
+WARN Skipping file for pyzmq: pyzmq-2.1.11-py2.7-macosx-10.7-intel.egg
+WARN Skipping file for pyzmq: pyzmq-2.1.11-py2.7-win-amd64.egg
+WARN Skipping file for pyzmq: pyzmq-2.1.11-py2.7-win32.egg
+WARN Skipping file for pyzmq: pyzmq-2.1.11-py3.2-macosx-10.6-intel.egg
+WARN Skipping file for pyzmq: pyzmq-2.1.11-py3.2-win-amd64.egg
+WARN Skipping file for pyzmq: pyzmq-2.1.11-py3.2-win32.egg
+WARN Skipping file for pyzmq: pyzmq-2.1.4-py2.5-macosx-10.6-i386.egg
+WARN Skipping file for pyzmq: pyzmq-2.1.4-py2.6-macosx-10.6-intel.egg
+WARN Skipping file for pyzmq: pyzmq-2.1.4-py2.6-win32.egg
+WARN Skipping file for pyzmq: pyzmq-2.1.4-py2.7-macosx-10.5-intel.egg
+WARN Skipping file for pyzmq: pyzmq-2.1.4-py2.7-win32.egg
+WARN Skipping file for pyzmq: pyzmq-2.1.4-py3.1-macosx-10.4-intel.egg
+WARN Skipping file for pyzmq: pyzmq-2.1.4-py3.1-win32.egg
+WARN Skipping file for pyzmq: pyzmq-2.1.4-py3.2-macosx-10.6-intel.egg
+WARN Skipping file for pyzmq: pyzmq-2.1.4-py3.2-win32.egg
+WARN Skipping file for pyzmq: pyzmq-2.1.7-py2.6-macosx-10.6-universal.egg
+WARN Skipping file for pyzmq: pyzmq-2.1.7-py2.7-macosx-10.6-intel.egg
+WARN Skipping file for pyzmq: pyzmq-2.1.7-py2.7-win32.egg
+WARN Skipping file for pyzmq: pyzmq-2.1.7-py3.2-macosx-10.6-intel.egg
+WARN Skipping file for pyzmq: pyzmq-2.1.7-py3.2-win32.egg
+WARN Skipping file for pyzmq: pyzmq-2.1.7.1-py2.7-win-amd64.egg
+WARN Skipping file for pyzmq: pyzmq-2.1.7.1-py3.2-win-amd64.egg
+WARN Skipping file for pyzmq: pyzmq-2.1.9-py2.6-macosx-10.6-universal.egg
+WARN Skipping file for pyzmq: pyzmq-2.1.9-py2.7-macosx-10.7-intel.egg
+WARN Skipping file for pyzmq: pyzmq-2.1.9-py2.7-win-amd64.egg
+WARN Skipping file for pyzmq: pyzmq-2.1.9-py2.7-win32.egg
+WARN Skipping file for pyzmq: pyzmq-2.1.9-py3.2-macosx-10.6-intel.egg
+WARN Skipping file for pyzmq: pyzmq-2.1.9-py3.2-win-amd64.egg
+WARN Skipping file for pyzmq: pyzmq-2.1.9-py3.2-win32.egg
+WARN Skipping file for pyzmq: pyzmq-2.2.0-py2.6-macosx-10.6-universal.egg
+WARN Skipping file for pyzmq: pyzmq-2.2.0-py2.7-macosx-10.7-intel.egg
+WARN Skipping file for pyzmq: pyzmq-2.2.0-py2.7-win-amd64.egg
+WARN Skipping file for pyzmq: pyzmq-2.2.0-py2.7-win32.egg
+WARN Skipping file for pyzmq: pyzmq-2.2.0-py3.2-macosx-10.6-intel.egg
+WARN Skipping file for pyzmq: pyzmq-2.2.0-py3.2-win-amd64.egg
+WARN Skipping file for pyzmq: pyzmq-2.2.0-py3.2-win32.egg
+WARN Skipping file for pyzmq: pyzmq-2.2.0.1-py2.7-macosx-10.8-intel.egg
+WARN Skipping file for pyzmq: pyzmq-2.2.0.1-py2.7-win-amd64.egg
+WARN Skipping file for pyzmq: pyzmq-2.2.0.1-py2.7-win32.egg
+WARN Skipping file for pyzmq: pyzmq-2.2.0.1-py3.2-macosx-10.8-intel.egg
+WARN Skipping file for pyzmq: pyzmq-2.2.0.1-py3.2-win-amd64.egg
+WARN Skipping file for pyzmq: pyzmq-2.2.0.1-py3.2-win32.egg
+WARN Skipping file for pyzmq: pyzmq-2.2.0.1-py3.3-win-amd64.egg
+WARN Skipping file for pyzmq: pyzmq-2.2.0.1-py3.3-win32.egg
+WARN Skipping file for pyzmq: pyzmq-2.2.0.1.win-amd64-py3.3.msi
+WARN Skipping file for pyzmq: pyzmq-2.2.0.1.win32-py3.3.msi
+WARN Skipping file for requests: requests-2.23.0-py2.7.egg
+WARN Skipping file for babel: Babel-0.9.6-py2.3.egg
+WARN Skipping file for babel: Babel-0.9.6-py2.4.egg
+WARN Skipping file for babel: Babel-0.9.6-py2.5.egg
+WARN Skipping file for babel: Babel-0.9.6-py2.6.egg
+WARN Skipping file for babel: Babel-0.9.6-py2.7.egg
+WARN Skipping file for babel: Babel-0.9.6.win32.exe
+DEBUG Searching for a compatible version of anyio (>=3.1.0)
+DEBUG Selecting: anyio==4.10.0 [compatible] (anyio-4.10.0-py3-none-any.whl)
+DEBUG No cache entry for: https://files.pythonhosted.org/packages/40/b0/4562db6223154aa4e22f939003cb92514c79f3d4dccca3444253fd17f902/Send2Trash-1.8.3-py3-none-any.whl.metadata
+DEBUG No cache entry for: https://files.pythonhosted.org/packages/6a/9e/2064975477fdc887e47ad42157e214526dcad8f317a948dee17e1659a62f/terminado-0.18.1-py3-none-any.whl.metadata
+DEBUG No cache entry for: https://files.pythonhosted.org/packages/fe/54/c86cd8e011fe98803d7e382fd67c0df5ceab8d2b7ad8c5a81524f791551c/jsonschema-4.25.0-py3-none-any.whl.metadata
+DEBUG No cache entry for: https://files.pythonhosted.org/packages/7c/e4/56027c4a6b4ae70ca9de302488c5ca95ad4a39e190093d6c1a8ace08341b/requests-2.32.4-py3-none-any.whl.metadata
+DEBUG No cache entry for: https://files.pythonhosted.org/packages/6f/12/e5e0282d673bb9746bacfb6e2dba8719989d3660cdb2ea79aee9a9651afb/anyio-4.10.0-py3-none-any.whl.metadata
+DEBUG No cache entry for: https://files.pythonhosted.org/packages/b7/b8/3fe70c75fe32afc4bb507f75563d39bc5642255d1d94f1f23604725780bf/babel-2.17.0-py3-none-any.whl.metadata
+DEBUG No cache entry for: https://files.pythonhosted.org/packages/07/2d/2b32cdbe8d2a602f697a649798554e4f072115438e92249624e532e8aca6/jupyter_server_terminals-0.5.3-py3-none-any.whl.metadata
+DEBUG No cache entry for: https://files.pythonhosted.org/packages/32/ae/ec06af4fe3ee72d16973474f122541746196aaa16cea6f66d18b963c6177/prometheus_client-0.22.1-py3-none-any.whl.metadata
+DEBUG No cache entry for: https://files.pythonhosted.org/packages/a9/82/0340caa499416c78e5d8f5f05947ae4bc3cba53c9f038ab6e9ed964e22f1/nbformat-5.10.4-py3-none-any.whl.metadata
+DEBUG No cache entry for: https://files.pythonhosted.org/packages/cc/9a/cd673b2f773a12c992f41309ef81b99da1690426bd2f96957a7ade0d3ed7/nbconvert-7.16.6-py3-none-any.whl.metadata
+DEBUG No cache entry for: https://files.pythonhosted.org/packages/41/9f/3500910d5a98549e3098807493851eeef2b89cdd3032227558a104dfe926/json5-0.12.0-py3-none-any.whl.metadata
+DEBUG No cache entry for: https://files.pythonhosted.org/packages/99/8d/7f6ef1097e7fecf26b4ef72338d08e41644a41b7ee958a19f494ffcffc29/debugpy-1.8.15-cp312-cp312-manylinux_2_5_x86_64.manylinux1_x86_64.manylinux_2_17_x86_64.manylinux2014_x86_64.whl.metadata
+DEBUG No cache entry for: https://files.pythonhosted.org/packages/7e/0a/2356305c423a975000867de56888b79e44ec2192c690ff93c3109fd78081/pyzmq-27.0.1-cp312-abi3-manylinux_2_26_x86_64.manylinux_2_28_x86_64.whl.metadata
+WARN Skipping file for overrides: overrides-0.3-py2.7.egg
+WARN Skipping file for overrides: overrides-0.4-py2.7.egg
+WARN Skipping file for overrides: overrides-1.8-py2.7.egg
+DEBUG No cache entry for: https://files.pythonhosted.org/packages/e2/48/577993f1f99c552f18a0428731a755e06171f9902fa118c379eb7c04ea22/jupyter_events-0.12.0-py3-none-any.whl.metadata
+DEBUG No cache entry for: https://files.pythonhosted.org/packages/5a/84/44687a29792a70e111c5c477230a72c4b957d88d16141199bf9acb7537a3/websocket_client-1.8.0-py3-none-any.whl.metadata
+DEBUG No cache entry for: https://files.pythonhosted.org/packages/2c/ab/fc8290c6a4c722e5514d80f62b2dc4c4df1a68a41d1364e625c35990fcf3/overrides-7.7.0-py3-none-any.whl.metadata
+DEBUG No cache entry for: https://files.pythonhosted.org/packages/4f/d3/a8b22fa575b297cd6e3e3b0155c7e25db170edf1c74783d6a31a2490b8d9/argon2_cffi-25.1.0-py3-none-any.whl.metadata
+DEBUG Adding transitive dependency for anyio==4.10.0: idna>=2.8
+DEBUG Adding transitive dependency for anyio==4.10.0: sniffio>=1.1
+DEBUG Adding transitive dependency for anyio==4.10.0: typing-extensions{python_full_version < '3.13'}>=4.5
+DEBUG Searching for a compatible version of certifi (*)
+DEBUG Selecting: certifi==2025.8.3 [compatible] (certifi-2025.8.3-py3-none-any.whl)
+DEBUG Searching for a compatible version of httpcore (>=1.dev0, <2.dev0)
+DEBUG Selecting: httpcore==1.0.9 [compatible] (httpcore-1.0.9-py3-none-any.whl)
+DEBUG Adding transitive dependency for httpcore==1.0.9: certifi*
+DEBUG Adding transitive dependency for httpcore==1.0.9: h11>=0.16
+DEBUG Searching for a compatible version of idna (>=2.8)
+DEBUG Selecting: idna==3.10 [compatible] (idna-3.10-py3-none-any.whl)
+DEBUG Searching for a compatible version of comm (>=0.1.1)
+DEBUG Selecting: comm==0.2.3 [compatible] (comm-0.2.3-py3-none-any.whl)
+DEBUG Searching for a compatible version of debugpy (>=1.6.5)
+DEBUG Selecting: debugpy==1.8.15 [compatible] (debugpy-1.8.15-cp312-cp312-manylinux_2_5_x86_64.manylinux1_x86_64.manylinux_2_17_x86_64.manylinux2014_x86_64.whl)
+DEBUG No cache entry for: https://pypi.org/simple/sniffio/
+DEBUG Searching for a compatible version of ipython (>=7.23.1)
+DEBUG Selecting: ipython==9.4.0 [compatible] (ipython-9.4.0-py3-none-any.whl)
+DEBUG No cache entry for: https://pypi.org/simple/h11/
+DEBUG Adding transitive dependency for ipython==9.4.0: decorator*
+DEBUG Adding transitive dependency for ipython==9.4.0: ipython-pygments-lexers*
+DEBUG Adding transitive dependency for ipython==9.4.0: jedi>=0.16
+DEBUG Adding transitive dependency for ipython==9.4.0: matplotlib-inline*
+DEBUG Adding transitive dependency for ipython==9.4.0: pexpect{sys_platform != 'emscripten' and sys_platform != 'win32'}>4.3
+DEBUG Adding transitive dependency for ipython==9.4.0: prompt-toolkit>=3.0.41, <3.1.0
+DEBUG Adding transitive dependency for ipython==9.4.0: pygments>=2.4.0
+DEBUG Adding transitive dependency for ipython==9.4.0: stack-data*
+DEBUG Adding transitive dependency for ipython==9.4.0: traitlets>=5.13.0
+DEBUG No cache entry for: https://pypi.org/simple/typing-extensions/
+DEBUG Searching for a compatible version of jupyter-client (>=8.0.0)
+DEBUG Selecting: jupyter-client==8.6.3 [compatible] (jupyter_client-8.6.3-py3-none-any.whl)
+DEBUG Adding transitive dependency for jupyter-client==8.6.3: jupyter-core>=4.12, <5.0.dev0 | >=5.1.dev0
+DEBUG Adding transitive dependency for jupyter-client==8.6.3: python-dateutil>=2.8.2
+DEBUG Adding transitive dependency for jupyter-client==8.6.3: pyzmq>=23.0
+DEBUG Adding transitive dependency for jupyter-client==8.6.3: tornado>=6.2
+DEBUG Adding transitive dependency for jupyter-client==8.6.3: traitlets>=5.3
+DEBUG Searching for a compatible version of matplotlib-inline (>=0.1)
+DEBUG Selecting: matplotlib-inline==0.1.7 [compatible] (matplotlib_inline-0.1.7-py3-none-any.whl)
+DEBUG Adding transitive dependency for matplotlib-inline==0.1.7: traitlets*
+DEBUG No cache entry for: https://pypi.org/simple/decorator/
+DEBUG Searching for a compatible version of nest-asyncio (>=1.4)
+DEBUG Selecting: nest-asyncio==1.6.0 [compatible] (nest_asyncio-1.6.0-py3-none-any.whl)
+DEBUG No cache entry for: https://pypi.org/simple/ipython-pygments-lexers/
+DEBUG No cache entry for: https://pypi.org/simple/pexpect/
+DEBUG No cache entry for: https://pypi.org/simple/jedi/
+DEBUG Searching for a compatible version of psutil (>=5.7)
+DEBUG Selecting: psutil==7.0.0 [compatible] (psutil-7.0.0-cp36-abi3-manylinux_2_12_x86_64.manylinux2010_x86_64.manylinux_2_17_x86_64.manylinux2014_x86_64.whl)
+DEBUG Searching for a compatible version of pyzmq (>=25)
+DEBUG Selecting: pyzmq==27.0.1 [compatible] (pyzmq-27.0.1-cp312-abi3-manylinux_2_26_x86_64.manylinux_2_28_x86_64.whl)
+DEBUG No cache entry for: https://pypi.org/simple/pygments/
+DEBUG Searching for a compatible version of markupsafe (>=2.0)
+DEBUG No cache entry for: https://pypi.org/simple/prompt-toolkit/
+DEBUG Selecting: markupsafe==3.0.2 [compatible] (MarkupSafe-3.0.2-cp312-cp312-manylinux_2_17_x86_64.manylinux2014_x86_64.whl)
+DEBUG No cache entry for: https://pypi.org/simple/stack-data/
+DEBUG Searching for a compatible version of platformdirs (>=2.5)
+DEBUG Selecting: platformdirs==4.3.8 [compatible] (platformdirs-4.3.8-py3-none-any.whl)
+DEBUG Searching for a compatible version of argon2-cffi (>=21.1)
+DEBUG Selecting: argon2-cffi==25.1.0 [compatible] (argon2_cffi-25.1.0-py3-none-any.whl)
+DEBUG Adding transitive dependency for argon2-cffi==25.1.0: argon2-cffi-bindings*
+DEBUG Searching for a compatible version of jupyter-events (>=0.11.0)
+DEBUG Selecting: jupyter-events==0.12.0 [compatible] (jupyter_events-0.12.0-py3-none-any.whl)
+DEBUG No cache entry for: https://pypi.org/simple/python-dateutil/
+DEBUG Adding transitive dependency for jupyter-events==0.12.0: jsonschema[format-nongpl]>=4.18.0
+DEBUG Adding transitive dependency for jupyter-events==0.12.0: packaging*
+DEBUG Adding transitive dependency for jupyter-events==0.12.0: python-json-logger>=2.0.4
+DEBUG Adding transitive dependency for jupyter-events==0.12.0: pyyaml>=5.3
+DEBUG Adding transitive dependency for jupyter-events==0.12.0: referencing*
+DEBUG Adding transitive dependency for jupyter-events==0.12.0: rfc3339-validator*
+DEBUG Adding transitive dependency for jupyter-events==0.12.0: rfc3986-validator>=0.1.1
+DEBUG Adding transitive dependency for jupyter-events==0.12.0: traitlets>=5.3
+DEBUG Searching for a compatible version of jupyter-server-terminals (>=0.4.4)
+DEBUG No cache entry for: https://pypi.org/simple/argon2-cffi-bindings/
+DEBUG Selecting: jupyter-server-terminals==0.5.3 [compatible] (jupyter_server_terminals-0.5.3-py3-none-any.whl)
+DEBUG Adding transitive dependency for jupyter-server-terminals==0.5.3: terminado>=0.8.3
+DEBUG Searching for a compatible version of nbconvert (>=6.4.4)
+DEBUG Selecting: nbconvert==7.16.6 [compatible] (nbconvert-7.16.6-py3-none-any.whl)
+DEBUG Adding transitive dependency for nbconvert==7.16.6: beautifulsoup4*
+DEBUG Adding transitive dependency for nbconvert==7.16.6: bleach[css]<5.0.0 | >=5.0.0+
+DEBUG Adding transitive dependency for nbconvert==7.16.6: defusedxml*
+DEBUG Adding transitive dependency for nbconvert==7.16.6: jinja2>=3.0
+DEBUG Adding transitive dependency for nbconvert==7.16.6: jupyter-core>=4.7
+DEBUG Adding transitive dependency for nbconvert==7.16.6: jupyterlab-pygments*
+DEBUG Adding transitive dependency for nbconvert==7.16.6: markupsafe>=2.0
+DEBUG Adding transitive dependency for nbconvert==7.16.6: mistune>=2.0.3, <4
+DEBUG Adding transitive dependency for nbconvert==7.16.6: nbclient>=0.5.0
+DEBUG No cache entry for: https://pypi.org/simple/python-json-logger/
+DEBUG Adding transitive dependency for nbconvert==7.16.6: nbformat>=5.7
+DEBUG Adding transitive dependency for nbconvert==7.16.6: packaging*
+DEBUG Adding transitive dependency for nbconvert==7.16.6: pandocfilters>=1.4.1
+DEBUG Adding transitive dependency for nbconvert==7.16.6: pygments>=2.4.1
+DEBUG No cache entry for: https://pypi.org/simple/pyyaml/
+DEBUG Adding transitive dependency for nbconvert==7.16.6: traitlets>=5.1
+DEBUG No cache entry for: https://pypi.org/simple/referencing/
+DEBUG No cache entry for: https://pypi.org/simple/rfc3339-validator/
+DEBUG Searching for a compatible version of nbformat (>=5.7)
+DEBUG Selecting: nbformat==5.10.4 [compatible] (nbformat-5.10.4-py3-none-any.whl)
+DEBUG No cache entry for: https://pypi.org/simple/rfc3986-validator/
+DEBUG Adding transitive dependency for nbformat==5.10.4: fastjsonschema>=2.15
+DEBUG Adding transitive dependency for nbformat==5.10.4: jsonschema>=2.6
+DEBUG Adding transitive dependency for nbformat==5.10.4: jupyter-core>=4.12, <5.0.dev0 | >=5.1.dev0
+DEBUG Adding transitive dependency for nbformat==5.10.4: traitlets>=5.1
+DEBUG Searching for a compatible version of overrides (>=5.0)
+DEBUG Selecting: overrides==7.7.0 [compatible] (overrides-7.7.0-py3-none-any.whl)
+DEBUG Searching for a compatible version of prometheus-client (>=0.9)
+DEBUG Selecting: prometheus-client==0.22.1 [compatible] (prometheus_client-0.22.1-py3-none-any.whl)
+DEBUG Searching for a compatible version of send2trash (>=1.8.2)
+DEBUG Selecting: send2trash==1.8.3 [compatible] (Send2Trash-1.8.3-py3-none-any.whl)
+DEBUG Searching for a compatible version of terminado (>=0.8.3)
+DEBUG Selecting: terminado==0.18.1 [compatible] (terminado-0.18.1-py3-none-any.whl)
+DEBUG Adding transitive dependency for terminado==0.18.1: ptyprocess{os_name != 'nt'}*
+DEBUG Adding transitive dependency for terminado==0.18.1: tornado>=6.1.0
+DEBUG Searching for a compatible version of websocket-client (>=1.7)
+DEBUG Selecting: websocket-client==1.8.0 [compatible] (websocket_client-1.8.0-py3-none-any.whl)
+DEBUG Searching for a compatible version of babel (>=2.10)
+DEBUG Selecting: babel==2.17.0 [compatible] (babel-2.17.0-py3-none-any.whl)
+DEBUG Searching for a compatible version of json5 (>=0.9.0)
+DEBUG Selecting: json5==0.12.0 [compatible] (json5-0.12.0-py3-none-any.whl)
+DEBUG No cache entry for: https://pypi.org/simple/beautifulsoup4/
+DEBUG Searching for a compatible version of jsonschema (>=4.18.0)
+DEBUG Selecting: jsonschema==4.25.0 [compatible] (jsonschema-4.25.0-py3-none-any.whl)
+DEBUG No cache entry for: https://pypi.org/simple/defusedxml/
+DEBUG Adding transitive dependency for jsonschema==4.25.0: attrs>=22.2.0
+DEBUG Adding transitive dependency for jsonschema==4.25.0: jsonschema-specifications>=2023.3.6
+DEBUG Adding transitive dependency for jsonschema==4.25.0: referencing>=0.28.4
+DEBUG No cache entry for: https://pypi.org/simple/bleach/
+DEBUG Adding transitive dependency for jsonschema==4.25.0: rpds-py>=0.7.1
+DEBUG Searching for a compatible version of jsonschema[format-nongpl] (>=4.18.0)
+DEBUG No cache entry for: https://pypi.org/simple/jupyterlab-pygments/
+DEBUG Selecting: jsonschema==4.25.0 [compatible] (jsonschema-4.25.0-py3-none-any.whl)
+DEBUG Adding transitive dependency for jsonschema==4.25.0: jsonschema==4.25.0
+DEBUG No cache entry for: https://pypi.org/simple/mistune/
+DEBUG Adding transitive dependency for jsonschema==4.25.0: jsonschema[format-nongpl]==4.25.0
+DEBUG No cache entry for: https://pypi.org/simple/nbclient/
+DEBUG Searching for a compatible version of jsonschema[format-nongpl] (==4.25.0)
+DEBUG Selecting: jsonschema==4.25.0 [compatible] (jsonschema-4.25.0-py3-none-any.whl)
+DEBUG No cache entry for: https://pypi.org/simple/pandocfilters/
+DEBUG Adding transitive dependency for jsonschema==4.25.0: fqdn*
+DEBUG Adding transitive dependency for jsonschema==4.25.0: idna*
+DEBUG No cache entry for: https://pypi.org/simple/fastjsonschema/
+DEBUG Adding transitive dependency for jsonschema==4.25.0: isoduration*
+DEBUG Adding transitive dependency for jsonschema==4.25.0: jsonpointer>1.13
+DEBUG Adding transitive dependency for jsonschema==4.25.0: rfc3339-validator*
+DEBUG Adding transitive dependency for jsonschema==4.25.0: rfc3986-validator>0.1.0
+DEBUG Adding transitive dependency for jsonschema==4.25.0: rfc3987-syntax>=1.1.0
+DEBUG Adding transitive dependency for jsonschema==4.25.0: uri-template*
+DEBUG Adding transitive dependency for jsonschema==4.25.0: webcolors>=24.6.0
+DEBUG Searching for a compatible version of requests (>=2.31)
+DEBUG No cache entry for: https://pypi.org/simple/ptyprocess/
+DEBUG Selecting: requests==2.32.4 [compatible] (requests-2.32.4-py3-none-any.whl)
+DEBUG Adding transitive dependency for requests==2.32.4: charset-normalizer>=2, <4
+DEBUG Adding transitive dependency for requests==2.32.4: idna>=2.5, <4
+DEBUG Adding transitive dependency for requests==2.32.4: urllib3>=1.21.1, <3
+DEBUG Adding transitive dependency for requests==2.32.4: certifi>=2017.4.17
+DEBUG No cache entry for: https://pypi.org/simple/attrs/
+DEBUG No cache entry for: https://pypi.org/simple/jsonschema-specifications/
+DEBUG No cache entry for: https://pypi.org/simple/rpds-py/
+DEBUG No cache entry for: https://pypi.org/simple/fqdn/
+DEBUG No cache entry for: https://pypi.org/simple/isoduration/
+DEBUG No cache entry for: https://pypi.org/simple/jsonpointer/
+DEBUG No cache entry for: https://pypi.org/simple/rfc3987-syntax/
+DEBUG No cache entry for: https://pypi.org/simple/uri-template/
+DEBUG No cache entry for: https://pypi.org/simple/webcolors/
+DEBUG No cache entry for: https://pypi.org/simple/urllib3/
+DEBUG No cache entry for: https://pypi.org/simple/charset-normalizer/
+WARN Fixing invalid version specifier by removing trailing comma (before: `>=3.5,`; after: `>=3.5`)
+WARN Fixing invalid version specifier by removing trailing comma (before: `>=3.5,`; after: `>=3.5`)
+WARN Fixing invalid version specifier by removing trailing comma (before: `>=3.5,`; after: `>=3.5`)
+WARN Fixing invalid version specifier by removing trailing comma (before: `>=3.5,`; after: `>=3.5`)
+DEBUG No cache entry for: https://files.pythonhosted.org/packages/7e/71/44ce230e1b7fadd372515a97e32a83011f906ddded8d03e3c6aafbdedbb7/rfc3987_syntax-1.1.0-py3-none-any.whl.metadata
+DEBUG No cache entry for: https://files.pythonhosted.org/packages/60/e8/c0e05e4684d13459f93d312077a9a2efbe04d59c393bc2b8802248c908d4/webcolors-24.11.1-py3-none-any.whl.metadata
+WARN Skipping file for fqdn: fqdn-1.3.0-py3.7.egg
+DEBUG No cache entry for: https://files.pythonhosted.org/packages/b1/dd/ead9d8ea85bf202d90cc513b533f9c363121c7792674f78e0d8a854b63b4/jupyterlab_pygments-0.3.0-py3-none-any.whl.metadata
+DEBUG No cache entry for: https://files.pythonhosted.org/packages/01/0e/b27cdbaccf30b890c40ed1da9fd4a3593a5cf94dae54fb34f8a4b74fcd3f/jsonschema_specifications-2025.4.1-py3-none-any.whl.metadata
+DEBUG No cache entry for: https://files.pythonhosted.org/packages/a7/c2/fe1e52489ae3122415c51f387e221dd0773709bad6c6cdaa599e8a2c5185/urllib3-2.5.0-py3-none-any.whl.metadata
+DEBUG No cache entry for: https://files.pythonhosted.org/packages/7b/44/4e421b96b67b2daff264473f7465db72fbdf36a07e05494f50300cc7b0c6/rfc3339_validator-0.1.4-py2.py3-none-any.whl.metadata
+DEBUG No cache entry for: https://files.pythonhosted.org/packages/07/6c/aa3f2f849e01cb6a001cd8554a88d4c77c5c1a31c95bdf1cf9301e6d9ef4/defusedxml-0.7.1-py2.py3-none-any.whl.metadata
+DEBUG No cache entry for: https://files.pythonhosted.org/packages/08/20/0f2523b9e50a8052bc6a8b732dfc8568abbdc42010aef03a2d750bdab3b2/python_json_logger-3.3.0-py3-none-any.whl.metadata
+DEBUG No cache entry for: https://files.pythonhosted.org/packages/f1/7b/ce1eafaf1a76852e2ec9b22edecf1daa58175c090266e9f6c64afcd81d91/stack_data-0.6.3-py3-none-any.whl.metadata
+DEBUG No cache entry for: https://files.pythonhosted.org/packages/cf/58/8acf1b3e91c58313ce5cb67df61001fc9dcd21be4fadb76c1a2d540e09ed/fqdn-1.5.1-py3-none-any.whl.metadata
+DEBUG No cache entry for: https://files.pythonhosted.org/packages/9e/51/17023c0f8f1869d8806b979a2bffa3f861f26a3f1a66b094288323fba52f/rfc3986_validator-0.1.1-py2.py3-none-any.whl.metadata
+DEBUG No cache entry for: https://files.pythonhosted.org/packages/90/2b/0817a2b257fe88725c25589d89aec060581aabf668707a8d03b2e9e0cb2a/fastjsonschema-2.21.1-py3-none-any.whl.metadata
+DEBUG No cache entry for: https://files.pythonhosted.org/packages/8c/73/6ede2ec59bce19b3edf4209d70004253ec5f4e319f9a2e3f2f15601ed5f7/charset_normalizer-3.4.2-cp312-cp312-manylinux_2_17_x86_64.manylinux2014_x86_64.whl.metadata
+WARN Skipping file for bleach: bleach-0.2.1-py2.5.egg
+WARN Skipping file for bleach: bleach-0.2.1-py2.6.egg
+WARN Skipping file for bleach: bleach-0.2.2-py2.6.egg
+WARN Skipping file for bleach: bleach-0.3-py2.6.egg
+WARN Skipping file for bleach: bleach-0.3.1-py2.6.egg
+WARN Skipping file for bleach: bleach-3.1.0-py3.8.egg
+WARN Skipping file for pyyaml: PyYAML-3.10.win32-py2.5.exe
+WARN Skipping file for pyyaml: PyYAML-3.10.win32-py2.6.exe
+WARN Skipping file for pyyaml: PyYAML-3.10.win32-py2.7.exe
+WARN Skipping file for pyyaml: PyYAML-3.10.win32-py3.0.exe
+WARN Skipping file for pyyaml: PyYAML-3.10.win32-py3.1.exe
+WARN Skipping file for pyyaml: PyYAML-3.10.win32-py3.2.exe
+WARN Skipping file for pyyaml: PyYAML-3.11.win-amd64-py2.6.exe
+WARN Skipping file for pyyaml: PyYAML-3.11.win-amd64-py2.7.exe
+WARN Skipping file for pyyaml: PyYAML-3.11.win-amd64-py3.1.exe
+WARN Skipping file for pyyaml: PyYAML-3.11.win-amd64-py3.2.exe
+WARN Skipping file for pyyaml: PyYAML-3.11.win-amd64-py3.3.exe
+WARN Skipping file for pyyaml: PyYAML-3.11.win-amd64-py3.4.exe
+WARN Skipping file for pyyaml: PyYAML-3.11.win32-py2.6.exe
+WARN Skipping file for pyyaml: PyYAML-3.11.win32-py2.7.exe
+WARN Skipping file for pyyaml: PyYAML-3.11.win32-py3.1.exe
+WARN Skipping file for pyyaml: PyYAML-3.11.win32-py3.2.exe
+WARN Skipping file for pyyaml: PyYAML-3.11.win32-py3.3.exe
+WARN Skipping file for pyyaml: PyYAML-3.11.win32-py3.4.exe
+WARN Skipping file for pyyaml: PyYAML-3.12.win-amd64-py2.7.exe
+WARN Skipping file for pyyaml: PyYAML-3.12.win-amd64-py3.4.exe
+WARN Skipping file for pyyaml: PyYAML-3.12.win-amd64-py3.5.exe
+WARN Skipping file for pyyaml: PyYAML-3.12.win32-py2.7.exe
+WARN Skipping file for pyyaml: PyYAML-3.12.win32-py3.4.exe
+WARN Skipping file for pyyaml: PyYAML-3.12.win32-py3.5.exe
+WARN Skipping file for pyyaml: PyYAML-4.2b4.win-amd64-py2.7.exe
+WARN Skipping file for pyyaml: PyYAML-4.2b4.win-amd64-py3.4.exe
+WARN Skipping file for pyyaml: PyYAML-4.2b4.win32-py2.7.exe
+WARN Skipping file for pyyaml: PyYAML-4.2b4.win32-py3.4.exe
+WARN Skipping file for pygments: Pygments-0.10-py2.3.egg
+WARN Skipping file for pygments: Pygments-0.10-py2.4.egg
+WARN Skipping file for pygments: Pygments-0.10-py2.5.egg
+WARN Skipping file for pygments: Pygments-0.11-py2.3.egg
+WARN Skipping file for pygments: Pygments-0.11-py2.4.egg
+WARN Skipping file for pygments: Pygments-0.11-py2.5.egg
+WARN Skipping file for pygments: Pygments-0.11.1-py2.3.egg
+WARN Skipping file for pygments: Pygments-0.11.1-py2.4.egg
+WARN Skipping file for pygments: Pygments-0.11.1-py2.5.egg
+WARN Skipping file for pygments: Pygments-0.5-py2.3.egg
+WARN Skipping file for pygments: Pygments-0.5-py2.4.egg
+WARN Skipping file for pygments: Pygments-0.5-py2.5.egg
+WARN Skipping file for pygments: Pygments-0.5.1-py2.3.egg
+WARN Skipping file for pygments: Pygments-0.5.1-py2.4.egg
+WARN Skipping file for pygments: Pygments-0.5.1-py2.5.egg
+WARN Skipping file for pygments: Pygments-0.6-py2.3.egg
+WARN Skipping file for pygments: Pygments-0.6-py2.4.egg
+WARN Skipping file for pygments: Pygments-0.6-py2.5.egg
+WARN Skipping file for pygments: Pygments-0.7-py2.3.egg
+WARN Skipping file for pygments: Pygments-0.7-py2.4.egg
+WARN Skipping file for pygments: Pygments-0.7-py2.5.egg
+WARN Skipping file for pygments: Pygments-0.7.1-py2.3.egg
+WARN Skipping file for pygments: Pygments-0.7.1-py2.4.egg
+WARN Skipping file for pygments: Pygments-0.7.1-py2.5.egg
+WARN Skipping file for pygments: Pygments-0.8-py2.3.egg
+WARN Skipping file for pygments: Pygments-0.8-py2.4.egg
+WARN Skipping file for pygments: Pygments-0.8-py2.5.egg
+WARN Skipping file for pygments: Pygments-0.8.1-py2.3.egg
+WARN Skipping file for pygments: Pygments-0.8.1-py2.4.egg
+WARN Skipping file for pygments: Pygments-0.8.1-py2.5.egg
+WARN Skipping file for pygments: Pygments-0.9-py2.3.egg
+WARN Skipping file for pygments: Pygments-0.9-py2.4.egg
+WARN Skipping file for pygments: Pygments-0.9-py2.5.egg
+WARN Skipping file for pygments: Pygments-1.0-py2.3.egg
+WARN Skipping file for pygments: Pygments-1.0-py2.4.egg
+WARN Skipping file for pygments: Pygments-1.0-py2.5.egg
+WARN Skipping file for pygments: Pygments-1.0-py2.6.egg
+WARN Skipping file for pygments: Pygments-1.1-py2.4.egg
+WARN Skipping file for pygments: Pygments-1.1-py2.5.egg
+WARN Skipping file for pygments: Pygments-1.1-py2.6.egg
+WARN Skipping file for pygments: Pygments-1.1.1-py2.4.egg
+WARN Skipping file for pygments: Pygments-1.1.1-py2.5.egg
+WARN Skipping file for pygments: Pygments-1.1.1-py2.6.egg
+WARN Skipping file for pygments: Pygments-1.2-py2.4.egg
+WARN Skipping file for pygments: Pygments-1.2-py2.5.egg
+WARN Skipping file for pygments: Pygments-1.2-py2.6.egg
+WARN Skipping file for pygments: Pygments-1.2.1-py2.4.egg
+WARN Skipping file for pygments: Pygments-1.2.1-py2.5.egg
+WARN Skipping file for pygments: Pygments-1.2.1-py2.6.egg
+WARN Skipping file for pygments: Pygments-1.2.2-py2.4.egg
+WARN Skipping file for pygments: Pygments-1.2.2-py2.5.egg
+WARN Skipping file for pygments: Pygments-1.2.2-py2.6.egg
+WARN Skipping file for pygments: Pygments-1.3-py2.4.egg
+WARN Skipping file for pygments: Pygments-1.3-py2.5.egg
+WARN Skipping file for pygments: Pygments-1.3-py2.6.egg
+WARN Skipping file for pygments: Pygments-1.3.1-py2.4.egg
+WARN Skipping file for pygments: Pygments-1.3.1-py2.5.egg
+WARN Skipping file for pygments: Pygments-1.3.1-py2.6.egg
+WARN Skipping file for pygments: Pygments-1.4-py2.4.egg
+WARN Skipping file for pygments: Pygments-1.4-py2.5.egg
+WARN Skipping file for pygments: Pygments-1.4-py2.6.egg
+WARN Skipping file for pygments: Pygments-1.4-py2.7.egg
+WARN Skipping file for pygments: Pygments-1.5-py2.6.egg
+WARN Skipping file for pygments: Pygments-1.5-py2.7.egg
+WARN Skipping file for pygments: Pygments-1.6-py2.6.egg
+WARN Skipping file for pygments: Pygments-1.6-py2.7.egg
+WARN Skipping file for pygments: Pygments-1.6rc1-py2.6.egg
+WARN Skipping file for pygments: Pygments-1.6rc1-py2.7.egg
+WARN Skipping file for jedi: jedi-0.8.0-final0.tar.gz
+WARN Skipping file for jedi: jedi-0.8.1-final0.tar.gz
+WARN Skipping file for beautifulsoup4: beautifulsoup4-4.6.1-py2.7.egg
+WARN Skipping file for beautifulsoup4: beautifulsoup4-4.6.1-py3.5.egg
+DEBUG Searching for a compatible version of sniffio (>=1.1)
+DEBUG Selecting: sniffio==1.3.1 [compatible] (sniffio-1.3.1-py3-none-any.whl)
+DEBUG No cache entry for: https://files.pythonhosted.org/packages/c1/b1/3baf80dc6d2b7bc27a95a67752d0208e410351e3feb4eb78de5f77454d8d/referencing-0.36.2-py3-none-any.whl.metadata
+DEBUG No cache entry for: https://files.pythonhosted.org/packages/ce/4f/5249960887b1fbe561d9ff265496d170b55a735b76724f10ef19f9e40716/prompt_toolkit-3.0.51-py3-none-any.whl.metadata
+DEBUG No cache entry for: https://files.pythonhosted.org/packages/01/4d/23c4e4f09da849e127e9f123241946c23c1e30f45a88366879e064211815/mistune-3.1.3-py3-none-any.whl.metadata
+DEBUG No cache entry for: https://files.pythonhosted.org/packages/c7/21/705964c7812476f378728bdf590ca4b771ec72385c533964653c68e86bdc/pygments-2.19.2-py3-none-any.whl.metadata
+DEBUG No cache entry for: https://files.pythonhosted.org/packages/09/52/94108adfdd6e2ddf58be64f959a0b9c7d4ef2fa71086c38356d22dc501ea/argon2_cffi_bindings-25.1.0-cp39-abi3-manylinux_2_26_x86_64.manylinux_2_28_x86_64.whl.metadata
+DEBUG No cache entry for: https://files.pythonhosted.org/packages/04/4b/29cac41a4d98d144bf5f6d33995617b185d14b22401f75ca86f384e87ff1/h11-0.16.0-py3-none-any.whl.metadata
+DEBUG No cache entry for: https://files.pythonhosted.org/packages/b9/2b/614b4752f2e127db5cc206abc23a8c19678e92b23c3db30fc86ab731d3bd/PyYAML-6.0.2-cp312-cp312-manylinux_2_17_x86_64.manylinux2014_x86_64.whl.metadata
+DEBUG No cache entry for: https://files.pythonhosted.org/packages/34/6d/e7fa07f03a4a7b221d94b4d586edb754a9b0dc3c9e2c93353e9fa4e0d117/nbclient-0.10.2-py3-none-any.whl.metadata
+DEBUG No cache entry for: https://files.pythonhosted.org/packages/ec/57/56b9bcc3c9c6a792fcbaf139543cee77261f3651ca9da0c93f5c1221264b/python_dateutil-2.9.0.post0-py2.py3-none-any.whl.metadata
+DEBUG No cache entry for: https://files.pythonhosted.org/packages/ef/af/4fbc8cab944db5d21b7e2a5b8e9211a03a79852b1157e2c102fcc61ac440/pandocfilters-1.5.1-py2.py3-none-any.whl.metadata
+DEBUG No cache entry for: https://files.pythonhosted.org/packages/71/92/5e77f98553e9e75130c78900d000368476aed74276eb8ae8796f65f00918/jsonpointer-3.0.0-py2.py3-none-any.whl.metadata
+DEBUG No cache entry for: https://files.pythonhosted.org/packages/d9/33/1f075bf72b0b747cb3288d011319aaf64083cf2efef8354174e3ed4540e2/ipython_pygments_lexers-1.1.1-py3-none-any.whl.metadata
+DEBUG No cache entry for: https://files.pythonhosted.org/packages/77/06/bb80f5f86020c4551da315d78b3ab75e8228f89f0162f2c3a819e407941a/attrs-25.3.0-py3-none-any.whl.metadata
+DEBUG No cache entry for: https://files.pythonhosted.org/packages/e9/44/75a9c9421471a6c4805dbf2356f7c181a29c1879239abab1ea2cc8f38b40/sniffio-1.3.1-py3-none-any.whl.metadata
+DEBUG No cache entry for: https://files.pythonhosted.org/packages/e7/00/3fca040d7cf8a32776d3d81a00c8ee7457e00f80c649f1e4a863c8321ae9/uri_template-1.3.0-py3-none-any.whl.metadata
+DEBUG No cache entry for: https://files.pythonhosted.org/packages/7b/55/e5326141505c5d5e34c5e0935d2908a74e4561eca44108fbfb9c13d2911a/isoduration-20.11.0-py3-none-any.whl.metadata
+DEBUG No cache entry for: https://files.pythonhosted.org/packages/c0/5a/9cac0c82afec3d09ccd97c8b6502d48f165f9124db81b4bcb90b4af974ee/jedi-0.19.2-py2.py3-none-any.whl.metadata
+DEBUG No cache entry for: https://files.pythonhosted.org/packages/50/cd/30110dc0ffcf3b131156077b90e9f60ed75711223f306da4db08eff8403b/beautifulsoup4-4.13.4-py3-none-any.whl.metadata
+DEBUG No cache entry for: https://files.pythonhosted.org/packages/4e/8c/f3147f5c4b73e7550fe5f9352eaa956ae838d5c51eb58e7a25b9f3e2643b/decorator-5.2.1-py3-none-any.whl.metadata
+DEBUG No cache entry for: https://files.pythonhosted.org/packages/2e/77/87d7bfabfc4e821caa35481a2ff6ae0b73e6a391bb6b343db2c91c2b9844/rpds_py-0.26.0-cp312-cp312-manylinux_2_17_x86_64.manylinux2014_x86_64.whl.metadata
+DEBUG Searching for a compatible version of typing-extensions{python_full_version < '3.13'} (>=4.5)
+DEBUG Selecting: typing-extensions==4.14.1 [compatible] (typing_extensions-4.14.1-py3-none-any.whl)
+DEBUG Adding transitive dependency for typing-extensions==4.14.1: typing-extensions==4.14.1
+DEBUG Adding transitive dependency for typing-extensions==4.14.1: typing-extensions{python_full_version < '3.13'}==4.14.1
+DEBUG Searching for a compatible version of typing-extensions (==4.14.1)
+DEBUG Selecting: typing-extensions==4.14.1 [compatible] (typing_extensions-4.14.1-py3-none-any.whl)
+DEBUG No cache entry for: https://files.pythonhosted.org/packages/b5/00/d631e67a838026495268c2f6884f3711a15a9a2a96cd244fdaea53b823fb/typing_extensions-4.14.1-py3-none-any.whl.metadata
+DEBUG Searching for a compatible version of typing-extensions{python_full_version < '3.13'} (==4.14.1)
+DEBUG Selecting: typing-extensions==4.14.1 [compatible] (typing_extensions-4.14.1-py3-none-any.whl)
+DEBUG Searching for a compatible version of h11 (>=0.16)
+DEBUG Selecting: h11==0.16.0 [compatible] (h11-0.16.0-py3-none-any.whl)
+DEBUG Searching for a compatible version of decorator (*)
+DEBUG Selecting: decorator==5.2.1 [compatible] (decorator-5.2.1-py3-none-any.whl)
+DEBUG Searching for a compatible version of ipython-pygments-lexers (*)
+DEBUG Selecting: ipython-pygments-lexers==1.1.1 [compatible] (ipython_pygments_lexers-1.1.1-py3-none-any.whl)
+DEBUG Adding transitive dependency for ipython-pygments-lexers==1.1.1: pygments*
+DEBUG Searching for a compatible version of jedi (>=0.16)
+DEBUG Selecting: jedi==0.19.2 [compatible] (jedi-0.19.2-py2.py3-none-any.whl)
+DEBUG Adding transitive dependency for jedi==0.19.2: parso>=0.8.4, <0.9.0
+DEBUG Searching for a compatible version of pexpect{sys_platform != 'emscripten' and sys_platform != 'win32'} (>4.3)
+DEBUG Selecting: pexpect==4.9.0 [compatible] (pexpect-4.9.0-py2.py3-none-any.whl)
+DEBUG Adding transitive dependency for pexpect==4.9.0: pexpect==4.9.0
+DEBUG Adding transitive dependency for pexpect==4.9.0: pexpect{sys_platform != 'emscripten' and sys_platform != 'win32'}==4.9.0
+DEBUG Searching for a compatible version of pexpect (==4.9.0)
+DEBUG Selecting: pexpect==4.9.0 [compatible] (pexpect-4.9.0-py2.py3-none-any.whl)
+DEBUG No cache entry for: https://pypi.org/simple/parso/
+DEBUG No cache entry for: https://files.pythonhosted.org/packages/9e/c3/059298687310d527a58bb01f3b1965787ee3b40dce76752eda8b44e9a2c5/pexpect-4.9.0-py2.py3-none-any.whl.metadata
+DEBUG No cache entry for: https://files.pythonhosted.org/packages/c6/ac/dac4a63f978e4dcb3c6d3a78c4d8e0192a113d288502a1216950c41b1027/parso-0.8.4-py2.py3-none-any.whl.metadata
+DEBUG Adding transitive dependency for pexpect==4.9.0: ptyprocess>=0.5
+DEBUG Searching for a compatible version of pexpect{sys_platform != 'emscripten' and sys_platform != 'win32'} (==4.9.0)
+DEBUG Selecting: pexpect==4.9.0 [compatible] (pexpect-4.9.0-py2.py3-none-any.whl)
+DEBUG Adding transitive dependency for pexpect==4.9.0: ptyprocess>=0.5
+DEBUG Searching for a compatible version of prompt-toolkit (>=3.0.41, <3.1.0)
+DEBUG Selecting: prompt-toolkit==3.0.51 [compatible] (prompt_toolkit-3.0.51-py3-none-any.whl)
+DEBUG Adding transitive dependency for prompt-toolkit==3.0.51: wcwidth*
+DEBUG Searching for a compatible version of pygments (>=2.4.1)
+DEBUG Selecting: pygments==2.19.2 [compatible] (pygments-2.19.2-py3-none-any.whl)
+DEBUG Searching for a compatible version of stack-data (*)
+DEBUG Selecting: stack-data==0.6.3 [compatible] (stack_data-0.6.3-py3-none-any.whl)
+DEBUG No cache entry for: https://files.pythonhosted.org/packages/22/a6/858897256d0deac81a172289110f31629fc4cee19b6f01283303e18c8db3/ptyprocess-0.7.0-py2.py3-none-any.whl.metadata
+DEBUG Adding transitive dependency for stack-data==0.6.3: executing>=1.2.0
+DEBUG Adding transitive dependency for stack-data==0.6.3: asttokens>=2.1.0
+DEBUG Adding transitive dependency for stack-data==0.6.3: pure-eval*
+DEBUG No cache entry for: https://pypi.org/simple/wcwidth/
+DEBUG Searching for a compatible version of python-dateutil (>=2.8.2)
+DEBUG Selecting: python-dateutil==2.9.0.post0 [compatible] (python_dateutil-2.9.0.post0-py2.py3-none-any.whl)
+DEBUG Adding transitive dependency for python-dateutil==2.9.0.post0: six>=1.5
+DEBUG Searching for a compatible version of argon2-cffi-bindings (*)
+DEBUG Selecting: argon2-cffi-bindings==25.1.0 [compatible] (argon2_cffi_bindings-25.1.0-cp39-abi3-manylinux_2_26_x86_64.manylinux_2_28_x86_64.whl)
+DEBUG Adding transitive dependency for argon2-cffi-bindings==25.1.0: cffi{python_full_version < '3.14'}>=1.0.1
+DEBUG Searching for a compatible version of python-json-logger (>=2.0.4)
+DEBUG Selecting: python-json-logger==3.3.0 [compatible] (python_json_logger-3.3.0-py3-none-any.whl)
+DEBUG Searching for a compatible version of pyyaml (>=5.3)
+DEBUG Selecting: pyyaml==6.0.2 [compatible] (PyYAML-6.0.2-cp312-cp312-manylinux_2_17_x86_64.manylinux2014_x86_64.whl)
+DEBUG Searching for a compatible version of referencing (>=0.28.4)
+DEBUG No cache entry for: https://pypi.org/simple/executing/
+DEBUG Selecting: referencing==0.36.2 [compatible] (referencing-0.36.2-py3-none-any.whl)
+DEBUG No cache entry for: https://pypi.org/simple/asttokens/
+DEBUG Adding transitive dependency for referencing==0.36.2: attrs>=22.2.0
+DEBUG Adding transitive dependency for referencing==0.36.2: rpds-py>=0.7.0
+DEBUG No cache entry for: https://pypi.org/simple/six/
+DEBUG Adding transitive dependency for referencing==0.36.2: typing-extensions{python_full_version < '3.13'}>=4.4.0
+DEBUG No cache entry for: https://pypi.org/simple/pure-eval/
+DEBUG Searching for a compatible version of rfc3339-validator (*)
+DEBUG Selecting: rfc3339-validator==0.1.4 [compatible] (rfc3339_validator-0.1.4-py2.py3-none-any.whl)
+DEBUG Adding transitive dependency for rfc3339-validator==0.1.4: six*
+DEBUG Searching for a compatible version of rfc3986-validator (>=0.1.1)
+DEBUG Selecting: rfc3986-validator==0.1.1 [compatible] (rfc3986_validator-0.1.1-py2.py3-none-any.whl)
+DEBUG Searching for a compatible version of beautifulsoup4 (*)
+DEBUG Selecting: beautifulsoup4==4.13.4 [compatible] (beautifulsoup4-4.13.4-py3-none-any.whl)
+DEBUG No cache entry for: https://pypi.org/simple/cffi/
+DEBUG Adding transitive dependency for beautifulsoup4==4.13.4: soupsieve>1.2
+DEBUG Adding transitive dependency for beautifulsoup4==4.13.4: typing-extensions>=4.0.0
+DEBUG Searching for a compatible version of bleach[css] (<5.0.0 | >=5.0.0+)
+DEBUG Selecting: bleach==6.2.0 [compatible] (bleach-6.2.0-py3-none-any.whl)
+DEBUG Adding transitive dependency for bleach==6.2.0: bleach==6.2.0
+DEBUG Adding transitive dependency for bleach==6.2.0: bleach[css]==6.2.0
+DEBUG Searching for a compatible version of bleach (==6.2.0)
+DEBUG Selecting: bleach==6.2.0 [compatible] (bleach-6.2.0-py3-none-any.whl)
+DEBUG No cache entry for: https://pypi.org/simple/soupsieve/
+DEBUG No cache entry for: https://files.pythonhosted.org/packages/fc/55/96142937f66150805c25c4d0f31ee4132fd33497753400734f9dfdcbdc66/bleach-6.2.0-py3-none-any.whl.metadata
+DEBUG No cache entry for: https://files.pythonhosted.org/packages/b7/ce/149a00dd41f10bc29e5921b496af8b574d8413afcd5e30dfa0ed46c2cc5e/six-1.17.0-py2.py3-none-any.whl.metadata
+DEBUG No cache entry for: https://files.pythonhosted.org/packages/8e/37/efad0257dc6e593a18957422533ff0f87ede7c9c6ea010a2177d738fb82f/pure_eval-0.2.3-py3-none-any.whl.metadata
+DEBUG No cache entry for: https://files.pythonhosted.org/packages/7b/8f/c4d9bafc34ad7ad5d8dc16dd1347ee0e507a52c3adb6bfa8887e1c6a26ba/executing-2.2.0-py2.py3-none-any.whl.metadata
+DEBUG No cache entry for: https://files.pythonhosted.org/packages/e7/9c/0e6afc12c269578be5c0c1c9f4b49a8d32770a080260c333ac04cc1c832d/soupsieve-2.7-py3-none-any.whl.metadata
+DEBUG Adding transitive dependency for bleach==6.2.0: webencodings*
+DEBUG Searching for a compatible version of bleach[css] (==6.2.0)
+DEBUG Selecting: bleach==6.2.0 [compatible] (bleach-6.2.0-py3-none-any.whl)
+DEBUG Adding transitive dependency for bleach==6.2.0: tinycss2>=1.1.0, <1.5
+DEBUG Searching for a compatible version of defusedxml (*)
+DEBUG Selecting: defusedxml==0.7.1 [compatible] (defusedxml-0.7.1-py2.py3-none-any.whl)
+DEBUG Searching for a compatible version of jupyterlab-pygments (*)
+DEBUG Selecting: jupyterlab-pygments==0.3.0 [compatible] (jupyterlab_pygments-0.3.0-py3-none-any.whl)
+DEBUG Searching for a compatible version of mistune (>=2.0.3, <4)
+DEBUG Selecting: mistune==3.1.3 [compatible] (mistune-3.1.3-py3-none-any.whl)
+DEBUG Searching for a compatible version of nbclient (>=0.5.0)
+DEBUG Selecting: nbclient==0.10.2 [compatible] (nbclient-0.10.2-py3-none-any.whl)
+DEBUG Adding transitive dependency for nbclient==0.10.2: jupyter-client>=6.1.12
+DEBUG Adding transitive dependency for nbclient==0.10.2: jupyter-core>=4.12, <5.0.dev0 | >=5.1.dev0
+DEBUG Adding transitive dependency for nbclient==0.10.2: nbformat>=5.1
+DEBUG Adding transitive dependency for nbclient==0.10.2: traitlets>=5.4
+DEBUG Searching for a compatible version of pandocfilters (>=1.4.1)
+DEBUG Selecting: pandocfilters==1.5.1 [compatible] (pandocfilters-1.5.1-py2.py3-none-any.whl)
+DEBUG Searching for a compatible version of fastjsonschema (>=2.15)
+DEBUG Selecting: fastjsonschema==2.21.1 [compatible] (fastjsonschema-2.21.1-py3-none-any.whl)
+DEBUG No cache entry for: https://files.pythonhosted.org/packages/25/8a/c46dcc25341b5bce5472c718902eb3d38600a903b14fa6aeecef3f21a46f/asttokens-3.0.0-py3-none-any.whl.metadata
+DEBUG Searching for a compatible version of ptyprocess{os_name != 'nt'} (*)
+DEBUG Selecting: ptyprocess==0.7.0 [compatible] (ptyprocess-0.7.0-py2.py3-none-any.whl)
+DEBUG Adding transitive dependency for ptyprocess==0.7.0: ptyprocess==0.7.0
+DEBUG No cache entry for: https://files.pythonhosted.org/packages/fd/84/fd2ba7aafacbad3c4201d395674fc6348826569da3c0937e75505ead3528/wcwidth-0.2.13-py2.py3-none-any.whl.metadata
+DEBUG Adding transitive dependency for ptyprocess==0.7.0: ptyprocess{os_name != 'nt'}==0.7.0
+DEBUG Searching for a compatible version of ptyprocess (==0.7.0)
+DEBUG Selecting: ptyprocess==0.7.0 [compatible] (ptyprocess-0.7.0-py2.py3-none-any.whl)
+DEBUG Searching for a compatible version of ptyprocess{os_name != 'nt'} (==0.7.0)
+DEBUG Selecting: ptyprocess==0.7.0 [compatible] (ptyprocess-0.7.0-py2.py3-none-any.whl)
+DEBUG Searching for a compatible version of attrs (>=22.2.0)
+DEBUG Selecting: attrs==25.3.0 [compatible] (attrs-25.3.0-py3-none-any.whl)
+DEBUG Searching for a compatible version of jsonschema-specifications (>=2023.3.6)
+DEBUG Selecting: jsonschema-specifications==2025.4.1 [compatible] (jsonschema_specifications-2025.4.1-py3-none-any.whl)
+DEBUG Adding transitive dependency for jsonschema-specifications==2025.4.1: referencing>=0.31.0
+DEBUG Searching for a compatible version of rpds-py (>=0.7.1)
+DEBUG Selecting: rpds-py==0.26.0 [compatible] (rpds_py-0.26.0-cp312-cp312-manylinux_2_17_x86_64.manylinux2014_x86_64.whl)
+DEBUG Searching for a compatible version of fqdn (*)
+DEBUG Selecting: fqdn==1.5.1 [compatible] (fqdn-1.5.1-py3-none-any.whl)
+DEBUG Searching for a compatible version of isoduration (*)
+DEBUG Selecting: isoduration==20.11.0 [compatible] (isoduration-20.11.0-py3-none-any.whl)
+DEBUG Adding transitive dependency for isoduration==20.11.0: arrow>=0.15.0
+DEBUG Searching for a compatible version of jsonpointer (>1.13)
+DEBUG Selecting: jsonpointer==3.0.0 [compatible] (jsonpointer-3.0.0-py2.py3-none-any.whl)
+DEBUG Searching for a compatible version of rfc3987-syntax (>=1.1.0)
+DEBUG Selecting: rfc3987-syntax==1.1.0 [compatible] (rfc3987_syntax-1.1.0-py3-none-any.whl)
+DEBUG Adding transitive dependency for rfc3987-syntax==1.1.0: lark>=1.2.2
+DEBUG Searching for a compatible version of uri-template (*)
+DEBUG Selecting: uri-template==1.3.0 [compatible] (uri_template-1.3.0-py3-none-any.whl)
+DEBUG Searching for a compatible version of webcolors (>=24.6.0)
+DEBUG Selecting: webcolors==24.11.1 [compatible] (webcolors-24.11.1-py3-none-any.whl)
+DEBUG Searching for a compatible version of charset-normalizer (>=2, <4)
+DEBUG Selecting: charset-normalizer==3.4.2 [compatible] (charset_normalizer-3.4.2-cp312-cp312-manylinux_2_17_x86_64.manylinux2014_x86_64.whl)
+DEBUG Searching for a compatible version of urllib3 (>=1.21.1, <3)
+DEBUG Selecting: urllib3==2.5.0 [compatible] (urllib3-2.5.0-py3-none-any.whl)
+DEBUG Searching for a compatible version of parso (>=0.8.4, <0.9.0)
+DEBUG Selecting: parso==0.8.4 [compatible] (parso-0.8.4-py2.py3-none-any.whl)
+DEBUG Searching for a compatible version of wcwidth (*)
+DEBUG Selecting: wcwidth==0.2.13 [compatible] (wcwidth-0.2.13-py2.py3-none-any.whl)
+DEBUG No cache entry for: https://pypi.org/simple/webencodings/
+DEBUG No cache entry for: https://pypi.org/simple/tinycss2/
+DEBUG No cache entry for: https://pypi.org/simple/arrow/
+DEBUG No cache entry for: https://pypi.org/simple/lark/
+DEBUG No cache entry for: https://files.pythonhosted.org/packages/f4/24/2a3e3df732393fed8b3ebf2ec078f05546de641fe1b667ee316ec1dcf3b7/webencodings-0.5.1-py2.py3-none-any.whl.metadata
+DEBUG No cache entry for: https://files.pythonhosted.org/packages/f8/ed/e97229a566617f2ae958a6b13e7cc0f585470eac730a73e9e82c32a3cdd2/arrow-1.3.0-py3-none-any.whl.metadata
+DEBUG No cache entry for: https://files.pythonhosted.org/packages/e6/34/ebdc18bae6aa14fbee1a08b63c015c72b64868ff7dae68808ab500c492e2/tinycss2-1.4.0-py3-none-any.whl.metadata
+DEBUG No cache entry for: https://files.pythonhosted.org/packages/2d/00/d90b10b962b4277f5e64a78b6609968859ff86889f5b898c1a778c06ec00/lark-1.2.2-py3-none-any.whl.metadata
+DEBUG Searching for a compatible version of executing (>=1.2.0)
+DEBUG Selecting: executing==2.2.0 [compatible] (executing-2.2.0-py2.py3-none-any.whl)
+DEBUG Searching for a compatible version of asttokens (>=2.1.0)
+DEBUG Selecting: asttokens==3.0.0 [compatible] (asttokens-3.0.0-py3-none-any.whl)
+DEBUG Searching for a compatible version of pure-eval (*)
+DEBUG Selecting: pure-eval==0.2.3 [compatible] (pure_eval-0.2.3-py3-none-any.whl)
+DEBUG Searching for a compatible version of six (>=1.5)
+DEBUG Selecting: six==1.17.0 [compatible] (six-1.17.0-py2.py3-none-any.whl)
+DEBUG Searching for a compatible version of cffi{python_full_version < '3.14'} (>=1.0.1)
+DEBUG Selecting: cffi==1.17.1 [compatible] (cffi-1.17.1-cp312-cp312-manylinux_2_17_x86_64.manylinux2014_x86_64.whl)
+DEBUG Adding transitive dependency for cffi==1.17.1: cffi==1.17.1
+DEBUG Adding transitive dependency for cffi==1.17.1: cffi{python_full_version < '3.14'}==1.17.1
+DEBUG Searching for a compatible version of cffi (==1.17.1)
+DEBUG Selecting: cffi==1.17.1 [compatible] (cffi-1.17.1-cp312-cp312-manylinux_2_17_x86_64.manylinux2014_x86_64.whl)
+DEBUG No cache entry for: https://files.pythonhosted.org/packages/b2/d5/da47df7004cb17e4955df6a43d14b3b4ae77737dff8bf7f8f333196717bf/cffi-1.17.1-cp312-cp312-manylinux_2_17_x86_64.manylinux2014_x86_64.whl.metadata
+DEBUG Adding transitive dependency for cffi==1.17.1: pycparser*
+DEBUG Searching for a compatible version of cffi{python_full_version < '3.14'} (==1.17.1)
+DEBUG Selecting: cffi==1.17.1 [compatible] (cffi-1.17.1-cp312-cp312-manylinux_2_17_x86_64.manylinux2014_x86_64.whl)
+DEBUG Adding transitive dependency for cffi==1.17.1: pycparser*
+DEBUG Searching for a compatible version of soupsieve (>1.2)
+DEBUG No cache entry for: https://pypi.org/simple/pycparser/
+DEBUG Selecting: soupsieve==2.7 [compatible] (soupsieve-2.7-py3-none-any.whl)
+DEBUG Searching for a compatible version of webencodings (*)
+DEBUG Selecting: webencodings==0.5.1 [compatible] (webencodings-0.5.1-py2.py3-none-any.whl)
+DEBUG Searching for a compatible version of tinycss2 (>=1.1.0, <1.5)
+DEBUG Selecting: tinycss2==1.4.0 [compatible] (tinycss2-1.4.0-py3-none-any.whl)
+DEBUG Adding transitive dependency for tinycss2==1.4.0: webencodings>=0.4
+DEBUG Searching for a compatible version of arrow (>=0.15.0)
+DEBUG Selecting: arrow==1.3.0 [compatible] (arrow-1.3.0-py3-none-any.whl)
+DEBUG Adding transitive dependency for arrow==1.3.0: python-dateutil>=2.7.0
+DEBUG Adding transitive dependency for arrow==1.3.0: types-python-dateutil>=2.8.10
+DEBUG Searching for a compatible version of lark (>=1.2.2)
+DEBUG Selecting: lark==1.2.2 [compatible] (lark-1.2.2-py3-none-any.whl)
+DEBUG No cache entry for: https://pypi.org/simple/types-python-dateutil/
+DEBUG Searching for a compatible version of pycparser (*)
+DEBUG Selecting: pycparser==2.22 [compatible] (pycparser-2.22-py3-none-any.whl)
+DEBUG No cache entry for: https://files.pythonhosted.org/packages/13/a3/a812df4e2dd5696d1f351d58b8fe16a405b234ad2886a0dab9183fb78109/pycparser-2.22-py3-none-any.whl.metadata
+DEBUG No cache entry for: https://files.pythonhosted.org/packages/72/52/43e70a8e57fefb172c22a21000b03ebcc15e47e97f5cb8495b9c2832efb4/types_python_dateutil-2.9.0.20250708-py3-none-any.whl.metadata
+DEBUG Searching for a compatible version of types-python-dateutil (>=2.8.10)
+DEBUG Selecting: types-python-dateutil==2.9.0.20250708 [compatible] (types_python_dateutil-2.9.0.20250708-py3-none-any.whl)
+DEBUG Tried 98 versions: anyio 1, argon2-cffi 1, argon2-cffi-bindings 1, arrow 1, asttokens 1, async-lru 1, attrs 1, babel 1, beautifulsoup4 1, bleach 1, certifi 1, cffi 1, charset-normalizer 1, comm 1, debugpy 1, decorator 1, defusedxml 1, executing 1, fastjsonschema 1, fqdn 1, h11 1, hatch-jupyter-builder 1, hatchling 1, httpcore 1, httpx 1, idna 1, ipykernel 1, ipython 1, ipython-pygments-lexers 1, isoduration 1, jedi 1, jinja2 1, json5 1, jsonpointer 1, jsonschema 1, jsonschema-specifications 1, jupyter-client 1, jupyter-core 1, jupyter-events 1, jupyter-lsp 1, jupyter-server 1, jupyter-server-terminals 1, jupyterlab 1, jupyterlab-pygments 1, jupyterlab-server 1, lark 1, markupsafe 1, matplotlib-inline 1, mistune 1, nbclient 1, nbconvert 1, nbformat 1, nest-asyncio 1, notebook-shim 1, overrides 1, packaging 1, pandocfilters 1, parso 1, pathspec 1, pexpect 1, platformdirs 1, pluggy 1, prometheus-client 1, prompt-toolkit 1, psutil 1, ptyprocess 1, pure-eval 1, pycparser 1, pygments 1, python-dateutil 1, python-json-logger 1, pyyaml 1, pyzmq 1, referencing 1, requests 1, rfc3339-validator 1, rfc3986-validator 1, rfc3987-syntax 1, rpds-py 1, send2trash 1, setuptools 1, six 1, sniffio 1, soupsieve 1, stack-data 1, terminado 1, tinycss2 1, tornado 1, traitlets 1, trove-classifiers 1, types-python-dateutil 1, typing-extensions 1, uri-template 1, urllib3 1, wcwidth 1, webcolors 1, webencodings 1, websocket-client 1
+DEBUG marker environment resolution took 0.693s
+DEBUG Installing in platformdirs==4.3.8, jupyter-events==0.12.0, anyio==4.10.0, rfc3339-validator==0.1.4, markupsafe==3.0.2, parso==0.8.4, stack-data==0.6.3, python-json-logger==3.3.0, pycparser==2.22, jsonpointer==3.0.0, rfc3986-validator==0.1.1, webencodings==0.5.1, pyzmq==27.0.1, decorator==5.2.1, rfc3987-syntax==1.1.0, nbconvert==7.16.6, httpx==0.28.1, nbformat==5.10.4, arrow==1.3.0, nest-asyncio==1.6.0, webcolors==24.11.1, uri-template==1.3.0, cffi==1.17.1, pure-eval==0.2.3, jinja2==3.1.6, httpcore==1.0.9, comm==0.2.3, wcwidth==0.2.13, psutil==7.0.0, notebook-shim==0.2.4, jupyter-lsp==2.2.6, pathspec==0.12.1, isoduration==20.11.0, ipython==9.4.0, debugpy==1.8.15, charset-normalizer==3.4.2, jedi==0.19.2, referencing==0.36.2, typing-extensions==4.14.1, overrides==7.7.0, argon2-cffi==25.1.0, prompt-toolkit==3.0.51, idna==3.10, types-python-dateutil==2.9.0.20250708, pandocfilters==1.5.1, jupyter-client==8.6.3, hatchling==1.27.0, json5==0.12.0, asttokens==3.0.0, defusedxml==0.7.1, terminado==0.18.1, requests==2.32.4, packaging==25.0, matplotlib-inline==0.1.7, certifi==2025.8.3, mistune==3.1.3, setuptools==80.9.0, urllib3==2.5.0, jupyter-server-terminals==0.5.3, trove-classifiers==2025.5.9.12, jsonschema-specifications==2025.4.1, h11==0.16.0, jsonschema==4.25.0, traitlets==5.14.3, ipython-pygments-lexers==1.1.1, jupyter-core==5.8.1, beautifulsoup4==4.13.4, send2trash==1.8.3, pexpect==4.9.0, argon2-cffi-bindings==25.1.0, jupyterlab-server==2.27.3, fqdn==1.5.1, pygments==2.19.2, attrs==25.3.0, tornado==6.5.1, hatch-jupyter-builder==0.9.1, six==1.17.0, websocket-client==1.8.0, executing==2.2.0, bleach==6.2.0, jupyterlab-pygments==0.3.0, tinycss2==1.4.0, babel==2.17.0, ipykernel==6.30.1, pyyaml==6.0.2, soupsieve==2.7, jupyterlab==4.4.5, nbclient==0.10.2, fastjsonschema==2.21.1, rpds-py==0.26.0, pluggy==1.6.0, jupyter-server==2.16.0, python-dateutil==2.9.0.post0, lark==1.2.2, sniffio==1.3.1, ptyprocess==0.7.0, async-lru==2.0.5, prometheus-client==0.22.1 in /tmp/.tmpALNmAM/builds-v0/.tmpot8ayD
+DEBUG Identified uncached distribution: platformdirs==4.3.8
+DEBUG Identified uncached distribution: jupyter-events==0.12.0
+DEBUG Identified uncached distribution: anyio==4.10.0
+DEBUG Identified uncached distribution: rfc3339-validator==0.1.4
+DEBUG Identified uncached distribution: markupsafe==3.0.2
+DEBUG Identified uncached distribution: parso==0.8.4
+DEBUG Identified uncached distribution: stack-data==0.6.3
+DEBUG Identified uncached distribution: python-json-logger==3.3.0
+DEBUG Identified uncached distribution: pycparser==2.22
+DEBUG Identified uncached distribution: jsonpointer==3.0.0
+DEBUG Identified uncached distribution: rfc3986-validator==0.1.1
+DEBUG Identified uncached distribution: webencodings==0.5.1
+DEBUG Identified uncached distribution: pyzmq==27.0.1
+DEBUG Identified uncached distribution: decorator==5.2.1
+DEBUG Identified uncached distribution: rfc3987-syntax==1.1.0
+DEBUG Identified uncached distribution: nbconvert==7.16.6
+DEBUG Identified uncached distribution: httpx==0.28.1
+DEBUG Identified uncached distribution: nbformat==5.10.4
+DEBUG Identified uncached distribution: arrow==1.3.0
+DEBUG Identified uncached distribution: nest-asyncio==1.6.0
+DEBUG Identified uncached distribution: webcolors==24.11.1
+DEBUG Identified uncached distribution: uri-template==1.3.0
+DEBUG Identified uncached distribution: cffi==1.17.1
+DEBUG Identified uncached distribution: pure-eval==0.2.3
+DEBUG Identified uncached distribution: jinja2==3.1.6
+DEBUG Identified uncached distribution: httpcore==1.0.9
+DEBUG Identified uncached distribution: comm==0.2.3
+DEBUG Identified uncached distribution: wcwidth==0.2.13
+DEBUG Identified uncached distribution: psutil==7.0.0
+DEBUG Identified uncached distribution: notebook-shim==0.2.4
+DEBUG Identified uncached distribution: jupyter-lsp==2.2.6
+DEBUG Identified uncached distribution: pathspec==0.12.1
+DEBUG Identified uncached distribution: isoduration==20.11.0
+DEBUG Identified uncached distribution: ipython==9.4.0
+DEBUG Identified uncached distribution: debugpy==1.8.15
+DEBUG Identified uncached distribution: charset-normalizer==3.4.2
+DEBUG Identified uncached distribution: jedi==0.19.2
+DEBUG Identified uncached distribution: referencing==0.36.2
+DEBUG Identified uncached distribution: typing-extensions==4.14.1
+DEBUG Identified uncached distribution: overrides==7.7.0
+DEBUG Identified uncached distribution: argon2-cffi==25.1.0
+DEBUG Identified uncached distribution: prompt-toolkit==3.0.51
+DEBUG Identified uncached distribution: idna==3.10
+DEBUG Identified uncached distribution: types-python-dateutil==2.9.0.20250708
+DEBUG Identified uncached distribution: pandocfilters==1.5.1
+DEBUG Identified uncached distribution: jupyter-client==8.6.3
+DEBUG Identified uncached distribution: hatchling==1.27.0
+DEBUG Identified uncached distribution: json5==0.12.0
+DEBUG Identified uncached distribution: asttokens==3.0.0
+DEBUG Identified uncached distribution: defusedxml==0.7.1
+DEBUG Identified uncached distribution: terminado==0.18.1
+DEBUG Identified uncached distribution: requests==2.32.4
+DEBUG Identified uncached distribution: packaging==25.0
+DEBUG Identified uncached distribution: matplotlib-inline==0.1.7
+DEBUG Identified uncached distribution: certifi==2025.8.3
+DEBUG Identified uncached distribution: mistune==3.1.3
+DEBUG Identified uncached distribution: setuptools==80.9.0
+DEBUG Identified uncached distribution: urllib3==2.5.0
+DEBUG Identified uncached distribution: jupyter-server-terminals==0.5.3
+DEBUG Identified uncached distribution: trove-classifiers==2025.5.9.12
+DEBUG Identified uncached distribution: jsonschema-specifications==2025.4.1
+DEBUG Identified uncached distribution: h11==0.16.0
+DEBUG Identified uncached distribution: jsonschema==4.25.0
+DEBUG Identified uncached distribution: traitlets==5.14.3
+DEBUG Identified uncached distribution: ipython-pygments-lexers==1.1.1
+DEBUG Identified uncached distribution: jupyter-core==5.8.1
+DEBUG Identified uncached distribution: beautifulsoup4==4.13.4
+DEBUG Identified uncached distribution: send2trash==1.8.3
+DEBUG Identified uncached distribution: pexpect==4.9.0
+DEBUG Identified uncached distribution: argon2-cffi-bindings==25.1.0
+DEBUG Identified uncached distribution: jupyterlab-server==2.27.3
+DEBUG Identified uncached distribution: fqdn==1.5.1
+DEBUG Identified uncached distribution: pygments==2.19.2
+DEBUG Identified uncached distribution: attrs==25.3.0
+DEBUG Identified uncached distribution: tornado==6.5.1
+DEBUG Identified uncached distribution: hatch-jupyter-builder==0.9.1
+DEBUG Identified uncached distribution: six==1.17.0
+DEBUG Identified uncached distribution: websocket-client==1.8.0
+DEBUG Identified uncached distribution: executing==2.2.0
+DEBUG Identified uncached distribution: bleach==6.2.0
+DEBUG Identified uncached distribution: jupyterlab-pygments==0.3.0
+DEBUG Identified uncached distribution: tinycss2==1.4.0
+DEBUG Identified uncached distribution: babel==2.17.0
+DEBUG Identified uncached distribution: ipykernel==6.30.1
+DEBUG Identified uncached distribution: pyyaml==6.0.2
+DEBUG Identified uncached distribution: soupsieve==2.7
+DEBUG Identified uncached distribution: jupyterlab==4.4.5
+DEBUG Identified uncached distribution: nbclient==0.10.2
+DEBUG Identified uncached distribution: fastjsonschema==2.21.1
+DEBUG Identified uncached distribution: rpds-py==0.26.0
+DEBUG Identified uncached distribution: pluggy==1.6.0
+DEBUG Identified uncached distribution: jupyter-server==2.16.0
+DEBUG Identified uncached distribution: python-dateutil==2.9.0.post0
+DEBUG Identified uncached distribution: lark==1.2.2
+DEBUG Identified uncached distribution: sniffio==1.3.1
+DEBUG Identified uncached distribution: ptyprocess==0.7.0
+DEBUG Identified uncached distribution: async-lru==2.0.5
+DEBUG Identified uncached distribution: prometheus-client==0.22.1
+DEBUG Downloading and building requirements for build: platformdirs==4.3.8, jupyter-events==0.12.0, anyio==4.10.0, rfc3339-validator==0.1.4, markupsafe==3.0.2, parso==0.8.4, stack-data==0.6.3, python-json-logger==3.3.0, pycparser==2.22, jsonpointer==3.0.0, rfc3986-validator==0.1.1, webencodings==0.5.1, pyzmq==27.0.1, decorator==5.2.1, rfc3987-syntax==1.1.0, nbconvert==7.16.6, httpx==0.28.1, nbformat==5.10.4, arrow==1.3.0, nest-asyncio==1.6.0, webcolors==24.11.1, uri-template==1.3.0, cffi==1.17.1, pure-eval==0.2.3, jinja2==3.1.6, httpcore==1.0.9, comm==0.2.3, wcwidth==0.2.13, psutil==7.0.0, notebook-shim==0.2.4, jupyter-lsp==2.2.6, pathspec==0.12.1, isoduration==20.11.0, ipython==9.4.0, debugpy==1.8.15, charset-normalizer==3.4.2, jedi==0.19.2, referencing==0.36.2, typing-extensions==4.14.1, overrides==7.7.0, argon2-cffi==25.1.0, prompt-toolkit==3.0.51, idna==3.10, types-python-dateutil==2.9.0.20250708, pandocfilters==1.5.1, jupyter-client==8.6.3, hatchling==1.27.0, json5==0.12.0, asttokens==3.0.0, defusedxml==0.7.1, terminado==0.18.1, requests==2.32.4, packaging==25.0, matplotlib-inline==0.1.7, certifi==2025.8.3, mistune==3.1.3, setuptools==80.9.0, urllib3==2.5.0, jupyter-server-terminals==0.5.3, trove-classifiers==2025.5.9.12, jsonschema-specifications==2025.4.1, h11==0.16.0, jsonschema==4.25.0, traitlets==5.14.3, ipython-pygments-lexers==1.1.1, jupyter-core==5.8.1, beautifulsoup4==4.13.4, send2trash==1.8.3, pexpect==4.9.0, argon2-cffi-bindings==25.1.0, jupyterlab-server==2.27.3, fqdn==1.5.1, pygments==2.19.2, attrs==25.3.0, tornado==6.5.1, hatch-jupyter-builder==0.9.1, six==1.17.0, websocket-client==1.8.0, executing==2.2.0, bleach==6.2.0, jupyterlab-pygments==0.3.0, tinycss2==1.4.0, babel==2.17.0, ipykernel==6.30.1, pyyaml==6.0.2, soupsieve==2.7, jupyterlab==4.4.5, nbclient==0.10.2, fastjsonschema==2.21.1, rpds-py==0.26.0, pluggy==1.6.0, jupyter-server==2.16.0, python-dateutil==2.9.0.post0, lark==1.2.2, sniffio==1.3.1, ptyprocess==0.7.0, async-lru==2.0.5, prometheus-client==0.22.1
+DEBUG No cache entry for: https://files.pythonhosted.org/packages/47/74/e144ce85b34414e44b14c1f6bf2e3bfe17964c8e5670ebdc7629f2e53672/jupyterlab-4.4.5-py3-none-any.whl
+DEBUG No cache entry for: https://files.pythonhosted.org/packages/b7/b8/3fe70c75fe32afc4bb507f75563d39bc5642255d1d94f1f23604725780bf/babel-2.17.0-py3-none-any.whl
+DEBUG No cache entry for: https://files.pythonhosted.org/packages/99/8d/7f6ef1097e7fecf26b4ef72338d08e41644a41b7ee958a19f494ffcffc29/debugpy-1.8.15-cp312-cp312-manylinux_2_5_x86_64.manylinux1_x86_64.manylinux_2_17_x86_64.manylinux2014_x86_64.whl
+DEBUG No cache entry for: https://files.pythonhosted.org/packages/c0/5a/9cac0c82afec3d09ccd97c8b6502d48f165f9124db81b4bcb90b4af974ee/jedi-0.19.2-py2.py3-none-any.whl
+DEBUG No cache entry for: https://files.pythonhosted.org/packages/c7/21/705964c7812476f378728bdf590ca4b771ec72385c533964653c68e86bdc/pygments-2.19.2-py3-none-any.whl
+DEBUG No cache entry for: https://files.pythonhosted.org/packages/a3/dc/17031897dae0efacfea57dfd3a82fdd2a2aeb58e0ff71b77b87e44edc772/setuptools-80.9.0-py3-none-any.whl
+DEBUG No cache entry for: https://files.pythonhosted.org/packages/7e/0a/2356305c423a975000867de56888b79e44ec2192c690ff93c3109fd78081/pyzmq-27.0.1-cp312-abi3-manylinux_2_26_x86_64.manylinux_2_28_x86_64.whl
+DEBUG No cache entry for: https://files.pythonhosted.org/packages/b9/2b/614b4752f2e127db5cc206abc23a8c19678e92b23c3db30fc86ab731d3bd/PyYAML-6.0.2-cp312-cp312-manylinux_2_17_x86_64.manylinux2014_x86_64.whl
+DEBUG No cache entry for: https://files.pythonhosted.org/packages/63/f8/0031ee2b906a15a33d6bfc12dd09c3dfa966b3cb5b284ecfb7549e6ac3c4/ipython-9.4.0-py3-none-any.whl
+DEBUG No cache entry for: https://files.pythonhosted.org/packages/b2/d5/da47df7004cb17e4955df6a43d14b3b4ae77737dff8bf7f8f333196717bf/cffi-1.17.1-cp312-cp312-manylinux_2_17_x86_64.manylinux2014_x86_64.whl
+DEBUG No cache entry for: https://files.pythonhosted.org/packages/7d/f7/0c48ba992d875521ac761e6e04b0a1750f8150ae42ea26df1852d6a98942/tornado-6.5.1-cp39-abi3-manylinux_2_5_x86_64.manylinux1_x86_64.manylinux_2_17_x86_64.manylinux2014_x86_64.whl
+DEBUG No cache entry for: https://files.pythonhosted.org/packages/ce/4f/5249960887b1fbe561d9ff265496d170b55a735b76724f10ef19f9e40716/prompt_toolkit-3.0.51-py3-none-any.whl
+DEBUG No cache entry for: https://files.pythonhosted.org/packages/46/1f/5ebbced977171d09a7b0c08a285ff9a20aafb9c51bde07e52349ff1ddd71/jupyter_server-2.16.0-py3-none-any.whl
+DEBUG No cache entry for: https://files.pythonhosted.org/packages/2e/77/87d7bfabfc4e821caa35481a2ff6ae0b73e6a391bb6b343db2c91c2b9844/rpds_py-0.26.0-cp312-cp312-manylinux_2_17_x86_64.manylinux2014_x86_64.whl
+DEBUG No cache entry for: https://files.pythonhosted.org/packages/bf/b9/b0eb3f3cbcb734d930fdf839431606844a825b23eaf9a6ab371edac8162c/psutil-7.0.0-cp36-abi3-manylinux_2_12_x86_64.manylinux2010_x86_64.manylinux_2_17_x86_64.manylinux2014_x86_64.whl
+DEBUG No cache entry for: https://files.pythonhosted.org/packages/cc/9a/cd673b2f773a12c992f41309ef81b99da1690426bd2f96957a7ade0d3ed7/nbconvert-7.16.6-py3-none-any.whl
+DEBUG No cache entry for: https://files.pythonhosted.org/packages/ec/57/56b9bcc3c9c6a792fcbaf139543cee77261f3651ca9da0c93f5c1221264b/python_dateutil-2.9.0.post0-py2.py3-none-any.whl
+DEBUG No cache entry for: https://files.pythonhosted.org/packages/50/cd/30110dc0ffcf3b131156077b90e9f60ed75711223f306da4db08eff8403b/beautifulsoup4-4.13.4-py3-none-any.whl
+DEBUG No cache entry for: https://files.pythonhosted.org/packages/fc/55/96142937f66150805c25c4d0f31ee4132fd33497753400734f9dfdcbdc66/bleach-6.2.0-py3-none-any.whl
+DEBUG No cache entry for: https://files.pythonhosted.org/packages/e5/48/1549795ba7742c948d2ad169c1c8cdbae65bc450d6cd753d124b17c8cd32/certifi-2025.8.3-py3-none-any.whl
+DEBUG No cache entry for: https://files.pythonhosted.org/packages/8c/73/6ede2ec59bce19b3edf4209d70004253ec5f4e319f9a2e3f2f15601ed5f7/charset_normalizer-3.4.2-cp312-cp312-manylinux_2_17_x86_64.manylinux2014_x86_64.whl
+DEBUG No cache entry for: https://files.pythonhosted.org/packages/62/a1/3d680cbfd5f4b8f15abc1d571870c5fc3e594bb582bc3b64ea099db13e56/jinja2-3.1.6-py3-none-any.whl
+DEBUG No cache entry for: https://files.pythonhosted.org/packages/a7/c2/fe1e52489ae3122415c51f387e221dd0773709bad6c6cdaa599e8a2c5185/urllib3-2.5.0-py3-none-any.whl
+DEBUG No cache entry for: https://files.pythonhosted.org/packages/13/a3/a812df4e2dd5696d1f351d58b8fe16a405b234ad2886a0dab9183fb78109/pycparser-2.22-py3-none-any.whl
+DEBUG No cache entry for: https://files.pythonhosted.org/packages/fc/c7/b445faca8deb954fe536abebff4ece5b097b923de482b26e78448c89d1dd/ipykernel-6.30.1-py3-none-any.whl
+DEBUG No cache entry for: https://files.pythonhosted.org/packages/2d/00/d90b10b962b4277f5e64a78b6609968859ff86889f5b898c1a778c06ec00/lark-1.2.2-py3-none-any.whl
+DEBUG No cache entry for: https://files.pythonhosted.org/packages/6f/12/e5e0282d673bb9746bacfb6e2dba8719989d3660cdb2ea79aee9a9651afb/anyio-4.10.0-py3-none-any.whl
+DEBUG No cache entry for: https://files.pythonhosted.org/packages/11/85/b0394e0b6fcccd2c1eeefc230978a6f8cb0c5df1e4cd3e7625735a0d7d1e/jupyter_client-8.6.3-py3-none-any.whl
+DEBUG No cache entry for: https://files.pythonhosted.org/packages/c6/ac/dac4a63f978e4dcb3c6d3a78c4d8e0192a113d288502a1216950c41b1027/parso-0.8.4-py2.py3-none-any.whl
+DEBUG No cache entry for: https://files.pythonhosted.org/packages/fe/54/c86cd8e011fe98803d7e382fd67c0df5ceab8d2b7ad8c5a81524f791551c/jsonschema-4.25.0-py3-none-any.whl
+DEBUG No cache entry for: https://files.pythonhosted.org/packages/00/c0/8f5d070730d7836adc9c9b6408dec68c6ced86b304a9b26a14df072a6e8c/traitlets-5.14.3-py3-none-any.whl
+DEBUG No cache entry for: https://files.pythonhosted.org/packages/09/52/94108adfdd6e2ddf58be64f959a0b9c7d4ef2fa71086c38356d22dc501ea/argon2_cffi_bindings-25.1.0-cp39-abi3-manylinux_2_26_x86_64.manylinux_2_28_x86_64.whl
+DEBUG No cache entry for: https://files.pythonhosted.org/packages/7e/f5/f66802a942d491edb555dd61e3a9961140fd64c90bce1eafd741609d334d/httpcore-1.0.9-py3-none-any.whl
+DEBUG No cache entry for: https://files.pythonhosted.org/packages/a9/82/0340caa499416c78e5d8f5f05947ae4bc3cba53c9f038ab6e9ed964e22f1/nbformat-5.10.4-py3-none-any.whl
+DEBUG No cache entry for: https://files.pythonhosted.org/packages/08/e7/ae38d7a6dfba0533684e0b2136817d667588ae3ec984c1a4e5df5eb88482/hatchling-1.27.0-py3-none-any.whl
+DEBUG No cache entry for: https://files.pythonhosted.org/packages/2a/39/e50c7c3a983047577ee07d2a9e53faf5a69493943ec3f6a384bdc792deb2/httpx-0.28.1-py3-none-any.whl
+DEBUG No cache entry for: https://files.pythonhosted.org/packages/76/c6/c88e154df9c4e1a2a66ccf0005a88dfb2650c1dffb6f5ce603dfbd452ce3/idna-3.10-py3-none-any.whl
+DEBUG No cache entry for: https://files.pythonhosted.org/packages/47/7c/12f68daf85b469b4896d5e4a629baa33c806d61de75ac5b39d8ef27ec4a2/jupyter_lsp-2.2.6-py3-none-any.whl
+DEBUG No cache entry for: https://files.pythonhosted.org/packages/20/12/38679034af332785aac8774540895e234f4d07f7545804097de4b666afd8/packaging-25.0-py3-none-any.whl
+DEBUG No cache entry for: https://files.pythonhosted.org/packages/f8/ed/e97229a566617f2ae958a6b13e7cc0f585470eac730a73e9e82c32a3cdd2/arrow-1.3.0-py3-none-any.whl
+DEBUG No cache entry for: https://files.pythonhosted.org/packages/7c/e4/56027c4a6b4ae70ca9de302488c5ca95ad4a39e190093d6c1a8ace08341b/requests-2.32.4-py3-none-any.whl
+DEBUG No cache entry for: https://files.pythonhosted.org/packages/77/06/bb80f5f86020c4551da315d78b3ab75e8228f89f0162f2c3a819e407941a/attrs-25.3.0-py3-none-any.whl
+DEBUG No cache entry for: https://files.pythonhosted.org/packages/9e/c3/059298687310d527a58bb01f3b1965787ee3b40dce76752eda8b44e9a2c5/pexpect-4.9.0-py2.py3-none-any.whl
+DEBUG No cache entry for: https://files.pythonhosted.org/packages/54/09/2032e7d15c544a0e3cd831c51d77a8ca57f7555b2e1b2922142eddb02a84/jupyterlab_server-2.27.3-py3-none-any.whl
+DEBUG No cache entry for: https://files.pythonhosted.org/packages/5a/84/44687a29792a70e111c5c477230a72c4b957d88d16141199bf9acb7537a3/websocket_client-1.8.0-py3-none-any.whl
+DEBUG No cache entry for: https://files.pythonhosted.org/packages/32/ae/ec06af4fe3ee72d16973474f122541746196aaa16cea6f66d18b963c6177/prometheus_client-0.22.1-py3-none-any.whl
+DEBUG No cache entry for: https://files.pythonhosted.org/packages/01/4d/23c4e4f09da849e127e9f123241946c23c1e30f45a88366879e064211815/mistune-3.1.3-py3-none-any.whl
+DEBUG No cache entry for: https://files.pythonhosted.org/packages/b5/00/d631e67a838026495268c2f6884f3711a15a9a2a96cd244fdaea53b823fb/typing_extensions-4.14.1-py3-none-any.whl
+DEBUG No cache entry for: https://files.pythonhosted.org/packages/04/4b/29cac41a4d98d144bf5f6d33995617b185d14b22401f75ca86f384e87ff1/h11-0.16.0-py3-none-any.whl
+DEBUG No cache entry for: https://files.pythonhosted.org/packages/e7/9c/0e6afc12c269578be5c0c1c9f4b49a8d32770a080260c333ac04cc1c832d/soupsieve-2.7-py3-none-any.whl
+DEBUG No cache entry for: https://files.pythonhosted.org/packages/41/9f/3500910d5a98549e3098807493851eeef2b89cdd3032227558a104dfe926/json5-0.12.0-py3-none-any.whl
+DEBUG No cache entry for: https://files.pythonhosted.org/packages/fd/84/fd2ba7aafacbad3c4201d395674fc6348826569da3c0937e75505ead3528/wcwidth-0.2.13-py2.py3-none-any.whl
+DEBUG No cache entry for: https://files.pythonhosted.org/packages/cc/20/ff623b09d963f88bfde16306a54e12ee5ea43e9b597108672ff3a408aad6/pathspec-0.12.1-py3-none-any.whl
+DEBUG No cache entry for: https://files.pythonhosted.org/packages/2f/57/6bffd4b20b88da3800c5d691e0337761576ee688eb01299eae865689d2df/jupyter_core-5.8.1-py3-none-any.whl
+DEBUG No cache entry for: https://files.pythonhosted.org/packages/25/8a/c46dcc25341b5bce5472c718902eb3d38600a903b14fa6aeecef3f21a46f/asttokens-3.0.0-py3-none-any.whl
+DEBUG No cache entry for: https://files.pythonhosted.org/packages/c1/b1/3baf80dc6d2b7bc27a95a67752d0208e410351e3feb4eb78de5f77454d8d/referencing-0.36.2-py3-none-any.whl
+DEBUG No cache entry for: https://files.pythonhosted.org/packages/7b/8f/c4d9bafc34ad7ad5d8dc16dd1347ee0e507a52c3adb6bfa8887e1c6a26ba/executing-2.2.0-py2.py3-none-any.whl
+DEBUG No cache entry for: https://files.pythonhosted.org/packages/e6/34/ebdc18bae6aa14fbee1a08b63c015c72b64868ff7dae68808ab500c492e2/tinycss2-1.4.0-py3-none-any.whl
+DEBUG No cache entry for: https://files.pythonhosted.org/packages/07/6c/aa3f2f849e01cb6a001cd8554a88d4c77c5c1a31c95bdf1cf9301e6d9ef4/defusedxml-0.7.1-py2.py3-none-any.whl
+DEBUG No cache entry for: https://files.pythonhosted.org/packages/34/6d/e7fa07f03a4a7b221d94b4d586edb754a9b0dc3c9e2c93353e9fa4e0d117/nbclient-0.10.2-py3-none-any.whl
+DEBUG No cache entry for: https://files.pythonhosted.org/packages/f1/7b/ce1eafaf1a76852e2ec9b22edecf1daa58175c090266e9f6c64afcd81d91/stack_data-0.6.3-py3-none-any.whl
+DEBUG No cache entry for: https://files.pythonhosted.org/packages/90/2b/0817a2b257fe88725c25589d89aec060581aabf668707a8d03b2e9e0cb2a/fastjsonschema-2.21.1-py3-none-any.whl
+DEBUG No cache entry for: https://files.pythonhosted.org/packages/f3/f0/89e7aadfb3749d0f52234a0c8c7867877876e0a20b60e2188e9850794c17/MarkupSafe-3.0.2-cp312-cp312-manylinux_2_17_x86_64.manylinux2014_x86_64.whl
+DEBUG No cache entry for: https://files.pythonhosted.org/packages/54/20/4d324d65cc6d9205fabedc306948156824eb9f0ee1633355a8f7ec5c66bf/pluggy-1.6.0-py3-none-any.whl
+DEBUG No cache entry for: https://files.pythonhosted.org/packages/e2/48/577993f1f99c552f18a0428731a755e06171f9902fa118c379eb7c04ea22/jupyter_events-0.12.0-py3-none-any.whl
+DEBUG No cache entry for: https://files.pythonhosted.org/packages/9f/ce/be681f7af8141eabe61df05c7990db3bafe0ea9e2d7cec9329fad75a00e4/hatch_jupyter_builder-0.9.1-py3-none-any.whl
+DEBUG No cache entry for: https://files.pythonhosted.org/packages/fe/39/979e8e21520d4e47a0bbe349e2713c0aac6f3d853d0e5b34d76206c439aa/platformdirs-4.3.8-py3-none-any.whl
+DEBUG No cache entry for: https://files.pythonhosted.org/packages/01/0e/b27cdbaccf30b890c40ed1da9fd4a3593a5cf94dae54fb34f8a4b74fcd3f/jsonschema_specifications-2025.4.1-py3-none-any.whl
+DEBUG No cache entry for: https://files.pythonhosted.org/packages/40/b0/4562db6223154aa4e22f939003cb92514c79f3d4dccca3444253fd17f902/Send2Trash-1.8.3-py3-none-any.whl
+DEBUG No cache entry for: https://files.pythonhosted.org/packages/2c/ab/fc8290c6a4c722e5514d80f62b2dc4c4df1a68a41d1364e625c35990fcf3/overrides-7.7.0-py3-none-any.whl
+DEBUG No cache entry for: https://files.pythonhosted.org/packages/72/52/43e70a8e57fefb172c22a21000b03ebcc15e47e97f5cb8495b9c2832efb4/types_python_dateutil-2.9.0.20250708-py3-none-any.whl
+DEBUG No cache entry for: https://files.pythonhosted.org/packages/b1/dd/ead9d8ea85bf202d90cc513b533f9c363121c7792674f78e0d8a854b63b4/jupyterlab_pygments-0.3.0-py3-none-any.whl
+DEBUG No cache entry for: https://files.pythonhosted.org/packages/08/20/0f2523b9e50a8052bc6a8b732dfc8568abbdc42010aef03a2d750bdab3b2/python_json_logger-3.3.0-py3-none-any.whl
+DEBUG No cache entry for: https://files.pythonhosted.org/packages/60/e8/c0e05e4684d13459f93d312077a9a2efbe04d59c393bc2b8802248c908d4/webcolors-24.11.1-py3-none-any.whl
+DEBUG No cache entry for: https://files.pythonhosted.org/packages/4f/d3/a8b22fa575b297cd6e3e3b0155c7e25db170edf1c74783d6a31a2490b8d9/argon2_cffi-25.1.0-py3-none-any.whl
+DEBUG No cache entry for: https://files.pythonhosted.org/packages/92/ef/c6deb083748be3bcad6f471b6ae983950c161890bf5ae1b2af80cc56c530/trove_classifiers-2025.5.9.12-py3-none-any.whl
+DEBUG No cache entry for: https://files.pythonhosted.org/packages/6a/9e/2064975477fdc887e47ad42157e214526dcad8f317a948dee17e1659a62f/terminado-0.18.1-py3-none-any.whl
+DEBUG No cache entry for: https://files.pythonhosted.org/packages/22/a6/858897256d0deac81a172289110f31629fc4cee19b6f01283303e18c8db3/ptyprocess-0.7.0-py2.py3-none-any.whl
+DEBUG No cache entry for: https://files.pythonhosted.org/packages/07/2d/2b32cdbe8d2a602f697a649798554e4f072115438e92249624e532e8aca6/jupyter_server_terminals-0.5.3-py3-none-any.whl
+DEBUG No cache entry for: https://files.pythonhosted.org/packages/f9/33/bd5b9137445ea4b680023eb0469b2bb969d61303dedb2aac6560ff3d14a1/notebook_shim-0.2.4-py3-none-any.whl
+DEBUG No cache entry for: https://files.pythonhosted.org/packages/8e/37/efad0257dc6e593a18957422533ff0f87ede7c9c6ea010a2177d738fb82f/pure_eval-0.2.3-py3-none-any.whl
+DEBUG No cache entry for: https://files.pythonhosted.org/packages/f4/24/2a3e3df732393fed8b3ebf2ec078f05546de641fe1b667ee316ec1dcf3b7/webencodings-0.5.1-py2.py3-none-any.whl
+DEBUG No cache entry for: https://files.pythonhosted.org/packages/7b/55/e5326141505c5d5e34c5e0935d2908a74e4561eca44108fbfb9c13d2911a/isoduration-20.11.0-py3-none-any.whl
+DEBUG No cache entry for: https://files.pythonhosted.org/packages/e7/00/3fca040d7cf8a32776d3d81a00c8ee7457e00f80c649f1e4a863c8321ae9/uri_template-1.3.0-py3-none-any.whl
+DEBUG No cache entry for: https://files.pythonhosted.org/packages/b7/ce/149a00dd41f10bc29e5921b496af8b574d8413afcd5e30dfa0ed46c2cc5e/six-1.17.0-py2.py3-none-any.whl
+DEBUG No cache entry for: https://files.pythonhosted.org/packages/e9/44/75a9c9421471a6c4805dbf2356f7c181a29c1879239abab1ea2cc8f38b40/sniffio-1.3.1-py3-none-any.whl
+DEBUG No cache entry for: https://files.pythonhosted.org/packages/8f/8e/9ad090d3553c280a8060fbf6e24dc1c0c29704ee7d1c372f0c174aa59285/matplotlib_inline-0.1.7-py3-none-any.whl
+DEBUG No cache entry for: https://files.pythonhosted.org/packages/4e/8c/f3147f5c4b73e7550fe5f9352eaa956ae838d5c51eb58e7a25b9f3e2643b/decorator-5.2.1-py3-none-any.whl
+DEBUG No cache entry for: https://files.pythonhosted.org/packages/cf/58/8acf1b3e91c58313ce5cb67df61001fc9dcd21be4fadb76c1a2d540e09ed/fqdn-1.5.1-py3-none-any.whl
+DEBUG No cache entry for: https://files.pythonhosted.org/packages/ef/af/4fbc8cab944db5d21b7e2a5b8e9211a03a79852b1157e2c102fcc61ac440/pandocfilters-1.5.1-py2.py3-none-any.whl
+DEBUG No cache entry for: https://files.pythonhosted.org/packages/d9/33/1f075bf72b0b747cb3288d011319aaf64083cf2efef8354174e3ed4540e2/ipython_pygments_lexers-1.1.1-py3-none-any.whl
+DEBUG No cache entry for: https://files.pythonhosted.org/packages/71/92/5e77f98553e9e75130c78900d000368476aed74276eb8ae8796f65f00918/jsonpointer-3.0.0-py2.py3-none-any.whl
+DEBUG No cache entry for: https://files.pythonhosted.org/packages/7e/71/44ce230e1b7fadd372515a97e32a83011f906ddded8d03e3c6aafbdedbb7/rfc3987_syntax-1.1.0-py3-none-any.whl
+DEBUG No cache entry for: https://files.pythonhosted.org/packages/60/97/891a0971e1e4a8c5d2b20bbe0e524dc04548d2307fee33cdeba148fd4fc7/comm-0.2.3-py3-none-any.whl
+DEBUG No cache entry for: https://files.pythonhosted.org/packages/03/49/d10027df9fce941cb8184e78a02857af36360d33e1721df81c5ed2179a1a/async_lru-2.0.5-py3-none-any.whl
+DEBUG No cache entry for: https://files.pythonhosted.org/packages/a0/c4/c2971a3ba4c6103a3d10c4b0f24f461ddc027f0f09763220cf35ca1401b3/nest_asyncio-1.6.0-py3-none-any.whl
+DEBUG No cache entry for: https://files.pythonhosted.org/packages/9e/51/17023c0f8f1869d8806b979a2bffa3f861f26a3f1a66b094288323fba52f/rfc3986_validator-0.1.1-py2.py3-none-any.whl
+DEBUG No cache entry for: https://files.pythonhosted.org/packages/7b/44/4e421b96b67b2daff264473f7465db72fbdf36a07e05494f50300cc7b0c6/rfc3339_validator-0.1.4-py2.py3-none-any.whl
+DEBUG Installing build requirements: h11==0.16.0, typing-extensions==4.14.1, mistune==3.1.3, websocket-client==1.8.0, packaging==25.0, soupsieve==2.7, prometheus-client==0.22.1, arrow==1.3.0, requests==2.32.4, parso==0.8.4, attrs==25.3.0, httpx==0.28.1, pexpect==4.9.0, jupyter-lsp==2.2.6, traitlets==5.14.3, httpcore==1.0.9, idna==3.10, jupyterlab-server==2.27.3, wcwidth==0.2.13, hatchling==1.27.0, anyio==4.10.0, jsonschema==4.25.0, nbformat==5.10.4, json5==0.12.0, jinja2==3.1.6, argon2-cffi-bindings==25.1.0, pycparser==2.22, certifi==2025.8.3, lark==1.2.2, urllib3==2.5.0, jupyter-client==8.6.3, charset-normalizer==3.4.2, asttokens==3.0.0, pathspec==0.12.1, jupyter-core==5.8.1, python-dateutil==2.9.0.post0, ipykernel==6.30.1, psutil==7.0.0, referencing==0.36.2, beautifulsoup4==4.13.4, bleach==6.2.0, markupsafe==3.0.2, stack-data==0.6.3, tinycss2==1.4.0, nbclient==0.10.2, pluggy==1.6.0, executing==2.2.0, fastjsonschema==2.21.1, platformdirs==4.3.8, rpds-py==0.26.0, defusedxml==0.7.1, jupyter-events==0.12.0, hatch-jupyter-builder==0.9.1, tornado==6.5.1, ptyprocess==0.7.0, overrides==7.7.0, webcolors==24.11.1, trove-classifiers==2025.5.9.12, cffi==1.17.1, nbconvert==7.16.6, terminado==0.18.1, argon2-cffi==25.1.0, python-json-logger==3.3.0, pure-eval==0.2.3, webencodings==0.5.1, jupyterlab-pygments==0.3.0, send2trash==1.8.3, jupyter-server-terminals==0.5.3, notebook-shim==0.2.4, types-python-dateutil==2.9.0.20250708, isoduration==20.11.0, six==1.17.0, decorator==5.2.1, jupyter-server==2.16.0, fqdn==1.5.1, matplotlib-inline==0.1.7, uri-template==1.3.0, sniffio==1.3.1, jsonschema-specifications==2025.4.1, ipython-pygments-lexers==1.1.1, pandocfilters==1.5.1, prompt-toolkit==3.0.51, nest-asyncio==1.6.0, async-lru==2.0.5, rfc3986-validator==0.1.1, comm==0.2.3, rfc3339-validator==0.1.4, pyyaml==6.0.2, rfc3987-syntax==1.1.0, jsonpointer==3.0.0, ipython==9.4.0, pyzmq==27.0.1, pygments==2.19.2, setuptools==80.9.0, debugpy==1.8.15, jedi==0.19.2, babel==2.17.0, jupyterlab==4.4.5
+DEBUG Creating PEP 517 build environment
+DEBUG Calling `hatchling.build.get_requires_for_build_wheel()`
+DEBUG No workspace root found, using project root
+DEBUG Calling `hatchling.build.build_wheel("/home/bdx/allcode/github/vantagecompute/jup-fir-lau/dist", {}, None)`
+INFO:hatch_jupyter_builder.utils:Running jupyter-builder
+INFO:hatch_jupyter_builder.utils:Building with hatch_jupyter_builder.npm_builder
+INFO:hatch_jupyter_builder.utils:With kwargs: {'build_cmd': 'build:prod', 'npm': ['jlpm']}
+INFO:hatch_jupyter_builder.utils:Installing build dependencies with npm.  This may take a while...
+INFO:hatch_jupyter_builder.utils:> /tmp/.tmpALNmAM/builds-v0/.tmpot8ayD/bin/jlpm install
+➤ YN0000: ┌ Resolution step
+➤ YN0002: │ @jupyterlab/services@npm:7.4.5 doesn't provide react (p5a121), requested by @jupyterlab/settingregistry
+➤ YN0000: │ Some peer dependencies are incorrectly met; run yarn explain peer-requirements <hash> for details, where <hash> is the six-letter p-prefixed code
+➤ YN0000: └ Completed
+➤ YN0000: ┌ Fetch step
+➤ YN0000: └ Completed
+➤ YN0000: ┌ Link step
+➤ YN0000: └ Completed
+➤ YN0000: Done with warnings in 0s 453ms
+INFO:hatch_jupyter_builder.utils:> /tmp/.tmpALNmAM/builds-v0/.tmpot8ayD/bin/jlpm run build:prod
+Building extension in .
+
+Compilation starting…
+
+
+Compilation finished
+
+assets by path *.js 1.11 MiB
+  asset 781.fb18af16835d9e7a9551.js?v=fb18af16835d9e7a9551 1.07 MiB [emitted] [immutable] [minimized] [big] (id hint: vendors) 1 related asset
+  asset 812.9fb5d98c34e19346d9a8.js?v=9fb5d98c34e19346d9a8 33.1 KiB [emitted] [immutable] [minimized]
+  asset remoteEntry.c995756fc1ec5257ad1e.js 7.36 KiB [emitted] [immutable] [minimized] (name: jupyterlab-firefox-launcher)
+asset 3c09952b57aec9ff2c33.svg 167 KiB [emitted] [immutable] [from: style/icons/firefox.svg]
+asset third-party-licenses.json 20.5 KiB [emitted]
+runtime modules 17.7 KiB 13 modules
+orphan modules 23.8 KiB [orphan] 3 modules
+built modules 2.33 MiB (javascript) 252 bytes (consume-shared) 84 bytes (share-init) 167 KiB (asset) [built]
+  javascript modules 2.33 MiB
+    modules by path ./node_modules/ 2.27 MiB 11 modules
+    + 3 modules
+  consume-shared-module modules 252 bytes
+    modules by path consume shared module (default) @jupyterlab/*.5 (singleton) 168 bytes 4 modules
+    consume shared module (default) @lumino/widgets@^2.3.1-alpha.0 (singleton) 42 bytes [built] [code generated]
+    consume shared module (default) xpra-html5-client@^2.3.0 (strict) (fallback: ./n...(truncated) 42 bytes [built] [code generated]
+  provide-module modules 84 bytes
+    provide shared module (default) jupyterlab-firefox-launcher@0.9.10 = ...(truncated) 42 bytes [built] [code generated]
+    provide shared module (default) xpra-html5-client@2.3.0 = ./node_modules/xpra-ht...(truncated) 42 bytes [built] [code generated]
+  ./style/icons/firefox.svg 167 KiB (asset) 42 bytes (javascript) [built] [code generated]
+
+WARNING in asset size limit: The following asset(s) exceed the recommended size limit (244 KiB).
+This can impact web performance.
+Assets: 
+  781.fb18af16835d9e7a9551.js?v=fb18af16835d9e7a9551 (1.07 MiB)
+
+webpack 5.101.0 compiled with 1 warning in 7993 ms
+INFO:hatch_jupyter_builder.utils:Ensured target(s) exist!
+INFO:hatch_jupyter_builder.utils:Finished running jupyter-builder
+Successfully built dist/jupyterlab_firefox_launcher-0.9.10-py3-none-any.whl
+Resolved 107 packages in 663ms
+Downloading jedi (1.5MiB)
+Downloading aiohttp (1.6MiB)
+Downloading setuptools (1.1MiB)
+Downloading babel (9.7MiB)
+Downloading pygments (1.2MiB)
+Downloading jupyterlab (11.7MiB)
+Downloading debugpy (4.0MiB)
+   Building python-uinput==1.0.1
+ Downloaded aiohttp
+ Downloaded pygments
+ Downloaded setuptools
+ Downloaded debugpy
+ Downloaded babel
+ Downloaded jupyterlab
+ Downloaded jedi
+      Built python-uinput==1.0.1
+Prepared 107 packages in 1.09s
+Installed 107 packages in 63ms
+ + aiohappyeyeballs==2.6.1
+ + aiohttp==3.12.15
+ + aiosignal==1.4.0
+ + anyio==4.10.0
+ + argon2-cffi==25.1.0
+ + argon2-cffi-bindings==25.1.0
+ + arrow==1.3.0
+ + asttokens==3.0.0
+ + async-lru==2.0.5
+ + attrs==25.3.0
+ + babel==2.17.0
+ + beautifulsoup4==4.13.4
+ + bleach==6.2.0
+ + build==1.3.0
+ + certifi==2025.8.3
+ + cffi==1.17.1
+ + charset-normalizer==3.4.2
+ + comm==0.2.3
+ + debugpy==1.8.15
+ + decorator==5.2.1
+ + defusedxml==0.7.1
+ + executing==2.2.0
+ + fastjsonschema==2.21.1
+ + fqdn==1.5.1
+ + frozenlist==1.7.0
+ + h11==0.16.0
+ + httpcore==1.0.9
+ + httpx==0.28.1
+ + idna==3.10
+ + ipykernel==6.30.1
+ + ipython==9.4.0
+ + ipython-pygments-lexers==1.1.1
+ + isoduration==20.11.0
+ + jedi==0.19.2
+ + jinja2==3.1.6
+ + json5==0.12.0
+ + jsonpointer==3.0.0
+ + jsonschema==4.25.0
+ + jsonschema-specifications==2025.4.1
+ + jupyter-client==8.6.3
+ + jupyter-core==5.8.1
+ + jupyter-events==0.12.0
+ + jupyter-lsp==2.2.6
+ + jupyter-server==2.16.0
+ + jupyter-server-proxy==4.4.0
+ + jupyter-server-terminals==0.5.3
+ + jupyterlab==4.4.5
+ + jupyterlab-firefox-launcher==0.9.10 (from file:///home/bdx/allcode/github/vantagecompute/jup-fir-lau/dist/jupyterlab_firefox_launcher-0.9.10-py3-none-any.whl)
+ + jupyterlab-pygments==0.3.0
+ + jupyterlab-server==2.27.3
+ + lark==1.2.2
+ + markupsafe==3.0.2
+ + matplotlib-inline==0.1.7
+ + mistune==3.1.3
+ + multidict==6.6.3
+ + nbclient==0.10.2
+ + nbconvert==7.16.6
+ + nbformat==5.10.4
+ + nest-asyncio==1.6.0
+ + notebook-shim==0.2.4
+ + overrides==7.7.0
+ + packaging==25.0
+ + pandocfilters==1.5.1
+ + parso==0.8.4
+ + pexpect==4.9.0
+ + platformdirs==4.3.8
+ + prometheus-client==0.22.1
+ + prompt-toolkit==3.0.51
+ + propcache==0.3.2
+ + psutil==7.0.0
+ + ptyprocess==0.7.0
+ + pure-eval==0.2.3
+ + pycparser==2.22
+ + pygments==2.19.2
+ + pyproject-hooks==1.2.0
+ + python-dateutil==2.9.0.post0
+ + python-json-logger==3.3.0
+ + python-uinput==1.0.1
+ + pyyaml==6.0.2
+ + pyzmq==27.0.1
+ + referencing==0.36.2
+ + requests==2.32.4
+ + rfc3339-validator==0.1.4
+ + rfc3986-validator==0.1.1
+ + rfc3987-syntax==1.1.0
+ + rpds-py==0.26.0
+ + send2trash==1.8.3
+ + setuptools==80.9.0
+ + simpervisor==1.0.0
+ + six==1.17.0
+ + sniffio==1.3.1
+ + soupsieve==2.7
+ + stack-data==0.6.3
+ + terminado==0.18.1
+ + tinycss2==1.4.0
+ + tornado==6.5.1
+ + traitlets==5.14.3
+ + types-python-dateutil==2.9.0.20250708
+ + typing-extensions==4.14.1
+ + uri-template==1.3.0
+ + urllib3==2.5.0
+ + wcwidth==0.2.13
+ + webcolors==24.11.1
+ + webencodings==0.5.1
+ + websocket-client==1.8.0
+ + websockets==15.0.1
+ + yarl==1.20.1
+Resolved 80 packages in 275ms
+Installed 16 packages in 439ms
+ + alembic==1.16.4
+ + annotated-types==0.7.0
+ + certipy==0.2.2
+ + click==8.2.1
+ + configurable-http-proxy==0.3.0
+ + cryptography==45.0.5
+ + greenlet==3.2.3
+ + jupyterhub==5.3.0
+ + mako==1.3.10
+ + oauthlib==3.3.1
+ + pamela==1.2.0
+ + pycurl==7.45.6
+ + pydantic==2.11.7
+ + pydantic-core==2.33.2
+ + sqlalchemy==2.0.42
+ + typing-inspection==0.4.1

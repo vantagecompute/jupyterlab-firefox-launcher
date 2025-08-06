@@ -680,9 +680,10 @@ class FirefoxLauncherHandler(JupyterHandler):
 
             # Construct WebSocket URL through JupyterHub proxy (REQUIRED)
             # Must use proxy routing, not direct connection
+            # Match the actual registered route path (WITHOUT trailing slash to match configurable-http-proxy behavior)
             ws_url = proxy_path
-            if not ws_url.endswith('/'):
-                ws_url += '/'
+            if ws_url.endswith('/'):
+                ws_url = ws_url[:-1]
 
             self.log.info(f"GET request: Providing proxy path: {proxy_path}")
             self.log.info(f"GET request: Providing WebSocket URL: {ws_url}")
@@ -737,9 +738,10 @@ class FirefoxLauncherHandler(JupyterHandler):
 
                     # Construct WebSocket URL through JupyterHub proxy (REQUIRED)
                     # Must use proxy routing, not direct connection
+                    # Match the actual registered route path (WITHOUT trailing slash to match configurable-http-proxy behavior)
                     ws_url = proxy_path
-                    if not ws_url.endswith('/'):
-                        ws_url += '/'
+                    if ws_url.endswith('/'):
+                        ws_url = ws_url[:-1]
 
                     self.log.info(
                         f"Firefox launched successfully on port {port} with process ID {process_id}"
@@ -1028,15 +1030,62 @@ class FirefoxLauncherHandler(JupyterHandler):
             bool: True if registration succeeded, False otherwise
         """
         try:
-            # Check if we're running in JupyterHub environment
+            # Try multiple approaches to get the proxy configuration
+            proxy_api_url = None
+            proxy_auth_token = None
+            
+            # Method 1: Environment variables (for spawned servers)
             proxy_api_url = os.environ.get('CONFIGPROXY_API_URL')
             proxy_auth_token = os.environ.get('CONFIGPROXY_AUTH_TOKEN')
-            self.log.debug("Checking JupyterHub environment variables for proxy registration")
+            self.log.debug("Method 1: Checking JupyterHub environment variables")
             self.log.debug(f"   CONFIGPROXY_API_URL: {proxy_api_url}")
             self.log.debug(f"   CONFIGPROXY_AUTH_TOKEN: {'[SET]' if proxy_auth_token else '[NOT SET]'}")
+            
+            # Method 2: Try to get the auth token from JupyterHub process environment
+            if not proxy_api_url or not proxy_auth_token:
+                self.log.debug("Method 2: Trying to get token from JupyterHub process environment")
+                try:
+                    import psutil
+                    # Find JupyterHub process and get its environment
+                    for proc in psutil.process_iter(['pid', 'name', 'cmdline']):
+                        try:
+                            if 'jupyterhub' in proc.info['name'].lower():
+                                env = proc.environ()
+                                if 'CONFIGPROXY_AUTH_TOKEN' in env:
+                                    proxy_auth_token = env['CONFIGPROXY_AUTH_TOKEN']
+                                    proxy_api_url = env.get('CONFIGPROXY_API_URL', 'http://127.0.0.1:8001')
+                                    self.log.debug(f"   Found token from JupyterHub process {proc.info['pid']}")
+                                    break
+                        except (psutil.NoSuchProcess, psutil.AccessDenied):
+                            continue
+                except ImportError:
+                    self.log.debug("   psutil not available, skipping process environment check")
+                except Exception as proc_error:
+                    self.log.debug(f"   Process environment check failed: {proc_error}")
+            
+            # Method 3: Default configuration (fallback)
+            if not proxy_api_url or not proxy_auth_token:
+                self.log.debug("Method 3: Using default proxy configuration")
+                proxy_api_url = "http://127.0.0.1:8001"
+                # Try to read the auth token from a file or use the default
+                try:
+                    # Check if there's a token file we can read
+                    token_file_paths = [
+                        "jupyterhub_proxy_token",
+                        "/tmp/jupyterhub_proxy_token", 
+                        os.path.expanduser("~/.jupyterhub_proxy_token")
+                    ]
+                    for token_file in token_file_paths:
+                        if os.path.exists(token_file):
+                            with open(token_file, 'r') as f:
+                                proxy_auth_token = f.read().strip()
+                                self.log.debug(f"   Found token in file: {token_file}")
+                                break
+                except Exception as token_file_error:
+                    self.log.debug(f"   Token file read failed: {token_file_error}")
 
             if not proxy_api_url or not proxy_auth_token:
-                self.log.debug("Not in JupyterHub environment - no CONFIGPROXY_* variables found")
+                self.log.debug("All methods failed - no valid proxy configuration found")
                 return False
                 
             # Get the base URL to construct the correct route
@@ -1065,14 +1114,12 @@ class FirefoxLauncherHandler(JupyterHandler):
                 "last_activity": None,
                 "ws": True,  # Explicitly enable WebSocket proxying
                 "prependPath": False,  # Don't prepend route path to requests
-                "stripPath": False,  # Don't strip route path from requests  
+                "stripPath": True,  # Strip route path from requests so Xpra gets clean paths
                 "xfwd": True,  # Forward X-Forwarded-* headers
                 "changeOrigin": True,  # Change the origin header to target URL
                 "preserveHost": False,  # Don't preserve the original host header
                 "secure": False,  # Allow connection to non-HTTPS targets
-                "headers": {  # Preserve important WebSocket headers
-                    "Sec-WebSocket-Protocol": "binary"  # Required for Xpra
-                }
+                # Remove forced headers - let WebSocket handshake negotiate protocols naturally
             }
             
             client = AsyncHTTPClient()

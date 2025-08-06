@@ -512,18 +512,30 @@ const plugin: JupyterFrontEndPlugin<void> = {
               const currentLocation = window.location;
               const wsProtocol = currentLocation.protocol === 'https:' ? 'wss:' : 'ws:';
               
+              console.log(`🔍 DEBUG: WebSocket URL construction`);
+              console.log(`  - Original wsUrl: ${wsUrl}`);
+              console.log(`  - Current location protocol: ${currentLocation.protocol}`);
+              console.log(`  - Current location host: ${currentLocation.host}`);
+              console.log(`  - Determined WS protocol: ${wsProtocol}`);
+              
               let absoluteWsUrl: string;
               if (wsUrl.startsWith('ws://') || wsUrl.startsWith('wss://')) {
                 // Already absolute WebSocket URL
                 absoluteWsUrl = wsUrl;
+                console.log(`  - URL is already absolute: ${absoluteWsUrl}`);
               } else {
                 // Relative URL - construct absolute URL using current host
                 // This ensures we connect through the same host the browser is using (JupyterHub proxy)
                 absoluteWsUrl = `${wsProtocol}//${currentLocation.host}${wsUrl}`;
+                console.log(`  - Constructed absolute URL: ${absoluteWsUrl}`);
               }
               
               console.log(`🔗 Current location: ${currentLocation.protocol}//${currentLocation.host}`);
               console.log(`🎯 Final WebSocket URL: ${absoluteWsUrl}`);
+              console.log(`🔗 Proxy path: ${proxyPath}`);
+              
+              // Add WebSocket connection event handlers for debugging
+              console.log(`🔌 Calling setXpraClientAndConnect with URL: ${absoluteWsUrl}`);
               widget.setXpraClientAndConnect(absoluteWsUrl, proxyPath);
               
               console.log('✅ ========= START FIREFOX WITH RETRY COMPLETE =========');

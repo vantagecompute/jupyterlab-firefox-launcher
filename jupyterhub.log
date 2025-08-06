@@ -1,112 +1,490 @@
 nohup: ignoring input
-[I 2025-08-05 02:53:04.520 JupyterHub app:3354] Running JupyterHub version 5.3.0
-[I 2025-08-05 02:53:04.520 JupyterHub app:3384] Using Authenticator: jupyterhub.auth.PAMAuthenticator-5.3.0
-[I 2025-08-05 02:53:04.520 JupyterHub app:3384] Using Spawner: jupyterhub.spawner.LocalProcessSpawner-5.3.0
-[I 2025-08-05 02:53:04.520 JupyterHub app:3384] Using Proxy: jupyterhub.proxy.ConfigurableHTTPProxy-5.3.0
+[I 2025-08-05 20:54:33.130 JupyterHub app:3354] Running JupyterHub version 5.3.0
+[I 2025-08-05 20:54:33.130 JupyterHub app:3384] Using Authenticator: jupyterhub.auth.PAMAuthenticator-5.3.0
+[I 2025-08-05 20:54:33.130 JupyterHub app:3384] Using Spawner: jupyterhub.spawner.LocalProcessSpawner-5.3.0
+[I 2025-08-05 20:54:33.130 JupyterHub app:3384] Using Proxy: jupyterhub.proxy.ConfigurableHTTPProxy-5.3.0
 /home/bdx/allcode/github/vantagecompute/jup-fir-lau/.venv/lib/python3.12/site-packages/jupyter_events/schema.py:68: JupyterEventsVersionWarning: The `version` property of an event schema must be a string. It has been type coerced, but in a future version of this library, it will fail to validate. Please update schema: https://schema.jupyter.org/jupyterhub/events/server-action
   validate_schema(_schema)
-[I 2025-08-05 02:53:04.525 JupyterHub app:1835] Loading cookie_secret from /home/bdx/allcode/github/vantagecompute/jup-fir-lau/jupyterhub_cookie_secret
-[D 2025-08-05 02:53:04.525 JupyterHub app:2006] Connecting to db: sqlite:///jupyterhub.sqlite
-[D 2025-08-05 02:53:04.538 JupyterHub orm:1509] database schema version found: 4621fec11365
-[I 2025-08-05 02:53:04.581 JupyterHub proxy:556] Generating new CONFIGPROXY_AUTH_TOKEN
-[D 2025-08-05 02:53:04.581 JupyterHub app:2346] Loading roles into database
-[W 2025-08-05 02:53:04.586 JupyterHub auth:191] No allow config found, it's possible that nobody can login to your Hub!
-    You can set `c.Authenticator.allow_all = True` to allow any user who can login to access the Hub,
-    or e.g. `allowed_users` to a set of users who should have access.
-    You may suppress this warning by setting c.Authenticator.any_allow_config = True.
-[D 2025-08-05 02:53:04.597 JupyterHub app:2693] Purging expired APITokens
-[D 2025-08-05 02:53:04.599 JupyterHub app:2693] Purging expired OAuthCodes
-[D 2025-08-05 02:53:04.600 JupyterHub app:2693] Purging expired Shares
-[D 2025-08-05 02:53:04.601 JupyterHub app:2693] Purging expired ShareCodes
-[D 2025-08-05 02:53:04.602 JupyterHub app:2467] Loading role assignments from config
-[D 2025-08-05 02:53:04.613 JupyterHub app:2978] Initializing spawners
-[D 2025-08-05 02:53:04.619 JupyterHub app:3128] Loaded users:
+[I 2025-08-05 20:54:33.134 JupyterHub app:1835] Loading cookie_secret from /home/bdx/allcode/github/vantagecompute/jup-fir-lau/jupyterhub_cookie_secret
+[D 2025-08-05 20:54:33.134 JupyterHub app:2006] Connecting to db: sqlite:///jupyterhub.sqlite
+[D 2025-08-05 20:54:33.148 JupyterHub orm:1509] database schema version found: 4621fec11365
+[D 2025-08-05 20:54:33.190 JupyterHub app:2346] Loading roles into database
+[D 2025-08-05 20:54:33.204 JupyterHub app:2693] Purging expired APITokens
+[D 2025-08-05 20:54:33.206 JupyterHub app:2693] Purging expired OAuthCodes
+[D 2025-08-05 20:54:33.207 JupyterHub app:2693] Purging expired Shares
+[D 2025-08-05 20:54:33.208 JupyterHub app:2693] Purging expired ShareCodes
+[D 2025-08-05 20:54:33.210 JupyterHub app:2467] Loading role assignments from config
+[D 2025-08-05 20:54:33.220 JupyterHub app:2978] Initializing spawners
+[D 2025-08-05 20:54:33.226 JupyterHub app:3128] Loaded users:
     
-[I 2025-08-05 02:53:04.619 JupyterHub app:3424] Initialized 0 spawners in 0.006 seconds
-[I 2025-08-05 02:53:04.623 JupyterHub metrics:425] Found 1 active users in the last ActiveUserPeriods.twenty_four_hours
-[I 2025-08-05 02:53:04.624 JupyterHub metrics:425] Found 1 active users in the last ActiveUserPeriods.seven_days
-[I 2025-08-05 02:53:04.624 JupyterHub metrics:425] Found 1 active users in the last ActiveUserPeriods.thirty_days
-[W 2025-08-05 02:53:04.625 JupyterHub proxy:748] Running JupyterHub without SSL.  I hope there is SSL termination happening somewhere else...
-[I 2025-08-05 02:53:04.625 JupyterHub proxy:752] Starting proxy @ http://:8889/
-[D 2025-08-05 02:53:04.625 JupyterHub proxy:753] Proxy cmd: ['configurable-http-proxy', '--ip', '', '--port', '8889', '--api-ip', '127.0.0.1', '--api-port', '8001', '--error-target', 'http://127.0.0.1:8081/hub/error', '--log-level', 'debug']
-[D 2025-08-05 02:53:04.625 JupyterHub proxy:670] Writing proxy pid file: jupyterhub-proxy.pid
-[D 2025-08-05 02:53:04.625 JupyterHub utils:277] Waiting 10s for server at raton00:8889
-[D 2025-08-05 02:53:04.627 JupyterHub utils:121] Server at raton00:8889 not ready: [Errno 111] Connection refused
-[D 2025-08-05 02:53:04.627 JupyterHub utils:277] Waiting 10s for server at 127.0.0.1:8001
-[D 2025-08-05 02:53:04.627 JupyterHub utils:121] Server at 127.0.0.1:8001 not ready: [Errno 111] Connection refused
-[D 2025-08-05 02:53:04.675 JupyterHub utils:121] Server at 127.0.0.1:8001 not ready: [Errno 111] Connection refused
+[I 2025-08-05 20:54:33.226 JupyterHub app:3424] Initialized 0 spawners in 0.006 seconds
+[I 2025-08-05 20:54:33.230 JupyterHub metrics:425] Found 1 active users in the last ActiveUserPeriods.twenty_four_hours
+[I 2025-08-05 20:54:33.231 JupyterHub metrics:425] Found 1 active users in the last ActiveUserPeriods.seven_days
+[I 2025-08-05 20:54:33.231 JupyterHub metrics:425] Found 1 active users in the last ActiveUserPeriods.thirty_days
+[W 2025-08-05 20:54:33.232 JupyterHub proxy:748] Running JupyterHub without SSL.  I hope there is SSL termination happening somewhere else...
+[I 2025-08-05 20:54:33.232 JupyterHub proxy:752] Starting proxy @ http://:8889/
+[D 2025-08-05 20:54:33.232 JupyterHub proxy:753] Proxy cmd: ['configurable-http-proxy', '--ip', '', '--port', '8889', '--api-ip', '127.0.0.1', '--api-port', '8001', '--error-target', 'http://127.0.0.1:8081/hub/error', '--log-level', 'debug']
+[D 2025-08-05 20:54:33.232 JupyterHub proxy:670] Writing proxy pid file: jupyterhub-proxy.pid
+[D 2025-08-05 20:54:33.233 JupyterHub utils:277] Waiting 10s for server at raton00:8889
+[D 2025-08-05 20:54:33.234 JupyterHub utils:121] Server at raton00:8889 not ready: [Errno 111] Connection refused
+[D 2025-08-05 20:54:33.234 JupyterHub utils:277] Waiting 10s for server at 127.0.0.1:8001
+[D 2025-08-05 20:54:33.234 JupyterHub utils:121] Server at 127.0.0.1:8001 not ready: [Errno 111] Connection refused
 /home/bdx/allcode/github/vantagecompute/jup-fir-lau/.venv/lib/python3.12/site-packages/configurable_http_proxy/_version.py:8: UserWarning: pkg_resources is deprecated as an API. See https://setuptools.pypa.io/en/latest/pkg_resources.html. The pkg_resources package is slated for removal as early as 2025-11-30. Refrain from using this package or pin to Setuptools<81.
   from pkg_resources import get_distribution
-[D 2025-08-05 02:53:04.757 JupyterHub utils:121] Server at raton00:8889 not ready: [Errno 111] Connection refused
-[I 2025-08-05 02:53:04,800 configurable_http_proxy] Proxying http://*:8889 to (no default)
-[I 2025-08-05 02:53:04,800 configurable_http_proxy] Proxy API at http://127.0.0.1:8001/api/routes
-[D 2025-08-05 02:53:04.808 JupyterHub utils:285] Server at 127.0.0.1:8001 responded in 0.18s
-[D 2025-08-05 02:53:04.820 JupyterHub utils:285] Server at raton00:8889 responded in 0.19s
-[D 2025-08-05 02:53:04.821 JupyterHub proxy:832] Proxy started and appears to be up
-[D 2025-08-05 02:53:04.822 JupyterHub proxy:925] Proxy: Fetching GET http://127.0.0.1:8001/api/routes
-[I 2025-08-05 02:53:04,823 configurable_http_proxy] 200 GET /api/routes 
-[I 2025-08-05 02:53:04.823 JupyterHub app:3747] Hub API listening on http://127.0.0.1:8081/hub/
-[D 2025-08-05 02:53:04.823 JupyterHub proxy:389] Fetching routes to check
-[D 2025-08-05 02:53:04.823 JupyterHub proxy:925] Proxy: Fetching GET http://127.0.0.1:8001/api/routes
-[I 2025-08-05 02:53:04,824 configurable_http_proxy] 200 GET /api/routes 
-[D 2025-08-05 02:53:04.824 JupyterHub proxy:392] Checking routes
-[I 2025-08-05 02:53:04.824 JupyterHub proxy:477] Adding route for Hub: / => http://127.0.0.1:8081
-[D 2025-08-05 02:53:04.824 JupyterHub proxy:925] Proxy: Fetching POST http://127.0.0.1:8001/api/routes/
-[I 2025-08-05 02:53:04,825 configurable_http_proxy] Adding route / -> http://127.0.0.1:8081
-[I 2025-08-05 02:53:04,825 configurable_http_proxy] Route added / -> http://127.0.0.1:8081
-[I 2025-08-05 02:53:04,825 configurable_http_proxy] 201 POST /api/routes/ 
-[I 2025-08-05 02:53:04.825 JupyterHub app:3778] JupyterHub is now running at http://:8889/
-[D 2025-08-05 02:53:04.826 JupyterHub app:3347] It took 0.316 seconds for the Hub to start
-[D 2025-08-05 02:53:22,680 configurable_http_proxy] PROXY WEB /user/bdx/lab to http://127.0.0.1:8081
-[I 2025-08-05 02:53:22.682 JupyterHub log:192] 302 GET /user/bdx/lab?id=f65e7415-1105-4be9-8e57-5d39c5ec2393&vscodeBrowserReqId=[secret] -> /hub/user/bdx/lab?id=f65e7415-1105-4be9-8e57-5d39c5ec2393&vscodeBrowserReqId=[secret] (@192.168.99.63) 0.43ms
-[D 2025-08-05 02:53:22,682 configurable_http_proxy] Not recording activity for status 302 on /
-[D 2025-08-05 02:53:22,694 configurable_http_proxy] PROXY WEB /hub/user/bdx/lab to http://127.0.0.1:8081
-[I 2025-08-05 02:53:22.696 JupyterHub log:192] 302 GET /hub/user/bdx/lab?id=f65e7415-1105-4be9-8e57-5d39c5ec2393&vscodeBrowserReqId=[secret] -> /hub/login?next=%2Fhub%2Fuser%2Fbdx%2Flab%3Fid%3Df65e7415-1105-4be9-8e57-5d39c5ec2393%26vscodeBrowserReqId%3D1754362402545 (@192.168.99.63) 0.42ms
-[D 2025-08-05 02:53:22,696 configurable_http_proxy] Not recording activity for status 302 on /
-[D 2025-08-05 02:53:22,701 configurable_http_proxy] PROXY WEB /hub/login to http://127.0.0.1:8081
-[I 2025-08-05 02:53:22.702 JupyterHub _xsrf_utils:130] Setting new xsrf cookie for b'None:m-nILZymtwUWMMb_nRgjIqqgWZwUUdmdeWSxmaLKHJ4=' {'path': '/hub/', 'max_age': 3600}
-[I 2025-08-05 02:53:22.703 JupyterHub _xsrf_utils:130] Setting new xsrf cookie for b'None:m-nILZymtwUWMMb_nRgjIqqgWZwUUdmdeWSxmaLKHJ4=' {'path': '/hub/', 'max_age': 3600}
-[I 2025-08-05 02:53:22.725 JupyterHub log:192] 200 GET /hub/login?next=%2Fhub%2Fuser%2Fbdx%2Flab%3Fid%3Df65e7415-1105-4be9-8e57-5d39c5ec2393%26vscodeBrowserReqId%3D1754362402545 (@192.168.99.63) 23.27ms
-[D 2025-08-05 02:53:22,768 configurable_http_proxy] PROXY WEB /hub/security/csp-report to http://127.0.0.1:8081
-[W 2025-08-05 02:53:22.769 JupyterHub web:1932] 403 POST /hub/security/csp-report (192.168.99.63): '_xsrf' argument missing from POST
-[I 2025-08-05 02:53:22.769 JupyterHub _xsrf_utils:130] Setting new xsrf cookie for b'None:m-nILZymtwUWMMb_nRgjIqqgWZwUUdmdeWSxmaLKHJ4=' {'path': '/hub/', 'max_age': 3600}
-[D 2025-08-05 02:53:22.769 JupyterHub base:1542] Using default error template for 403
-[W 2025-08-05 02:53:22.784 JupyterHub log:192] 403 POST /hub/security/csp-report (@192.168.99.63) 15.26ms
-[W 2025-08-05 02:53:22,784 tornado.access] 403 POST /hub/security/csp-report (192.168.99.63) 16.60ms
-[D 2025-08-05 02:53:22,784 configurable_http_proxy] Not recording activity for status 403 on /
-[D 2025-08-05 02:53:30,445 configurable_http_proxy] PROXY WEB /user/bdx/api/events/subscribe to http://127.0.0.1:8081
-[D 2025-08-05 02:53:30,445 configurable_http_proxy] PROXY WEB /user/bdx/api/events/subscribe to http://127.0.0.1:8081
-[I 2025-08-05 02:53:30.452 JupyterHub log:192] 302 GET /user/bdx/api/events/subscribe -> /hub/user/bdx/api/events/subscribe (@192.168.99.63) 2.49ms
-[D 2025-08-05 02:53:30,453 configurable_http_proxy] Not recording activity for status 302 on /
-[D 2025-08-05 02:53:30,454 configurable_http_proxy] PROXY WEB /user/bdx/api/contents to http://127.0.0.1:8081
-[I 2025-08-05 02:53:30.455 JupyterHub log:192] 302 GET /user/bdx/api/contents?content=1&hash=0&1754362410313 -> /hub/user/bdx/api/contents?content=1&hash=0&1754362410313 (@192.168.99.63) 0.53ms
-[D 2025-08-05 02:53:30,455 configurable_http_proxy] Not recording activity for status 302 on /
-[D 2025-08-05 02:53:30,469 configurable_http_proxy] PROXY WEB /hub/user/bdx/api/contents to http://127.0.0.1:8081
-[D 2025-08-05 02:53:30.485 JupyterHub base:411] Refreshing auth for bdx
-[D 2025-08-05 02:53:30.485 JupyterHub user:496] Creating <class 'jupyterhub.spawner.LocalProcessSpawner'> for bdx:
-[W 2025-08-05 02:53:30.486 JupyterHub base:1637] Failing suspected API request to not-running server: /hub/user/bdx/api/contents
-[W 2025-08-05 02:53:30.487 JupyterHub log:192] 424 GET /hub/user/bdx/api/contents?content=1&hash=0&1754362410313 (bdx@192.168.99.63) 15.80ms
-[W 2025-08-05 02:53:30,487 tornado.access] 424 GET /hub/user/bdx/api/contents?content=1&hash=0&1754362410313 (192.168.99.63) 18.22ms
-[D 2025-08-05 02:53:30,488 configurable_http_proxy] Not recording activity for status 424 on /
-[D 2025-08-05 02:53:32,531 configurable_http_proxy] PROXY WEB /user/bdx/api/events/subscribe to http://127.0.0.1:8081
-[D 2025-08-05 02:53:32,531 configurable_http_proxy] PROXY WEB /user/bdx/api/events/subscribe to http://127.0.0.1:8081
-[I 2025-08-05 02:53:32.535 JupyterHub log:192] 302 GET /user/bdx/api/events/subscribe -> /hub/user/bdx/api/events/subscribe (@192.168.99.63) 0.81ms
-[D 2025-08-05 02:53:32,535 configurable_http_proxy] Not recording activity for status 302 on /
-[D 2025-08-05 02:53:41,509 configurable_http_proxy] PROXY WEB /user/bdx/api/contents to http://127.0.0.1:8081
-[I 2025-08-05 02:53:41.512 JupyterHub log:192] 302 GET /user/bdx/api/contents?content=1&hash=0&1754362421391 -> /hub/user/bdx/api/contents?content=1&hash=0&1754362421391 (@192.168.99.63) 0.86ms
-[D 2025-08-05 02:53:41,512 configurable_http_proxy] Not recording activity for status 302 on /
-[D 2025-08-05 02:53:41,532 configurable_http_proxy] PROXY WEB /hub/user/bdx/api/contents to http://127.0.0.1:8081
-[W 2025-08-05 02:53:41.554 JupyterHub base:1637] Failing suspected API request to not-running server: /hub/user/bdx/api/contents
-[W 2025-08-05 02:53:41.556 JupyterHub log:192] 424 GET /hub/user/bdx/api/contents?content=1&hash=0&1754362421391 (bdx@192.168.99.63) 19.45ms
-[W 2025-08-05 02:53:41,557 tornado.access] 424 GET /hub/user/bdx/api/contents?content=1&hash=0&1754362421391 (192.168.99.63) 26.18ms
-[D 2025-08-05 02:53:41,558 configurable_http_proxy] Not recording activity for status 424 on /
-[C 2025-08-05 02:54:47.670 JupyterHub app:3869] Received signal SIGTERM, initiating shutdown...
-[I 2025-08-05 02:54:47.670 JupyterHub app:3478] Cleaning up single-user servers...
-[D 2025-08-05 02:54:47.670 JupyterHub app:3490] Stopping proxy
-[I 2025-08-05 02:54:47.670 JupyterHub proxy:865] Cleaning up proxy[733379]...
-[D 2025-08-05 02:54:47.670 JupyterHub proxy:678] Removing proxy pid file jupyterhub-proxy.pid
-[I 2025-08-05 02:54:47.670 JupyterHub app:3510] ...done
-[D 2025-08-05 02:54:47.670 JupyterHub app:3876] Cancelling pending tasks
-[D 2025-08-05 02:54:47.670 JupyterHub app:3888] Task status: <Task pending name='Task-155' coro=<JupyterHub.shutdown_cancel_tasks() running at /home/bdx/allcode/github/vantagecompute/jup-fir-lau/.venv/lib/python3.12/site-packages/jupyterhub/app.py:3888>>
+[D 2025-08-05 20:54:33.326 JupyterHub utils:121] Server at raton00:8889 not ready: [Errno 111] Connection refused
+[D 2025-08-05 20:54:33.399 JupyterHub utils:121] Server at 127.0.0.1:8001 not ready: [Errno 111] Connection refused
+[I 2025-08-05 20:54:33,404 configurable_http_proxy] Proxying http://*:8889 to (no default)
+[I 2025-08-05 20:54:33,404 configurable_http_proxy] Proxy API at http://127.0.0.1:8001/api/routes
+[D 2025-08-05 20:54:33.418 JupyterHub utils:285] Server at raton00:8889 responded in 0.19s
+[D 2025-08-05 20:54:33.478 JupyterHub utils:285] Server at 127.0.0.1:8001 responded in 0.24s
+[D 2025-08-05 20:54:33.479 JupyterHub proxy:832] Proxy started and appears to be up
+[D 2025-08-05 20:54:33.482 JupyterHub proxy:925] Proxy: Fetching GET http://127.0.0.1:8001/api/routes
+[I 2025-08-05 20:54:33,487 configurable_http_proxy] 200 GET /api/routes 
+[I 2025-08-05 20:54:33.489 JupyterHub app:3747] Hub API listening on http://127.0.0.1:8081/hub/
+[D 2025-08-05 20:54:33.489 JupyterHub proxy:389] Fetching routes to check
+[D 2025-08-05 20:54:33.490 JupyterHub proxy:925] Proxy: Fetching GET http://127.0.0.1:8001/api/routes
+[I 2025-08-05 20:54:33,492 configurable_http_proxy] 200 GET /api/routes 
+[D 2025-08-05 20:54:33.493 JupyterHub proxy:392] Checking routes
+[I 2025-08-05 20:54:33.493 JupyterHub proxy:477] Adding route for Hub: / => http://127.0.0.1:8081
+[D 2025-08-05 20:54:33.494 JupyterHub proxy:925] Proxy: Fetching POST http://127.0.0.1:8001/api/routes/
+[I 2025-08-05 20:54:33,496 configurable_http_proxy] Adding route / -> http://127.0.0.1:8081
+[I 2025-08-05 20:54:33,496 configurable_http_proxy] Route added / -> http://127.0.0.1:8081
+[I 2025-08-05 20:54:33,497 configurable_http_proxy] 201 POST /api/routes/ 
+[I 2025-08-05 20:54:33.498 JupyterHub app:3778] JupyterHub is now running at http://:8889/
+[D 2025-08-05 20:54:33.500 JupyterHub app:3347] It took 0.381 seconds for the Hub to start
+[D 2025-08-05 20:54:40,215 configurable_http_proxy] PROXY WEB /user/bdx/lab to http://127.0.0.1:8081
+[D 2025-08-05 20:54:40,216 configurable_http_proxy] PROXY WEB /firefox-launcher/api/cleanup to http://127.0.0.1:8081
+[I 2025-08-05 20:54:40.220 JupyterHub log:192] 302 GET /user/bdx/lab -> /hub/user/bdx/lab (@192.168.99.63) 0.90ms
+[D 2025-08-05 20:54:40,220 configurable_http_proxy] Not recording activity for status 302 on /
+[W 2025-08-05 20:54:40.221 JupyterHub web:1932] 403 POST /firefox-launcher/api/cleanup (192.168.99.63): '_xsrf' argument missing from POST
+[I 2025-08-05 20:54:40.221 JupyterHub _xsrf_utils:130] Setting new xsrf cookie for b'746cfc2378ff4f8ea293d7bbf0e983fe:khnMCZzrxQyiVPi1ElEsej-LcxnGfERLgKXtclmKrWk=' {'path': '/hub/', 'max_age': 3600}
+[D 2025-08-05 20:54:40.222 JupyterHub base:1542] Using default error template for 403
+[D 2025-08-05 20:54:40,237 configurable_http_proxy] PROXY WEB /hub/user/bdx/lab to http://127.0.0.1:8081
+[W 2025-08-05 20:54:40.258 JupyterHub log:192] 403 POST /firefox-launcher/api/cleanup (@192.168.99.63) 37.06ms
+[W 2025-08-05 20:54:40,258 tornado.access] 403 POST /firefox-launcher/api/cleanup (192.168.99.63) 43.34ms
+[D 2025-08-05 20:54:40,258 configurable_http_proxy] Not recording activity for status 403 on /
+[D 2025-08-05 20:54:40.265 JupyterHub base:411] Refreshing auth for bdx
+[D 2025-08-05 20:54:40.266 JupyterHub user:496] Creating <class 'jupyterhub.spawner.LocalProcessSpawner'> for bdx:
+[W 2025-08-05 20:54:40.284 JupyterHub log:192] 424 GET /hub/user/bdx/lab (bdx@192.168.99.63) 25.31ms
+[W 2025-08-05 20:54:40,284 tornado.access] 424 GET /hub/user/bdx/lab (192.168.99.63) 47.68ms
+[D 2025-08-05 20:54:40,284 configurable_http_proxy] Not recording activity for status 424 on /
+[D 2025-08-05 20:54:40,334 configurable_http_proxy] PROXY WEB /hub/static/components/bootstrap/dist/js/bootstrap.bundle.min.js.map to http://127.0.0.1:8081
+[D 2025-08-05 20:54:40,338 configurable_http_proxy] PROXY WEB /hub/static/css/style.min.css.map to http://127.0.0.1:8081
+[D 2025-08-05 20:54:40.339 JupyterHub log:192] 200 GET /hub/static/components/bootstrap/dist/js/bootstrap.bundle.min.js.map (@192.168.99.63) 4.51ms
+[D 2025-08-05 20:54:40.341 JupyterHub log:192] 200 GET /hub/static/css/style.min.css.map (@192.168.99.63) 0.77ms
+[D 2025-08-05 20:54:40,341 configurable_http_proxy] Not recording activity for status 304 on /
+[D 2025-08-05 20:54:40,342 configurable_http_proxy] Not recording activity for status 304 on /
+[D 2025-08-05 20:54:40,347 configurable_http_proxy] PROXY WEB /hub/static/js/not_running.js to http://127.0.0.1:8081
+[D 2025-08-05 20:54:40.349 JupyterHub log:192] 200 GET /hub/static/js/not_running.js?v=20250805205433 (@192.168.99.63) 0.73ms
+[D 2025-08-05 20:54:40,411 configurable_http_proxy] PROXY WEB /hub/static/js/utils.js to http://127.0.0.1:8081
+[D 2025-08-05 20:54:40.418 JupyterHub log:192] 200 GET /hub/static/js/utils.js?v=20250805205433 (@192.168.99.63) 2.58ms
+[D 2025-08-05 20:54:42,168 configurable_http_proxy] PROXY WEB /hub/spawn/bdx to http://127.0.0.1:8081
+[D 2025-08-05 20:54:42.189 JupyterHub scopes:1013] Checking access to /hub/spawn/bdx via scope servers!server=bdx/
+[D 2025-08-05 20:54:42.190 JupyterHub pages:216] Triggering spawn with default options for bdx
+[D 2025-08-05 20:54:42.191 JupyterHub base:1097] Initiating spawn for bdx
+[D 2025-08-05 20:54:42.192 JupyterHub base:1101] 0/100 concurrent spawns
+[D 2025-08-05 20:54:42.192 JupyterHub base:1106] 0 active servers
+[I 2025-08-05 20:54:42.235 JupyterHub provider:661] Creating oauth client jupyterhub-user-bdx
+[D 2025-08-05 20:54:42.250 JupyterHub user:913] Calling Spawner.start for bdx
+[I 2025-08-05 20:54:42.251 JupyterHub spawner:2055] Spawning jupyterhub-singleuser
+Failed to set groups [Errno 1] Operation not permitted
+[D 2025-08-05 20:54:42.261 JupyterHub spawner:1693] Polling subprocess every 30s
+[D 2025-08-05 20:54:42.264 JupyterHub utils:297] Waiting 30s for server at http://127.0.0.1:53491/user/bdx/api
+[I 2025-08-05 20:54:43.192 JupyterHub log:192] 302 GET /hub/spawn/bdx?next=%2Fhub%2Fuser%2Fbdx%2Flab -> /hub/spawn-pending/bdx?next=%2Fhub%2Fuser%2Fbdx%2Flab (bdx@192.168.99.63) 1018.10ms
+[D 2025-08-05 20:54:43,192 configurable_http_proxy] Not recording activity for status 302 on /
+[D 2025-08-05 20:54:43,200 configurable_http_proxy] PROXY WEB /hub/spawn-pending/bdx to http://127.0.0.1:8081
+[D 2025-08-05 20:54:43.205 JupyterHub scopes:1013] Checking access to /hub/spawn-pending/bdx via scope servers!server=bdx/
+[I 2025-08-05 20:54:43.205 JupyterHub pages:400] bdx is pending spawn
+[D 2025-08-05 20:54:43.206 JupyterHub _xsrf_utils:161] xsrf id mismatch b'746cfc2378ff4f8ea293d7bbf0e983fe:khnMCZzrxQyiVPi1ElEsej-LcxnGfERLgKXtclmKrWk=' != b'746cfc2378ff4f8ea293d7bbf0e983fe:b5ffe88e18ce4263b14f964ff00d5fb0'
+[I 2025-08-05 20:54:43.206 JupyterHub _xsrf_utils:130] Setting new xsrf cookie for b'746cfc2378ff4f8ea293d7bbf0e983fe:b5ffe88e18ce4263b14f964ff00d5fb0' {'path': '/hub/'}
+[I 2025-08-05 20:54:43.209 JupyterHub log:192] 200 GET /hub/spawn-pending/bdx?next=%2Fhub%2Fuser%2Fbdx%2Flab (bdx@192.168.99.63) 7.59ms
+[D 2025-08-05 20:54:43,261 configurable_http_proxy] PROXY WEB /hub/static/components/bootstrap/dist/js/bootstrap.bundle.min.js.map to http://127.0.0.1:8081
+[D 2025-08-05 20:54:43.263 JupyterHub log:192] 200 GET /hub/static/components/bootstrap/dist/js/bootstrap.bundle.min.js.map (@192.168.99.63) 0.63ms
+[D 2025-08-05 20:54:43,263 configurable_http_proxy] Not recording activity for status 304 on /
+[D 2025-08-05 20:54:43,269 configurable_http_proxy] PROXY WEB /hub/static/css/style.min.css.map to http://127.0.0.1:8081
+[D 2025-08-05 20:54:43.271 JupyterHub log:192] 200 GET /hub/static/css/style.min.css.map (@192.168.99.63) 0.44ms
+[D 2025-08-05 20:54:43,271 configurable_http_proxy] Not recording activity for status 304 on /
+[D 2025-08-05 20:54:43,273 configurable_http_proxy] PROXY WEB /hub/api/users/bdx/server/progress to http://127.0.0.1:8081
+[W 2025-08-05 20:54:43.276 JupyterHub _xsrf_utils:203] Skipping XSRF check for insecure request GET /hub/api/users/bdx/server/progress
+[D 2025-08-05 20:54:43.276 JupyterHub scopes:1013] Checking access to /hub/api/users/bdx/server/progress via scope read:servers!server=bdx/
+[I 2025-08-05 20:54:44.401 ServerApp] jupyter_lsp | extension was successfully linked.
+[I 2025-08-05 20:54:44.401 ServerApp] jupyter_server_proxy | extension was successfully linked.
+[I 2025-08-05 20:54:44.405 ServerApp] jupyter_server_terminals | extension was successfully linked.
+[I 2025-08-05 20:54:44.405 JupyterHubSingleUser] Starting jupyterhub single-user server extension version 5.3.0
+[I 2025-08-05 20:54:44.405 JupyterHubSingleUser] Using default url from server extension lab: /lab
+[I 2025-08-05 20:54:44.407 ServerApp] jupyterhub | extension was successfully linked.
+[W 2025-08-05 20:54:44.409 LabApp] 'extra_template_paths' was found in both NotebookApp and ServerApp. This is likely a recent change. This config will only be set in NotebookApp. Please check if you should also config these traits in ServerApp for your purpose.
+[I 2025-08-05 20:54:44.411 ServerApp] jupyterlab | extension was successfully linked.
+[I 2025-08-05 20:54:44.411 ServerApp] jupyterlab_firefox_launcher | extension was successfully linked.
+[I 2025-08-05 20:54:44.647 ServerApp] notebook_shim | extension was successfully linked.
+[I 2025-08-05 20:54:44.661 ServerApp] notebook_shim | extension was successfully loaded.
+[I 2025-08-05 20:54:44.663 ServerApp] jupyter_lsp | extension was successfully loaded.
+[I 2025-08-05 20:54:44.672 ServerApp] jupyter_server_proxy | extension was successfully loaded.
+[I 2025-08-05 20:54:44.673 ServerApp] jupyter_server_terminals | extension was successfully loaded.
+[I 2025-08-05 20:54:44.676 JupyterHub log:192] 200 GET /hub/api (@127.0.0.1) 0.43ms
+[I 2025-08-05 20:54:44.676 JupyterHubSingleUser] Updating Hub with activity every 300 seconds
+[I 2025-08-05 20:54:44.677 ServerApp] jupyterhub | extension was successfully loaded.
+[I 2025-08-05 20:54:44.682 LabApp] JupyterLab extension loaded from /home/bdx/allcode/github/vantagecompute/jup-fir-lau/.venv/lib/python3.12/site-packages/jupyterlab
+[I 2025-08-05 20:54:44.682 LabApp] JupyterLab application directory is /home/bdx/allcode/github/vantagecompute/jup-fir-lau/.venv/share/jupyter/lab
+[I 2025-08-05 20:54:44.682 LabApp] Extension Manager is 'pypi'.
+[I 2025-08-05 20:54:44.735 ServerApp] jupyterlab | extension was successfully loaded.
+[I 2025-08-05 20:54:44.735 ServerApp] Loading jupyterlab_firefox_launcher extension
+[I 2025-08-05 20:54:44.735 ServerApp] 🔧 Base URL detected: /user/bdx/
+[I 2025-08-05 20:54:44.735 ServerApp] 🔧 Firefox launcher pattern: /user/bdx/firefox-launcher/api/firefox
+[I 2025-08-05 20:54:44.735 ServerApp] 🔧 Firefox cleanup pattern: /user/bdx/firefox-launcher/api/cleanup
+[I 2025-08-05 20:54:44.735 ServerApp] 🔧 Xpra WebSocket pattern: /user/bdx/firefox-launcher/ws
+[I 2025-08-05 20:54:44.735 ServerApp] 🔧 Registered handler: /user/bdx/firefox-launcher/api/firefox
+[I 2025-08-05 20:54:44.735 ServerApp] 🔧 Registered handler: /user/bdx/firefox-launcher/api/cleanup
+[I 2025-08-05 20:54:44.735 ServerApp] jupyter-server-proxy detected, registering Firefox proxy
+[I 2025-08-05 20:54:44.743 ServerApp] ✅ Firefox entry point available for jupyter-server-proxy discovery
+[I 2025-08-05 20:54:44.743 ServerApp]    Firefox should be available at /proxy/firefox/
+[I 2025-08-05 20:54:44.743 ServerApp] jupyterlab_firefox_launcher extension loaded successfully
+[I 2025-08-05 20:54:44.743 ServerApp] Firefox launcher API available at: /user/bdx/firefox-launcher/api/firefox
+[I 2025-08-05 20:54:44.743 ServerApp] jupyterlab_firefox_launcher | extension was successfully loaded.
+[I 2025-08-05 20:54:44.744 ServerApp] Serving notebooks from local directory: /home/bdx
+[I 2025-08-05 20:54:44.744 ServerApp] Jupyter Server 2.16.0 is running at:
+[I 2025-08-05 20:54:44.744 ServerApp] http://127.0.0.1:53491/user/bdx/lab?token=...
+[I 2025-08-05 20:54:44.744 ServerApp] Use Control-C to stop this server and shut down all kernels (twice to skip confirmation).
+[D 2025-08-05 20:54:44.749 JupyterHub base:366] Recording first activity for <APIToken('8c65...', user='bdx', client_id='jupyterhub')>
+[D 2025-08-05 20:54:44.759 JupyterHub scopes:1013] Checking access to /hub/api/users/bdx/activity via scope users:activity!user=bdx
+[D 2025-08-05 20:54:44.763 JupyterHub users:1006] Activity for user bdx: 2025-08-05T20:54:44.653987Z
+[D 2025-08-05 20:54:44.763 JupyterHub users:1024] Activity on server bdx/: 2025-08-05T20:54:44.653987Z
+[I 2025-08-05 20:54:44.767 JupyterHub log:192] 200 POST /hub/api/users/bdx/activity (bdx@127.0.0.1) 19.82ms
+[I 2025-08-05 20:54:44.777 ServerApp] Skipped non-installed server(s): bash-language-server, dockerfile-language-server-nodejs, javascript-typescript-langserver, jedi-language-server, julia-language-server, pyright, python-language-server, python-lsp-server, r-languageserver, sql-language-server, texlab, typescript-language-server, unified-language-server, vscode-css-languageserver-bin, vscode-html-languageserver-bin, vscode-json-languageserver-bin, yaml-language-server
+[I 2025-08-05 20:54:45.191 ServerApp] 200 GET /user/bdx/api (@127.0.0.1) 1.20ms
+[D 2025-08-05 20:54:45.191 JupyterHub utils:333] Server at http://127.0.0.1:53491/user/bdx/api responded in 2.93s
+[D 2025-08-05 20:54:45.191 JupyterHub _version:73] jupyterhub and jupyterhub-singleuser both on version 5.3.0
+[I 2025-08-05 20:54:45.192 JupyterHub base:1126] User bdx took 3.000 seconds to start
+[I 2025-08-05 20:54:45.192 JupyterHub proxy:331] Adding user bdx to proxy /user/bdx/ => http://127.0.0.1:53491
+[D 2025-08-05 20:54:45.192 JupyterHub proxy:925] Proxy: Fetching POST http://127.0.0.1:8001/api/routes/user/bdx
+[I 2025-08-05 20:54:45,193 configurable_http_proxy] Adding route /user/bdx -> http://127.0.0.1:53491
+[I 2025-08-05 20:54:45,193 configurable_http_proxy] Route added /user/bdx -> http://127.0.0.1:53491
+[I 2025-08-05 20:54:45,193 configurable_http_proxy] 201 POST /api/routes/user/bdx 
+[I 2025-08-05 20:54:45.194 JupyterHub users:899] Server bdx is ready
+[I 2025-08-05 20:54:45.194 JupyterHub log:192] 200 GET /hub/api/users/bdx/server/progress?_xsrf=[secret] (bdx@192.168.99.63) 1920.73ms
+[D 2025-08-05 20:54:45,220 configurable_http_proxy] PROXY WEB /hub/spawn-pending/bdx to http://127.0.0.1:8081
+[D 2025-08-05 20:54:45.228 JupyterHub scopes:1013] Checking access to /hub/spawn-pending/bdx via scope servers!server=bdx/
+[I 2025-08-05 20:54:45.228 JupyterHub log:192] 302 GET /hub/spawn-pending/bdx?next=%2Fhub%2Fuser%2Fbdx%2Flab -> /hub/user/bdx/lab (bdx@192.168.99.63) 4.43ms
+[D 2025-08-05 20:54:45,229 configurable_http_proxy] Not recording activity for status 302 on /
+[D 2025-08-05 20:54:45,235 configurable_http_proxy] PROXY WEB /hub/user/bdx/lab to http://127.0.0.1:8081
+[I 2025-08-05 20:54:45.242 JupyterHub log:192] 302 GET /hub/user/bdx/lab -> /user/bdx/lab?redirects=1 (bdx@192.168.99.63) 5.73ms
+[D 2025-08-05 20:54:45,242 configurable_http_proxy] Not recording activity for status 302 on /
+[D 2025-08-05 20:54:45,250 configurable_http_proxy] PROXY WEB /user/bdx/lab to http://127.0.0.1:53491
+[W 2025-08-05 20:54:45.253 ServerApp] Skipping XSRF check for insecure request GET /user/bdx/lab
+[W 2025-08-05 20:54:45.257 JupyterHub log:192] 403 GET /hub/api/user (@127.0.0.1) 2.08ms
+[W 2025-08-05 20:54:45.257 ServerApp] No Hub user identified for request
+[W 2025-08-05 20:54:45.257 ServerApp] Token stored in cookie may have expired
+[I 2025-08-05 20:54:45.259 ServerApp] 302 GET /user/bdx/lab?redirects=1 -> /hub/api/oauth2/authorize?client_id=jupyterhub-user-bdx&redirect_uri=%2Fuser%2Fbdx%2Foauth_callback&response_type=code&state=[secret] (@192.168.99.63) 7.32ms
+[D 2025-08-05 20:54:45,260 configurable_http_proxy] Not recording activity for status 302 on /user/bdx
+[D 2025-08-05 20:54:45,270 configurable_http_proxy] PROXY WEB /hub/api/oauth2/authorize to http://127.0.0.1:8081
+[D 2025-08-05 20:54:45.278 JupyterHub provider:421] Validating client id jupyterhub-user-bdx
+[D 2025-08-05 20:54:45.280 oauthlib.oauth2.rfc6749.grant_types.authorization_code authorization_code:362] Validating redirection uri /user/bdx/oauth_callback for client jupyterhub-user-bdx.
+[D 2025-08-05 20:54:45.280 oauthlib.oauth2.rfc6749.grant_types.base base:228] Using provided redirect_uri /user/bdx/oauth_callback
+[D 2025-08-05 20:54:45.280 JupyterHub provider:497] validate_redirect_uri: client_id=jupyterhub-user-bdx, redirect_uri=/user/bdx/oauth_callback
+[D 2025-08-05 20:54:45.282 oauthlib.oauth2.rfc6749.grant_types.base base:172] Validating access to scopes ['read:users:groups!user', 'access:servers!server=bdx/', 'read:users:name!user'] for client 'jupyterhub-user-bdx' (<OAuthClient(identifier='jupyterhub-user-bdx')>).
+[D 2025-08-05 20:54:45.282 JupyterHub provider:624] Allowing request for scope(s) for jupyterhub-user-bdx:  access:servers!server=bdx/,read:users:name!user,read:users:groups!user
+[D 2025-08-05 20:54:45.283 JupyterHub auth:326] Skipping oauth confirmation for <User(bdx 1/1 running)> accessing Server at /user/bdx/
+[D 2025-08-05 20:54:45.284 oauthlib.oauth2.rfc6749.endpoints.authorization authorization:98] Dispatching response_type code request to <oauthlib.oauth2.rfc6749.grant_types.authorization_code.AuthorizationCodeGrant object at 0x6ffe4d6e3b60>.
+[D 2025-08-05 20:54:45.284 JupyterHub provider:421] Validating client id jupyterhub-user-bdx
+[D 2025-08-05 20:54:45.285 oauthlib.oauth2.rfc6749.grant_types.authorization_code authorization_code:362] Validating redirection uri /user/bdx/oauth_callback for client jupyterhub-user-bdx.
+[D 2025-08-05 20:54:45.285 oauthlib.oauth2.rfc6749.grant_types.base base:228] Using provided redirect_uri /user/bdx/oauth_callback
+[D 2025-08-05 20:54:45.285 JupyterHub provider:497] validate_redirect_uri: client_id=jupyterhub-user-bdx, redirect_uri=/user/bdx/oauth_callback
+[D 2025-08-05 20:54:45.286 oauthlib.oauth2.rfc6749.grant_types.base base:172] Validating access to scopes {'access:servers!server=bdx/', 'read:users:groups!user', 'read:users:name!user'} for client 'jupyterhub-user-bdx' (<OAuthClient(identifier='jupyterhub-user-bdx')>).
+[D 2025-08-05 20:54:45.287 JupyterHub provider:624] Allowing request for scope(s) for jupyterhub-user-bdx:  access:servers!server=bdx/,read:users:name!user,read:users:groups!user
+[D 2025-08-05 20:54:45.287 oauthlib.oauth2.rfc6749.grant_types.authorization_code authorization_code:245] Pre resource owner authorization validation ok for <oauthlib.Request SANITIZED>.
+[D 2025-08-05 20:54:45.287 oauthlib.oauth2.rfc6749.grant_types.authorization_code authorization_code:170] Created authorization code grant {'code': 'nGt17BXFlSBojbV79QYeOAbmc2HUPy', 'state': 'E6OGMmdFmiL9KyFofO51fw'} for request <oauthlib.Request SANITIZED>.
+[D 2025-08-05 20:54:45.287 oauthlib.oauth2.rfc6749.grant_types.authorization_code authorization_code:277] Saving grant {'code': 'nGt17BXFlSBojbV79QYeOAbmc2HUPy', 'state': 'E6OGMmdFmiL9KyFofO51fw'} for <oauthlib.Request SANITIZED>.
+[D 2025-08-05 20:54:45.287 JupyterHub provider:247] Saving authorization code jupyterhub-user-bdx, nGt..., (), {}
+[I 2025-08-05 20:54:45.300 JupyterHub log:192] 302 GET /hub/api/oauth2/authorize?client_id=jupyterhub-user-bdx&redirect_uri=%2Fuser%2Fbdx%2Foauth_callback&response_type=code&state=[secret] -> /user/bdx/oauth_callback?code=[secret]&state=[secret] (bdx@192.168.99.63) 28.43ms
+[D 2025-08-05 20:54:45,301 configurable_http_proxy] Not recording activity for status 302 on /
+[D 2025-08-05 20:54:45,307 configurable_http_proxy] PROXY WEB /user/bdx/oauth_callback to http://127.0.0.1:53491
+[D 2025-08-05 20:54:45.314 oauthlib.oauth2.rfc6749.endpoints.token token:112] Dispatching grant_type authorization_code request to <oauthlib.oauth2.rfc6749.grant_types.authorization_code.AuthorizationCodeGrant object at 0x6ffe4d6e3b60>.
+[D 2025-08-05 20:54:45.314 JupyterHub provider:58] authenticate_client <oauthlib.Request SANITIZED>
+[D 2025-08-05 20:54:45.331 oauthlib.oauth2.rfc6749.grant_types.authorization_code authorization_code:532] Using provided redirect_uri /user/bdx/oauth_callback
+[D 2025-08-05 20:54:45.331 JupyterHub provider:117] confirm_redirect_uri: client_id=jupyterhub-user-bdx, redirect_uri=/user/bdx/oauth_callback
+[D 2025-08-05 20:54:45.331 oauthlib.oauth2.rfc6749.grant_types.authorization_code authorization_code:301] Token request validation ok for <oauthlib.Request SANITIZED>.
+[D 2025-08-05 20:54:45.331 JupyterHub provider:345] Saving bearer token {'access_token': 'REDACTED', 'expires_in': 1209600, 'token_type': 'Bearer', 'scope': 'access:servers!server=bdx/ read:users:name!user read:users:groups!user', 'refresh_token': 'REDACTED'}
+[D 2025-08-05 20:54:45.338 JupyterHub provider:205] Deleting oauth code nGt... for jupyterhub-user-bdx
+[I 2025-08-05 20:54:45.344 JupyterHub log:192] 200 POST /hub/api/oauth2/token (bdx@127.0.0.1) 33.17ms
+[D 2025-08-05 20:54:45.346 JupyterHub base:366] Recording first activity for <APIToken('x1BY...', user='bdx', client_id='jupyterhub-user-bdx')>
+[I 2025-08-05 20:54:45.353 JupyterHub log:192] 200 GET /hub/api/user (bdx@127.0.0.1) 7.90ms
+[I 2025-08-05 20:54:45.354 ServerApp] Logged-in user bdx
+[I 2025-08-05 20:54:45.355 ServerApp] Setting new xsrf cookie for b'746cfc2378ff4f8ea293d7bbf0e983fe:9459be3c5d8c4bf19cd772edb74c854c0c6ede14790cc41b9a72c25de59fa45a' {'path': '/user/bdx/'}
+[D 2025-08-05 20:54:45,356 configurable_http_proxy] Not recording activity for status 302 on /user/bdx
+[W 2025-08-05 20:54:45.357 ServerApp] Skipping XSRF check for insecure request GET /user/bdx/oauth_callback
+[I 2025-08-05 20:54:45.358 ServerApp] 302 GET /user/bdx/oauth_callback?code=[secret]&state=[secret] -> /user/bdx/lab?redirects=1 (bdx@192.168.99.63) 47.28ms
+[D 2025-08-05 20:54:45,362 configurable_http_proxy] PROXY WEB /user/bdx/lab to http://127.0.0.1:53491
+[W 2025-08-05 20:54:45.365 ServerApp] Skipping XSRF check for insecure request GET /user/bdx/lab
+[I 2025-08-05 20:54:45.376 ServerApp] 200 GET /user/bdx/lab?redirects=1 (bdx@192.168.99.63) 11.88ms
+[D 2025-08-05 20:54:45,417 configurable_http_proxy] PROXY WEB /user/bdx/lab/extensions/jupyterlab_pygments/static/remoteEntry.5cbb9d2323598fbda535.js to http://127.0.0.1:53491
+[D 2025-08-05 20:54:45,418 configurable_http_proxy] PROXY WEB /user/bdx/lab/extensions/@jupyterhub/jupyter-server-proxy/static/remoteEntry.569b1096d01998b85e34.js to http://127.0.0.1:53491
+[W 2025-08-05 20:54:45.419 ServerApp] Skipping XSRF check for insecure request GET /user/bdx/lab/extensions/jupyterlab_pygments/static/remoteEntry.5cbb9d2323598fbda535.js
+[D 2025-08-05 20:54:45,420 configurable_http_proxy] Not recording activity for status 304 on /user/bdx
+[W 2025-08-05 20:54:45.421 ServerApp] Skipping XSRF check for insecure request GET /user/bdx/lab/extensions/%40jupyterhub/jupyter-server-proxy/static/remoteEntry.569b1096d01998b85e34.js
+[D 2025-08-05 20:54:45,422 configurable_http_proxy] Not recording activity for status 304 on /user/bdx
+[D 2025-08-05 20:54:45,425 configurable_http_proxy] PROXY WEB /user/bdx/lab/extensions/jupyterlab-firefox-launcher/static/remoteEntry.1b7b7f63996f306f0a4b.js to http://127.0.0.1:53491
+[W 2025-08-05 20:54:45.427 ServerApp] Skipping XSRF check for insecure request GET /user/bdx/lab/extensions/jupyterlab-firefox-launcher/static/remoteEntry.1b7b7f63996f306f0a4b.js
+[D 2025-08-05 20:54:45,428 configurable_http_proxy] Not recording activity for status 304 on /user/bdx
+[D 2025-08-05 20:54:45,712 configurable_http_proxy] PROXY WEB /user/bdx/lab/extensions/jupyterlab_pygments/static/747.67662283a5707eeb4d4c.js to http://127.0.0.1:53491
+[D 2025-08-05 20:54:45,712 configurable_http_proxy] PROXY WEB /user/bdx/lab/extensions/jupyterlab_pygments/static/568.1e2faa2ba0bbe59c4780.js to http://127.0.0.1:53491
+[D 2025-08-05 20:54:45,718 configurable_http_proxy] PROXY WEB /user/bdx/lab/extensions/jupyterlab-firefox-launcher/static/781.fb18af16835d9e7a9551.js to http://127.0.0.1:53491
+[W 2025-08-05 20:54:45.722 ServerApp] Skipping XSRF check for insecure request GET /user/bdx/lab/extensions/jupyterlab_pygments/static/747.67662283a5707eeb4d4c.js
+[D 2025-08-05 20:54:45,726 configurable_http_proxy] Not recording activity for status 304 on /user/bdx
+[W 2025-08-05 20:54:45.730 ServerApp] Skipping XSRF check for insecure request GET /user/bdx/lab/extensions/jupyterlab-firefox-launcher/static/781.fb18af16835d9e7a9551.js
+[W 2025-08-05 20:54:45.738 ServerApp] Skipping XSRF check for insecure request GET /user/bdx/lab/extensions/jupyterlab_pygments/static/568.1e2faa2ba0bbe59c4780.js
+[D 2025-08-05 20:54:45,745 configurable_http_proxy] Not recording activity for status 304 on /user/bdx
+[D 2025-08-05 20:54:45,748 configurable_http_proxy] PROXY WEB /user/bdx/lab/extensions/jupyterlab-firefox-launcher/static/812.72f462a756568d1d7071.js to http://127.0.0.1:53491
+[D 2025-08-05 20:54:45,749 configurable_http_proxy] PROXY WEB /user/bdx/lab/extensions/@jupyterhub/jupyter-server-proxy/static/961.f4a5be26be8652bbb9c9.js to http://127.0.0.1:53491
+[D 2025-08-05 20:54:45,751 configurable_http_proxy] Not recording activity for status 304 on /user/bdx
+[W 2025-08-05 20:54:45.756 ServerApp] Skipping XSRF check for insecure request GET /user/bdx/lab/extensions/%40jupyterhub/jupyter-server-proxy/static/961.f4a5be26be8652bbb9c9.js
+[D 2025-08-05 20:54:45,758 configurable_http_proxy] Not recording activity for status 304 on /user/bdx
+[W 2025-08-05 20:54:45.760 ServerApp] Skipping XSRF check for insecure request GET /user/bdx/lab/extensions/jupyterlab-firefox-launcher/static/812.72f462a756568d1d7071.js
+[D 2025-08-05 20:54:45,762 configurable_http_proxy] Not recording activity for status 304 on /user/bdx
+[D 2025-08-05 20:54:45,953 configurable_http_proxy] PROXY WEB /user/bdx/static/favicons/favicon.ico to http://127.0.0.1:53491
+[W 2025-08-05 20:54:45.958 ServerApp] Skipping XSRF check for insecure request GET /user/bdx/static/favicons/favicon.ico
+[D 2025-08-05 20:54:45,962 configurable_http_proxy] Not recording activity for status 304 on /user/bdx
+[D 2025-08-05 20:54:46,076 configurable_http_proxy] PROXY WEB /user/bdx/api/kernelspecs to http://127.0.0.1:53491
+[D 2025-08-05 20:54:46,077 configurable_http_proxy] PROXY WEB /user/bdx/api/me to http://127.0.0.1:53491
+[D 2025-08-05 20:54:46,077 configurable_http_proxy] PROXY WEB /user/bdx/lab/api/settings to http://127.0.0.1:53491
+[I 2025-08-05 20:54:46.087 ServerApp] 200 GET /user/bdx/api/me?1754427285956 (bdx@192.168.99.63) 2.98ms
+[D 2025-08-05 20:54:46,089 configurable_http_proxy] PROXY WEB /user/bdx/api/events/subscribe to http://127.0.0.1:53491
+[D 2025-08-05 20:54:46,089 configurable_http_proxy] PROXY WEB /user/bdx/api/events/subscribe to http://127.0.0.1:53491
+[I 2025-08-05 20:54:46.127 ServerApp] 200 GET /user/bdx/api/kernelspecs?1754427285955 (bdx@192.168.99.63) 37.11ms
+[I 2025-08-05 20:54:46.178 ServerApp] 200 GET /user/bdx/lab/api/settings?1754427285966 (bdx@192.168.99.63) 87.44ms
+[W 2025-08-05 20:54:46.179 ServerApp] Skipping XSRF check for insecure request GET /user/bdx/api/events/subscribe
+[I 2025-08-05 20:54:46.180 ServerApp] 101 GET /user/bdx/api/events/subscribe (bdx@192.168.99.63) 0.92ms
+[D 2025-08-05 20:54:46,412 configurable_http_proxy] PROXY WEB /user/bdx/api/kernels to http://127.0.0.1:53491
+[D 2025-08-05 20:54:46,412 configurable_http_proxy] PROXY WEB /user/bdx/api/terminals to http://127.0.0.1:53491
+[D 2025-08-05 20:54:46,412 configurable_http_proxy] PROXY WEB /user/bdx/api/sessions to http://127.0.0.1:53491
+[D 2025-08-05 20:54:46,413 configurable_http_proxy] PROXY WEB /user/bdx/lab/api/workspaces to http://127.0.0.1:53491
+[I 2025-08-05 20:54:46.418 ServerApp] 200 GET /user/bdx/api/kernels?1754427285977 (bdx@192.168.99.63) 1.43ms
+[I 2025-08-05 20:54:46.422 ServerApp] 200 GET /user/bdx/api/sessions?1754427285978 (bdx@192.168.99.63) 2.96ms
+[I 2025-08-05 20:54:46.423 ServerApp] 200 GET /user/bdx/api/terminals?1754427285978 (bdx@192.168.99.63) 3.84ms
+[I 2025-08-05 20:54:46.438 ServerApp] 200 GET /user/bdx/lab/api/workspaces?1754427285994 (bdx@192.168.99.63) 18.21ms
+[D 2025-08-05 20:54:46,506 configurable_http_proxy] PROXY WEB /user/bdx/lab/api/translations/default to http://127.0.0.1:53491
+[I 2025-08-05 20:54:46.560 ServerApp] 200 GET /user/bdx/lab/api/translations/default?1754427286397 (bdx@192.168.99.63) 49.14ms
+[D 2025-08-05 20:54:46,569 configurable_http_proxy] PROXY WEB /user/bdx/api/me to http://127.0.0.1:53491
+[D 2025-08-05 20:54:46,569 configurable_http_proxy] PROXY WEB /user/bdx/api/kernelspecs to http://127.0.0.1:53491
+[I 2025-08-05 20:54:46.571 ServerApp] 200 GET /user/bdx/api/me?1754427286400 (bdx@192.168.99.63) 0.74ms
+[I 2025-08-05 20:54:46.573 ServerApp] 200 GET /user/bdx/api/kernelspecs?1754427286401 (bdx@192.168.99.63) 1.00ms
+[D 2025-08-05 20:54:46,689 configurable_http_proxy] PROXY WEB /user/bdx/lab/api/themes/@jupyterlab/theme-light-extension/index.css to http://127.0.0.1:53491
+[D 2025-08-05 20:54:46,690 configurable_http_proxy] PROXY WEB /user/bdx/api/config/jupyterlabapputilsextensionannouncements to http://127.0.0.1:53491
+[D 2025-08-05 20:54:46,692 configurable_http_proxy] PROXY WEB /user/bdx/lab/api/build to http://127.0.0.1:53491
+[D 2025-08-05 20:54:46,692 configurable_http_proxy] PROXY WEB /user/bdx/lsp/status to http://127.0.0.1:53491
+[D 2025-08-05 20:54:46,695 configurable_http_proxy] PROXY WEB /user/bdx/lab/api/translations to http://127.0.0.1:53491
+[W 2025-08-05 20:54:46.703 ServerApp] Skipping XSRF check for insecure request GET /user/bdx/lab/api/themes/%40jupyterlab/theme-light-extension/index.css
+[D 2025-08-05 20:54:46,706 configurable_http_proxy] Not recording activity for status 304 on /user/bdx
+[D 2025-08-05 20:54:46,710 configurable_http_proxy] PROXY WEB /user/bdx/api/contents to http://127.0.0.1:53491
+[I 2025-08-05 20:54:46.716 ServerApp] 200 GET /user/bdx/api/config/jupyterlabapputilsextensionannouncements?1754427286498 (bdx@192.168.99.63) 8.81ms
+[D 2025-08-05 20:54:46,719 configurable_http_proxy] PROXY WEB /user/bdx/server-proxy/servers-info to http://127.0.0.1:53491
+[D 2025-08-05 20:54:46,721 configurable_http_proxy] PROXY WEB /user/bdx/lab/api/settings/@jupyterlab/docmanager-extension:plugin to http://127.0.0.1:53491
+[I 2025-08-05 20:54:46.721 ServerApp] 200 GET /user/bdx/lsp/status?1754427286515 (bdx@192.168.99.63) 12.47ms
+[D 2025-08-05 20:54:46,728 configurable_http_proxy] PROXY WEB /user/bdx/lab/api/settings/@jupyterlab/codemirror-extension:plugin to http://127.0.0.1:53491
+[I 2025-08-05 20:54:46.734 ServerApp] 200 GET /user/bdx/server-proxy/servers-info?1754427286576 (bdx@192.168.99.63) 8.99ms
+[I 2025-08-05 20:54:46.738 ServerApp] 200 GET /user/bdx/lab/api/settings/%40jupyterlab/docmanager-extension%3Aplugin?1754427286606 (bdx@192.168.99.63) 11.93ms
+[D 2025-08-05 20:54:46,742 configurable_http_proxy] PROXY WEB /user/bdx/lab/api/settings/@jupyterlab/notebook-extension:panel to http://127.0.0.1:53491
+[I 2025-08-05 20:54:46.744 ServerApp] 200 GET /user/bdx/lab/api/settings/%40jupyterlab/codemirror-extension%3Aplugin?1754427286606 (bdx@192.168.99.63) 4.79ms
+[I 2025-08-05 20:54:46.750 ServerApp] 200 GET /user/bdx/lab/api/settings/%40jupyterlab/notebook-extension%3Apanel?1754427286609 (bdx@192.168.99.63) 5.03ms
+[I 2025-08-05 20:54:46.767 ServerApp] 200 GET /user/bdx/lab/api/translations?1754427286547 (bdx@192.168.99.63) 56.69ms
+[I 2025-08-05 20:54:46.839 ServerApp] 200 GET /user/bdx/api/contents?content=1&hash=0&1754427286567 (bdx@192.168.99.63) 114.40ms
+[I 2025-08-05 20:54:46.969 LabApp] Build is up to date
+[I 2025-08-05 20:54:46.969 ServerApp] 200 GET /user/bdx/lab/api/build?1754427286513 (bdx@192.168.99.63) 261.09ms
+[D 2025-08-05 20:54:46,993 configurable_http_proxy] PROXY WEB /user/bdx/lab/api/workspaces/default to http://127.0.0.1:53491
+[I 2025-08-05 20:54:46.995 ServerApp] 200 GET /user/bdx/lab/api/workspaces/default?1754427286827 (bdx@192.168.99.63) 0.95ms
+[D 2025-08-05 20:54:48,365 configurable_http_proxy] PROXY WEB /user/bdx/api/contents to http://127.0.0.1:53491
+[D 2025-08-05 20:54:48,365 configurable_http_proxy] PROXY WEB /user/bdx/api/contents/untitled.txt to http://127.0.0.1:53491
+[D 2025-08-05 20:54:48,366 configurable_http_proxy] PROXY WEB /user/bdx/api/contents/untitled.txt to http://127.0.0.1:53491
+[D 2025-08-05 20:54:48,367 configurable_http_proxy] PROXY WEB /user/bdx/lab/api/settings to http://127.0.0.1:53491
+[D 2025-08-05 20:54:48,367 configurable_http_proxy] PROXY WEB /user/bdx/lab/api/update to http://127.0.0.1:53491
+[I 2025-08-05 20:54:48.367 ServerApp] 200 GET /user/bdx/api/contents?content=0&hash=0&1754427288006 (bdx@192.168.99.63) 1.05ms
+[I 2025-08-05 20:54:48.369 ServerApp] 200 GET /user/bdx/api/contents/untitled.txt?content=0&hash=0&1754427288006 (bdx@192.168.99.63) 0.90ms
+[I 2025-08-05 20:54:48.372 ServerApp] 200 GET /user/bdx/api/contents/untitled.txt?content=0&hash=0&1754427288006 (bdx@192.168.99.63) 2.53ms
+[I 2025-08-05 20:54:48.375 ServerApp] 200 GET /user/bdx/lab/api/settings?ids_only=true&1754427288045 (bdx@192.168.99.63) 5.33ms
+[I 2025-08-05 20:54:48.526 ServerApp] 200 GET /user/bdx/lab/api/update?1754427288047 (bdx@192.168.99.63) 154.58ms
+[D 2025-08-05 20:54:48,702 configurable_http_proxy] PROXY WEB /user/bdx/lab/api/workspaces/default to http://127.0.0.1:53491
+[I 2025-08-05 20:54:48.703 ServerApp] 204 PUT /user/bdx/lab/api/workspaces/default?1754427288623 (bdx@192.168.99.63) 0.94ms
+[D 2025-08-05 20:54:48,710 configurable_http_proxy] PROXY WEB /user/bdx/api/contents to http://127.0.0.1:53491
+[I 2025-08-05 20:54:48.789 ServerApp] 200 GET /user/bdx/api/contents?content=1&hash=0&1754427288633 (bdx@192.168.99.63) 78.73ms
+[D 2025-08-05 20:54:48,859 configurable_http_proxy] PROXY WEB /user/bdx/lab/extensions/jupyterlab-firefox-launcher/static/3c09952b57aec9ff2c33.svg to http://127.0.0.1:53491
+[D 2025-08-05 20:54:48,860 configurable_http_proxy] PROXY WEB /user/bdx/kernelspecs/python3/logo-svg.svg to http://127.0.0.1:53491
+[W 2025-08-05 20:54:48.860 ServerApp] Skipping XSRF check for insecure request GET /user/bdx/lab/extensions/jupyterlab-firefox-launcher/static/3c09952b57aec9ff2c33.svg
+[D 2025-08-05 20:54:48,861 configurable_http_proxy] Not recording activity for status 304 on /user/bdx
+[W 2025-08-05 20:54:48.862 ServerApp] Skipping XSRF check for insecure request GET /user/bdx/kernelspecs/python3/logo-svg.svg
+[D 2025-08-05 20:54:48,863 configurable_http_proxy] Not recording activity for status 304 on /user/bdx
+[D 2025-08-05 20:54:48,865 configurable_http_proxy] PROXY WEB /user/bdx/static/favicons/favicon.ico to http://127.0.0.1:53491
+[W 2025-08-05 20:54:48.866 ServerApp] Skipping XSRF check for insecure request GET /user/bdx/static/favicons/favicon.ico
+[D 2025-08-05 20:54:48,867 configurable_http_proxy] Not recording activity for status 304 on /user/bdx
+[D 2025-08-05 20:54:49,493 configurable_http_proxy] PROXY WEB /user/bdx/lab/api/workspaces/default to http://127.0.0.1:53491
+[I 2025-08-05 20:54:49.503 ServerApp] 204 PUT /user/bdx/lab/api/workspaces/default?1754427289411 (bdx@192.168.99.63) 4.95ms
+[D 2025-08-05 20:54:49,839 configurable_http_proxy] PROXY WEB /user/bdx/firefox-launcher/api/firefox to http://127.0.0.1:53491
+[I 2025-08-05 20:54:49.846 ServerApp] POST request received to launch Firefox via server proxy
+[I 2025-08-05 20:54:49.846 ServerApp] 🚀 Starting new Firefox session (existing sessions will continue running)
+[I 2025-08-05 20:54:49.847 ServerApp] 📊 Currently active sessions: 0
+[I 2025-08-05 20:54:49.847 ServerApp] === 🚀 STARTING XPRA SERVER PROXY PROCESS ===
+[I 2025-08-05 20:54:49.847 ServerApp] 🖥️ System Information:
+[I 2025-08-05 20:54:49.847 ServerApp]    Current working directory: /home/bdx
+[I 2025-08-05 20:54:49.848 ServerApp]    User home directory: /home/bdx
+[I 2025-08-05 20:54:49.848 ServerApp]    Process PID: 1776649
+[I 2025-08-05 20:54:49.848 ServerApp]    Python executable: /home/bdx/allcode/github/vantagecompute/jup-fir-lau/.venv/bin/python3
+[I 2025-08-05 20:54:49.848 ServerApp] 📊 Active Sessions: 0
+[I 2025-08-05 20:54:49.849 ServerApp] ✓ Allocated port 49433 for Xpra server
+2025-08-05 20:54:49,849 - jupyterlab_firefox_launcher.firefox_handler - INFO - 🔍 Resolving system dependencies...
+2025-08-05 20:54:49,850 - jupyterlab_firefox_launcher.firefox_handler - INFO - ✅ Xpra command resolved: /usr/bin/xpra
+2025-08-05 20:54:49,850 - jupyterlab_firefox_launcher.firefox_handler - INFO - ✅ Firefox command resolved: /usr/bin/firefox
+2025-08-05 20:54:49,850 - jupyterlab_firefox_launcher.firefox_handler - INFO - Creating unified session directory: /home/bdx/.firefox-launcher/sessions/session-49433
+2025-08-05 20:54:49,852 - jupyterlab_firefox_launcher.firefox_handler - INFO - ✓ Session directory structure ready:
+2025-08-05 20:54:49,852 - jupyterlab_firefox_launcher.firefox_handler - INFO -    Session root: /home/bdx/.firefox-launcher/sessions/session-49433
+2025-08-05 20:54:49,852 - jupyterlab_firefox_launcher.firefox_handler - INFO -    Sockets: /home/bdx/.firefox-launcher/sessions/session-49433/sockets
+2025-08-05 20:54:49,852 - jupyterlab_firefox_launcher.firefox_handler - INFO -    Runtime: /home/bdx/.firefox-launcher/sessions/session-49433/runtime
+2025-08-05 20:54:49,853 - jupyterlab_firefox_launcher.firefox_handler - INFO -    Profile: /home/bdx/.firefox-launcher/sessions/session-49433/profile
+2025-08-05 20:54:49,853 - jupyterlab_firefox_launcher.firefox_handler - INFO -    Temp: /home/bdx/.firefox-launcher/sessions/session-49433/temp
+2025-08-05 20:54:49,853 - jupyterlab_firefox_launcher.firefox_handler - INFO - 🔍 Locating firefox-xstartup wrapper script...
+2025-08-05 20:54:49,853 - jupyterlab_firefox_launcher.firefox_handler - INFO - ✅ Found firefox-xstartup in PATH: /home/bdx/allcode/github/vantagecompute/jup-fir-lau/.venv/bin/firefox-xstartup
+2025-08-05 20:54:49,854 - jupyterlab_firefox_launcher.firefox_handler - INFO - 📋 Xpra configuration: quality={xpra_quality}, compress={xpra_compress}, dpi={xpra_dpi}
+2025-08-05 20:54:49,962 - jupyterlab_firefox_launcher.firefox_handler - INFO - 📋 Xpra version detected: xpra v5.1.1-r0
+2025-08-05 20:54:49,963 - jupyterlab_firefox_launcher.firefox_handler - INFO - 🔧 Xpra Configuration Decisions:
+2025-08-05 20:54:49,963 - jupyterlab_firefox_launcher.firefox_handler - INFO -    WebSocket Binding: 0.0.0.0:49433 (all interfaces)
+2025-08-05 20:54:49,963 - jupyterlab_firefox_launcher.firefox_handler - INFO -    TCP Binding: Disabled (WebSocket only for HTML5 client)
+2025-08-05 20:54:49,963 - jupyterlab_firefox_launcher.firefox_handler - INFO -    HTML5 Client: Disabled - using pure WebSocket connectivity
+2025-08-05 20:54:49,963 - jupyterlab_firefox_launcher.firefox_handler - INFO -    Daemon Mode: Disabled (foreground for process management)
+2025-08-05 20:54:49,963 - jupyterlab_firefox_launcher.firefox_handler - INFO -    Child Process: /home/bdx/allcode/github/vantagecompute/jup-fir-lau/.venv/bin/firefox-xstartup
+2025-08-05 20:54:49,963 - jupyterlab_firefox_launcher.firefox_handler - INFO -    Session Directory: /home/bdx/.firefox-launcher/sessions/session-49433 (unified session structure)
+2025-08-05 20:54:49,963 - jupyterlab_firefox_launcher.firefox_handler - INFO -    Socket Directory: /home/bdx/.firefox-launcher/sessions/session-49433/sockets
+2025-08-05 20:54:49,963 - jupyterlab_firefox_launcher.firefox_handler - INFO -    Runtime Directory: /home/bdx/.firefox-launcher/sessions/session-49433/runtime
+2025-08-05 20:54:49,963 - jupyterlab_firefox_launcher.firefox_handler - INFO -    Profile Directory: /home/bdx/.firefox-launcher/sessions/session-49433/profile
+2025-08-05 20:54:49,963 - jupyterlab_firefox_launcher.firefox_handler - INFO -    Temp Directory: /home/bdx/.firefox-launcher/sessions/session-49433/temp
+2025-08-05 20:54:49,963 - jupyterlab_firefox_launcher.firefox_handler - INFO -    Display Quality: 100% (compression: none)
+2025-08-05 20:54:49,963 - jupyterlab_firefox_launcher.firefox_handler - INFO -    DPI Setting: 96
+2025-08-05 20:54:49,963 - jupyterlab_firefox_launcher.firefox_handler - INFO -    Clipboard: Enabled (bidirectional, all content types)
+2025-08-05 20:54:49,963 - jupyterlab_firefox_launcher.firefox_handler - INFO -    Session Isolation: Complete (unified directory structure per session)
+2025-08-05 20:54:49,963 - jupyterlab_firefox_launcher.firefox_handler - INFO - 📋 Final Xpra Command Summary:
+2025-08-05 20:54:49,963 - jupyterlab_firefox_launcher.firefox_handler - INFO -    Executable: /usr/bin/xpra
+2025-08-05 20:54:49,963 - jupyterlab_firefox_launcher.firefox_handler - INFO -    Action: start
+2025-08-05 20:54:49,963 - jupyterlab_firefox_launcher.firefox_handler - INFO -    WebSocket Binding: --bind-ws=0.0.0.0:49433
+2025-08-05 20:54:49,963 - jupyterlab_firefox_launcher.firefox_handler - INFO -    Firefox Wrapper: --start-child=/home/bdx/allcode/github/vantagecompute/jup-fir-lau/.venv/bin/firefox-xstartup
+2025-08-05 20:54:49,963 - jupyterlab_firefox_launcher.firefox_handler - INFO -    Session Directory: /home/bdx/.firefox-launcher/sessions/session-49433 (unified structure)
+2025-08-05 20:54:49,963 - jupyterlab_firefox_launcher.firefox_handler - INFO -    Socket Directory: /home/bdx/.firefox-launcher/sessions/session-49433/sockets
+2025-08-05 20:54:49,963 - jupyterlab_firefox_launcher.firefox_handler - INFO -    Runtime Directory: /home/bdx/.firefox-launcher/sessions/session-49433/runtime
+2025-08-05 20:54:49,963 - jupyterlab_firefox_launcher.firefox_handler - INFO -    Profile Directory: /home/bdx/.firefox-launcher/sessions/session-49433/profile
+2025-08-05 20:54:49,963 - jupyterlab_firefox_launcher.firefox_handler - INFO -    Temp Directory: /home/bdx/.firefox-launcher/sessions/session-49433/temp
+2025-08-05 20:54:49,963 - jupyterlab_firefox_launcher.firefox_handler - INFO -    Display Settings: DPI=96, Quality=100%, Compression=none
+2025-08-05 20:54:49,963 - jupyterlab_firefox_launcher.firefox_handler - INFO -    Total Arguments: 53
+[I 2025-08-05 20:54:49.971 ServerApp] ✅ Xpra subprocess created successfully!
+[I 2025-08-05 20:54:49.971 ServerApp]    Process ID: 1776744
+[I 2025-08-05 20:54:49.971 ServerApp]    Port: 49433
+[I 2025-08-05 20:54:49.971 ServerApp]    Command: /usr/bin/xpra start
+[I 2025-08-05 20:54:49.971 ServerApp]    Proxy URL will be: /proxy/49433/
+[I 2025-08-05 20:54:49.971 ServerApp]    Process will run in foreground (daemon mode disabled)
+[I 2025-08-05 20:54:49.971 ServerApp] ⏱️ Monitoring Xpra process startup...
+[D 2025-08-05 20:54:50,338 configurable_http_proxy] PROXY WEB /user/bdx/lab/api/workspaces/default to http://127.0.0.1:53491
+[I 2025-08-05 20:54:50.344 ServerApp] 204 PUT /user/bdx/lab/api/workspaces/default?1754427290258 (bdx@192.168.99.63) 2.41ms
+[I 2025-08-05 20:54:50.473 ServerApp] ✓ Startup check 1/4: Process 1776744 running
+[I 2025-08-05 20:54:51.478 ServerApp] ✓ Startup check 2/4: Process 1776744 running
+[I 2025-08-05 20:54:52.985 ServerApp] ✓ Startup check 3/4: Process 1776744 running
+[I 2025-08-05 20:54:52.985 ServerApp] 🌐 HTTP readiness check passed: Port 49433 accepting connections
+[I 2025-08-05 20:54:52.985 ServerApp] 🎉 Xpra process startup completed successfully!
+[I 2025-08-05 20:54:52.985 ServerApp]    Final process status: Running (PID: 1776744)
+[I 2025-08-05 20:54:52.985 ServerApp]    Port binding: 49433
+[I 2025-08-05 20:54:52.985 ServerApp]    Session will be available at: /proxy/49433/
+[I 2025-08-05 20:54:52.986 ServerApp] ✅ Session will be tracked independently (multi-session support)
+[I 2025-08-05 20:54:52.986 ServerApp] 🌐 Port 49433 is accepting connections
+[I 2025-08-05 20:54:52.986 ServerApp] 🔗 Registering with proxy services...
+[I 2025-08-05 20:54:52,987 configurable_http_proxy] Adding route /user/bdx/proxy/49433 -> http://192.168.7.10:49433
+[I 2025-08-05 20:54:52,987 configurable_http_proxy] Route added /user/bdx/proxy/49433 -> http://192.168.7.10:49433
+[I 2025-08-05 20:54:52,987 configurable_http_proxy] 201 POST /api/routes/user/bdx/proxy/49433/ 
+[I 2025-08-05 20:54:52.987 ServerApp] ✅ JupyterHub proxy route registered: /user/bdx/proxy/49433/ -> http://192.168.7.10:49433
+[I 2025-08-05 20:54:52.988 ServerApp]    Request Host: 192.168.7.10
+[I 2025-08-05 20:54:52.988 ServerApp]    Target Server: 192.168.7.10
+[I 2025-08-05 20:54:52.988 ServerApp]    WebSocket support: Enabled with 'binary' subprotocol
+[I 2025-08-05 20:54:52.988 ServerApp] ✅ Successfully registered with JupyterHub configurable-http-proxy
+[I 2025-08-05 20:54:52.988 ServerApp] Firefox launched successfully on port 49433 with process ID 1776744
+[I 2025-08-05 20:54:52.988 ServerApp] 🛤️ Proxy path: /user/bdx/proxy/49433/
+[I 2025-08-05 20:54:52.988 ServerApp] 🔌 WebSocket URL: /user/bdx/proxy/49433/
+[I 2025-08-05 20:54:52.988 ServerApp] 200 POST /user/bdx/firefox-launcher/api/firefox?1754427289746 (bdx@192.168.99.63) 3144.03ms
+[D 2025-08-05 20:54:53,005 configurable_http_proxy] PROXY WEB /user/bdx/proxy/49433/ to http://192.168.7.10:49433
+[W 2025-08-05 20:54:53,020 tornado.access] 404 HEAD /user/bdx/proxy/49433/ (192.168.99.63) 15.40ms
+[D 2025-08-05 20:54:53,020 configurable_http_proxy] Not recording activity for status 404 on /user/bdx/proxy/49433
+[D 2025-08-05 20:54:53,062 configurable_http_proxy] PROXY WEB /user/bdx/proxy/49433/ to http://192.168.7.10:49433
+[D 2025-08-05 20:54:53,062 configurable_http_proxy] PROXY WEB /user/bdx/proxy/49433/ to http://192.168.7.10:49433
+[D 2025-08-05 20:54:56,116 configurable_http_proxy] PROXY WEB /user/bdx/proxy/49433/ to http://192.168.7.10:49433
+[D 2025-08-05 20:54:56,117 configurable_http_proxy] PROXY WEB /user/bdx/proxy/49433/ to http://192.168.7.10:49433
+[D 2025-08-05 20:54:56,576 configurable_http_proxy] PROXY WEB /user/bdx/api/kernels to http://127.0.0.1:53491
+[D 2025-08-05 20:54:56,578 configurable_http_proxy] PROXY WEB /user/bdx/lab/api/workspaces to http://127.0.0.1:53491
+[D 2025-08-05 20:54:56,579 configurable_http_proxy] PROXY WEB /user/bdx/api/sessions to http://127.0.0.1:53491
+[D 2025-08-05 20:54:56,579 configurable_http_proxy] PROXY WEB /user/bdx/api/terminals to http://127.0.0.1:53491
+[I 2025-08-05 20:54:56.582 ServerApp] 200 GET /user/bdx/api/kernels?1754427296494 (bdx@192.168.99.63) 1.82ms
+[I 2025-08-05 20:54:56.594 ServerApp] 200 GET /user/bdx/lab/api/workspaces?1754427296495 (bdx@192.168.99.63) 10.87ms
+[I 2025-08-05 20:54:56.596 ServerApp] 200 GET /user/bdx/api/sessions?1754427296495 (bdx@192.168.99.63) 11.82ms
+[I 2025-08-05 20:54:56.597 ServerApp] 200 GET /user/bdx/api/terminals?1754427296495 (bdx@192.168.99.63) 12.49ms
+[D 2025-08-05 20:54:58,817 configurable_http_proxy] PROXY WEB /user/bdx/api/contents to http://127.0.0.1:53491
+[I 2025-08-05 20:54:58.927 ServerApp] 200 GET /user/bdx/api/contents?content=1&hash=0&1754427298737 (bdx@192.168.99.63) 105.46ms
+[D 2025-08-05 20:54:59,166 configurable_http_proxy] PROXY WEB /user/bdx/proxy/49433/ to http://192.168.7.10:49433
+[D 2025-08-05 20:54:59,166 configurable_http_proxy] PROXY WEB /user/bdx/proxy/49433/ to http://192.168.7.10:49433
+[D 2025-08-05 20:55:02,220 configurable_http_proxy] PROXY WEB /user/bdx/proxy/49433/ to http://192.168.7.10:49433
+[D 2025-08-05 20:55:02,221 configurable_http_proxy] PROXY WEB /user/bdx/proxy/49433/ to http://192.168.7.10:49433
+[D 2025-08-05 20:55:05,283 configurable_http_proxy] PROXY WEB /user/bdx/proxy/49433/ to http://192.168.7.10:49433
+[D 2025-08-05 20:55:05,283 configurable_http_proxy] PROXY WEB /user/bdx/proxy/49433/ to http://192.168.7.10:49433
+[D 2025-08-05 20:55:06,595 configurable_http_proxy] PROXY WEB /user/bdx/api/kernels to http://127.0.0.1:53491
+[I 2025-08-05 20:55:06.606 ServerApp] 200 GET /user/bdx/api/kernels?1754427306515 (bdx@192.168.99.63) 4.96ms
+[D 2025-08-05 20:55:06,609 configurable_http_proxy] PROXY WEB /user/bdx/api/terminals to http://127.0.0.1:53491
+[D 2025-08-05 20:55:06,610 configurable_http_proxy] PROXY WEB /user/bdx/api/sessions to http://127.0.0.1:53491
+[I 2025-08-05 20:55:06.620 ServerApp] 200 GET /user/bdx/api/terminals?1754427306527 (bdx@192.168.99.63) 3.43ms
+[D 2025-08-05 20:55:06,620 configurable_http_proxy] PROXY WEB /user/bdx/lab/api/workspaces to http://127.0.0.1:53491
+[I 2025-08-05 20:55:06.625 ServerApp] 200 GET /user/bdx/api/sessions?1754427306527 (bdx@192.168.99.63) 2.98ms
+[I 2025-08-05 20:55:06.643 ServerApp] 200 GET /user/bdx/lab/api/workspaces?1754427306541 (bdx@192.168.99.63) 15.95ms
+[D 2025-08-05 20:55:08,341 configurable_http_proxy] PROXY WEB /user/bdx/proxy/49433/ to http://192.168.7.10:49433
+[D 2025-08-05 20:55:08,341 configurable_http_proxy] PROXY WEB /user/bdx/proxy/49433/ to http://192.168.7.10:49433
+[D 2025-08-05 20:55:08,955 configurable_http_proxy] PROXY WEB /user/bdx/api/contents to http://127.0.0.1:53491
+[I 2025-08-05 20:55:09.075 ServerApp] 200 GET /user/bdx/api/contents?content=1&hash=0&1754427308874 (bdx@192.168.99.63) 115.09ms
+[D 2025-08-05 20:55:16,620 configurable_http_proxy] PROXY WEB /user/bdx/api/kernels to http://127.0.0.1:53491
+[I 2025-08-05 20:55:16.622 ServerApp] 200 GET /user/bdx/api/kernels?1754427316540 (bdx@192.168.99.63) 0.75ms
+[D 2025-08-05 20:55:16,629 configurable_http_proxy] PROXY WEB /user/bdx/api/terminals to http://127.0.0.1:53491
+[I 2025-08-05 20:55:16.630 ServerApp] 200 GET /user/bdx/api/terminals?1754427316551 (bdx@192.168.99.63) 0.71ms
+[D 2025-08-05 20:55:16,634 configurable_http_proxy] PROXY WEB /user/bdx/api/sessions to http://127.0.0.1:53491
+[I 2025-08-05 20:55:16.636 ServerApp] 200 GET /user/bdx/api/sessions?1754427316558 (bdx@192.168.99.63) 0.71ms
+[D 2025-08-05 20:55:16,661 configurable_http_proxy] PROXY WEB /user/bdx/lab/api/workspaces to http://127.0.0.1:53491
+[I 2025-08-05 20:55:16.667 ServerApp] 200 GET /user/bdx/lab/api/workspaces?1754427316585 (bdx@192.168.99.63) 5.03ms
+[D 2025-08-05 20:55:19,099 configurable_http_proxy] PROXY WEB /user/bdx/api/contents to http://127.0.0.1:53491
+[I 2025-08-05 20:55:19.189 ServerApp] 200 GET /user/bdx/api/contents?content=1&hash=0&1754427319021 (bdx@192.168.99.63) 88.07ms
+[D 2025-08-05 20:55:26,632 configurable_http_proxy] PROXY WEB /user/bdx/api/kernels to http://127.0.0.1:53491
+[D 2025-08-05 20:55:26,640 configurable_http_proxy] PROXY WEB /user/bdx/api/terminals to http://127.0.0.1:53491
+[I 2025-08-05 20:55:26.640 ServerApp] 200 GET /user/bdx/api/kernels?1754427326553 (bdx@192.168.99.63) 2.98ms
+[D 2025-08-05 20:55:26,646 configurable_http_proxy] PROXY WEB /user/bdx/api/sessions to http://127.0.0.1:53491
+[I 2025-08-05 20:55:26.648 ServerApp] 200 GET /user/bdx/api/terminals?1754427326561 (bdx@192.168.99.63) 2.92ms
+[I 2025-08-05 20:55:26.654 ServerApp] 200 GET /user/bdx/api/sessions?1754427326567 (bdx@192.168.99.63) 2.87ms
+[D 2025-08-05 20:55:26,701 configurable_http_proxy] PROXY WEB /user/bdx/lab/api/workspaces to http://127.0.0.1:53491
+[I 2025-08-05 20:55:26.732 ServerApp] 200 GET /user/bdx/lab/api/workspaces?1754427326616 (bdx@192.168.99.63) 26.20ms
+[D 2025-08-05 20:55:29,221 configurable_http_proxy] PROXY WEB /user/bdx/api/contents to http://127.0.0.1:53491
+[I 2025-08-05 20:55:29.330 ServerApp] 200 GET /user/bdx/api/contents?content=1&hash=0&1754427329140 (bdx@192.168.99.63) 103.69ms
+[C 2025-08-05 20:55:30.052 ServerApp] received signal 15, stopping
+[C 2025-08-05 20:55:30.052 JupyterHub app:3869] Received signal SIGTERM, initiating shutdown...
+[I 2025-08-05 20:55:30.052 JupyterHub app:3478] Cleaning up single-user servers...
+[D 2025-08-05 20:55:30.052 JupyterHub app:3490] Stopping proxy
+[I 2025-08-05 20:55:30.052 JupyterHub proxy:865] Cleaning up proxy[1776588]...
+[D 2025-08-05 20:55:30.053 JupyterHub proxy:678] Removing proxy pid file jupyterhub-proxy.pid
+[I 2025-08-05 20:55:30.053 ServerApp] Shutting down 7 extensions
+[D 2025-08-05 20:55:30.053 JupyterHub user:1097] Stopping bdx
+[D 2025-08-05 20:55:30.053 JupyterHub spawner:2143] Interrupting 1776649
+[I 2025-08-05 20:55:30.053 ServerApp] Interrupted...
+[C 2025-08-05 20:55:30.081 JupyterHub app:3869] Received signal SIGTERM, initiating shutdown...
+[I 2025-08-05 20:55:30.081 JupyterHub app:3478] Cleaning up single-user servers...
+[D 2025-08-05 20:55:30.081 JupyterHub app:3490] Stopping proxy
+[I 2025-08-05 20:55:30.081 JupyterHub proxy:865] Cleaning up proxy[1776588]...
+[D 2025-08-05 20:55:30.081 JupyterHub proxy:678] Removing proxy pid file jupyterhub-proxy.pid
+[D 2025-08-05 20:55:30.081 JupyterHub proxy:682] PID file jupyterhub-proxy.pid already removed
+[D 2025-08-05 20:55:30.081 JupyterHub user:1097] Stopping bdx
+[D 2025-08-05 20:55:30.081 JupyterHub spawner:2143] Interrupting 1776649
+[D 2025-08-05 20:55:30.172 JupyterHub user:1119] Deleting oauth client jupyterhub-user-bdx
+[D 2025-08-05 20:55:30.188 JupyterHub user:1122] Finished stopping bdx
+[I 2025-08-05 20:55:30.198 JupyterHub app:3510] ...done
+[D 2025-08-05 20:55:30.198 JupyterHub app:3876] Cancelling pending tasks
+[E 2025-08-05 20:55:30.200 JupyterHub app:3502] Failed to stop user: ''
+[I 2025-08-05 20:55:30.200 JupyterHub app:3510] ...done
+[D 2025-08-05 20:55:30.200 JupyterHub app:3876] Cancelling pending tasks
+[D 2025-08-05 20:55:30.200 JupyterHub app:3882] Caught Task CancelledError. Ignoring
+[D 2025-08-05 20:55:30.200 JupyterHub app:3888] Task status: <Task cancelling name='Task-137' coro=<JupyterHub.shutdown_cancel_tasks() running at /home/bdx/allcode/github/vantagecompute/jup-fir-lau/.venv/lib/python3.12/site-packages/jupyterhub/app.py:3888> cb=[_wait.<locals>._on_completion() at /usr/lib/python3.12/asyncio/tasks.py:534]>
+[D 2025-08-05 20:55:30.201 JupyterHub app:3888] Task status: <Task cancelling name='Task-134' coro=<JupyterHub.shutdown_cancel_tasks() running at /home/bdx/allcode/github/vantagecompute/jup-fir-lau/.venv/lib/python3.12/site-packages/jupyterhub/app.py:3880> wait_for=<Future pending cb=[Task.task_wakeup()]>>
 🔧 JupyterHub config: Forwarding CONFIGPROXY_API_URL=http://127.0.0.1:8001
 🔧 JupyterHub config: Forwarding CONFIGPROXY_AUTH_TOKEN=[SET]
+Task was destroyed but it is pending!
+task: <Task cancelling name='Task-134' coro=<JupyterHub.shutdown_cancel_tasks() running at /home/bdx/allcode/github/vantagecompute/jup-fir-lau/.venv/lib/python3.12/site-packages/jupyterhub/app.py:3880> wait_for=<Future pending cb=[Task.task_wakeup()]>>
